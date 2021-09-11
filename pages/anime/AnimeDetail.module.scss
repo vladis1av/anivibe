@@ -1,0 +1,50 @@
+.posterWrapper {
+  position: relative;
+  min-height: 250px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.poster {
+  width: 250px;
+  position: absolute;
+  top: -130px;
+  left: 0;
+  border: 5px solid black;
+  border-radius: 16px !important;
+  img {
+    height: 350px;
+  }
+
+  &Info {
+    width: calc(100% - 260px);
+    display: flex;
+    flex-direction: column;
+    h1 {
+      margin: 10px 0px 0px 0px;
+      font-size: 25px;
+    }
+    span {
+      color: #9e9e9e;
+    }
+    ul {
+      margin-top: 10px;
+    }
+    li {
+      margin-bottom: 2px;
+      font-weight: 600;
+      font-size: 15px;
+      &:last-child {
+        margin-top: 10px;
+        margin-bottom: 0;
+      }
+    }
+  }
+}
+.itemKey {
+  margin-left: 5px;
+}
+.detailContent {
+  max-width: 1200px !important;
+  margin: 0 auto;
+}

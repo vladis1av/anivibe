@@ -9,12 +9,25 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@material-ui/core": "^4.12.3",
+    "@material-ui/icons": "^4.11.2",
+    "axios": "^0.21.4",
+    "clsx": "^1.1.1",
+    "date-fns": "^2.23.0",
+    "dotenv": "^10.0.0",
+    "macro-css": "^1.0.5",
     "next": "11.1.2",
+    "nextjs-progressbar": "0.0.11",
     "react": "17.0.2",
-    "react-dom": "17.0.2"
+    "react-dom": "17.0.2",
+    "react-script-loader-hoc": "^1.2.2",
+    "sass": "^1.39.0"
   },
   "devDependencies": {
+    "@types/node": "^16.9.0",
+    "@types/react": "^17.0.20",
     "eslint": "7.32.0",
-    "eslint-config-next": "11.1.2"
+    "eslint-config-next": "11.1.2",
+    "typescript": "^4.4.2"
   }
 }

@@ -1,0 +1,40 @@
+.searchItem {
+  padding: 7px;
+  background-color: white;
+  color: black;
+  display: flex;
+  margin-bottom: 10px;
+  border-radius: 22px;
+  width: 350px;
+  transition: all 0.2s ease-out;
+  h3 {
+    display: flex;
+    margin: 0;
+    margin-top: 5px;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 14px;
+    font-weight: bold;
+    line-height: 1;
+  }
+  &:last-child {
+    margin-bottom: 0;
+  }
+  &:hover {
+    transform: scale(1.05);
+    transition: all 0.2s ease-out;
+  }
+
+  &Image {
+    border-radius: 22px;
+    width: 100px !important;
+  }
+}
+
+.infoList {
+  overflow: hidden;
+  margin-left: 5px;
+  font-size: 13px;
+}
