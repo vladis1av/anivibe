@@ -14,7 +14,7 @@ import { blue, green, pink } from '@material-ui/core/colors';
 import fromUnixTime from 'date-fns/fromUnixTime';
 import format from 'date-fns/format';
 
-export default function ({ list }) {
+export default function TableBlock({ list }) {
   function getSize(bytes) {
     if (bytes < 1000 * 1024) {
       return `${(bytes / 1024).toFixed(2)} Кб`;
