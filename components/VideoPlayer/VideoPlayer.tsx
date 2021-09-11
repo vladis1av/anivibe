@@ -9,7 +9,6 @@ const VideoPlayer = ({ alternative_player }) => {
     <div id="playerjs" className={styles.videoPlayer}>
       <iframe
         src={`${alternative_player ? alternative_player : ''}`}
-        type="text/html"
         width="100%"
         height="100%"
         frameBorder="0"
