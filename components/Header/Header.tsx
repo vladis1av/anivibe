@@ -54,53 +54,58 @@ const Header = ({ onChangeTheme }) => {
   }, [debouncedSearchTerm]);
 
   return (
-    <Paper classes={{ root: styles.header }} elevation={0} square={true}>
-      <Link href="/">
-        <a onClick={handleClose}>
-          <IconButton aria-label="delete">
-            <ArrowBackIosOutlinedIcon color="primary" />
-          </IconButton>
-        </a>
-      </Link>
-      <Input
-        id="input-with-icon-adornment"
-        value={inputValue}
-        onFocus={handleOpen}
-        onChange={handleChange}
-        classes={{ root: styles.input }}
-        placeholder="Поиск "
-        startAdornment={
-          <InputAdornment position="start">
-            <SearchIcon />
-          </InputAdornment>
-        }
-      />
-      <Backdrop open={open} onClick={handleClose}>
-        {isLoading ? (
-          <CircularProgress color="inherit" />
-        ) : (
-          <div className={styles.searchList}>
-            <div className={styles.overlay}></div>
-            {items.length > 0 &&
-              items.map((item) => {
-                return (
-                  <SearchItem
-                    genres={item.genres}
-                    type={item.type}
-                    key={item.id}
-                    poster={item.poster.url}
-                    title={item.names.ru}
-                    id={item.code}
-                  />
-                );
-              })}
-          </div>
-        )}
-      </Backdrop>
-      <Button onClick={() => onChangeTheme()} style={{ minWidth: '48px' }}>
-        <InvertColorsIcon />
-      </Button>
-    </Paper>
+    <div className={styles.header}>
+      <Paper
+        classes={{ root: styles.headerContainer }}
+        elevation={0}
+        square={true}>
+        <Link href="/">
+          <a onClick={handleClose}>
+            <IconButton aria-label="delete">
+              <ArrowBackIosOutlinedIcon color="secondary" />
+            </IconButton>
+          </a>
+        </Link>
+        <Input
+          id="input-with-icon-adornment"
+          value={inputValue}
+          onFocus={handleOpen}
+          onChange={handleChange}
+          classes={{ root: styles.input }}
+          placeholder="Поиск "
+          startAdornment={
+            <InputAdornment position="start">
+              <SearchIcon />
+            </InputAdornment>
+          }
+        />
+        <Backdrop open={open} onClick={handleClose}>
+          {isLoading ? (
+            <CircularProgress color="inherit" />
+          ) : (
+            <div className={styles.searchList}>
+              <div className={styles.overlay}></div>
+              {items.length > 0 &&
+                items.map((item) => {
+                  return (
+                    <SearchItem
+                      genres={item.genres}
+                      type={item.type}
+                      key={item.id}
+                      poster={item.poster.url}
+                      title={item.names.ru}
+                      id={item.code}
+                    />
+                  );
+                })}
+            </div>
+          )}
+        </Backdrop>
+        <Button onClick={() => onChangeTheme()} style={{ minWidth: '48px' }}>
+          <InvertColorsIcon color="secondary" />
+        </Button>
+      </Paper>
+    </div>
   );
 };
 

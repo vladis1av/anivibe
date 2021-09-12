@@ -1,17 +1,21 @@
 .header {
   position: fixed;
-  display: flex;
-  max-width: 1280px;
   width: 100%;
   top: 0;
-  margin: 0 auto;
-  padding: 0 24px;
-  height: 60px;
   z-index: 10;
-  align-items: center;
-  color: #fff !important;
-  align-items: center;
-  justify-content: space-between;
+
+  background-color: rgba(0, 0, 0, 0.4);
+  &Container {
+    height: 60px;
+    display: flex;
+    max-width: 1280px;
+    margin: 0 auto;
+    align-items: center;
+    color: #fff !important;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+  }
 }
 
 .input {

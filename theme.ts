@@ -18,7 +18,7 @@ export const dark = createTheme({
       main: '#fff',
     },
     secondary: {
-      main: '#000',
+      main: '#fff',
     },
     text: {
       primary: '#fff',
@@ -38,14 +38,6 @@ export const light = createTheme({
     },
   },
 
-  overrides: {
-    MuiInputBase: {
-      root: {
-        border: '1px solid black',
-      },
-    },
-  },
-
   palette: {
     primary: {
       main: '#000',
@@ -53,6 +45,7 @@ export const light = createTheme({
     secondary: {
       main: '#fff',
     },
+
     text: {
       primary: '#000',
       secondary: '#000',
