@@ -44,7 +44,7 @@ export default function TableBlock({ list }) {
                 <ArrowUpwardIcon />
               </TableCell>
               <TableCell align="center">
-                <ArrowDownwardIcon color="secondary" />
+                <ArrowDownwardIcon style={{ color: pink[600] }} />
               </TableCell>
               <TableCell align="center">
                 <CheckIcon />
@@ -69,7 +69,7 @@ export default function TableBlock({ list }) {
                 <TableCell align="center" style={{ color: green[500] }}>
                   {item.seeders}
                 </TableCell>
-                <TableCell align="center" style={{ color: pink[500] }}>
+                <TableCell align="center" style={{ color: pink[600] }}>
                   {item.leechers}
                 </TableCell>
                 <TableCell align="center">{item.downloads}</TableCell>
