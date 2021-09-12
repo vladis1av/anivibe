@@ -1,14 +1,29 @@
 import Head from 'next/head';
-import { MuiThemeProvider } from '@material-ui/core';
+import { colors, CssBaseline, MuiThemeProvider } from '@material-ui/core';
+import React, { useState } from 'react';
 
 import Header from '../components/Header/Header';
-import { theme } from '../theme';
+import { dark, light } from '../theme';
 
 import '../styles/globals.scss';
 import 'macro-css';
 import NextNProgress from 'nextjs-progressbar';
 
 function MyApp({ Component, pageProps }) {
+  const [themeDark, setThemeDark] = useState(true);
+
+  const setTheme = () => {
+    setThemeDark(!themeDark);
+  };
+
+  React.useEffect(() => {
+    // Remove the server-side injected CSS.
+    const jssStyles = document.querySelector('#jss-server-side');
+    if (jssStyles) {
+      jssStyles.parentElement.removeChild(jssStyles);
+    }
+  }, []);
+
   return (
     <>
       <Head>
@@ -30,8 +45,9 @@ function MyApp({ Component, pageProps }) {
           href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
         />
       </Head>
-      <MuiThemeProvider theme={theme}>
-        <Header />
+      <MuiThemeProvider theme={!themeDark ? { ...light } : { ...dark }}>
+        <Header theme={themeDark} onChangeTheme={setTheme} />
+        <CssBaseline />
         <NextNProgress
           color="#FFF"
           startPosition={0.3}

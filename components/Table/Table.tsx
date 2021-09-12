@@ -28,7 +28,7 @@ export default function TableBlock({ list }) {
   }
 
   return (
-    <Paper style={{ paddingBottom: '50px' }}>
+    <Paper>
       <TableContainer>
         <Table>
           <TableHead>

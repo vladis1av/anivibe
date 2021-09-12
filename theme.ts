@@ -1,6 +1,13 @@
 import { createTheme } from '@material-ui/core';
 
-export const theme = createTheme({
+export const dark = createTheme({
+  overrides: {
+    MuiInputBase: {
+      root: {
+        border: 'none',
+      },
+    },
+  },
   props: {
     MuiButtonBase: {
       disableRipple: true,
@@ -10,13 +17,49 @@ export const theme = createTheme({
     primary: {
       main: '#fff',
     },
+    secondary: {
+      main: '#000',
+    },
     text: {
       primary: '#fff',
       secondary: '#fff',
     },
     background: {
       paper: 'transparent',
-      default: 'transparent',
+      default: 'black',
+    },
+  },
+});
+
+export const light = createTheme({
+  props: {
+    MuiButtonBase: {
+      disableRipple: true,
+    },
+  },
+
+  overrides: {
+    MuiInputBase: {
+      root: {
+        border: '1px solid black',
+      },
+    },
+  },
+
+  palette: {
+    primary: {
+      main: '#000',
+    },
+    secondary: {
+      main: '#fff',
+    },
+    text: {
+      primary: '#000',
+      secondary: '#000',
+    },
+    background: {
+      paper: 'transparent',
+      default: 'white',
     },
   },
 });

@@ -17,7 +17,7 @@ import animeApi from '../../services/api/anime';
 import useDebounce from '../../hooks/useDebounce';
 import SearchItem from '../SearchItem/SearchItem';
 
-const Header = () => {
+const Header = ({ onChangeTheme, theme }) => {
   const [inputValue, setInputValue] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [items, setItems] = useState([]);
@@ -97,7 +97,7 @@ const Header = () => {
           </div>
         )}
       </Backdrop>
-      <Button style={{ minWidth: '48px' }}>
+      <Button onClick={() => onChangeTheme()} style={{ minWidth: '48px' }}>
         <InvertColorsIcon />
       </Button>
     </Paper>

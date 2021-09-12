@@ -15,11 +15,29 @@
   img {
     height: 350px;
   }
+  @media (min-width: 0) and (max-width: 600px) {
+    position: absolute;
+    margin-left: auto;
+    margin-right: auto;
+    left: 0;
+    right: 0;
+    top: -230px;
+    text-align: center;
+
+    img {
+      height: 330px;
+    }
+  }
 
   &Info {
     width: calc(100% - 260px);
     display: flex;
     flex-direction: column;
+    @media (min-width: 0) and (max-width: 600px) {
+      width: 100%;
+      margin-top: 100px;
+    }
+
     h1 {
       margin: 10px 0px 0px 0px;
       font-size: 25px;
@@ -41,9 +59,11 @@
     }
   }
 }
+
 .itemKey {
   margin-left: 5px;
 }
+
 .detailContent {
   max-width: 1200px !important;
   margin: 0 auto;

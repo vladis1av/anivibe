@@ -62,10 +62,7 @@ export default function Home({ items: serverItems }: HomePageProps) {
         <Button variant="contained" color="primary" onClick={onLoadMore}>
           Загрузить еще
           {loadMore && (
-            <CircularProgress
-              size={20}
-              style={{ marginLeft: '10px', color: grey[900] }}
-            />
+            <CircularProgress size={20} color="secondary" className="ml-10" />
           )}
         </Button>
       </div>

@@ -32,7 +32,7 @@ const Anime = ({ item: serverItem }: AnimePageProps) => {
   }, [query.id]);
 
   if (!item) {
-    return <div>1231</div>;
+    return null;
   }
 
   return (
@@ -56,7 +56,7 @@ const Anime = ({ item: serverItem }: AnimePageProps) => {
       </div>
       <Container classes={{ root: styles.detailContent }}>
         <div className={styles.posterWrapper}>
-          <Card classes={{ root: styles.poster }}>
+          <Card classes={{ root: styles.poster }} variant="outlined">
             <CardMedia
               component="img"
               alt="Contemplative Reptile"
@@ -96,7 +96,7 @@ const Anime = ({ item: serverItem }: AnimePageProps) => {
           </div>
         </div>
         <VideoPlayer alternative_player={item.player.alternative_player} />
-        <div>
+        <div className="pb-50">
           <TableBlock list={item.torrents.list} />
         </div>
       </Container>
