@@ -1,23 +1,31 @@
+import { useEffect, useState } from 'react';
 import Head from 'next/head';
-import { colors, CssBaseline, MuiThemeProvider } from '@material-ui/core';
-import React, { useState } from 'react';
+import NextNProgress from 'nextjs-progressbar';
+import { CssBaseline, MuiThemeProvider } from '@material-ui/core';
 
 import Header from '../components/Header/Header';
 import { dark, light } from '../theme';
 
 import '../styles/globals.scss';
 import 'macro-css';
-import NextNProgress from 'nextjs-progressbar';
 
 function MyApp({ Component, pageProps }) {
-  const [themeDark, setThemeDark] = useState(true);
+  const [theme, setTheme] = useState('dark');
 
-  const setTheme = () => {
-    setThemeDark(!themeDark);
+  const onChangeTheme = () => {
+    if (theme === 'dark') {
+      setTheme('light');
+      window.localStorage.setItem('anime-APP-theme', 'light');
+    } else {
+      setTheme('dark');
+      window.localStorage.setItem('anime-APP-theme', 'dark');
+    }
   };
 
-  React.useEffect(() => {
-    // Remove the server-side injected CSS.
+  useEffect(() => {
+    const localTheme = window.localStorage.getItem('anime-APP-theme');
+    localTheme ? setTheme(localTheme) : setTheme('dark');
+
     const jssStyles = document.querySelector('#jss-server-side');
     if (jssStyles) {
       jssStyles.parentElement.removeChild(jssStyles);
@@ -45,8 +53,8 @@ function MyApp({ Component, pageProps }) {
           href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
         />
       </Head>
-      <MuiThemeProvider theme={!themeDark ? { ...light } : { ...dark }}>
-        <Header theme={themeDark} onChangeTheme={setTheme} />
+      <MuiThemeProvider theme={theme !== 'dark' ? { ...light } : { ...dark }}>
+        <Header onChangeTheme={onChangeTheme} />
         <CssBaseline />
         <NextNProgress
           color="#FFF"

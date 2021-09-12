@@ -17,7 +17,7 @@ import animeApi from '../../services/api/anime';
 import useDebounce from '../../hooks/useDebounce';
 import SearchItem from '../SearchItem/SearchItem';
 
-const Header = ({ onChangeTheme, theme }) => {
+const Header = ({ onChangeTheme }) => {
   const [inputValue, setInputValue] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [items, setItems] = useState([]);
