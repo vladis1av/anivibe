@@ -61,9 +61,7 @@ const Header = ({ onChangeTheme }) => {
         square={true}>
         <Link href="/">
           <a onClick={handleClose}>
-            <IconButton aria-label="delete">
-              <ArrowBackIosOutlinedIcon color="secondary" />
-            </IconButton>
+            <span className={styles.headerLogo}>(っ^‿^)っ</span>
           </a>
         </Link>
         <Input
@@ -102,7 +100,7 @@ const Header = ({ onChangeTheme }) => {
           )}
         </Backdrop>
         <Button onClick={() => onChangeTheme()} style={{ minWidth: '48px' }}>
-          <InvertColorsIcon color="secondary" />
+          <InvertColorsIcon />
         </Button>
       </Paper>
     </div>
