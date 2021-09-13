@@ -36,14 +36,15 @@ const Anime = ({ item: serverItem }: AnimePageProps) => {
   }
 
   return (
-    <MainLayout clear>
+    <MainLayout className={styles.mt0}>
       <Head>
         <title>{`${item.names.ru} - cкачать торрент и смотреть онлайн Anime APP`}</title>
         <meta property="og:title" content={item.names.ru} />
         <meta property="og:description" content={item.description} />
         <meta
           content={`${item.names.ru} - cкачать торрент и смотреть онлайн / Anime APP`}
-          property="og:title"></meta>
+          property="og:title"
+        />
       </Head>
       <div>
         <CardMedia
