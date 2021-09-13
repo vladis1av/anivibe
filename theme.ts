@@ -18,7 +18,7 @@ export const dark = createTheme({
       main: '#fff',
     },
     secondary: {
-      main: '#fff',
+      main: '#000',
     },
     text: {
       primary: '#fff',
