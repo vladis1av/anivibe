@@ -1,10 +1,11 @@
 import { api } from '../apiCore';
 
 const animeApi = {
-  async getLastUdatedAnimeList(after = 0) {
+  async getLastUdatedAnimeList(skipItems = 0, limit = 10) {
     const { data } = await api.get(
-      `/getUpdates?filter=poster,id,code,names&limit=20&after=${after}`,
+      `/getUpdates?filter=poster,id,code,names&limit=${limit}&after=${skipItems}`,
     );
+
     return data;
   },
 
