@@ -1,6 +1,5 @@
-import { CardMedia, Container, Card } from '@material-ui/core';
-import { NextPageContext } from 'next';
 import React, { useEffect, useState } from 'react';
+import { CardMedia, Container, Card } from '@material-ui/core';
 import { useRouter } from 'next/dist/client/router';
 import Head from 'next/dist/shared/lib/head';
 
@@ -13,27 +12,17 @@ import TableBlock from '../../components/Table/Table';
 import { AnimeItem } from '../../interfaces/animeItem';
 
 interface AnimePageProps {
-  item: AnimeItem;
+  fetchedItem: AnimeItem;
 }
 
-const Anime = ({ item: serverItem }: AnimePageProps) => {
-  const [item, setItem] = useState(serverItem);
-  const { query } = useRouter();
+export default function Anime({ fetchedItem }: AnimePageProps) {
+  const [item, setItem] = useState(fetchedItem);
+  const router = useRouter();
+  const { id } = router.query;
 
   useEffect(() => {
-    async function load() {
-      const data = await animeApi.getAnimeById(query.id);
-      setItem(data);
-    }
-
-    if (!serverItem) {
-      load();
-    }
-  }, [query.id]);
-
-  if (!item) {
-    return null;
-  }
+    setItem(fetchedItem);
+  }, [id]);
 
   return (
     <MainLayout className={styles.mt0}>
@@ -103,24 +92,20 @@ const Anime = ({ item: serverItem }: AnimePageProps) => {
       </Container>
     </MainLayout>
   );
-};
-
-interface AnimeNextPageProps extends NextPageContext {
-  query: {
-    id: string;
-  };
 }
 
-Anime.getInitialProps = async ({ query, req }: AnimeNextPageProps) => {
-  const item = await animeApi.getAnimeById(query.id);
-
-  if (!req) {
-    return { item: null };
-  }
-
+export const getStaticPaths = async () => {
   return {
-    props: { item },
+    paths: [],
+    fallback: 'blocking',
   };
 };
 
-export default Anime;
+export const getStaticProps = async ({ params }) => {
+  const fetchedItem = await animeApi.getAnimeById(params.id);
+
+  return {
+    props: { fetchedItem },
+    revalidate: 60,
+  };
+};

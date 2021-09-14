@@ -1,48 +1,35 @@
 import { Button, CircularProgress } from '@material-ui/core';
-import { NextPageContext } from 'next';
 import { useEffect, useState } from 'react';
-
+import Link from 'next/link';
 import CardItem from '../components/Card/CardItem/CardItem';
 import CardList from '../components/Card/CardList/CardList';
 import { HomeItems } from '../interfaces/homeItems';
 import MainLayout from '../layouts/MainLayout';
 import animeApi from '../services/api/anime';
+import { useRouter } from 'next/dist/client/router';
 
 interface HomePageProps {
-  items: HomeItems[];
+  serverItems: HomeItems[];
 }
 
-export default function Home({ items: serverItems }: HomePageProps) {
+export default function Home({ serverItems }: HomePageProps) {
   const [items, setItems] = useState(serverItems);
   const [loadMore, setLoadMore] = useState(false);
+
+  const { query } = useRouter();
 
   const onLoadMore = () => {
     setLoadMore(true);
   };
 
   useEffect(() => {
-    async function load() {
-      const data = await animeApi.getLastUdatedAnimeList();
-      setItems(data);
-    }
-
-    if (!serverItems) {
-      load();
-    }
-  }, []);
-
-  useEffect(() => {
     if (loadMore) {
-      animeApi.getLastUdatedAnimeList(items.length).then((res) => {
+      animeApi.getLastUdatedAnimeList(items.length, 10).then((res) => {
         setItems((prevState) => [...prevState, ...res]);
         setLoadMore(false);
       });
     }
   }, [loadMore]);
-
-  if (!items) {
-    return null;
-  }
 
   return (
     <MainLayout>
@@ -69,14 +56,8 @@ export default function Home({ items: serverItems }: HomePageProps) {
   );
 }
 
-Home.getInitialProps = async ({ req }: NextPageContext) => {
-  const items = await animeApi.getLastUdatedAnimeList();
+export const getStaticProps = async (props) => {
+  const items = await animeApi.getLastUdatedAnimeList(0, 10);
 
-  if (!req) {
-    return { items: null };
-  }
-
-  return {
-    props: { items },
-  };
+  return { props: { serverItems: items }, revalidate: 60 };
 };

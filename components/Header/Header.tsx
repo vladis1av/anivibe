@@ -4,12 +4,10 @@ import {
   Backdrop,
   Button,
   CircularProgress,
-  IconButton,
   Input,
   InputAdornment,
   Paper,
 } from '@material-ui/core';
-import ArrowBackIosOutlinedIcon from '@material-ui/icons/ArrowBackIosOutlined';
 import React, { useEffect, useState } from 'react';
 import InvertColorsIcon from '@material-ui/icons/InvertColors';
 import styles from './Header.module.scss';
