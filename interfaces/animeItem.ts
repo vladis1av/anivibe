@@ -7,6 +7,7 @@ export interface AnimeItem extends HomeItems {
   type: {
     full_string: string;
   };
+  banner_image: string;
   torrents: TorrentsProps;
   player: {
     alternative_player: string;

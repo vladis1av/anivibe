@@ -25,7 +25,7 @@ export default function Anime({ fetchedItem }: AnimePageProps) {
   }, [id]);
 
   return (
-    <MainLayout className={styles.mt0}>
+    <MainLayout clear>
       <Head>
         <title>{`${item.names.ru} - cкачать торрент и смотреть онлайн Anime APP`}</title>
         <meta property="og:title" content={item.names.ru} />
@@ -40,7 +40,11 @@ export default function Anime({ fetchedItem }: AnimePageProps) {
           component="img"
           alt="Contemplative Reptile"
           height="300"
-          image={`${process.env.IMAGE_URL}/${item.poster.url}`}
+          image={`${
+            !item.banner_image
+              ? process.env.IMAGE_URL + '/' + item.poster.url
+              : item.banner_image
+          }`}
           title={`${item.names.ru} poster`}
         />
       </div>
@@ -103,9 +107,18 @@ export const getStaticPaths = async () => {
 
 export const getStaticProps = async ({ params }) => {
   const fetchedItem = await animeApi.getAnimeById(params.id);
+  const { data } = await animeApi.getAnimeMoreInfo(
+    // такой костыль то что нету нормальных фонов в первой апишке (
+    encodeURI(fetchedItem.names.en),
+  );
 
   return {
-    props: { fetchedItem },
+    props: {
+      fetchedItem: {
+        ...fetchedItem,
+        banner_image: data.documents ? data.documents[0].banner_image : null,
+      },
+    },
     revalidate: 60,
   };
 };
