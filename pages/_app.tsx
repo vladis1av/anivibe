@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { AppProps } from 'next/app';
 import Head from 'next/head';
 import NextNProgress from 'nextjs-progressbar';
 import { CssBaseline, MuiThemeProvider } from '@material-ui/core';
@@ -9,7 +10,7 @@ import { dark, light } from '../theme';
 import '../styles/globals.scss';
 import 'macro-css';
 
-function MyApp({ Component, pageProps }) {
+function MyApp({ Component, pageProps }: AppProps) {
   const [theme, setTheme] = useState('dark');
 
   const onChangeTheme = () => {

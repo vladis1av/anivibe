@@ -7,7 +7,11 @@ interface MainLayoutProps {
   clear?: boolean;
 }
 
-const MainLayout = ({ children, className, clear }: MainLayoutProps) => {
+const MainLayout: React.FC<MainLayoutProps> = ({
+  children,
+  className,
+  clear,
+}) => {
   return (
     <>
       <div className={clsx('wrapper', className, { clear })}>{children}</div>

@@ -1,5 +1,4 @@
 import Paper from '@material-ui/core/Paper';
-import { Table } from '@material-ui/core/';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import Link from '@material-ui/core/Link';
@@ -10,23 +9,15 @@ import GetAppIcon from '@material-ui/icons/GetApp';
 import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
 import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
 import CheckIcon from '@material-ui/icons/Check';
+import { Table } from '@material-ui/core/';
 import { blue, green, pink } from '@material-ui/core/colors';
 import fromUnixTime from 'date-fns/fromUnixTime';
 import format from 'date-fns/format';
 
-export default function TableBlock({ list }) {
-  function getSize(bytes) {
-    if (bytes < 1000 * 1024) {
-      return `${(bytes / 1024).toFixed(2)} Кб`;
-    } else if (bytes < 1000 * 1048576) {
-      return `${(bytes / 1048576).toFixed(2)} Мб`;
-    } else if (bytes < 1000 * 1073741824) {
-      return `${(bytes / 1073741824).toFixed(2)} Гб`;
-    } else {
-      return `${(bytes / 1099511627776).toFixed(2)} Тб`;
-    }
-  }
+import { ITorrents } from '../../interfaces/torrents';
+import getFileSize from '../../utils/getFileSize';
 
+const TableBlock: React.FC<ITorrents> = ({ list }) => {
   return (
     <Paper>
       <TableContainer>
@@ -56,7 +47,9 @@ export default function TableBlock({ list }) {
               <TableRow key={i}>
                 <TableCell>{item.series.string}</TableCell>
                 <TableCell align="center">{item.quality.string}</TableCell>
-                <TableCell align="center">{getSize(item.total_size)}</TableCell>
+                <TableCell align="center">
+                  {getFileSize(item.total_size)}
+                </TableCell>
                 <TableCell align="center">{`${format(
                   fromUnixTime(item.uploaded_timestamp),
                   'dd.mm.yyyy\u00A0HH:mm',
@@ -80,4 +73,6 @@ export default function TableBlock({ list }) {
       </TableContainer>
     </Paper>
   );
-}
+};
+
+export default TableBlock;

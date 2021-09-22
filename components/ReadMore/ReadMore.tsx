@@ -1,8 +1,12 @@
+import React from 'react';
 import { useState } from 'react';
 import { Button } from '@material-ui/core';
 
-const ReadMore = ({ children }) => {
-  const text = children;
+interface ReadMoreProps {
+  text: string;
+}
+
+const ReadMore: React.FC<ReadMoreProps> = ({ text }) => {
   const [isReadMore, setIsReadMore] = useState(true);
   const toggleReadMore = () => {
     setIsReadMore(!isReadMore);

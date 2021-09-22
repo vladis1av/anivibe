@@ -6,7 +6,13 @@ import Link from 'next/link';
 
 import styles from './CardItem.module.scss';
 
-const CardItem = ({ poster, title, id }) => {
+interface CardItemProps {
+  poster: string;
+  title: string;
+  id: string;
+}
+
+const CardItem: React.FC<CardItemProps> = ({ poster, title, id }) => {
   return (
     <Link href={`/anime/${id}`}>
       <a className={styles.Link}>

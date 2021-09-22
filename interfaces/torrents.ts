@@ -1,8 +1,8 @@
-export interface TorrentsProps {
-  list: TorrentListItems;
+export interface ITorrents {
+  list: ITorrentListItems[];
 }
 
-interface TorrentListItems {
+export interface ITorrentListItems {
   torrent_id: number;
   total_size: number;
   uploaded_timestamp: number;

@@ -1,20 +1,24 @@
+import { IHomeItems } from './../../interfaces/homeItems';
+import { IAnimeItem } from './../../interfaces/animeItem';
 import axios from 'axios';
 import { api } from '../apiCore';
 
 const animeApi = {
-  async getLastUdatedAnimeList(skipItems = 0, limit = 10) {
-    const { data } = await api.get(
+  async getLastUdatedAnimeList(skipItems: number = 0, limit: number = 10) {
+    const { data } = await api.get<IHomeItems[]>(
       `/getUpdates?filter=poster,id,code,names&limit=${limit}&after=${skipItems}`,
     );
 
     return data;
   },
 
-  async getAnimeById(id) {
-    const { data } = await api.get(`/getTitle?code=${id}&playlist_type=array`);
+  async getAnimeById(id: string | string[]) {
+    const { data } = await api.get<IAnimeItem>(
+      `/getTitle?code=${id}&playlist_type=array`,
+    );
     return data;
   },
-  async getAnimeMoreInfo(title) {
+  async getAnimeMoreInfo(title: string) {
     const { data } = await axios.get(
       `https://api.aniapi.com/v1/anime?title=${title}`,
       {
@@ -29,7 +33,7 @@ const animeApi = {
     return data;
   },
 
-  async searchAnime(value) {
+  async searchAnime(value: string) {
     const { data } = await api.get(`/searchTitles?search=${value}`);
     return data;
   },

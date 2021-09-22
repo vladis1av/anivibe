@@ -1,9 +1,25 @@
-import { CardMedia } from '@material-ui/core';
+import React from 'react';
 import Link from 'next/link';
+import { CardMedia } from '@material-ui/core';
 
 import styles from './SearchItem.module.scss';
+interface SeachItemProps {
+  poster: string;
+  id: string;
+  title: string;
+  genres: string[];
+  type: {
+    full_string: string;
+  };
+}
 
-const SearchItem = ({ poster, title, genres, id, type }) => {
+const SearchItem: React.FC<SeachItemProps> = ({
+  id,
+  title,
+  poster,
+  genres,
+  type,
+}) => {
   return (
     <Link href={`/anime/${id}`}>
       <a className={styles.searchItem}>

@@ -1,33 +1,43 @@
+import { GetStaticProps } from 'next';
 import { Button, CircularProgress } from '@material-ui/core';
 import { useEffect, useState } from 'react';
-import Link from 'next/link';
+
+import { IHomeItems } from '../interfaces/homeItems';
+import MainLayout from '../layouts/MainLayout';
 import CardItem from '../components/Card/CardItem/CardItem';
 import CardList from '../components/Card/CardList/CardList';
-import { HomeItems } from '../interfaces/homeItems';
-import MainLayout from '../layouts/MainLayout';
 import animeApi from '../services/api/anime';
-import { useRouter } from 'next/dist/client/router';
+// import { useRouter } from 'next/dist/client/router';
 
 interface HomePageProps {
-  serverItems: HomeItems[];
+  serverItems: IHomeItems[];
 }
 
 export default function Home({ serverItems }: HomePageProps) {
-  const [items, setItems] = useState(serverItems);
-  const [loadMore, setLoadMore] = useState(false);
+  const [items, setItems] = useState<IHomeItems[]>(serverItems);
+  const [loadMore, setLoadMore] = useState<boolean>(false);
 
-  const { query } = useRouter();
+  // const { query } = useRouter();
 
   const onLoadMore = () => {
     setLoadMore(true);
   };
 
+  const fetchAnime = async () => {
+    try {
+      const res = await animeApi.getLastUdatedAnimeList(items.length, 10);
+      setItems((prevState) => [...prevState, ...res]);
+    } catch (error) {
+      console.log(error);
+      alert('Произошла ошибка при подгрузке тайтлов');
+    } finally {
+      setLoadMore(false);
+    }
+  };
+
   useEffect(() => {
     if (loadMore) {
-      animeApi.getLastUdatedAnimeList(items.length, 10).then((res) => {
-        setItems((prevState) => [...prevState, ...res]);
-        setLoadMore(false);
-      });
+      fetchAnime();
     }
   }, [loadMore]);
 
@@ -35,7 +45,7 @@ export default function Home({ serverItems }: HomePageProps) {
     <MainLayout>
       <h1>Последние Тайтлы</h1>
       <CardList>
-        {items.map((item: HomeItems) => (
+        {items.map((item: IHomeItems) => (
           <CardItem
             key={item.id}
             poster={item.poster && item.poster.url}
@@ -56,7 +66,7 @@ export default function Home({ serverItems }: HomePageProps) {
   );
 }
 
-export const getStaticProps = async (props) => {
+export const getStaticProps: GetStaticProps = async (props) => {
   const items = await animeApi.getLastUdatedAnimeList(0, 10);
 
   return { props: { serverItems: items }, revalidate: 60 };

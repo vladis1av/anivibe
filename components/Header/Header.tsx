@@ -15,13 +15,17 @@ import animeApi from '../../services/api/anime';
 import useDebounce from '../../hooks/useDebounce';
 import SearchItem from '../SearchItem/SearchItem';
 
-const Header = ({ onChangeTheme }) => {
-  const [inputValue, setInputValue] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
-  const [items, setItems] = useState([]);
-  const [open, setOpen] = useState(false);
+interface HeaderProps {
+  onChangeTheme: () => void;
+}
 
-  const handleChange = async (event) => {
+const Header: React.FC<HeaderProps> = ({ onChangeTheme }) => {
+  const [inputValue, setInputValue] = useState<string>('');
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [open, setOpen] = useState<boolean>(false);
+  const [items, setItems] = useState([]);
+
+  const handleChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(event.target.value);
   };
 
@@ -97,7 +101,7 @@ const Header = ({ onChangeTheme }) => {
             </div>
           )}
         </Backdrop>
-        <Button onClick={() => onChangeTheme()} style={{ minWidth: '48px' }}>
+        <Button onClick={onChangeTheme} style={{ minWidth: '48px' }}>
           <InvertColorsIcon />
         </Button>
       </Paper>

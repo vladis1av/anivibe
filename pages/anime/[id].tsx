@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { CardMedia, Container, Card } from '@material-ui/core';
 import { useRouter } from 'next/dist/client/router';
 import Head from 'next/dist/shared/lib/head';
+import { GetStaticProps, GetStaticPaths } from 'next';
+import { CardMedia, Container, Card } from '@material-ui/core';
 
 import MainLayout from '../../layouts/MainLayout';
 import animeApi from '../../services/api/anime';
@@ -9,19 +10,22 @@ import ReadMore from '../../components/ReadMore/ReadMore';
 import styles from './AnimeDetail.module.scss';
 import VideoPlayer from '../../components/VideoPlayer/VideoPlayer';
 import TableBlock from '../../components/Table/Table';
-import { AnimeItem } from '../../interfaces/animeItem';
+import { IAnimeItem } from '../../interfaces/animeItem';
 
 interface AnimePageProps {
-  fetchedItem: AnimeItem;
+  fetchedItem: IAnimeItem;
 }
 
 export default function Anime({ fetchedItem }: AnimePageProps) {
-  const [item, setItem] = useState(fetchedItem);
+  const [item, setItem] = useState<IAnimeItem>(fetchedItem);
   const router = useRouter();
   const { id } = router.query;
 
   useEffect(() => {
     setItem(fetchedItem);
+    return () => {
+      setItem(null);
+    };
   }, [id]);
 
   return (
@@ -84,7 +88,7 @@ export default function Anime({ fetchedItem }: AnimePageProps) {
                 <span className={styles.itemKey}>{item.genres.join(', ')}</span>
               </li>
               <li>
-                Описание: <ReadMore>{item.description}</ReadMore>
+                Описание: <ReadMore text={item.description} />
               </li>
             </ul>
           </div>
@@ -98,14 +102,14 @@ export default function Anime({ fetchedItem }: AnimePageProps) {
   );
 }
 
-export const getStaticPaths = async () => {
+export const getStaticPaths: GetStaticPaths = async () => {
   return {
     paths: [],
     fallback: 'blocking',
   };
 };
 
-export const getStaticProps = async ({ params }) => {
+export const getStaticProps: GetStaticProps = async ({ params }) => {
   const fetchedItem = await animeApi.getAnimeById(params.id);
   const { data } = await animeApi.getAnimeMoreInfo(
     // такой костыль то что нету нормальных фонов в первой апишке (

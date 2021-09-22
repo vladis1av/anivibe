@@ -1,14 +1,14 @@
-import { TorrentsProps } from './torrents';
-import { HomeItems } from './homeItems';
+import { ITorrents } from './torrents';
+import { IHomeItems } from './homeItems';
 
-export interface AnimeItem extends HomeItems {
+export interface IAnimeItem extends IHomeItems {
   description: string;
-  genres: [string];
+  genres: string[];
   type: {
     full_string: string;
   };
-  banner_image: string;
-  torrents: TorrentsProps;
+  banner_image?: string;
+  torrents: ITorrents;
   player: {
     alternative_player: string;
     host: string;
@@ -18,6 +18,6 @@ export interface AnimeItem extends HomeItems {
     year: number;
   };
   team: {
-    voice: [string];
+    voice: string[];
   };
 }

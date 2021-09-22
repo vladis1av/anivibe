@@ -1,4 +1,4 @@
-export interface HomeItems {
+export interface IHomeItems {
   id: string | number;
   code: string;
   names: {
