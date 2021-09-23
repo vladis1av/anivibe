@@ -1,5 +1,5 @@
 export interface IHomeItems {
-  id: string | number;
+  id: number;
   code: string;
   names: {
     en: string;
