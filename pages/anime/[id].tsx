@@ -4,14 +4,15 @@ import Head from 'next/dist/shared/lib/head';
 import { GetStaticProps, GetStaticPaths } from 'next';
 import { CardMedia, Container, Card } from '@material-ui/core';
 
+import { IAnimeItem } from '../../interfaces/animeItem';
 import MainLayout from '../../layouts/MainLayout';
 import animeApi from '../../services/api/anime';
 import ReadMore from '../../components/ReadMore/ReadMore';
 import styles from './AnimeDetail.module.scss';
 import VideoPlayer from '../../components/VideoPlayer/VideoPlayer';
 import TableBlock from '../../components/Table/Table';
-import { IAnimeItem } from '../../interfaces/animeItem';
-
+import GET_DETAIL_ANIME_INFO from '../../services/queries/getDetailAnimeInfo';
+import apolloClient from '../../services/apolloClient';
 interface AnimePageProps {
   fetchedItem: IAnimeItem;
 }
@@ -110,19 +111,34 @@ export const getStaticPaths: GetStaticPaths = async () => {
 };
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
+  //хз как по другому решить что бы все приложение не крашилось иза того что некоторых тайтлов нет в апи которую я использую для того что бы взять  bannerImage...
   const fetchedItem = await animeApi.getAnimeById(params.id);
-  const { data } = await animeApi.getAnimeMoreInfo(
-    // такой костыль то что нету нормальных фонов в первой апишке (
-    encodeURI(fetchedItem.names.en),
-  );
 
-  return {
-    props: {
-      fetchedItem: {
-        ...fetchedItem,
-        banner_image: data.documents ? data.documents[0].banner_image : null,
+  try {
+    const { data } = await apolloClient.query({
+      query: GET_DETAIL_ANIME_INFO,
+      variables: { search: `${params.id}` },
+    });
+
+    return {
+      props: {
+        fetchedItem: {
+          ...fetchedItem,
+          banner_image: data.Media.bannerImage,
+        },
       },
-    },
-    revalidate: 60,
-  };
+      revalidate: 60,
+    };
+  } catch (error) {
+    console.log(error);
+    return {
+      props: {
+        fetchedItem: {
+          ...fetchedItem,
+          banner_image: null,
+        },
+      },
+      revalidate: 60,
+    };
+  }
 };
