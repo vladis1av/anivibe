@@ -14,6 +14,7 @@ import styles from './Header.module.scss';
 import animeApi from '../../services/api/anime';
 import useDebounce from '../../hooks/useDebounce';
 import SearchItem from '../SearchItem/SearchItem';
+import { ISearchItem } from '../../interfaces/searchItem';
 
 interface HeaderProps {
   onChangeTheme: () => void;
@@ -23,7 +24,7 @@ const Header: React.FC<HeaderProps> = ({ onChangeTheme }) => {
   const [inputValue, setInputValue] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [open, setOpen] = useState<boolean>(false);
-  const [items, setItems] = useState([]);
+  const [items, setItems] = useState<ISearchItem[]>([]);
 
   const handleChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(event.target.value);
@@ -90,11 +91,11 @@ const Header: React.FC<HeaderProps> = ({ onChangeTheme }) => {
                   return (
                     <SearchItem
                       genres={item.genres}
-                      type={item.type}
-                      key={item.id}
+                      type={item.type.full_string}
                       poster={item.poster.url}
                       title={item.names.ru}
                       id={item.code}
+                      key={item.id}
                     />
                   );
                 })}
