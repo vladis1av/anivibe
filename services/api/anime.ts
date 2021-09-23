@@ -1,6 +1,6 @@
+import { ISearchItem } from './../../interfaces/searchItem';
 import { IHomeItems } from './../../interfaces/homeItems';
 import { IAnimeItem } from './../../interfaces/animeItem';
-import axios from 'axios';
 import { api } from '../apiCore';
 
 const animeApi = {
@@ -18,23 +18,11 @@ const animeApi = {
     );
     return data;
   },
-  async getAnimeMoreInfo(title: string) {
-    const { data } = await axios.get(
-      `https://api.aniapi.com/v1/anime?title=${title}`,
-      {
-        headers: {
-          Authorization:
-            'Bearer ' +
-            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjE5MSIsIm5iZiI6MTYzMTE4NDY2NiwiZXhwIjoxNjMzNzc2NjY2LCJpYXQiOjE2MzExODQ2NjZ9.Envz_D4Zw1rXaJFS7jy0AtuXn89XYnb_J2m_rUc6Avk',
-        },
-      },
-    );
-
-    return data;
-  },
 
   async searchAnime(value: string) {
-    const { data } = await api.get(`/searchTitles?search=${value}`);
+    const { data } = await api.get<ISearchItem[]>(
+      `/searchTitles?filter=poster,id,code,names,type,genres&search=${value}`,
+    );
     return data;
   },
 };
