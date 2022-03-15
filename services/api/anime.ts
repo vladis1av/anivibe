@@ -1,12 +1,15 @@
-import { ISearchItem } from './../../interfaces/searchItem';
-import { IHomeItems } from './../../interfaces/homeItems';
-import { IAnimeItem } from './../../interfaces/animeItem';
+import {
+  ISearchItem,
+  IHomeItems,
+  IAnimeItem,
+} from '@interfaces/interfaces';
+// add type for services
 import { api } from '../apiCore';
 
 const animeApi = {
   async getLastUdatedAnimeList(skipItems: number = 0, limit: number = 10) {
     const { data } = await api.get<IHomeItems[]>(
-      `/getUpdates?filter=poster,id,code,names&limit=${limit}&after=${skipItems}`,
+      `/getUpdates?filter=posters,id,code,names&limit=${limit}&after=${skipItems}`,
     );
 
     return data;
