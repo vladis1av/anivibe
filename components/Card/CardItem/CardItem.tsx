@@ -1,30 +1,32 @@
+import { FC } from 'react';
+import Link from 'next/link';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
-import Link from 'next/link';
 
 import styles from './CardItem.module.scss';
+import { LinksPaths } from '@enums/enums';
 
-interface CardItemProps {
-  poster: string;
+type CardItemProps = {
+  id: number;
+  code: string;
   title: string;
-  id: string;
-}
+};
 
-const CardItem: React.FC<CardItemProps> = ({ poster, title, id }) => {
+const CardItem: FC<CardItemProps> = ({ id, code, title }) => {
   return (
-    <Link href={`/anime/${id}`}>
+    <Link href={`${LinksPaths.anime}/${code}`}>
       <a className={styles.Link}>
         <Card classes={{ root: styles.cardItem }}>
           <CardMedia
             classes={{ root: styles.cardItemImage }}
             component="img"
-            alt="Contemplative Reptile"
             height="200"
-            image={`${process.env.IMAGE_URL}/${poster}`}
-            title="Contemplative Reptile"
+            image={`${process.env.IMAGE_URL}${id}.jpg`}
+            title={`${title}`}
           />
+
           <CardContent classes={{ root: styles.cardItemContent }}>
             <Typography align="center" variant="h5" component="h2">
               {title}
