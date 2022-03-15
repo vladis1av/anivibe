@@ -12,7 +12,7 @@ import TableBlock from '@components/Table';
 import GET_DETAIL_ANIME_INFO from '@services/queries/getDetailAnimeInfo';
 import apolloClient from '@services/apolloClient';
 import { SEO_ANIME_DETAIL_PAGE_TITLE } from 'constants/seo';
-import AnimeType from '@interfaces/interfaces';
+import { Anime as AnimeType } from '@interfaces/interfaces';
 import styles from './AnimeDetail.module.scss';
 
 type AnimePageProps = {
@@ -20,9 +20,14 @@ type AnimePageProps = {
 };
 
 export default function Anime({ fetchedItem }: AnimePageProps) {
-  const [item, setItem] = useState<AnimeType>(fetchedItem);
+  const [item, setItem] = useState<AnimeType | null>(fetchedItem);
   const router = useRouter();
   const { id } = router.query;
+  //временное решение
+  if (!item) {
+    return null;
+  }
+
   const {
     id: animeId,
     names,
@@ -35,7 +40,6 @@ export default function Anime({ fetchedItem }: AnimePageProps) {
     team,
     genres,
   } = item;
-  console.log('item', item);
 
   const bannerImageLowQuality = `${process.env.IMAGE_URL}${animeId}.jpg`;
 
@@ -143,7 +147,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
   //хз как по другому решить что бы все приложение не крашилось иза того что некоторых тайтлов нет в апи которую я использую для того что бы взять  bannerImage...
-  const { id } = params;
+  const { id } = params as { id: string };
 
   const fetchedItem = await animeApi.getAnimeById(id);
 

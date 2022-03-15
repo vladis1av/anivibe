@@ -8,7 +8,6 @@ export type SeachItemProps = {
   id: number;
   code: string;
   title: string;
-  poster: string;
   genres: string[];
   type: string;
 };
