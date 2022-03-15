@@ -106,10 +106,10 @@ export type TorrentListItems = {
   raw_base64_file: string | null;
 };
 
-export type TorrentsList = {
+export type TorrentList = {
   list: TorrentListItems[];
 };
 
-export type Torrent = TorrentsList & {
+export type Torrent = TorrentList & {
   series: Series;
 };
