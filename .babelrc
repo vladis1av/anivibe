@@ -1,0 +1,48 @@
+{
+  "presets": [
+    [
+      "next/babel",
+      {
+        "preset-env": {
+          "modules": false
+        },
+        "transform-runtime": {},
+        "styled-jsx": {},
+        "class-properties": {}
+      }
+    ]
+  ],
+  "plugins": [
+    [
+      "@babel/plugin-proposal-decorators",
+      {
+        "legacy": true
+      }
+    ],
+      "@babel/plugin-proposal-class-properties",
+    [
+      "inline-react-svg"
+    ],
+    [
+      "babel-plugin-import",
+      {
+        "libraryName": "@material-ui/core",
+        // Use "'libraryDirectory': ''," if your bundler does not support ES modules
+        "libraryDirectory": "",
+        "camel2DashComponentName": false
+      },
+      "core"
+    ],
+    [
+      "babel-plugin-import",
+      {
+        "libraryName": "@material-ui/icons",
+        // Use "'libraryDirectory': ''," if your bundler does not support ES modules
+        "libraryDirectory": "",
+        "camel2DashComponentName": false
+      },
+      "icons"
+    ],
+    "@babel/plugin-proposal-export-default-from"
+  ]
+}
