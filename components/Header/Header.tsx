@@ -13,18 +13,20 @@ import SearchIcon from '@material-ui/icons/Search';
 import animeApi from '@services/api/anime';
 import useDebounce from '@hooks/useDebounce';
 import SearchItem from '@components/SearchItem';
-import { ISearchItem } from '@interfaces/interfaces';
+import Anime from '@interfaces/interfaces';
 import styles from './Header.module.scss';
 
 type HeaderProps = {
   onChangeTheme: () => void;
 };
 
+type SearchedItem = Pick<Anime, 'code' | 'genres' | 'id' | 'names' | 'type'>;
+
 const Header: FC<HeaderProps> = ({ onChangeTheme }) => {
   const [inputValue, setInputValue] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [open, setOpen] = useState<boolean>(false);
-  const [items, setItems] = useState<ISearchItem[]>([]);
+  const [items, setItems] = useState<SearchedItem[]>([]);
 
   const handleChange = async (event: ChangeEvent<HTMLInputElement>) => {
     setInputValue(event.target.value);

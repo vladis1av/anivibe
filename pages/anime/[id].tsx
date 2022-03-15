@@ -4,7 +4,6 @@ import Head from 'next/dist/shared/lib/head';
 import { GetStaticProps, GetStaticPaths } from 'next';
 import { CardMedia, Container, Card } from '@material-ui/core';
 
-import { IAnimeItem } from '@interfaces/interfaces';
 import MainLayout from '@layouts/MainLayout';
 import animeApi from '@services/api/anime';
 import ReadMore from '@components/ReadMore';
@@ -13,14 +12,15 @@ import TableBlock from '@components/Table';
 import GET_DETAIL_ANIME_INFO from '@services/queries/getDetailAnimeInfo';
 import apolloClient from '@services/apolloClient';
 import { SEO_ANIME_DETAIL_PAGE_TITLE } from 'constants/seo';
+import AnimeType from '@interfaces/interfaces';
 import styles from './AnimeDetail.module.scss';
 
 type AnimePageProps = {
-  fetchedItem: IAnimeItem;
+  fetchedItem: AnimeType;
 };
 
 export default function Anime({ fetchedItem }: AnimePageProps) {
-  const [item, setItem] = useState<IAnimeItem>(fetchedItem);
+  const [item, setItem] = useState<AnimeType>(fetchedItem);
   const router = useRouter();
   const { id } = router.query;
   const {
@@ -35,6 +35,7 @@ export default function Anime({ fetchedItem }: AnimePageProps) {
     team,
     genres,
   } = item;
+  console.log('item', item);
 
   const bannerImageLowQuality = `${process.env.IMAGE_URL}${animeId}.jpg`;
 
