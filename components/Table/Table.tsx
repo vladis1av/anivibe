@@ -11,14 +11,14 @@ import {
 } from '@material-ui/core';
 import { blue, green, pink } from '@material-ui/core/colors';
 import { format, fromUnixTime } from 'date-fns';
-import { ITorrents } from '@interfaces/interfaces';
+import { TorrentList } from '@interfaces/interfaces';
 import GetAppIcon from '@material-ui/icons/GetApp';
 import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
 import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
 import CheckIcon from '@material-ui/icons/Check';
 import getFileSize from '@utils/getFileSize';
 
-const TableBlock: FC<ITorrents> = ({ list }) => {
+const TableBlock: FC<TorrentList> = ({ list }) => {
   return (
     <Paper>
       <TableContainer>

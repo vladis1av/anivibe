@@ -13,7 +13,7 @@ import SearchIcon from '@material-ui/icons/Search';
 import animeApi from '@services/api/anime';
 import useDebounce from '@hooks/useDebounce';
 import SearchItem from '@components/SearchItem';
-import Anime from '@interfaces/interfaces';
+import { Anime } from '@interfaces/interfaces';
 import styles from './Header.module.scss';
 
 type HeaderProps = {
