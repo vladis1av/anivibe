@@ -6,7 +6,9 @@ import MainLayout from '@layouts/MainLayout';
 import CardItem from '@components/Card/CardItem';
 import CardList from '@components/Card/CardList';
 import animeApi from '@services/api/anime';
+
 type AnimeItem = Pick<Anime, 'id' | 'code' | 'names' | 'posters'>;
+
 type MainPageProps = {
   serverItems: AnimeItem[];
 };
@@ -14,7 +16,6 @@ type MainPageProps = {
 const Main: FC<MainPageProps> = ({ serverItems }) => {
   const [items, setItems] = useState<AnimeItem[]>(serverItems);
   const [loadMore, setLoadMore] = useState<boolean>(false);
-  console.log('serverItems', serverItems);
 
   const onLoadMore = () => {
     setLoadMore(true);
