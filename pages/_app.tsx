@@ -32,7 +32,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   };
 
   useEffect(() => {
-    const localTheme = window.localStorage.getItem(themeFromLocalStorage);
+    const localTheme = (window.localStorage.getItem(themeFromLocalStorage)) as ThemeType | null;
     const jssStyles = document.querySelector('#jss-server-side');
 
     if (localTheme) {
