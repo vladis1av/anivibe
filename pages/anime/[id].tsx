@@ -4,23 +4,39 @@ import Head from 'next/dist/shared/lib/head';
 import { GetStaticProps, GetStaticPaths } from 'next';
 import { CardMedia, Container, Card } from '@material-ui/core';
 
-import { IAnimeItem } from '../../interfaces/animeItem';
-import MainLayout from '../../layouts/MainLayout';
-import animeApi from '../../services/api/anime';
-import ReadMore from '../../components/ReadMore/ReadMore';
+import { IAnimeItem } from '@interfaces/interfaces';
+import MainLayout from '@layouts/MainLayout';
+import animeApi from '@services/api/anime';
+import ReadMore from '@components/ReadMore';
+import VideoPlayer from '@components/VideoPlayer';
+import TableBlock from '@components/Table';
+import GET_DETAIL_ANIME_INFO from '@services/queries/getDetailAnimeInfo';
+import apolloClient from '@services/apolloClient';
+import { SEO_ANIME_DETAIL_PAGE_TITLE } from 'constants/seo';
 import styles from './AnimeDetail.module.scss';
-import VideoPlayer from '../../components/VideoPlayer/VideoPlayer';
-import TableBlock from '../../components/Table/Table';
-import GET_DETAIL_ANIME_INFO from '../../services/queries/getDetailAnimeInfo';
-import apolloClient from '../../services/apolloClient';
-interface AnimePageProps {
+
+type AnimePageProps = {
   fetchedItem: IAnimeItem;
-}
+};
 
 export default function Anime({ fetchedItem }: AnimePageProps) {
   const [item, setItem] = useState<IAnimeItem>(fetchedItem);
   const router = useRouter();
   const { id } = router.query;
+  const {
+    id: animeId,
+    names,
+    description,
+    banner_image: bannerImageHightQuality = null,
+    type: { full_string: fullString = '' },
+    player: { alternative_player: alternativePlayer },
+    torrents,
+    season,
+    team,
+    genres,
+  } = item;
+
+  const bannerImageLowQuality = `${process.env.IMAGE_URL}${animeId}.jpg`;
 
   useEffect(() => {
     setItem(fetchedItem);
@@ -32,71 +48,85 @@ export default function Anime({ fetchedItem }: AnimePageProps) {
   return (
     <MainLayout clear>
       <Head>
-        <title>{`${item.names.ru} - cкачать торрент и смотреть онлайн Anime APP`}</title>
-        <meta property="og:title" content={item.names.ru} />
-        <meta property="og:description" content={item.description} />
+        <title>{`${names.ru} - ${SEO_ANIME_DETAIL_PAGE_TITLE}`}</title>
         <meta
-          content={`${item.names.ru} - cкачать торрент и смотреть онлайн / Anime APP`}
+          property="og:title"
+          content={names.ru}
+        />
+        <meta
+          property="og:description"
+          content={description}
+        />
+        <meta
+          content={`${names.ru} - ${SEO_ANIME_DETAIL_PAGE_TITLE}`}
           property="og:title"
         />
       </Head>
+
       <div>
         <CardMedia
           component="img"
-          alt="Contemplative Reptile"
           height="300"
-          image={`${
-            !item.banner_image
-              ? process.env.IMAGE_URL + '/' + item.poster.url
-              : item.banner_image
-          }`}
-          title={`${item.names.ru} poster`}
+          image={
+            `${!bannerImageHightQuality
+              ? bannerImageLowQuality
+              : bannerImageHightQuality}`
+          }
+          title={`${names.ru}`}
         />
       </div>
+
       <Container classes={{ root: styles.detailContent }}>
         <div className={styles.posterWrapper}>
           <Card classes={{ root: styles.poster }} variant="outlined">
             <CardMedia
               component="img"
-              alt="Contemplative Reptile"
               height="200"
-              image={`${process.env.IMAGE_URL}/${item.poster.url}`}
-              title="Contemplative Reptile"
+              image={bannerImageLowQuality}
+              title={`${names.ru}`}
             />
           </Card>
+
           <div className={styles.posterInfo}>
-            <h1>{item.names.ru}</h1>
+            <h1>{names.ru}</h1>
+
             <ul>
               <li>
                 Вид релиза:
-                <span className={styles.itemKey}>{item.type.full_string}</span>
+                <span className={styles.itemKey}>{fullString}</span>
               </li>
+
               <li>
                 Сезон:
                 <span
                   className={
                     styles.itemKey
-                  }>{`${item.season.string} ${item.season.year}`}</span>
+                  }>{`${season.string} ${season.year}`}</span>
               </li>
+
               <li>
                 Озвучка:
                 <span className={styles.itemKey}>
-                  {item.team.voice.join(', ')}
+                  {team.voice.join(', ')}
                 </span>
               </li>
+
               <li>
                 Жанры:
-                <span className={styles.itemKey}>{item.genres.join(', ')}</span>
+                <span className={styles.itemKey}>{genres.join(', ')}</span>
               </li>
+
               <li>
-                Описание: <ReadMore text={item.description} />
+                Описание: <ReadMore text={description} />
               </li>
             </ul>
           </div>
         </div>
-        <VideoPlayer alternative_player={item.player.alternative_player} />
+
+        <VideoPlayer alternativePlayer={alternativePlayer} />
+
         <div className="pb-50">
-          <TableBlock list={item.torrents.list} />
+          <TableBlock list={torrents.list} />
         </div>
       </Container>
     </MainLayout>
@@ -112,12 +142,14 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
   //хз как по другому решить что бы все приложение не крашилось иза того что некоторых тайтлов нет в апи которую я использую для того что бы взять  bannerImage...
-  const fetchedItem = await animeApi.getAnimeById(params.id);
+  const { id } = params;
+
+  const fetchedItem = await animeApi.getAnimeById(id);
 
   try {
     const { data } = await apolloClient.query({
       query: GET_DETAIL_ANIME_INFO,
-      variables: { search: `${params.id}` },
+      variables: { search: `${id}` },
     });
 
     return {

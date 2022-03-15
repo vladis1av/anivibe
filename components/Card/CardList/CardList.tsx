@@ -1,12 +1,12 @@
-import React from 'react';
+import { FC, ReactNode } from 'react';
 
 import styles from './CardList.module.scss';
 
-interface CardListProps {
-  children: React.ReactNode;
-}
+type CardListProps = {
+  children: ReactNode;
+};
 
-const CardList: React.FC<CardListProps> = ({ children }) => {
+const CardList: FC<CardListProps> = ({ children }) => {
   return <div className={styles.cardList}>{children}</div>;
 };
 

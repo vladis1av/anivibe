@@ -1,0 +1,44 @@
+{
+  "env": {
+    "node": true,
+    "commonjs": true,
+    "browser": true,
+    "es6": true
+  },
+  "extends": [
+    "airbnb-typescript"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaVersion": 9,
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "sourceType": "module",
+    "project": "./tsconfig.json"
+  },
+  "plugins": ["react"],
+  "ignorePatterns": ["**/*.js"],
+  "rules": {
+    "linebreak-style": 0,
+    "react/prop-types": 0,
+    "react/jsx-uses-vars": [2],
+    "react/display-name": 0,
+    "react/react-in-jsx-scope": 0,
+    "no-console": 0,
+    "react/jsx-props-no-spreading": 0,
+    "no-const-assign": "warn",
+    "no-this-before-super": "warn",
+    "no-undef": "warn",
+    "no-unreachable": "warn",
+    "no-unused-vars": "warn",
+    "constructor-super": "warn",
+    "valid-typeof": "warn",
+    "jsx-a11y/alt-text": "warn",
+    "array-callback-return": "warn",
+    "no-return-assign": "warn",
+    "no-restricted-syntax": "warn",
+    "no-nested-ternary": "warn",
+    "max-classes-per-file": "off"
+  }
+}

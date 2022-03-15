@@ -1,5 +1,5 @@
+import { FC, ChangeEvent, useEffect, useState } from 'react';
 import Link from 'next/link';
-import SearchIcon from '@material-ui/icons/Search';
 import {
   Backdrop,
   Button,
@@ -8,25 +8,25 @@ import {
   InputAdornment,
   Paper,
 } from '@material-ui/core';
-import React, { useEffect, useState } from 'react';
 import InvertColorsIcon from '@material-ui/icons/InvertColors';
+import SearchIcon from '@material-ui/icons/Search';
+import animeApi from '@services/api/anime';
+import useDebounce from '@hooks/useDebounce';
+import SearchItem from '@components/SearchItem';
+import { ISearchItem } from '@interfaces/interfaces';
 import styles from './Header.module.scss';
-import animeApi from '../../services/api/anime';
-import useDebounce from '../../hooks/useDebounce';
-import SearchItem from '../SearchItem/SearchItem';
-import { ISearchItem } from '../../interfaces/searchItem';
 
-interface HeaderProps {
+type HeaderProps = {
   onChangeTheme: () => void;
-}
+};
 
-const Header: React.FC<HeaderProps> = ({ onChangeTheme }) => {
+const Header: FC<HeaderProps> = ({ onChangeTheme }) => {
   const [inputValue, setInputValue] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [open, setOpen] = useState<boolean>(false);
   const [items, setItems] = useState<ISearchItem[]>([]);
 
-  const handleChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = async (event: ChangeEvent<HTMLInputElement>) => {
     setInputValue(event.target.value);
   };
 
@@ -41,7 +41,7 @@ const Header: React.FC<HeaderProps> = ({ onChangeTheme }) => {
     setOpen(false);
   };
 
-  const debouncedSearchTerm = useDebounce(inputValue, 500);
+  const debouncedSearchTerm = useDebounce(inputValue, 300);
 
   useEffect(() => {
     if (debouncedSearchTerm) {
@@ -67,6 +67,7 @@ const Header: React.FC<HeaderProps> = ({ onChangeTheme }) => {
             <span className={styles.headerLogo}>(っ^‿^)っ</span>
           </a>
         </Link>
+
         <Input
           id="input-with-icon-adornment"
           value={inputValue}
@@ -80,28 +81,37 @@ const Header: React.FC<HeaderProps> = ({ onChangeTheme }) => {
             </InputAdornment>
           }
         />
+
         <Backdrop open={open} onClick={handleClose}>
           {isLoading ? (
             <CircularProgress color="inherit" />
           ) : (
             <div className={styles.searchList}>
-              <div className={styles.overlay}></div>
+              <div className={styles.overlay} />
+
               {items.length > 0 &&
-                items.map((item) => {
+                items.map(({
+                  id,
+                  genres,
+                  type,
+                  names,
+                  code,
+                }) => {
                   return (
                     <SearchItem
-                      genres={item.genres}
-                      type={item.type.full_string}
-                      poster={item.poster.url}
-                      title={item.names.ru}
-                      id={item.code}
-                      key={item.id}
+                      id={id}
+                      code={code}
+                      genres={genres}
+                      type={type.full_string}
+                      title={names.ru}
+                      key={id}
                     />
                   );
                 })}
             </div>
           )}
         </Backdrop>
+
         <Button onClick={onChangeTheme} style={{ minWidth: '48px' }}>
           <InvertColorsIcon />
         </Button>

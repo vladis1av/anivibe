@@ -1,41 +1,45 @@
-import React from 'react';
+import { FC } from 'react';
 import Link from 'next/link';
 import { CardMedia } from '@material-ui/core';
 
 import styles from './SearchItem.module.scss';
-export interface SeachItemProps {
-  id: string;
+
+export type SeachItemProps = {
+  id: number;
+  code: string;
   title: string;
   poster: string;
   genres: string[];
   type: string;
-}
+};
 
-const SearchItem: React.FC<SeachItemProps> = ({
+const SearchItem: FC<SeachItemProps> = ({
   id,
+  code,
   title,
-  poster,
   genres,
   type,
 }) => {
   return (
-    <Link href={`/anime/${id}`}>
+    <Link href={`/anime/${code}`}>
       <a className={styles.searchItem}>
         <CardMedia
           className={styles.searchItemImage}
           component="img"
-          alt="Contemplative Reptile"
           height="100px"
           width="100px"
-          image={`${process.env.IMAGE_URL}/${poster}`}
-          title="Contemplative Reptile"
+          image={`${process.env.IMAGE_URL}${id}.jpg`}
+          title={`${title}`}
         />
+
         <div className={styles.infoList}>
           <h3>{title}</h3>
+
           <div>
             <div>
               <span className={styles.itemKey}>{type}</span>
             </div>
+
             <div>
               <span className={styles.itemKey}>{genres.join(', ')}</span>
             </div>
