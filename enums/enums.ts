@@ -9,4 +9,5 @@ export enum Themes {
 
 export enum Colors {
   white = '#FFFFFF',
+  brightBlue = '#2299DD',
 }
