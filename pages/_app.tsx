@@ -7,16 +7,14 @@ import { CssBaseline } from '@material-ui/core';
 
 import Header from '@components/Header/Header';
 import { APP_NAME, SEO_DESCRIPTION, SEO_KEYWORDS_APP } from '@constants/seo';
+import { nextNProgressHeight, nextNProgressStartPosition } from '@constants/nextNproggress';
+import { themeFromLocalStorage } from '@constants/common';
 import { Colors, Themes } from '@enums/enums';
 import { ThemeType } from '@interfaces/interfaces';
 import { dark, light } from '../theme';
 
 import '@styles/globals.scss';
 import 'macro-css';
-
-const themeFromLocalStorage: string = 'anime-APP-theme';
-const nextNProgressStartPosition: number = 0.3;
-const nextNProgressHeight: number = 3;
 
 function MyApp({ Component, pageProps }: AppProps) {
   const [theme, setTheme] = useState<ThemeType>(Themes.dark);

@@ -2,14 +2,19 @@ import React from 'react';
 import NProgress from 'nprogress';
 import Router from 'next/router';
 import PropTypes from 'prop-types';
+import {
+  nextNProgressColor,
+  nextNProgressHeight,
+  nextNProgressStartPosition,
+  nextNProgressStopDelayMs,
+} from '@constants/nextNproggress';
 
-/* eslint-disable react/prefer-stateless-function */
 class NextNProgress extends React.Component {
   static defaultProps = {
-    color: '#29D',
-    startPosition: 0.3,
-    stopDelayMs: 200,
-    height: 3,
+    color: nextNProgressColor,
+    startPosition: nextNProgressStartPosition,
+    stopDelayMs: nextNProgressStopDelayMs,
+    height: nextNProgressHeight,
   };
 
   timer = null;
