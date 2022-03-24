@@ -19,13 +19,16 @@ import 'macro-css';
 function MyApp({ Component, pageProps }: AppProps) {
   const [theme, setTheme] = useState<ThemeType>(Themes.dark);
 
-  const onChangeTheme = () => {
+  const setThemeAndUpdateLocalStorage = (selectedTheme: ThemeType): void => {
+    setTheme(selectedTheme);
+    window.localStorage.setItem(themeFromLocalStorage, selectedTheme);
+  };
+
+  const onChangeTheme = (): void => {
     if (theme === Themes.dark) {
-      setTheme(Themes.light);
-      window.localStorage.setItem(themeFromLocalStorage, Themes.light);
+      setThemeAndUpdateLocalStorage(Themes.light);
     } else {
-      setTheme(Themes.dark);
-      window.localStorage.setItem(themeFromLocalStorage, Themes.dark);
+      setThemeAndUpdateLocalStorage(Themes.dark);
     }
   };
 
@@ -33,10 +36,15 @@ function MyApp({ Component, pageProps }: AppProps) {
     const localTheme = (window.localStorage.getItem(themeFromLocalStorage)) as ThemeType | null;
     const jssStyles = document.querySelector('#jss-server-side');
 
-    if (localTheme) {
-      setTheme(localTheme);
+    if (!localTheme) {
+      const darkThemeMq = window.matchMedia('(prefers-color-scheme: dark)');
+      if (darkThemeMq.matches) {
+        setTheme(Themes.dark);
+      } else {
+        setTheme(Themes.light);
+      }
     } else {
-      setTheme(Themes.dark);
+      setTheme(localTheme);
     }
 
     if (jssStyles) {
