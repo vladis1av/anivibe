@@ -12,6 +12,8 @@ import {
 import { blue, green, pink } from '@material-ui/core/colors';
 import { format, fromUnixTime } from 'date-fns';
 import { TorrentList } from '@interfaces/interfaces';
+import { FyleTypes } from '@enums/enums';
+import getFileLink from '@utils/getFileLink';
 import GetAppIcon from '@material-ui/icons/GetApp';
 import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
 import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
@@ -53,36 +55,45 @@ const TableBlock: FC<TorrentList> = ({ list }) => {
           </TableHead>
 
           <TableBody>
-            {list.map((item, i) => (
+            {list.map(({
+              series,
+              quality,
+              torrent_id: id,
+              total_size: totalSize,
+              uploaded_timestamp: uploadedTimestamp,
+              seeders,
+              leechers,
+              downloads,
+            }, i) => (
               <TableRow key={i}>
-                <TableCell>{item.series.string}</TableCell>
+                <TableCell>{series.string}</TableCell>
 
-                <TableCell align="center">{item.quality.string}</TableCell>
+                <TableCell align="center">{quality.string}</TableCell>
 
                 <TableCell align="center">
-                  {getFileSize(item.total_size)}
+                  {getFileSize(totalSize)}
                 </TableCell>
 
                 <TableCell align="center">{`${format(
-                  fromUnixTime(item.uploaded_timestamp),
+                  fromUnixTime(uploadedTimestamp),
                   'dd.mm.yyyy\u00A0HH:mm',
                 )}`}</TableCell>
 
                 <TableCell align="center">
-                  <Link href={`https://tv2.darklibria.it${item.url}`}>
+                  <Link href={getFileLink(FyleTypes.torrent, id)}>
                     <GetAppIcon style={{ color: blue[700] }} />
                   </Link>
                 </TableCell>
 
                 <TableCell align="center" style={{ color: green[500] }}>
-                  {item.seeders}
+                  {seeders}
                 </TableCell>
 
                 <TableCell align="center" style={{ color: pink[600] }}>
-                  {item.leechers}
+                  {leechers}
                 </TableCell>
 
-                <TableCell align="center">{item.downloads}</TableCell>
+                <TableCell align="center">{downloads}</TableCell>
               </TableRow>
             ))}
           </TableBody>
