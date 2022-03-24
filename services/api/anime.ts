@@ -9,7 +9,7 @@ import { api } from '../apiCore';
 const animeApi = {
   async getLastUdatedAnimeList(skipItems: number = 0, limit: number = 10) {
     const { data } = await api.get(
-      `/getUpdates?filter=posters,id,code,names&limit=${limit}&after=${skipItems}`,
+      `getUpdates?filter=posters,id,code,names&limit=${limit}&after=${skipItems}`,
     );
 
     return data;
@@ -17,14 +17,14 @@ const animeApi = {
 
   async getAnimeById(id: string | string[]) {
     const { data } = await api.get(
-      `/getTitle?code=${id}&playlist_type=array`,
+      `getTitle?code=${id}&playlist_type=array`,
     );
     return data;
   },
 
   async searchAnime(value: string) {
     const { data } = await api.get(
-      `/searchTitles?filter=poster,id,code,names,type,genres&search=${value}`,
+      `searchTitles?filter=poster,id,code,names,type,genres&search=${value}`,
     );
     return data;
   },
