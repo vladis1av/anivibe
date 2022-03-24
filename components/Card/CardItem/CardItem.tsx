@@ -4,9 +4,10 @@ import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
+import { LinksPaths, FyleTypes } from '@enums/enums';
+import getFileLink from '@utils/getFileLink';
 
 import styles from './CardItem.module.scss';
-import { LinksPaths } from '@enums/enums';
 
 type CardItemProps = {
   id: number;
@@ -23,7 +24,7 @@ const CardItem: FC<CardItemProps> = ({ id, code, title }) => {
             classes={{ root: styles.cardItemImage }}
             component="img"
             height="200"
-            image={`${process.env.IMAGE_URL}${id}.jpg`}
+            image={getFileLink(FyleTypes.jpg, id)}
             title={`${title}`}
           />
 
