@@ -1,2 +1,5 @@
 .next
+.husky
+node_modules/**
+public
 out
