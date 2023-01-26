@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "allowSyntheticDefaultImports": true,
     "target": "es5",
     "lib": [
       "dom",
@@ -8,10 +9,8 @@
     ],
     "allowJs": true,
     "skipLibCheck": true,
-    "strict": false,
-    "strictNullChecks": true,
+    "strict": true,
     "forceConsistentCasingInFileNames": true,
-    "experimentalDecorators": true,
     "noEmit": true,
     "esModuleInterop": true,
     "module": "esnext",
@@ -19,26 +18,65 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "preserve",
+    "jsxImportSource": "@emotion/react",
+    "incremental": true,
     "baseUrl": "./",
     "paths": {
-      "@/*": ["/*"],
-      "@components/*": ["components/*"],
-      "@constants/*": ["constants/*"],
-      "@enums/*": ["enums/*"],
-      "@interfaces/*": ["interfaces/*"],
-      "@layouts/*": ["layouts/*"],
-      "@pages/*": ["pages/*"],
-      "@services/*": ["services/*"],
-      "@hooks/*": ["hooks/*"],
-      "@styles/*": ["styles/*"],
-      "@utils/*": ["utils/*"],
+      "@/*": [
+        "/src"
+      ],
+      "@redux/*": [
+        "./src/redux/*",
+      ],
+      "@ui/*": [
+        "./src/ui/*",
+      ],
+      "@components/*": [
+        "./src/components/*"
+      ],
+      "@constants/*": [
+        "./src/constants/*"
+      ],
+      "@enums/*": [
+        "./src/enums/*"
+      ],
+      "@interfaces/*": [
+        "./src/interfaces/*"
+      ],
+      "@typeGuards/*": [
+        "./src/typeGuards/*"
+      ],
+      "@layouts/*": [
+        "./src/layouts/*"
+      ],
+      "@pages/*": [
+        "./src/pages/*"
+      ],
+      "@services/*": [
+        "./src/services/*"
+      ],
+      "@hooks/*": [
+        "./src/hooks/*"
+      ],
+      "@styles/*": [
+        "./src/styles/*"
+      ],
+      "@utils/*": [
+        "./src/utils/*"
+      ],
+      "@static/*": [
+        "./src/static/*"
+      ],
     }
   },
   "exclude": [
     "node_modules",
+    ".next",
+    ".husky"
   ],
   "include": [
     "next-env.d.ts",
     "**/*.ts",
-    "**/*.tsx"]
+    "**/*.tsx"
+  ],
 }
