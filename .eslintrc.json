@@ -1,0 +1,230 @@
+{
+  "env": {
+    "node": true,
+    "commonjs": true,
+    "browser": true,
+    "es6": true
+  },
+  "extends": [
+    "airbnb-base",
+    "airbnb-typescript",
+    "plugin:import/recommended",
+    "plugin:import/typescript"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaVersion": 9,
+    "sourceType": "module",
+    "project": "./tsconfig.json",
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  },
+  "plugins": [
+    "@typescript-eslint",
+    "react-hooks",
+    "react",
+    "import",
+    "jsx-a11y"
+  ],
+  "ignorePatterns": [
+    "**/*.js"
+  ],
+  "settings": {
+    "import/parsers": {
+      "@typescript-eslint/parser": [
+        ".ts",
+        ".tsx"
+      ]
+    },
+    "import/resolver": {
+      "node": {
+        "extensions": [
+          ".js",
+          ".jsx",
+          ".ts",
+          ".tsx"
+        ],
+        "moduleDirectory": [
+          "node_modules",
+          "./"
+        ]
+      }
+    }
+  },
+  "rules": {
+    "no-plusplus": 0,
+    "global-require": 0,
+    "@typescript-eslint/type-annotation-spacing": "warn",
+    "react/jsx-props-no-multi-spaces": 1,
+    "indent": "off",
+    "@typescript-eslint/indent": [
+      "error",
+      2
+    ],
+    "no-restricted-exports": [
+      0,
+      {
+        "restrictedNamedExports": [
+          "default"
+        ]
+      }
+    ],
+    "no-param-reassign": [
+      "error",
+      {
+        "props": false
+      }
+    ],
+    "max-len": [
+      "error",
+      {
+        "code": 120
+      }
+    ],
+    "jsx-quotes": [
+      "error",
+      "prefer-double"
+    ],
+    "linebreak-style": 0,
+    "react/prop-types": 0,
+    "react/jsx-uses-vars": [
+      2
+    ],
+    "react/display-name": 0,
+    "react/react-in-jsx-scope": 0,
+    "no-console": 0,
+    "react/jsx-props-no-spreading": 0,
+    "no-const-assign": "warn",
+    "no-this-before-super": "warn",
+    "no-undef": "warn",
+    "no-unreachable": "warn",
+    "no-unused-vars": "warn",
+    "constructor-super": "warn",
+    "valid-typeof": "warn",
+    "jsx-a11y/alt-text": "warn",
+    "array-callback-return": "warn",
+    "no-return-assign": "warn",
+    "no-restricted-syntax": "warn",
+    "no-nested-ternary": "warn",
+    "max-classes-per-file": "off",
+    "import/export": "error",
+    "import/default": "error",
+    "import/namespace": "off",
+    "import/extensions": "off",
+    "import/no-unresolved": "off",
+    "import/no-unused-modules": [
+      0,
+      {
+        "unusedExports": true
+      }
+    ],
+    "import/no-named-as-default": "off",
+    "import/no-extraneous-dependencies": "off",
+    "import/order": [
+      "error",
+      {
+        "groups": [
+          "builtin",
+          "external",
+          "internal"
+        ],
+        "pathGroups": [
+          {
+            "pattern": "react",
+            "group": "external",
+            "position": "before"
+          },
+          {
+            "pattern": "next",
+            "group": "external",
+            "position": "before"
+          },
+          {
+            "pattern": "next/**",
+            "group": "external",
+            "position": "before"
+          },
+          {
+            "pattern": "@interfaces/**",
+            "group": "external",
+            "position": "after"
+          },
+          {
+            "pattern": "@typeGuards/**",
+            "group": "external",
+            "position": "after"
+          },
+          {
+            "pattern": "@enums/**",
+            "group": "external",
+            "position": "after"
+          },
+          {
+            "pattern": "@constants/**",
+            "group": "external",
+            "position": "after"
+          },
+          {
+            "pattern": "@redux/**",
+            "group": "external",
+            "position": "after"
+          },
+          {
+            "pattern": "@ui/**",
+            "group": "external",
+            "position": "after"
+          },
+          {
+            "pattern": "@components/**",
+            "group": "external",
+            "position": "after"
+          },
+          {
+            "pattern": "@layouts/**",
+            "group": "external",
+            "position": "after"
+          },
+          {
+            "pattern": "@static/**",
+            "group": "external",
+            "position": "after"
+          },
+          {
+            "pattern": "@pages/**",
+            "group": "external",
+            "position": "after"
+          },
+          {
+            "pattern": "@services/**",
+            "group": "external",
+            "position": "after"
+          },
+          {
+            "pattern": "@hooks/**",
+            "group": "external",
+            "position": "after"
+          },
+          {
+            "pattern": "@utils/**",
+            "group": "external",
+            "position": "after"
+          },
+          {
+            "pattern": "@styles/**",
+            "group": "external",
+            "position": "after"
+          }
+        ],
+        "pathGroupsExcludedImportTypes": [
+          "builtin"
+        ],
+        "newlines-between": "always",
+        "alphabetize": {
+          "order": "asc",
+          "caseInsensitive": true
+        }
+      }
+    ]
+  }
+}
