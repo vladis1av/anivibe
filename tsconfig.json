@@ -64,8 +64,8 @@
       "@utils/*": [
         "./src/utils/*"
       ],
-      "@static/*": [
-        "./src/static/*"
+      "@assets/*": [
+        "./src/assets/*"
       ],
     }
   },

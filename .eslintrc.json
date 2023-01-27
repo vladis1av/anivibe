@@ -186,7 +186,7 @@
             "position": "after"
           },
           {
-            "pattern": "@static/**",
+            "pattern": "@assets/**",
             "group": "external",
             "position": "after"
           },
