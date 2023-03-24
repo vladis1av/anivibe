@@ -15,10 +15,10 @@ import { TorrentList } from '@interfaces/anime';
 
 import { EFyle } from '@enums/enums';
 
-import AppSVG from '@static/svg/app';
-import CheckSVG from '@static/svg/check';
-import ArrowLongSVG from '@static/svg/longArrow';
-import MagnetSVG from '@static/svg/magnet';
+import AppSVG from '@assets/svg/app';
+import CheckSVG from '@assets/svg/check';
+import ArrowLongSVG from '@assets/svg/longArrow';
+import MagnetSVG from '@assets/svg/magnet';
 
 import getDateFromUnix from '@utils/getDateFromUnix';
 import getFileLink from '@utils/getFileLink';
