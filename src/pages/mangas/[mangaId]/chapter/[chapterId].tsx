@@ -158,7 +158,6 @@ const Chapter: FC<ChapterProps> = ({
 
       <div className={classes.content}>
         <Drawer open={drawerIsOpen} onClose={() => setDrawerIsOpen(false)} className={classes.drawer}>
-
           <Link
             path={generateMangaPath(id, name)}
             className={classes.link}
