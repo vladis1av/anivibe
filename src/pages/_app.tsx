@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 
 import { AppProps } from 'next/app';
 import Head from 'next/head';
@@ -12,7 +12,9 @@ import { EThemeType } from '@interfaces/theme';
 import { EColor, ETheme } from '@enums/enums';
 
 import { THEME_FROM_LOCAL_STORAGE } from '@constants/common';
-import { APP_NAME, SEO_DESCRIPTION, SEO_KEYWORDS_APP } from '@constants/seo';
+import {
+  APP_NAME_UPPER_CASE,
+} from '@constants/seo';
 
 import { getCurrentThemeStyle, getThemeIsLight, setTheme } from '@redux/slices/theme';
 import { nextReduxWrapper } from '@redux/store';
@@ -21,9 +23,6 @@ import useAppDispatch from '@hooks/useAppDispatch';
 import useAppSelector from '@hooks/useAppSelector';
 
 import createEmotionCache from '@utils/createEmotionCache';
-
-import 'video.js/dist/video-js.min.css';
-import '@ui/VideoPlayer/VideoPlayer.css';
 
 type MyAppProps = AppProps & {
   emotionCache?: EmotionCache;
@@ -57,13 +56,11 @@ function MyApp({ Component, emotionCache = clientSideEmotionCache, pageProps }: 
   return (
     <CacheProvider value={emotionCache}>
       <Head>
-        <title>{APP_NAME}</title>
-        <meta name="viewport" content="initial-scale=1, width=device-width" />
-        <meta content={APP_NAME} property="og:site_name" />
-        <meta content={SEO_DESCRIPTION} name="description" />
-        <meta content={SEO_KEYWORDS_APP} name="Keywords" />
-        <meta content={APP_NAME} property="og:title" />
+        <meta content="website" property="og:type" />
+        <meta content={APP_NAME_UPPER_CASE} property="og:site_name" />
+        <meta content={APP_NAME_UPPER_CASE} name="twitter:site" />
         <meta name="theme-color" content={themeForMeta} />
+        <meta name="viewport" content="initial-scale=1, width=device-width" />
       </Head>
 
       <ThemeProvider theme={selectedTheme}>
