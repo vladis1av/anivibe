@@ -8,6 +8,7 @@ import { filtersReducer } from './slices/filters';
 import { overlayReducer } from './slices/overlay';
 import { searchByTypeReducer } from './slices/searchByType';
 import { themeReducer } from './slices/theme';
+import { videoPlayerReducer } from './slices/videoPlayer';
 
 export function makeStore() {
   return configureStore({
@@ -17,6 +18,7 @@ export function makeStore() {
       overlay: overlayReducer,
       filters: filtersReducer,
       filteredData: filterDataReducer,
+      videoPlayer: videoPlayerReducer,
     },
     devTools: IS_DEV,
   });
