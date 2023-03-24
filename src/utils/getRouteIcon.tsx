@@ -1,12 +1,12 @@
-import { MainRoutes } from '@interfaces/common';
+import { EMainRouteType } from '@interfaces/common';
 
 import { ERouteName } from '@enums/enums';
 
-import BookSVG from '@static/svg/book';
-import HomepSVG from '@static/svg/home';
-import WatchSVG from '@static/svg/watch';
+import BookSVG from '@assets/svg/book';
+import HomepSVG from '@assets/svg/home';
+import WatchSVG from '@assets/svg/watch';
 
-const getRouteIcon = (iconName: (MainRoutes) | string) => {
+const getRouteIcon = (iconName: (EMainRouteType) | string) => {
   switch (iconName) {
     case ERouteName.home:
       return <HomepSVG />;
