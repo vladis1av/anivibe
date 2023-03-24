@@ -36,14 +36,16 @@ type Status = {
   code: number;
 };
 
+export type TimeSkipsType = [number, number] | [];
+
 export type Playlist = {
   serie: number;
   create_timestamp: number;
   hls: HlsQuality;
   preview: string;
   skips: {
-    ending: Array<number>;
-    opening: Array<number>;
+    ending: TimeSkipsType;
+    opening: TimeSkipsType;
   };
 };
 
