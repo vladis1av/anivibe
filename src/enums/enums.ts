@@ -1,3 +1,16 @@
+export enum EButtonPlay {
+  big = 'big',
+}
+
+export enum EIcon {
+  home = 'home',
+}
+
+export enum EButtonSide {
+  prev = 'prev',
+  next = 'next',
+}
+
 export enum ETheme {
   dark = 'dark',
   light = 'light',
@@ -13,28 +26,10 @@ export enum EScrollSide {
   right = 'right',
 }
 
-export enum EFyle {
-  jpg = 'jpg',
-  webp = 'webp',
-  torrent = 'torrent',
-  magnet = 'magnet:?xt=urn:btih:',
-}
-
-export enum EIcon {
-  home = 'home',
-}
-
-export enum ERouteName {
-  home = 'home',
-  animes = 'animes',
-  mangas = 'mangas',
-  chapter = 'chapter',
-}
-
-export enum EHlsQuality {
-  sd = '480',
-  hd = '720',
-  fhd = '1080',
+export enum EVideoPlayerMenu {
+  default = 'default',
+  playbackRate = 'playbackRate',
+  quality = 'quality',
 }
 
 export enum EFilter {
@@ -42,19 +37,10 @@ export enum EFilter {
   years = 'Год',
   seasons = 'Сезон',
 }
-
-export enum ELinkPath {
-  home = '/',
-  animes = '/animes',
-  mangas = '/mangas',
-  chapter = '/chapter',
-}
-
-export enum ELoad {
-  idle = 'idle',
-  pending = 'pending',
-  success = 'success',
-  error = 'error',
+export enum EMangaReliase {
+  manga = 'Манга',
+  manhwa = 'Манхва',
+  manhua = 'Маньхуа',
 }
 
 export enum EAnimeReliase {
@@ -64,16 +50,57 @@ export enum EAnimeReliase {
   ona = 'ONA',
 }
 
-export enum EMangaReliase {
-  manga = 'Манга',
-  manhwa = 'Манхва',
-  manhua = 'Маньхуа',
+export enum EFyle {
+  jpg = 'jpg',
+  webp = 'webp',
+  torrent = 'torrent',
+  magnet = 'magnet:?xt=urn:btih:',
 }
 
-export const EReliase = {
-  ...EAnimeReliase,
-  ...EMangaReliase,
-};
+export enum ERouteName {
+  home = 'home',
+  animes = 'animes',
+  mangas = 'mangas',
+  chapter = 'chapter',
+}
+
+export enum ELinkPath {
+  home = '/',
+  animes = '/animes',
+  mangas = '/mangas',
+  chapter = '/chapter',
+}
+
+export enum ELoadingStatus {
+  idle = 'idle',
+  pending = 'pending',
+  success = 'success',
+  error = 'error',
+}
+
+export enum EVideoPlayerStatus {
+  idle = 'idle',
+  pause = 'pause',
+  playing = 'playing',
+  loading = 'loading',
+  error = 'error',
+}
+
+export enum EHlsQuality {
+  '4k' = '2160',
+  qhd = '1440',
+  fhd = '1080',
+  hd = '720',
+  sd = '480',
+}
+
+export enum EHlsQualityKey {
+  '4k' = '4k',
+  qhd = 'qhd',
+  fhd = 'fhd',
+  hd = 'hd',
+  sd = 'sd',
+}
 
 export enum EMediaInfo {
   reliaseType = 'Тип',
@@ -89,14 +116,22 @@ export enum EMediaInfo {
 }
 
 export enum EColor {
-  white = '#FFFFFF',
-  veryPale = '#FFFFFF',
-  black = '#0f0f0f',
   gray = '#7f7f7f',
-  vividCyan = '#03dac5',
-  halfTransparentBlack = 'rgba(0, 0, 0, 0.5)',
-  halfTransparentWhite = 'rgba(255, 255, 255, 0.5)',
-  transparent = 'transparent',
+  white = '#ffffff',
+  black = '#0f0f0f',
   blue = '#1976d2d9',
+  vividCyan = '#03dac5',
+  lightBlue = '#70c1ff',
+  transparent = 'transparent',
   lightGray = 'rgb(158, 158, 158)',
+  darkTransparent = 'rgba(17, 17, 17, 0.8)',
+  halfTransparentBlack = 'rgba(0, 0, 0, 0.5)',
+  lightTransparent = 'rgba(255, 255, 255, 0.08)',
+  halfTransparentWhite = 'rgba(255, 255, 255, 0.5)',
+  almostTransparentWhite = 'rgba(255, 255, 255, 0.2)',
 }
+
+export const EReliase = {
+  ...EAnimeReliase,
+  ...EMangaReliase,
+};
