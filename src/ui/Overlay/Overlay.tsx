@@ -1,6 +1,8 @@
-import { FC, useEffect } from 'react';
+import { FC } from 'react';
 
 import clsx from 'clsx';
+
+import useBlockScroll from '@hooks/useBlockScroll';
 
 import useCardItemStyles from './Overlay.styles';
 
@@ -11,13 +13,7 @@ export type OverlayProps = {
 const Overlay: FC<OverlayProps> = ({ overlayIsOpen }) => {
   const classes = useCardItemStyles();
 
-  useEffect(() => {
-    if (overlayIsOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'auto';
-    }
-  }, [overlayIsOpen]);
+  useBlockScroll(overlayIsOpen);
 
   return (
     <div className={clsx(classes.overlay, { [classes.showOverlay]: overlayIsOpen })} />
