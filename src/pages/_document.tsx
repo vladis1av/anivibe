@@ -1,4 +1,4 @@
-import React from 'react';
+import { Children } from 'react';
 
 import getConfig from 'next/config';
 import Document, {
@@ -92,7 +92,7 @@ MyDocument.getInitialProps = async (ctx) => {
         key="jss-server-side"
         dangerouslySetInnerHTML={{ __html: css }}
       />,
-      ...React.Children.toArray(initialProps.styles),
+      ...Children.toArray(initialProps.styles),
     ],
   };
 };
