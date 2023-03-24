@@ -114,8 +114,9 @@ const useMediaInfoStyles = makeStyles((theme: Theme) => ({
     padding: 10,
   },
   chapterTitle: {
-    fontSize: 24,
+    fontSize: 19,
     marginBottom: 5,
+    paddingLeft: 5,
 
     '@media (min-width: 0) and (max-width: 991px)': {
       fontSize: 18,
