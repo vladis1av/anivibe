@@ -6,6 +6,7 @@ module.exports = {
   swcMinify: true,
   publicRuntimeConfig: {
     ANILIBRIA_API: process.env.ANILIBRIA_API,
+    ANILIBRIA_DOMEN: process.env.ANILIBRIA_DOMEN,
     DESU_ME_API: process.env.DESU_ME_API,
     SHIKIMORI_API: process.env.SHIKIMORI_API,
     ANILIST_API: process.env.ANILIST_API,
