@@ -4,6 +4,7 @@ dotenv.config();
 
 module.exports = {
   swcMinify: true,
+  useFileSystemPublicRoutes: false,
   publicRuntimeConfig: {
     ANILIBRIA_API: process.env.ANILIBRIA_API,
     ANILIBRIA_DOMEN: process.env.ANILIBRIA_DOMEN,
