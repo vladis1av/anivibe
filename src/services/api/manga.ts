@@ -9,7 +9,7 @@ import generateQuery from '@utils/generateQuery';
 
 const { publicRuntimeConfig } = getConfig();
 
-const { DESU_ME_API } = publicRuntimeConfig;
+const { DESU_ME_API, DESU_ME_API_WITH_CORS } = publicRuntimeConfig;
 
 export const getMangaById = async (id: string): Promise<MangaDetail | null> => {
   try {
@@ -48,13 +48,16 @@ export const getMangaChapterById = async (mangaId: string, chapterId: string): P
 
 export const getMangas = async (
   params: MangaParams,
+  cors?: boolean,
 ): Promise<MangaResponse<MangaBase[]> | null> => {
   try {
     const query = generateQuery(params);
-    const { data } = await axios.get<MangaResponse<MangaBase[]>>(
-      encodeURI(`${DESU_ME_API}?${query}`),
-    );
+    const currentAPI = cors ? DESU_ME_API_WITH_CORS : DESU_ME_API;
 
+    const { data } = await axios.get<MangaResponse<MangaBase[]>>(
+      encodeURI(`${currentAPI}?${query}`),
+    );
+    console.log('data', data);
     return data;
   } catch (error) {
     console.log(error);
