@@ -10,10 +10,10 @@ import { MangaParams, MangaResponse } from '../interfaces/services';
 import generateQuery from '../utils/generateQuery';
 
 dotenv.config();
-
-const port = process.env.PORT || 4000;
+const hostname = process.env.CLIENT_API;
+const port = Number(process.env.PORT) || 4000;
 const isDev = process.env.NODE_ENV !== 'production';
-const app = next({ dev: isDev });
+const app = next({ dev: isDev, port, hostname });
 const handle = app.getRequestHandler();
 
 app.prepare().then(() => {
@@ -43,7 +43,7 @@ app.prepare().then(() => {
   server.all('*', (req: Request, res: Response) => handle(req, res));
 
   server.listen(port, () => {
-    console.log(`Ready on port:${port}`);
+    console.log(`> Ready on http://${hostname}:${port}`);
   });
 }).catch((error) => {
   console.log('Error::', error);
