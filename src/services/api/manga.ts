@@ -9,7 +9,7 @@ import generateQuery from '@utils/generateQuery';
 
 const { publicRuntimeConfig } = getConfig();
 
-const { DESU_ME_API, DESU_ME_API_WITH_CORS } = publicRuntimeConfig;
+const { DESU_ME_API } = publicRuntimeConfig;
 
 export const getMangaById = async (id: string): Promise<MangaDetail | null> => {
   try {
@@ -52,7 +52,7 @@ export const getMangas = async (
 ): Promise<MangaResponse<MangaBase[]> | null> => {
   try {
     const query = generateQuery(params);
-    const currentAPI = cors ? DESU_ME_API_WITH_CORS : DESU_ME_API;
+    const currentAPI = cors ? '/manga/api/' : DESU_ME_API;
 
     const { data } = await axios.get<MangaResponse<MangaBase[]>>(
       encodeURI(`${currentAPI}?${query}`),
