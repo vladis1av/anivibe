@@ -15,5 +15,6 @@ module.exports = {
     JPG_URL: process.env.JPG_URL,
     WEBP_URL: process.env.WEBP_URL,
     TORRENT_URL: process.env.TORRENT_URL,
+    DESU_ME_API_WITH_CORS: process.env.DESU_ME_API_WITH_CORS,
   }
 };
