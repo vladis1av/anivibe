@@ -26,8 +26,8 @@ const Link: FC<LinkProps> = ({
   const classes = useCardListStyles();
   const currentStyles = clsx(classes.link, className);
 
-  return <NextLink href={{ pathname: path, query }} scroll={scroll} onClick={onClick}>
-    <a className={currentStyles}>
+  return <NextLink href={{ pathname: path, query }} scroll={scroll}>
+    <a className={currentStyles} onClick={onClick}>
       {children}
     </a>
   </NextLink>;
