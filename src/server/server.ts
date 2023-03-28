@@ -19,7 +19,7 @@ const handle = app.getRequestHandler();
 app.prepare().then(() => {
   const server = express();
 
-  server.get('/api/manga', async (req, res) => {
+  server.get('/manga/api', async (req, res) => {
     try {
       const { params } = req;
       const query = generateQuery(params);
