@@ -4,6 +4,14 @@ dotenv.config();
 
 module.exports = {
   swcMinify: true,
+  async rewrites() {
+    return [
+      {
+        source: "/manga/api",
+        destination: process.env.DESU_ME_API,
+      },
+    ];
+  },
   publicRuntimeConfig: {
     ANILIBRIA_API: process.env.ANILIBRIA_API,
     ANILIBRIA_DOMEN: process.env.ANILIBRIA_DOMEN,
@@ -15,5 +23,6 @@ module.exports = {
     JPG_URL: process.env.JPG_URL,
     WEBP_URL: process.env.WEBP_URL,
     TORRENT_URL: process.env.TORRENT_URL,
+    DESU_ME_API_WITH_CORS: process.env.DESU_ME_API_WITH_CORS,
   }
 };

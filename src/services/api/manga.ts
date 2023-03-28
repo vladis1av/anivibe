@@ -3,7 +3,7 @@ import getConfig from 'next/config';
 import axios from 'axios';
 
 import { MangaBase, MangaDetail, MangaWithPages } from '@interfaces/manga';
-import { MangaResponse, Params } from '@interfaces/services';
+import { MangaParams, MangaResponse } from '@interfaces/services';
 
 import generateQuery from '@utils/generateQuery';
 
@@ -47,14 +47,17 @@ export const getMangaChapterById = async (mangaId: string, chapterId: string): P
 };
 
 export const getMangas = async (
-  params: Pick<Params, 'page' | 'search' | 'limit' | 'genres' | 'order'>,
+  params: MangaParams,
+  cors?: boolean,
 ): Promise<MangaResponse<MangaBase[]> | null> => {
   try {
     const query = generateQuery(params);
-    const { data } = await axios.get<MangaResponse<MangaBase[]>>(
-      encodeURI(`${DESU_ME_API}?${query}`),
-    );
+    const currentAPI = cors ? '/manga/api/' : DESU_ME_API;
 
+    const { data } = await axios.get<MangaResponse<MangaBase[]>>(
+      encodeURI(`${currentAPI}?${query}`),
+    );
+    console.log('data', data);
     return data;
   } catch (error) {
     console.log(error);

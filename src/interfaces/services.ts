@@ -35,3 +35,5 @@ export type MangaResponse <T> = {
   pageNavParams?: PageNavParams;
   response: T;
 };
+
+export type MangaParams = Pick<Params, 'page' | 'search' | 'limit' | 'genres' | 'order'>;

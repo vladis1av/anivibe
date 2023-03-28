@@ -49,7 +49,7 @@ export const fetchTitles = createAsyncThunk<FoundTitles, FetchTitlesType>(
       });
       result = animesResult || [];
     } else {
-      const mangasResult = await getMangas({ limit: 50, search: searchValue });
+      const mangasResult = await getMangas({ limit: 50, search: searchValue }, true);
       result = mangasResult?.response || [];
     }
 

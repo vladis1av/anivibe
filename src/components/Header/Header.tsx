@@ -137,7 +137,7 @@ const Header: FC = () => {
 
                     return searchProps ? <SearchCard
                       {...searchProps}
-                      key={data.id}
+                      key={searchProps.id}
                       onClick={onCloseOverlay}
                     /> : searchProps;
                   })}
