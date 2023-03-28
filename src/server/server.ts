@@ -19,28 +19,28 @@ const handle = app.getRequestHandler();
 app.prepare().then(() => {
   const server = express();
 
-  server.get('/manga/api', async (req, res) => {
+  server.get('/manga/api', async (req: Request<{}, {}, {}, MangaParams>, res: Response) => {
     try {
-      const { params } = req;
-      const query = generateQuery(params);
+      const { query } = req;
+      const currentQuery = generateQuery(query);
 
       const result = await axios
         .get<MangaResponse<MangaBase[]>>(
-        encodeURI(`${process.env.DESU_ME_API}?${query}`),
+        encodeURI(`${process.env.DESU_ME_API}?${currentQuery}`),
       );
 
       if (result) {
-        return res.status(result.status).json({ data: result.data });
+        return res.status(result.status).json(result.data);
       }
 
       throw new Error('Mangas Not found : 404');
     } catch (error) {
       console.log(error);
-      return res.status(500).json({ data: null });
+      return res.status(500).json(null);
     }
   });
 
-  server.all('*', (req: Request<MangaParams>, res: Response) => handle(req, res));
+  server.all('*', (req: Request, res: Response) => handle(req, res));
 
   server.listen(port, () => {
     console.log(`Ready on port:${port}`);
