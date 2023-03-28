@@ -11,11 +11,11 @@
     "moduleResolution": "node"
   },
   "exclude": [
-    "node_modules",
-    ".next",
-    ".husky"
+    "../../node_modules",
+    "../../.next",
+    "../../.husky"
   ],
   "include": [
-    "server"
+    "./server.ts"
   ],
 }
