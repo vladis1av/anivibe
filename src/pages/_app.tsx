@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from 'react';
+import { useEffect } from 'react';
 
 import { AppProps } from 'next/app';
 import Head from 'next/head';
@@ -34,7 +34,7 @@ function MyApp({ Component, emotionCache = clientSideEmotionCache, pageProps }: 
   const dispatch = useAppDispatch();
   const themeIsLight = useAppSelector(getThemeIsLight);
   const selectedTheme = useAppSelector(getCurrentThemeStyle);
-  const themeForMeta = useMemo(() => (themeIsLight ? EColor.white : EColor.black), [themeIsLight]);
+  const themeForMeta = themeIsLight ? EColor.white : EColor.black;
 
   useEffect(() => {
     const localTheme = (window.localStorage.getItem(THEME_FROM_LOCAL_STORAGE)) as EThemeType | null;
