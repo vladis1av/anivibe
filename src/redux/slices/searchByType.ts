@@ -76,6 +76,7 @@ export const searchByTypeSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(fetchTitles.pending, (state) => {
+        state.foundTitles = [];
         state.loadingState = ELoadingStatus.pending;
       })
       .addCase(fetchTitles.fulfilled, (state, { payload }) => {
