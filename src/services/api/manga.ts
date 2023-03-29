@@ -57,7 +57,7 @@ export const getMangas = async (
     const { data } = await axios.get<MangaResponse<MangaBase[]>>(
       encodeURI(`${currentAPI}?${query}`),
     );
-    console.log('data', data);
+
     return data;
   } catch (error) {
     console.log(error);
