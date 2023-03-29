@@ -7,7 +7,7 @@ import { CollectionType } from '@interfaces/collection';
 import { ECollection, ELinkPath } from '@enums/enums';
 
 import { ANIME_COLLECTION_TITLE, MANGA_COLLECTION_TITLE } from '@constants/collection';
-import { COLLECTION_ITEMS_LIMIT, PLACEHOLDER_POSTER } from '@constants/common';
+import { COLLECTION_ITEMS_LIMIT, PLACEHOLDER_POSTER_BLACK } from '@constants/common';
 import { SEO_DESCRIPTION, SEO_KEYWORDS_APP, SEO_TITLE } from '@constants/seo';
 
 import Collection from '@ui/Collection';
@@ -30,7 +30,7 @@ const Main: FC<MainPageProps> = ({ collections }) => (
       title={SEO_TITLE}
       description={SEO_DESCRIPTION}
       keywords={SEO_KEYWORDS_APP}
-      imageSource={PLACEHOLDER_POSTER}
+      imageSource={PLACEHOLDER_POSTER_BLACK}
     />
 
     {
