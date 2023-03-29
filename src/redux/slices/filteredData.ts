@@ -1,5 +1,4 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { HYDRATE } from 'next-redux-wrapper';
 
 import { Anime } from '@interfaces/anime';
 import { ECollectionType } from '@interfaces/collection';
@@ -18,6 +17,7 @@ import { getFilteredData } from '@services/api/anime';
 import { getMangas } from '@services/api/manga';
 
 import checkObjectValueAndExcludeKey from '@utils/checkObjectValueAndExcludeKey';
+import getAppHydrate from '@utils/getAppHydrate';
 
 export type FilteredData = Pick<Anime, 'id' | 'code' | 'names'>[] | MangaBase[] | [];
 
@@ -36,6 +36,8 @@ const initialState: FilteredDataSliceState = {
   filteredData: [],
   loadingState: ELoadingStatus.idle,
 };
+
+const HYDRATE = getAppHydrate();
 
 export const filteredDataSlice = createSlice({
   name: 'filteredData',
@@ -61,11 +63,12 @@ export const filteredDataSlice = createSlice({
       state.loadingState = action.payload;
     },
   },
-  extraReducers: {
-    [HYDRATE]: (state, action) => ({
-      ...state,
-      ...action.payload.filteredData,
-    }),
+  extraReducers: (builder) => {
+    builder
+      .addCase(HYDRATE, (state, action) => ({
+        ...state,
+        ...action.payload.filteredData,
+      }));
   },
 });
 

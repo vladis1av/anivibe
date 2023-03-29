@@ -1,5 +1,4 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { HYDRATE } from 'next-redux-wrapper';
 
 import { ECollectionType } from '@interfaces/collection';
 import {
@@ -13,6 +12,7 @@ import { filterSeasons, filterGenres } from '@constants/filters';
 import { AppState } from '@redux/store';
 
 import filter from '@utils/filter';
+import getAppHydrate from '@utils/getAppHydrate';
 
 type FilterItems = {
   years: number[] | [];
@@ -74,6 +74,8 @@ const initialState: FiltersState = {
   filterValues: defaultFilterValues,
 };
 
+const HYDRATE = getAppHydrate();
+
 export const filtersSlice = createSlice({
   name: 'filters',
   initialState,
@@ -109,11 +111,12 @@ export const filtersSlice = createSlice({
       state.filterValues = defaultFilterValues;
     },
   },
-  extraReducers: {
-    [HYDRATE]: (state, action) => ({
-      ...state,
-      ...action.payload.filters,
-    }),
+  extraReducers: (builder) => {
+    builder
+      .addCase(HYDRATE, (state, action) => ({
+        ...state,
+        ...action.payload.filters,
+      }));
   },
 });
 
