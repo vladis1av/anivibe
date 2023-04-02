@@ -22,7 +22,7 @@ const useMediaInfoStyles = makeStyles((theme: Theme) => ({
     left: 0,
     right: 0,
     borderRadius: 16,
-    boxShadow: '0px 0px 37px 0px rgba(0, 0, 0, 0.2)',
+    boxShadow: '0px 0px 35px 0px rgba(0, 0, 0, 0.3)',
 
     '@media (min-width: 0) and (max-width: 600px)': {
       marginLeft: 'auto',
@@ -106,20 +106,6 @@ const useMediaInfoStyles = makeStyles((theme: Theme) => ({
 
     '&:first-child': {
       marginLeft: 3,
-    },
-  },
-  chaptersWrapper: {
-    border: `1px solid ${theme.palette.text.secondary}`,
-    borderRadius: 6,
-    padding: 10,
-  },
-  chapterTitle: {
-    fontSize: 19,
-    marginBottom: 5,
-    paddingLeft: 5,
-
-    '@media (min-width: 0) and (max-width: 991px)': {
-      fontSize: 18,
     },
   },
 }));

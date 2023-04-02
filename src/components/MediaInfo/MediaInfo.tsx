@@ -13,17 +13,18 @@ import { MangaChapterList, MangaGenres } from '@interfaces/manga';
 
 import { ELinkPath, EMediaInfo, EReliase } from '@enums/enums';
 
-import { PLACEHOLDER_BANNER } from '@constants/common';
+import { CHAPTER_TITLE, PLACEHOLDER_BANNER } from '@constants/common';
+import { CHAPTERS_MATCH_MEDIA } from '@constants/matchMedia';
 
 import Chapters from '@ui/Chapters';
 import ImageWithPlaceholder from '@ui/ImageWithPlaceholder';
 import Link from '@ui/Link';
 import ReadMore from '@ui/ReadMore';
-// import VideoPlayer from '@ui/VideoPlayer';
 
 import Torrent from '@components/Torrent';
 
 import useCheckWebpSupport from '@hooks/useCheckWebpSupport';
+import useMatchMedia from '@hooks/useMatchMedia';
 
 import entries from '@utils/entries';
 
@@ -175,6 +176,9 @@ const MediaInfo = ({
     }
   };
 
+  const [isTablet] = useMatchMedia(CHAPTERS_MATCH_MEDIA);
+  const itemSize = isTablet ? 57 : 35;
+
   return (
     <>
       <div className={classes.bannerWrapper}>
@@ -222,13 +226,8 @@ const MediaInfo = ({
 
         {torrent && <Torrent list={torrent.list} />}
 
-        {chaptersList && <div className={classes.chaptersWrapper}>
-          <Typography className={classes.chapterTitle} variant="h3" component="h3">
-            Список Глав
-          </Typography>
-
-          <Chapters сhapters={chaptersList} />
-        </div>}
+        {chaptersList
+         && <Chapters chapters={chaptersList} itemSize={itemSize} title={CHAPTER_TITLE} border/>}
       </Container>
     </>
   );
