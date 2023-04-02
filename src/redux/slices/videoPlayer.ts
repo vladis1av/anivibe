@@ -51,7 +51,7 @@ const initialState: VideoPlayerState = {
   played: 0,
   playedSeconds: 0,
   prevPlayedSeconds: 0,
-  volume: 0.2,
+  volume: 1.0,
   prevVolume: 1,
 };
 
