@@ -5,6 +5,8 @@ import clsx from 'clsx';
 
 import CloseSVG from '@assets/svg/close';
 
+import useBlockScroll from '@hooks/useBlockScroll';
+
 import useDrawerStyles from './Drawer.styles';
 
 export type DrawerProps = {
@@ -25,6 +27,8 @@ const Drawer: FC<DrawerProps> = ({
 }) => {
   const classes = useDrawerStyles();
 
+  useBlockScroll(isOpen);
+
   return (
     <div className={clsx(
       classes.drawer,
@@ -33,7 +37,7 @@ const Drawer: FC<DrawerProps> = ({
       { [classes[anchor]]: anchor },
     )}>
       <Button variant="text" onClick={onClose} className={classes.closeButton}>
-        <CloseSVG />
+        <CloseSVG className={classes.closeIcon} />
       </Button>
 
       {children}
