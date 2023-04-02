@@ -20,7 +20,7 @@ import { getHightQualityBanner } from '@services/api/common';
 import { getMangaById } from '@services/api/manga';
 
 import getIdFromString from '@utils/getIdFromString';
-import getMangaSeoTitle from '@utils/getMangaSeoType';
+import getMangaSeoTitle from '@utils/getMangaSeoTitle';
 
 type MangaPageProps = {
   manga: (MangaDetail & BannerImage) | null;
