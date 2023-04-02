@@ -96,7 +96,9 @@ const SettingsMenu: FC<SettingsMenuProps> = ({
         onBack={onBack}
         backTitle={settingsMenu && SETTINGS_MENU_ITEM_TITLE[settingsMenu]}
       >
-        {getSettingsMenu()}
+        <div className={classes.settingsMenuList}>
+          {getSettingsMenu()}
+        </div>
       </HalfTransparentList>
 
       <BaseButton className={commonClasses.marginRightTwelve} onClick={onToggleSettingsMenu}>
