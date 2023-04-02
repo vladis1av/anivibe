@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { FC } from 'react';
 
 import dynamic from 'next/dynamic';
 
@@ -63,25 +63,26 @@ type GetLinkProps = {
   queryType: MediaKey;
 };
 
-const MediaInfo = ({
-  type,
-  title,
-  image,
-  bannerImageHightQuality,
-  player,
-  torrent,
-  chaptersList,
-  reliaseType,
-  duration,
-  volumes,
-  chapters,
-  episodes,
-  years,
-  seasons,
-  voices,
-  genres,
-  description,
-}: MediaInfoProps) => {
+const MediaInfo: FC<MediaInfoProps> = (props) => {
+  const {
+    type,
+    title,
+    image,
+    bannerImageHightQuality,
+    player,
+    torrent,
+    chaptersList,
+    reliaseType,
+    duration,
+    volumes,
+    chapters,
+    episodes,
+    years,
+    seasons,
+    voices,
+    genres,
+    description,
+  } = props;
   const media = {
     reliaseType,
     episodes,
@@ -96,9 +97,9 @@ const MediaInfo = ({
   };
   const classes = useMediaInfoStyles();
   const imagePoster = useCheckWebpSupport(image);
-  const imageHeaderBanner = useMemo(() => (!bannerImageHightQuality
+  const imageHeaderBanner = (!bannerImageHightQuality
     ? imagePoster
-    : bannerImageHightQuality), [bannerImageHightQuality, imagePoster]);
+    : bannerImageHightQuality);
 
   const getLink = ({
     items,
@@ -106,6 +107,7 @@ const MediaInfo = ({
     queryType,
   }: GetLinkProps) => {
     const linkPath = pathType === 'manga' ? ELinkPath.mangas : ELinkPath.animes;
+    console.log('linkPath', linkPath);
     if (items) {
       return Array.isArray(items) ? items.map(({ id, text, russian }) => <Link
         key={id}
