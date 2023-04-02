@@ -107,7 +107,6 @@ const MediaInfo: FC<MediaInfoProps> = (props) => {
     queryType,
   }: GetLinkProps) => {
     const linkPath = pathType === 'manga' ? ELinkPath.mangas : ELinkPath.animes;
-    console.log('linkPath', linkPath);
     if (items) {
       return Array.isArray(items) ? items.map(({ id, text, russian }) => <Link
         key={id}
