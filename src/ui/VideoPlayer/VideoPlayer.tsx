@@ -11,8 +11,6 @@ import { Player } from '@interfaces/anime';
 import { VideoPlayerRef } from '@interfaces/common';
 import { QueryType, VideoPlayerEpisodeQuery } from '@interfaces/query';
 
-import { EVideoPlayerStatus } from '@enums/enums';
-
 import { USER_ACTIVITY_EVENTS } from '@constants/common';
 
 import useCheckUserActivity from '@hooks/useCheckUserActivity';
@@ -53,6 +51,8 @@ const VideoPlayer: FC<VideoPlayerProps> = ({ player: { host, playlist } }) => {
       playbackRate,
       playedSeconds,
       volume,
+      isError,
+      isPaused,
       isPlaying,
       screenfull,
     },
@@ -122,7 +122,7 @@ const VideoPlayer: FC<VideoPlayerProps> = ({ player: { host, playlist } }) => {
       onBlur={onVideoPlayerBlure}
       className={
         clsx(classes.videoPlayerWrapper, {
-          [classes.showVideoPlayerControls]: status === EVideoPlayerStatus.error || Boolean(settingsMenu),
+          [classes.showVideoPlayerControls]: isError || Boolean(settingsMenu) || isPaused,
           [classes.showVideoPlayerControlsOnHover]: played,
           [classes.hideVideoPlayerControls]: isFullScreen && !controlsIsActive,
           [classes.videoPlayerFullScreen]: isFullScreen,
@@ -153,6 +153,7 @@ const VideoPlayer: FC<VideoPlayerProps> = ({ player: { host, playlist } }) => {
           top: 0,
           left: 0,
           borderRadius: 8,
+          display: 'flex',
           overflow: 'hidden',
           position: 'absolute', // не хочет во время смены темы сохранять стили, пускай пока что так тогда
         }}
