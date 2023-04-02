@@ -2,52 +2,34 @@ import { Theme } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 
 const useChaptersStyles = makeStyles((theme: Theme) => ({
-  chaptersContent: {
-    maxHeight: 310,
-    overflowY: 'auto',
-    flex: '1 1 auto',
-    height: '30vh',
+  chapterWrapper: {
+    width: '100%',
+    height: '100%',
   },
-  chapters: {
+  chapterWrapperBorder: {
+    border: `1px solid ${theme.palette.text.secondary}`,
+    borderRadius: 6,
+    padding: 10,
+  },
+  chapterHeader: {
     display: 'flex',
     alignItems: 'center',
-    paddingRight: 8,
-
+    marginBottom: 10,
+  },
+  chapterHeaderTitle: {
+    fontSize: 19,
+    marginRight: 15,
+    marginLeft: 5,
     '@media (min-width: 0) and (max-width: 991px)': {
-      flexDirection: 'column',
-      alignItems: 'initial',
+      fontSize: 18,
     },
   },
-  text: {
-    fontSize: 16,
+  chaptersContent: {
+    overflowY: 'auto',
+    height: '30vh',
   },
-  date: {
-    marginLeft: 'auto',
-    color: theme.palette.primary.main,
-
-    '@media (min-width: 0) and (max-width: 991px)': {
-      marginLeft: 'initial',
-    },
-  },
-  link: {
-    color: theme.palette.primary.main,
-    marginTop: 1,
-    fontSize: 16,
-    padding: 5,
-    textOverflow: 'ellipsis',
-    whiteSpace: 'nowrap',
-    overflow: 'hidden',
-    transition: 'opacity 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms',
-
-    '&:hover': {
-      opacity: 0.7,
-      transition: 'opacity 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms',
-    },
-  },
-  linkActive: {
-    backgroundColor: theme.palette.primary.main,
-    color: theme.palette.primary.light,
-    borderRadius: 3,
+  chaptersContentFullHeight: {
+    height: '93%',
   },
 }));
 
