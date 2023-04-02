@@ -1,9 +1,8 @@
-import { Theme } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 
-import { EColor, ETheme } from '@enums/enums';
+import { EColor } from '@enums/enums';
 
-const useHeaderStyles = makeStyles((theme: Theme) => ({
+const useHeaderStyles = makeStyles(() => ({
   header: {
     position: 'fixed',
     width: '100%',
@@ -37,27 +36,13 @@ const useHeaderStyles = makeStyles((theme: Theme) => ({
     color: EColor.white,
     fontSize: 16,
   },
-  inputWrapper: {
-    position: 'relative',
-    maxWidth: 400,
-    width: '100%',
-
-    '@media (min-width: 0) and (max-width: 850px)': {
-      display: 'none',
-      position: 'absolute',
-      maxWidth: '100%',
-      padding: '0 5px',
-      zIndex: 1,
-      left: 0,
-      right: 0,
-      height: '100%',
-      paddingTop: 10,
-      backgroundColor: theme.palette.mode === ETheme.light ? EColor.gray : EColor.black,
-    },
-  },
   button: {
-    minWidth: 24,
+    minWidth: 27,
     padding: 0,
+
+    '&:hover': {
+      background: 'none',
+    },
   },
   showSearchButton: {
     display: 'none',
@@ -70,46 +55,12 @@ const useHeaderStyles = makeStyles((theme: Theme) => ({
       display: 'flex',
     },
   },
-  showInput: {
-    display: 'block',
-  },
-  hideSearchButton: {
-    display: 'none',
-  },
   searchButton: {
     display: 'flex',
     marginLeft: 'auto',
     marginRight: 15,
     padding: 5,
     minWidth: 30,
-  },
-  searchList: {
-    display: 'flex',
-    flexDirection: 'column',
-    padding: '15px 5px 5px 5px',
-    minHeight: 53,
-    width: '100%',
-    maxHeight: 375,
-    alignItems: 'center',
-    overflowX: 'hidden',
-    transition: 'all 0.9s ease-out',
-    position: 'absolute',
-    left: 0,
-    right: 0,
-    paddingTop: 15,
-  },
-  searchListLoadInfo: {
-    position: 'absolute',
-    top: 55,
-  },
-  searchListWrapper: {
-    position: 'absolute',
-    display: 'flex',
-    left: 0,
-    right: 0,
-    paddingTop: 15,
-    justifyContent: 'center',
-    alignItems: 'center',
   },
   routeIconLink: {
     display: 'flex',
@@ -148,9 +99,6 @@ const useHeaderStyles = makeStyles((theme: Theme) => ({
     '&:hover::before': {
       opacity: 1,
     },
-  },
-  circularProgress: {
-    color: EColor.white,
   },
   iconsWrapper: {
     display: 'flex',

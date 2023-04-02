@@ -1,35 +1,21 @@
-import {
-  FC, useRef,
-} from 'react';
+import { FC } from 'react';
 
 import { useRouter } from 'next/router';
 
 import { Button } from '@mui/material';
 import clsx from 'clsx';
 
-import { ECollectionType } from '@interfaces/collection';
+import { EColor, ELinkPath, ERouteName } from '@enums/enums';
 
-import {
-  ECollection, EColor, ELinkPath, ELoadingStatus, ERouteName,
-} from '@enums/enums';
+import { APP_LOGO, MAIN_ROUTES_MENU } from '@constants/common';
 
-import {
-  APP_LOGO, MAIN_ROUTES_MENU, SEARCH_ANIME_PLACEHOLDER, SEARCH_MANGA_PLACEHOLDER, SELECT_SEARCH_TYPES,
-} from '@constants/common';
-
-import { getOverlay, setOverlayVisible } from '@redux/slices/overlay';
-import {
-  fetchTitles,
-  setSearchByTypeState,
-  setSearchByTypeDefaultState,
-  getSearchByTypeState,
-} from '@redux/slices/searchByType';
+import { setOverlayVisible } from '@redux/slices/overlay';
+import { setSearchByTypeState } from '@redux/slices/searchByType';
 import { getThemeIsLight, setTheme } from '@redux/slices/theme';
 
-import InputWithSelect from '@ui/InputWithSelect';
 import Link from '@ui/Link';
-import LoadingStatus from '@ui/LoadingStatus';
-import SearchCard from '@ui/SearchCard';
+
+import MainSearch from '@components/MainSearch';
 
 import MoonSVG from '@assets/svg/moon';
 import SearchSVG from '@assets/svg/search';
@@ -37,13 +23,10 @@ import SunSVG from '@assets/svg/sun';
 
 import useAppDispatch from '@hooks/useAppDispatch';
 import useAppSelector from '@hooks/useAppSelector';
-import useDebounce from '@hooks/useDebounce';
-import useOnClickOutside from '@hooks/useOnClickOutside';
 
 import entries from '@utils/entries';
 import getOnlyText from '@utils/getOnlyText';
 import getRouteIcon from '@utils/getRouteIcon';
-import getSearchProps, { SearchPropsData } from '@utils/getSearchProps';
 
 import useHeaderStyles from './Header.styles';
 
@@ -51,57 +34,20 @@ const Header: FC = () => {
   const classes = useHeaderStyles();
   const dispatch = useAppDispatch();
   const themeIsLight = useAppSelector(getThemeIsLight);
-  const overlayIsVisible = useAppSelector(getOverlay);
-
-  const inputRef = useRef<HTMLInputElement>(null);
   const { asPath } = useRouter();
-  const {
-    searchValue,
-    loadingState,
-    searchType,
-    foundTitles,
-    mobileInputIsVisible,
-    selectSearchTypeIsOpen,
-  } = useAppSelector(getSearchByTypeState);
-  const currentRoute = getOnlyText(asPath) || ERouteName.home;
-  const inputPlaceholderTitle = searchType === ECollection.anime ? SEARCH_ANIME_PLACEHOLDER : SEARCH_MANGA_PLACEHOLDER;
-  const toggleTheme = () => dispatch(setTheme({ themeIsLight, wantUpdateLocalStorage: true }));
 
-  const onChangeInput = (currentValue: string) => {
-    dispatch(setSearchByTypeState({ searchValue: currentValue }));
-  };
+  const currentRoute = getOnlyText(asPath) || ERouteName.home;
+  const toggleTheme = () => dispatch(setTheme({ themeIsLight, wantUpdateLocalStorage: true }));
 
   const onOpenOverlay = () => {
     dispatch(setSearchByTypeState({ selectSearchTypeIsOpen: true }));
     dispatch(setOverlayVisible(true));
   };
 
-  const onCloseOverlay = () => {
-    if (overlayIsVisible) {
-      dispatch(setSearchByTypeDefaultState());
-      dispatch(setOverlayVisible(false));
-    }
-  };
-
-  const fetchItems = () => {
-    if (searchValue.trim().length) {
-      dispatch(fetchTitles({ type: searchType, searchValue }));
-    } else {
-      dispatch(setSearchByTypeState({ loadingState: ELoadingStatus.idle, foundTitles: [] }));
-    }
-  };
-
-  const showMobileInput = () => {
+  const onShowMobileInput = () => {
     onOpenOverlay();
     dispatch(setSearchByTypeState({ mobileInputIsVisible: true }));
   };
-
-  const onChangeSelectedType = (select: string) => {
-    dispatch(setSearchByTypeState({ searchType: select as ECollectionType }));
-  };
-
-  useOnClickOutside(inputRef, () => onCloseOverlay());
-  useDebounce(300, searchValue, fetchItems);
 
   return (
     <header className={classes.header}>
@@ -110,40 +56,7 @@ const Header: FC = () => {
           {APP_LOGO}
         </Link>
 
-        <div className={clsx(classes.inputWrapper, { [classes.showInput]: mobileInputIsVisible })} ref={inputRef}>
-          <InputWithSelect
-            value={searchValue}
-            selects={SELECT_SEARCH_TYPES}
-            onFocus={onOpenOverlay}
-            onChange={onChangeInput}
-            onSelect={onChangeSelectedType}
-            onClose={onCloseOverlay}
-            isFocused={loadingState === ELoadingStatus.idle && selectSearchTypeIsOpen}
-            placeholder={inputPlaceholderTitle}
-            currentSearchSelectType={searchType}
-          />
-
-          <LoadingStatus
-            isPending={loadingState === ELoadingStatus.pending }
-            isError={loadingState === ELoadingStatus.error}
-            className={classes.searchListLoadInfo}
-          />
-
-          {
-            foundTitles.length > 0
-                && <div className={classes.searchList}>
-                  {foundTitles.map((data) => {
-                    const searchProps = getSearchProps([searchType, data] as SearchPropsData);
-
-                    return searchProps ? <SearchCard
-                      {...searchProps}
-                      key={searchProps.id}
-                      onClick={onCloseOverlay}
-                    /> : searchProps;
-                  })}
-                </div>
-          }
-        </div>
+        <MainSearch onFocus={onOpenOverlay}/>
 
         <div className={classes.iconsWrapper}>
           {
@@ -155,7 +68,7 @@ const Header: FC = () => {
           }
 
           <Button
-            onClick={showMobileInput}
+            onClick={onShowMobileInput}
             className={clsx(classes.button, classes.showSearchButton)}>
             <SearchSVG fill={EColor.white} />
           </Button>
