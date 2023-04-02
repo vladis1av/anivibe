@@ -67,7 +67,6 @@ const Chapters: FC<ChaptersProps> = ({
     if (currentValue.length) {
       const res = filter(chapters, ({ ch, vol, title: chapterTitle = null }, i) => {
         const formatedTitle = formatTextWithoutSymbols(formatChapterTitle(vol, ch, chapterTitle).toLowerCase()) || '';
-        console.log('formatedTitle', formatedTitle);
         return Boolean(`${chapters.length - i}`.includes(currentValue.toLowerCase())
          || formatedTitle.includes(currentValue.toLowerCase()));
       });
@@ -78,6 +77,7 @@ const Chapters: FC<ChaptersProps> = ({
   };
 
   useEffect(() => {
+    setFilteredChapters(chapters);
     if (activeChapterId) {
       for (let i = 0; i < chapters.length; i++) {
         const { id } = chapters[i];
