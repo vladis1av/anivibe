@@ -1,6 +1,9 @@
+import { Theme } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 
-const useCardItemStyles = makeStyles(() => ({
+import { ETheme } from '@enums/enums';
+
+const useCardItemStyles = makeStyles((theme: Theme) => ({
   link: {
     display: 'flex',
     flexDirection: 'column',
@@ -40,7 +43,9 @@ const useCardItemStyles = makeStyles(() => ({
     height: 330,
 
     '&:hover': {
-      boxShadow: '0px 0px 11px 0px rgba(34, 60, 80, 0.50)',
+      boxShadow: theme.palette.mode === ETheme.light
+        ? '0px 0px 8px 2px rgba(0, 0, 0, 0.4)'
+        : '0px 0px 8px 2px rgba(255, 255, 255, 0.4)',
     },
   },
 }));
