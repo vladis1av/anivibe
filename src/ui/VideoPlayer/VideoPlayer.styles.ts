@@ -1,14 +1,17 @@
 import { Theme } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 
+import { ETheme } from '@enums/enums';
+
 const useVideoPlayerStyles = makeStyles((theme: Theme) => ({
   videoPlayerWrapper: {
     position: 'relative',
     paddingTop: '56.25%',
-    outline: 'none',
-    overflow: 'hidden',
     borderRadius: 8,
-    border: `1px solid ${theme.palette.text.secondary}`,
+    boxShadow: theme.palette.mode === ETheme.light
+      ? '0px 0px 15px 1px rgba(0, 0, 0, 0.4)'
+      : '0px 0px 15px 1px rgba(255, 255, 255, 0.4)',
+    outline: 'none',
   },
   videoPlayerFullScreen: {
     border: 'none',
@@ -16,12 +19,13 @@ const useVideoPlayerStyles = makeStyles((theme: Theme) => ({
   videoPlayerPlaylistWrapper: {
     transitionDelay: '0.2s',
     transition: 'opacity 0.2s ease-in-out, visibility 0.2s ease-in-out',
-    zIndex: 15,
+    zIndex: 20,
     position: 'absolute',
-    left: 5,
-    top: 5,
+    left: 4,
+    top: 4,
   },
   videoPlayerControls: {
+    flexDirection: 'column',
     transition: 'opacity 0.2s ease-in-out, visibility 0.2s ease-in-out',
     transitionDelay: '0.2s',
     position: 'absolute',
@@ -29,6 +33,8 @@ const useVideoPlayerStyles = makeStyles((theme: Theme) => ({
     visibility: 'hidden',
     zIndex: 15,
     bottom: 0,
+    borderBottomLeftRadius: 8,
+    borderBottomRightRadius: 8,
   },
   showVideoPlayerControls: {
     '& $videoPlayerPlaylistWrapper': {

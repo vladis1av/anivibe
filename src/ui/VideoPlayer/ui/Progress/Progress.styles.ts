@@ -7,8 +7,8 @@ const useProgressStyles = makeStyles(() => ({
     display: 'flex',
     alignItems: 'center',
     minWidth: '100%',
-    marginTop: 10,
     position: 'relative',
+    marginTop: 5,
   },
   videoPlayerProgressSlider: {
     color: EColor.white,

@@ -13,6 +13,22 @@ const usePlaylistStyles = makeStyles(() => ({
     marginTop: 5,
     color: EColor.white,
     overflow: 'hidden',
+    '& ul': {
+      maxHeight: '145px',
+    },
+    '@media (min-width: 0) and (max-width: 500px)': {
+      '& ul': {
+        maxHeight: '120px',
+      },
+    },
+    '@media (min-width: 0) and (max-width: 450px)': {
+      '& ul': {
+        maxHeight: '85px',
+      },
+    },
+  },
+  listbox: {
+    padding: '0px',
   },
   root: {
     borderRadius: 8,
