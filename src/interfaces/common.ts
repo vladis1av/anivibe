@@ -8,6 +8,7 @@ import {
   EMangaReliase,
   EMediaInfo,
   EReliase,
+  EReliaseKey,
   EScrollSide,
   EVideoPlayerMenu,
   EVideoPlayerStatus,
@@ -15,6 +16,7 @@ import {
 
 export type EReliaseType = keyof typeof EReliase;
 export type EMediaInfoValueType = `${EMediaInfo}`;
+export type EReliaseKeyType = keyof typeof EReliaseKey;
 export type EScrollSideType = keyof typeof EScrollSide;
 export type EButtonPlayType = keyof typeof EButtonPlay;
 export type EMangaReliaseType = keyof typeof EMangaReliase;
