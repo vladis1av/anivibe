@@ -6,6 +6,9 @@ import { ECollection, EReliase } from '@enums/enums';
 
 import { SearchCardProps } from '@ui/SearchCard/SearchCard';
 
+import generateAnimePath from './generateAnimePath';
+import generateMangaPath from './generateMangaPath';
+
 export type SearchPropsData = CollectionDataType<MangaBase, SearchAnimeType>;
 
 const getSearchProps = (data: SearchPropsData): SearchCardProps | null => {
@@ -19,26 +22,25 @@ const getSearchProps = (data: SearchPropsData): SearchCardProps | null => {
 
       return {
         id,
-        code,
         title: names.ru,
-        reliaseType: dataType,
         genres,
         mediaType: type.full_string,
         year: season.year,
+        pathTo: generateAnimePath(id, code) || code,
       };
     }
     case ECollection.manga: {
       const {
-        id, genres, russian, kind, image,
+        id, genres, russian, kind, image, name,
       } = item;
 
       return {
         id,
         title: russian,
-        reliaseType: dataType,
         genres,
         mediaType: EReliase[kind],
         imageUrl: image.preview,
+        pathTo: generateMangaPath(id, name) || `${id}`,
       };
     }
     default:
