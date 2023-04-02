@@ -2,7 +2,7 @@ import { GetMangaSeoProps } from '@interfaces/common';
 
 const getTitles = (pageNumber: number) => ['Читать мангу', 'Том', 'Глава', `[Страница ${pageNumber}]`];
 
-const getMangaSeoTitle = ({
+const getMangaSeoChapterTitle = ({
   title,
   page,
   chapter,
@@ -20,4 +20,4 @@ const getMangaSeoTitle = ({
   return string.join(' ');
 };
 
-export default getMangaSeoTitle;
+export default getMangaSeoChapterTitle;
