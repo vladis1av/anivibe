@@ -42,6 +42,8 @@ const useVideoPlayer = (
   } = state;
   // с status === EVideoPlayerStatus.loading лучше работает буферизация, хз почему
   const isPlaying = status === EVideoPlayerStatus.playing || status === EVideoPlayerStatus.loading;
+  const isError = status === EVideoPlayerStatus.error;
+  const isPaused = status === EVideoPlayerStatus.pause;
 
   const onChangeStatus = (
     loadingStatus: EVideoPlayerStatusType,
@@ -201,7 +203,9 @@ const useVideoPlayer = (
   };
 
   return ({
-    state: { ...state, isPlaying, screenfull },
+    state: {
+      ...state, isPlaying, screenfull, isError, isPaused,
+    },
     actions: {
       onChangeStatus,
       onVolumeMuteToggle,
