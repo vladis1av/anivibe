@@ -18,6 +18,7 @@ const useWatchOrSkipStyles = makeStyles(() => ({
     display: 'flex',
     alignItems: 'center',
     transition: 'opacity 0.2s ease-in-out',
+    color: EColor.white,
 
     '&:hover': {
       backgroundColor: EColor.darkTransparent,
