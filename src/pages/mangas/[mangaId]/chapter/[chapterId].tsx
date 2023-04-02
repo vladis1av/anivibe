@@ -21,7 +21,6 @@ import { MangaChapterList, MangaWithPages } from '@interfaces/manga';
 import { MangaChapterQuery, QueryType } from '@interfaces/query';
 
 import { NOT_FOUND_CHAPTER_ERROR } from '@constants/error';
-import { SEO_READ_MANGA_DESCRIPTION } from '@constants/seo';
 
 import Chapters from '@ui/Chapters';
 import Error from '@ui/Error';
@@ -33,13 +32,14 @@ import SeoHead from '@components/SeoHead';
 import MainLayout from '@layouts/MainLayout';
 
 import ArrowSVG from '@assets/svg/arrow';
+import CloseSVG from '@assets/svg/close';
 import MenuSVG from '@assets/svg/menu';
 
 import { getMangaChapterById } from '@services/api/manga';
 
 import generateMangaPath from '@utils/generateMangaPath';
 import getIdFromString from '@utils/getIdFromString';
-import getMangaSeoTitle from '@utils/getMangaSeoTitle';
+import getMangaSeoChapterTitle from '@utils/getMangaSeoChapterTitle';
 
 import useChapterPageStyles from '@styles/ChapterPage.styles';
 
@@ -91,6 +91,7 @@ const Chapter: FC<ChapterProps> = ({
     image,
     russian,
     name,
+    description,
     chapters,
   } = manga;
   const { ch_prev: chapterPrev, ch_next: chapterNext } = pages;
@@ -141,96 +142,101 @@ const Chapter: FC<ChapterProps> = ({
     setDrawerIsOpen(false);
   };
 
-  const seoTitle = getMangaSeoTitle({
+  const seoTitle = getMangaSeoChapterTitle({
     title: russian, page, chapter: ch, vol,
   });
 
-  const seoDescription = `${seoTitle}. ${SEO_READ_MANGA_DESCRIPTION}`;
+  const onCloseDrawer = () => setDrawerIsOpen(false);
 
   return (
     <MainLayout full>
       <SeoHead
         tabTitle={seoTitle}
         title={seoTitle}
-        description={seoDescription}
+        description={description}
         imageSource={image.preview}
       />
 
-      <div className={classes.content}>
-        <Drawer open={drawerIsOpen} onClose={() => setDrawerIsOpen(false)} className={classes.drawer}>
-          <Link
-            path={generateMangaPath(id, name)}
-            className={classes.link}
-          >
-            <div className={classes.poster}>
-              <ImageWithPlaceholder src={image.original} />
-            </div>
+      <Drawer open={drawerIsOpen} onClose={onCloseDrawer} className={classes.drawer}>
+        <Button className={clsx(classes.closeDrawerButton)} onClick={onCloseDrawer} variant="text">
+          <CloseSVG className={classes.closeDrawerButtonIcon} />
+        </Button>
 
-            <Typography className={classes.title} align="center" variant="h5" component="h1">
-              {russian}
-            </Typography>
-          </Link>
-
-          <Chapters
-            сhapters={chapters.list}
-            containerStyles={classes.chapterWrapper}
-            activeChapterId={activeChapter}
-            hideDate
-            onClickChapter={closeDrawer}
-          />
-        </Drawer>
-
-        <div className={classes.mainImageWrapper} style={{ maxWidth: width }}>
-          <ImageWithPlaceholder src={img} />
-
-          <div className={classes.mainImageControlerWrapper}>
-            <div className={classes.mainImageController} onClick={prevPage} />
-            <div className={classes.mainImageController} onClick={nextPage}/>
+        <Link
+          path={generateMangaPath(id, name)}
+          className={classes.link}
+        >
+          <div className={classes.poster}>
+            <ImageWithPlaceholder src={image.original} />
           </div>
+
+          <Typography className={classes.title} align="center" variant="h5" component="h1">
+            {russian}
+          </Typography>
+        </Link>
+
+        <Chapters
+          hideDate
+          itemSize={35}
+          contentFullHeight
+          fullWidthInput
+          chapters={chapters.list}
+          onClickChapter={closeDrawer}
+          activeChapterId={activeChapter}
+          containerStyles={classes.chapterWrapper}
+        />
+      </Drawer>
+
+      <div className={classes.mainImageWrapper} style={{ maxWidth: width, minHeight: '256px' }}>
+        <ImageWithPlaceholder src={img} spinerSize={55} showLoaderSpiner spinnerHeight={'85vh'}/>
+
+        <div className={classes.mainImageControlerWrapper}>
+          <div className={classes.mainImageController} onClick={prevPage} />
+          <div className={classes.mainImageController} onClick={nextPage}/>
+        </div>
+      </div>
+
+      <div className={classes.bottomControls}>
+        <div className={classes.miniPaginateControls}>
+          <Button className={clsx(classes.button, classes.buttonMenu)} onClick={drawerToggle} variant="outlined">
+            <MenuSVG className={classes.menuSvg}/>
+          </Button>
         </div>
 
-        <div className={classes.bottomControls}>
-          <div className={classes.miniPaginateControls}>
-            <Button onClick={drawerToggle} variant="outlined" className={clsx(classes.button, classes.buttonMenu)}>
-              <MenuSVG className={classes.menuSvg}/>
-            </Button>
-          </div>
+        <NativeSelect
+          variant="filled"
+          onChange={onChangePage}
+          value={page}
+          className={classes.pageSelect}
+        >
+          {pages.list.map(({ id: chapterId, page: pageNumber }) => (
+            <option
+              key={chapterId}
+              value={pageNumber}
+            >
+              {`${pageNumber} / ${pagesListLength}`}
+            </option>
+          ))}
+        </NativeSelect>
 
-          <NativeSelect
-            variant="filled"
-            onChange={onChangePage}
-            value={page}
-            className={classes.pageSelect}
+        <div className={classes.buttonsWrapper}>
+          <Button
+            className={clsx(classes.button, classes.buttonPrev)}
+            variant="outlined"
+            onClick={prevPage}
+            disabled={cantChangePrev}
           >
-            {pages.list.map(({ id: chapterId, page: pageNumber }) => (
-              <option
-                key={chapterId}
-                value={pageNumber}
-              >
-                {`${pageNumber} / ${pagesListLength}`}
-              </option>
-            ))}
-          </NativeSelect>
+            <ArrowSVG width={20} height={20}/>
+          </Button>
 
-          <div className={classes.buttonsWrapper}>
-            <Button
-              variant="outlined"
-              className={clsx(classes.button, classes.buttonPrev)}
-              onClick={prevPage}
-              disabled={cantChangePrev}
-            >
-              <ArrowSVG width={20} height={20}/>
-            </Button>
-
-            <Button
-              variant="outlined"
-              className={clsx(classes.button, classes.buttonNext)}
-              onClick={nextPage}
-              disabled={cantChangeNext}
-            >
-              <ArrowSVG width={20} height={20}/>
-            </Button>
-          </div>
+          <Button
+            className={clsx(classes.button, classes.buttonNext)}
+            variant="outlined"
+            onClick={nextPage}
+            disabled={cantChangeNext}
+          >
+            <ArrowSVG width={20} height={20}/>
+          </Button>
         </div>
       </div>
     </MainLayout>
