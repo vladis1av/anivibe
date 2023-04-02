@@ -8,7 +8,6 @@ import { MangaDetail } from '@interfaces/manga';
 import { ECollection } from '@enums/enums';
 
 import { NOT_FOUND_MANGA_ERROR } from '@constants/error';
-import { SEO_READ_MANGA_DESCRIPTION } from '@constants/seo';
 
 import Error from '@ui/Error';
 
@@ -21,6 +20,7 @@ import { getHightQualityBanner } from '@services/api/common';
 import { getMangaById } from '@services/api/manga';
 
 import getIdFromString from '@utils/getIdFromString';
+import getMangaSeoTitle from '@utils/getMangaSeoType';
 
 type MangaPageProps = {
   manga: (MangaDetail & BannerImage) | null;
@@ -43,11 +43,13 @@ const Manga: FC<MangaPageProps> = ({ manga }) => {
     bannerImageHightQuality,
   } = manga;
 
+  const seoTitle = `${russian} - ${getMangaSeoTitle(kind)}`;
+
   return (
     <MainLayout>
       <SeoHead
-        tabTitle={`${russian} - ${SEO_READ_MANGA_DESCRIPTION}`}
-        title={`${russian} - ${SEO_READ_MANGA_DESCRIPTION}`}
+        tabTitle={seoTitle}
+        title={seoTitle}
         description={description}
         imageSource={image.original}
       />
