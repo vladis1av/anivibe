@@ -20,19 +20,22 @@ const useCollectionStyles = makeStyles((theme: Theme) => ({
       paddingRight: 5,
     },
   },
+  collectionLink: {
+    color: 'inherit',
+    display: 'inline-block',
+  },
   collectionTitle: {
     fontSize: '1.5rem',
     fontWeight: 500,
     textOverflow: 'ellipsis',
     whiteSpace: 'nowrap',
     overflow: 'hidden',
-    color: 'inherit',
     display: 'flex',
     alignItems: 'center',
     transition: 'opacity 0.2s ease-out',
 
     '&:hover': {
-      opacity: 0.8,
+      opacity: 0.7,
     },
 
     '@media (min-width: 0) and (max-width: 500px)': {
@@ -53,18 +56,6 @@ const useCollectionStyles = makeStyles((theme: Theme) => ({
     '@media (min-width: 0) and (max-width: 500px)': {
       width: 20,
       height: 20,
-    },
-  },
-  collectionLink: {
-    color: 'inherit',
-    display: 'flex',
-    maxWidth: 1800,
-
-    '@media (min-width: 0) and (max-width: 1370px)': {
-      maxWidth: 1900,
-    },
-    '@media (min-width: 0) and (max-width: 400px)': {
-      maxWidth: 1910,
     },
   },
   slider: {
