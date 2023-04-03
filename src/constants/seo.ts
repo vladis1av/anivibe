@@ -17,8 +17,6 @@ export const MANGA_FILTERS_PAGE_KEYWORDS: string = `
 export const SEO_ANIME_WATCH_ONLINE_TEXT: string = 'Смотреть онлайн';
 export const SEO_MANGA_READ_ONLINE_TEXT: string = 'Читать онлайн';
 export const SEO_ANIME_DETAIL_PAGE_TITLE: string = `Смотреть или скачать аниме на ${APP_NAME_UPPER_CASE}`;
-export const SEO_READ_MANGA_DESCRIPTION: string = `
-Легко и удобно читать онлайн мангу ранобе и.тд на ${APP_NAME_UPPER_CASE}`;
 export const SEO_TITLE: string = `${APP_NAME_UPPER_CASE} - Cмотрите аниме или Читайте мангу`;
 export const SEO_DESCRIPTION: string = 'Cмотрите онлайн аниме или скачайте его через торрент,а также читайте мангу';
 export const SEO_KEYWORDS_APP: string = `

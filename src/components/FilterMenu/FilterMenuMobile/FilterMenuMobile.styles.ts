@@ -20,7 +20,7 @@ const useFilterMenuMobileStyles = makeStyles((theme: Theme) => ({
     top: 100,
     border: `1px solid ${EColor.white}`,
     padding: 2,
-    backdropFilter: 'blur(35px)',
+    backdropFilter: 'blur(55px)',
     backgroundColor: EColor.halfTransparentBlack,
 
     '&:hover': {
@@ -30,6 +30,7 @@ const useFilterMenuMobileStyles = makeStyles((theme: Theme) => ({
   filterMenuWrapper: {
     maxWidth: 310,
     boxShadow: '0 2px 8px 2px rgb(0 0 0 / 24%)',
+
     '@media (min-width: 0) and (max-width: 1025px)': {
       top: 60,
       right: 0,

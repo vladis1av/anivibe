@@ -13,6 +13,10 @@ const useHalfTransparentListItemStyles = makeStyles(() => ({
     padding: '12px 15px',
     position: 'relative',
 
+    '@media (min-width: 0) and (max-width: 400px)': {
+      padding: '8px 12px',
+    },
+
     '&:hover': {
       backgroundColor: EColor.lightTransparent,
     },

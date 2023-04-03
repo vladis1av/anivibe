@@ -70,7 +70,7 @@ const Playlist: FC<PlaylistProps> = memo(
         <Autocomplete
           disablePortal
           id="combo-box-demo"
-          noOptionsText="Серий 0"
+          noOptionsText="0 Серий"
           className={className}
           value={serie}
           classes={classes}

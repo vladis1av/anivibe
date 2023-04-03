@@ -8,6 +8,12 @@ const useImageWithPlaceholderStyles = makeStyles(() => ({
   image: {
     objectFit: 'cover',
   },
+  center: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: '100%',
+  },
   imageBlure: {
     top: 0,
     left: 0,

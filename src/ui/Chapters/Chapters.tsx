@@ -1,25 +1,34 @@
+/* eslint-disable no-bitwise */
 import {
   FC, useEffect, useState, createRef,
 } from 'react';
 
 import { useRouter } from 'next/router';
 
+import { Typography } from '@mui/material';
 import { clsx } from 'clsx';
 import AutoSizer from 'react-virtualized-auto-sizer';
 import { FixedSizeList, ListChildComponentProps } from 'react-window';
 
 import { MangaChapterList } from '@interfaces/manga';
+import { MangaChapterQuery, QueryType } from '@interfaces/query';
 
-import { ELinkPath } from '@enums/enums';
+import chapterIsActive from '@utils/chapterIsActive';
+import filter from '@utils/filter';
+import formatChapterTitle from '@utils/formatChapterTitle';
+import formatTextWithoutSymbols from '@utils/formatTextWithoutSymbols';
 
-import Link from '@ui/Link';
-
-import getDateFromUnix from '@utils/getDateFromUnix';
-
+import ChapterRow from './ChapterRow';
 import useChaptersStyles from './Chapters.styles';
+import ChapterSearch from './ChapterSearch';
 
 type ChaptersProps = {
-  сhapters: MangaChapterList[],
+  title?: string;
+  border?: boolean;
+  fullWidthInput?: boolean;
+  contentFullHeight?: boolean;
+  chapters: MangaChapterList[],
+  itemSize: number;
   activeChapterId?: string;
   hideDate?: boolean;
   containerStyles?: string;
@@ -27,7 +36,12 @@ type ChaptersProps = {
 };
 
 const Chapters: FC<ChaptersProps> = ({
-  сhapters,
+  title,
+  border,
+  contentFullHeight,
+  fullWidthInput,
+  chapters,
+  itemSize,
   activeChapterId,
   hideDate = false,
   containerStyles,
@@ -35,15 +49,39 @@ const Chapters: FC<ChaptersProps> = ({
 }) => {
   const classes = useChaptersStyles();
   const [activeRow, setActiveRow] = useState<number | null>(null);
-  const { query: { mangaId } } = useRouter();
+  const [filteredChapters, setFilteredChapters] = useState<MangaChapterList[] | []>(chapters);
+  const { query: { mangaId } } = useRouter() as unknown as QueryType<MangaChapterQuery>;
   const fixedSizeListRef = createRef<FixedSizeList<HTMLDivElement>>();
-  const checkChapterIsActive = (id: number) => Boolean(activeChapterId && id === Number(activeChapterId));
+
+  const getRow: FC<ListChildComponentProps<MangaChapterList[]>> = ({ data, index, style }) => <ChapterRow
+    data={data}
+    index={index}
+    style={style}
+    mangaId={mangaId}
+    hideDate={hideDate}
+    activeMangaChapterId={activeChapterId}
+    onClickChapter={onClickChapter}
+  />;
+
+  const filterData = (currentValue: string) => {
+    if (currentValue.length) {
+      const res = filter(chapters, ({ ch, vol, title: chapterTitle = null }, i) => {
+        const formatedTitle = formatTextWithoutSymbols(formatChapterTitle(vol, ch, chapterTitle).toLowerCase()) || '';
+        return Boolean(`${chapters.length - i}`.includes(currentValue.toLowerCase())
+         || formatedTitle.includes(currentValue.toLowerCase()));
+      });
+
+      return setFilteredChapters(res.length ? res : chapters);
+    }
+    return setFilteredChapters(chapters);
+  };
 
   useEffect(() => {
+    setFilteredChapters(chapters);
     if (activeChapterId) {
-      for (let i = 0; i < сhapters.length; i++) {
-        const { id } = сhapters[i];
-        if (checkChapterIsActive(id)) {
+      for (let i = 0; i < chapters.length; i++) {
+        const { id } = chapters[i];
+        if (chapterIsActive(id, activeChapterId)) {
           setActiveRow(i);
           break;
         }
@@ -53,59 +91,44 @@ const Chapters: FC<ChaptersProps> = ({
     if (fixedSizeListRef.current && activeRow) {
       fixedSizeListRef.current.scrollToItem(activeRow, 'center');
     }
-  }, [сhapters, activeChapterId, fixedSizeListRef.current, activeRow]);
-
-  const ChapterRow: FC<ListChildComponentProps<MangaChapterList[]>> = ({ data, index, style }) => {
-    const {
-      title: chapterTitle, ch, date, vol, id,
-    } = data[index];
-
-    return (
-      <div
-        className={classes.chapters}
-        style={style}
-      >
-        <Link
-          path={`${ELinkPath.mangas}/${mangaId}${ELinkPath.chapter}/${id}`}
-          className={
-            clsx(classes.link, { [classes.linkActive]: checkChapterIsActive(id) })
-          }
-          onClick={onClickChapter}
-        >
-          <span className={classes.text}>
-            {`#${data.length - index}. Том ${vol}. Глава ${ch} ${chapterTitle ? `- ${chapterTitle}` : ''}`}
-          </span>
-        </Link>
-
-        {
-          !hideDate && <span className={clsx(classes.text, classes.date)}>
-            {getDateFromUnix(date)}
-          </span>
-        }
-      </div>
-    );
-  };
+  }, [chapters, activeChapterId, fixedSizeListRef.current, activeRow]);
 
   return (
-    <div className={clsx(classes.chaptersContent, containerStyles)}>
-      {// @ts-ignore maybe react-18 error 'AutoSizer' cannot be used as a JSX component.
-        <AutoSizer>
-          { ({ height, width }) => (
-            // @ts-ignore maybe react-18 error 'FixedSizeList' cannot be used as a JSX component.
-            <FixedSizeList
-              itemData={сhapters}
-              // @ts-ignore i dont know how typed this ref. fix in future
-              ref={fixedSizeListRef}
-              height={height}
-              itemCount={сhapters.length}
-              itemSize={35}
-              width={width}
-            >
-              {ChapterRow}
-            </FixedSizeList>
-          )}
-        </AutoSizer>
-      }
+    <div className={clsx(classes.chapterWrapper, { [classes.chapterWrapperBorder]: border })}>
+
+      <header className={classes.chapterHeader}>
+        {title && <Typography className={classes.chapterHeaderTitle} variant="h3" component="h3">
+          {title}
+        </Typography>}
+
+        <ChapterSearch debounceCallback={filterData} fullWidthInput={fullWidthInput} />
+      </header>
+
+      <div
+        className={clsx(
+          classes.chaptersContent,
+          containerStyles,
+          { [classes.chaptersContentFullHeight]: contentFullHeight },
+        )}>
+        {// @ts-ignore maybe react-18 error 'AutoSizer' cannot be used as a JSX component.
+          <AutoSizer>
+            { ({ height, width }) => (
+              // @ts-ignore maybe react-18 error 'FixedSizeList' cannot be used as a JSX component.
+              <FixedSizeList
+                itemData={filteredChapters}
+                // @ts-ignore i dont know how typed this ref. fix in future
+                ref={fixedSizeListRef}
+                height={height}
+                itemCount={filteredChapters.length}
+                itemSize={itemSize}
+                width={width}
+              >
+                {getRow}
+              </FixedSizeList>
+            )}
+          </AutoSizer>
+        }
+      </div>
     </div>
   );
 };

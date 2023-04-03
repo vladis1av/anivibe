@@ -26,25 +26,27 @@ type CarouselProps = {
   children: ReactNode;
   showControls?: boolean;
   showMoreLink?: string;
+  childMaxWidth?: number;
 };
 
 const Carousel: FC<CarouselProps> = ({
   children,
   showControls = true,
   showMoreLink,
+  childMaxWidth,
 }) => {
   const classes = useCarouselStyles();
-
+  const currentChildWidth = childMaxWidth ? `${childMaxWidth}px` : undefined;
   const [buttonIsHidden, setButtonIsHidden] = useState<ButtonSideType>(EButtonSide.prev);
-  const [childMaxWidth, setChildMaxWidth] = useState<string | undefined>(undefined);
+  const [childMaxWidthWithPx, setChildMaxWidthWithPx] = useState<string | undefined>(currentChildWidth);
 
   const carouselListRef = useRef<HTMLUListElement | null>(null);
 
   const getButtonHiddenStyle = (condition: ButtonSideType) => (buttonIsHidden === condition ? classes.hideButton : '');
 
   const scrollTo = (scrollSide: EScrollSideType) => () => {
-    if (carouselListRef.current && showControls && childMaxWidth) {
-      const scrollWidth = Number(childMaxWidth.slice(0, childMaxWidth.length - 2)) * 2;
+    if (carouselListRef.current && showControls && childMaxWidthWithPx) {
+      const scrollWidth = Number(childMaxWidthWithPx.slice(0, childMaxWidthWithPx.length - 2)) * 2;
       const valueToScroll = scrollSide === EScrollSide.right ? scrollWidth : -scrollWidth;
 
       carouselListRef.current.scrollBy({
@@ -77,8 +79,8 @@ const Carousel: FC<CarouselProps> = ({
     if (carouselListRef.current) {
       const elment = carouselListRef.current?.firstElementChild?.firstElementChild;
 
-      if (elment) {
-        setChildMaxWidth(getComputedStyle(elment).width);
+      if (elment && !childMaxWidthWithPx) {
+        setChildMaxWidthWithPx(getComputedStyle(elment).width);
       }
 
       carouselListRef.current.addEventListener('scroll', setControlsVisible);
@@ -95,12 +97,12 @@ const Carousel: FC<CarouselProps> = ({
   return (
     <div className={classes.carousel}>
       <ul className={classes.carouselList} ref={carouselListRef}>
-        {React.Children.map(children, (child) => <CarouselItem maxWidth={childMaxWidth}>
+        {React.Children.map(children, (child) => <CarouselItem maxWidth={childMaxWidthWithPx}>
           {child}
         </CarouselItem>)}
 
         {
-          showMoreLink && <CarouselItem maxWidth={childMaxWidth}>
+          showMoreLink && <CarouselItem maxWidth={childMaxWidthWithPx}>
             <ShowMoreLink link={showMoreLink}/>
           </CarouselItem>
         }

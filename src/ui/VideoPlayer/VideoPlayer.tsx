@@ -11,8 +11,6 @@ import { Player } from '@interfaces/anime';
 import { VideoPlayerRef } from '@interfaces/common';
 import { QueryType, VideoPlayerEpisodeQuery } from '@interfaces/query';
 
-import { EVideoPlayerStatus } from '@enums/enums';
-
 import { USER_ACTIVITY_EVENTS } from '@constants/common';
 
 import useCheckUserActivity from '@hooks/useCheckUserActivity';
@@ -32,7 +30,8 @@ type VideoPlayerProps = {
   player: Player;
 };
 
-const VideoPlayer: FC<VideoPlayerProps> = ({ player: { host, playlist } }) => {
+const VideoPlayer: FC<VideoPlayerProps> = ({ player }) => {
+  const { host, playlist } = player;
   const route = useRouter();
   const { query: { episode = '1' } } = route as unknown as QueryType<VideoPlayerEpisodeQuery>;
   const classes = useVideoPlayerStyles();
@@ -53,6 +52,8 @@ const VideoPlayer: FC<VideoPlayerProps> = ({ player: { host, playlist } }) => {
       playbackRate,
       playedSeconds,
       volume,
+      isError,
+      isPaused,
       isPlaying,
       screenfull,
     },
@@ -78,8 +79,11 @@ const VideoPlayer: FC<VideoPlayerProps> = ({ player: { host, playlist } }) => {
 
   const { hls, skips: { opening, ending } } = playlist[sourceIndex]
   ?? { hls: {}, skips: { opening: [], ending: [] }, serie: 0 };
-
   const playlistLength = playlist ? playlist.length : 0;
+
+  useEffect(() => {
+    onAutoQuality(hls);
+  }, [hls, sourceIndex, playlist]);
 
   useEffect(() => {
     const currentEpisode = Number(episode);
@@ -89,11 +93,7 @@ const VideoPlayer: FC<VideoPlayerProps> = ({ player: { host, playlist } }) => {
     } else {
       onChangeSource({ currentEpisode });
     }
-  }, []);
-
-  useEffect(() => {
-    onAutoQuality(hls);
-  }, [hls, sourceIndex]);
+  }, [playlist, episode]);
 
   useCheckUserActivity({
     onActive,
@@ -114,6 +114,8 @@ const VideoPlayer: FC<VideoPlayerProps> = ({ player: { host, playlist } }) => {
     };
   }, [screenfull, playerIsFocused, volume, duration, playedSeconds, status, videoPlayerRef.current]);
 
+  const URL = hls[currentQuality] ? `https://${host}${hls[currentQuality]}` : undefined;
+
   return (
     <div
       tabIndex={0}
@@ -122,7 +124,7 @@ const VideoPlayer: FC<VideoPlayerProps> = ({ player: { host, playlist } }) => {
       onBlur={onVideoPlayerBlure}
       className={
         clsx(classes.videoPlayerWrapper, {
-          [classes.showVideoPlayerControls]: status === EVideoPlayerStatus.error || Boolean(settingsMenu),
+          [classes.showVideoPlayerControls]: isError || Boolean(settingsMenu) || isPaused,
           [classes.showVideoPlayerControlsOnHover]: played,
           [classes.hideVideoPlayerControls]: isFullScreen && !controlsIsActive,
           [classes.videoPlayerFullScreen]: isFullScreen,
@@ -137,13 +139,14 @@ const VideoPlayer: FC<VideoPlayerProps> = ({ player: { host, playlist } }) => {
         id="video-player"
         playing={isPlaying}
         onBuffer={onSetBuffer}
+        key={URL}
         onBufferEnd={onSetBuffer}
         playerref={videoPlayerRef}
         playbackRate={playbackRate}
         onDuration={onChangeDuration}
         onProgress={onChangeProgress}
         onPlaybackRateChange={onPlaybackRateChange}
-        url={`https://${host}${hls[currentQuality]}`}
+        url={URL}
         onError={(_, data) => {
           if (data?.fatal) {
             onError();
@@ -153,6 +156,7 @@ const VideoPlayer: FC<VideoPlayerProps> = ({ player: { host, playlist } }) => {
           top: 0,
           left: 0,
           borderRadius: 8,
+          display: 'flex',
           overflow: 'hidden',
           position: 'absolute', // не хочет во время смены темы сохранять стили, пускай пока что так тогда
         }}

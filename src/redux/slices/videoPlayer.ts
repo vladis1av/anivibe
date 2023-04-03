@@ -51,7 +51,7 @@ const initialState: VideoPlayerState = {
   played: 0,
   playedSeconds: 0,
   prevPlayedSeconds: 0,
-  volume: 0.2,
+  volume: 1.0,
   prevVolume: 1,
 };
 
@@ -119,7 +119,7 @@ export const videoPlayerSlice = createSlice({
       const qualityList = entries(payload);
       const qualityListLength = qualityList.length;
 
-      if (!qualityList.length) {
+      if (!qualityListLength) {
         state.status = EVideoPlayerStatus.error;
         return;
       }

@@ -43,6 +43,12 @@ export enum EMangaReliase {
   manhua = 'Маньхуа',
 }
 
+export enum EReliaseKey {
+  manga = 'manga',
+  manhwa = 'manhwa',
+  manhua = 'manhua',
+}
+
 export enum EAnimeReliase {
   tv = 'TV',
   movie = 'Фильм',

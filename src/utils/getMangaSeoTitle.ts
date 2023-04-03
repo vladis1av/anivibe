@@ -1,23 +1,29 @@
-import { GetMangaSeoProps } from '@interfaces/common';
+import { EReliaseKeyType } from '@interfaces/common';
 
-const getTitles = (pageNumber: number) => ['Читать мангу', 'Том', 'Глава', `[Страница ${pageNumber}]`];
+import { EMangaReliase, EReliaseKey } from '@enums/enums';
 
-const getMangaSeoTitle = ({
-  title,
-  page,
-  chapter,
-  vol,
-}: GetMangaSeoProps) => {
-  const titles = getTitles(page);
-  const string: string[] = [];
+import { APP_NAME_UPPER_CASE } from '@constants/seo';
 
-  [title, vol, chapter, page].forEach((value, idx, array) => {
-    if (value || value === 0) {
-      string.push(array.length === idx + 1 ? titles[idx] : `${titles[idx]} ${value}`);
-    }
-  });
+import replaceLastCharacter from './replaceLastCharacter';
 
-  return string.join(' ');
+const getTitle = (type: string) => `Легко и удобно читать ${type} онлайн на ${APP_NAME_UPPER_CASE}`;
+
+const getMangaSeoTitle = (mangaType: EReliaseKeyType) => {
+  const reliaseType = EMangaReliase[mangaType];
+  const defaultType = replaceLastCharacter(reliaseType, 'у');
+  const title = getTitle(defaultType);
+
+  switch (mangaType) {
+    case EReliaseKey.manga:
+    case EReliaseKey.manhwa:
+      return title;
+
+    case EReliaseKey.manhua:
+      return getTitle(reliaseType);
+
+    default:
+      return title;
+  }
 };
 
 export default getMangaSeoTitle;

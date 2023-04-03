@@ -7,22 +7,22 @@ const useControlsStyles = makeStyles(() => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    height: 60,
+    height: 65,
     padding: '0 10px',
   },
   videoPlayerWatchOrSkipButtons: {
     position: 'absolute',
     zIndex: 12,
-    bottom: 55,
-
+    bottom: 65,
   },
   videoPlayerWatchOrSkipButtonsStart: {
-    left: 8,
+    left: 10,
   },
   videoPlayerWatchOrSkipButtonsEnd: {
-    right: 8,
+    right: 10,
   },
   videoPlayerControlsList: {
+    marginTop: 5,
     display: 'flex',
     justifyContent: 'space-between',
     width: '100%',
@@ -30,6 +30,7 @@ const useControlsStyles = makeStyles(() => ({
   videoPlayerControlsListItem: {
     display: 'flex',
     alignItems: 'center',
+    height: 32,
   },
 }));
 
