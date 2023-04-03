@@ -119,7 +119,7 @@ export const videoPlayerSlice = createSlice({
       const qualityList = entries(payload);
       const qualityListLength = qualityList.length;
 
-      if (!qualityList.length) {
+      if (!qualityListLength) {
         state.status = EVideoPlayerStatus.error;
         return;
       }

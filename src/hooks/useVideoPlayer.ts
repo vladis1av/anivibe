@@ -134,7 +134,6 @@ const useVideoPlayer = (
   const onChangeQuality = (qualityKey: EHlsQualityType) => dispatch(setVideoPlayerState({
     prevPlayedSeconds: playedSeconds,
     currentQuality: qualityKey,
-    status: EVideoPlayerStatus.playing,
     settingsMenu: null,
   }));
 

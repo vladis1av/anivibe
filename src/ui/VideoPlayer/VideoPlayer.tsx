@@ -30,7 +30,8 @@ type VideoPlayerProps = {
   player: Player;
 };
 
-const VideoPlayer: FC<VideoPlayerProps> = ({ player: { host, playlist } }) => {
+const VideoPlayer: FC<VideoPlayerProps> = ({ player }) => {
+  const { host, playlist } = player;
   const route = useRouter();
   const { query: { episode = '1' } } = route as unknown as QueryType<VideoPlayerEpisodeQuery>;
   const classes = useVideoPlayerStyles();
@@ -78,8 +79,11 @@ const VideoPlayer: FC<VideoPlayerProps> = ({ player: { host, playlist } }) => {
 
   const { hls, skips: { opening, ending } } = playlist[sourceIndex]
   ?? { hls: {}, skips: { opening: [], ending: [] }, serie: 0 };
-
   const playlistLength = playlist ? playlist.length : 0;
+
+  useEffect(() => {
+    onAutoQuality(hls);
+  }, [hls, sourceIndex, playlist]);
 
   useEffect(() => {
     const currentEpisode = Number(episode);
@@ -89,11 +93,7 @@ const VideoPlayer: FC<VideoPlayerProps> = ({ player: { host, playlist } }) => {
     } else {
       onChangeSource({ currentEpisode });
     }
-  }, []);
-
-  useEffect(() => {
-    onAutoQuality(hls);
-  }, [hls, sourceIndex]);
+  }, [playlist, episode]);
 
   useCheckUserActivity({
     onActive,
@@ -113,6 +113,8 @@ const VideoPlayer: FC<VideoPlayerProps> = ({ player: { host, playlist } }) => {
       screenfull.off('change', onChangeFullScreen);
     };
   }, [screenfull, playerIsFocused, volume, duration, playedSeconds, status, videoPlayerRef.current]);
+
+  const URL = hls[currentQuality] ? `https://${host}${hls[currentQuality]}` : undefined;
 
   return (
     <div
@@ -137,13 +139,14 @@ const VideoPlayer: FC<VideoPlayerProps> = ({ player: { host, playlist } }) => {
         id="video-player"
         playing={isPlaying}
         onBuffer={onSetBuffer}
+        key={URL}
         onBufferEnd={onSetBuffer}
         playerref={videoPlayerRef}
         playbackRate={playbackRate}
         onDuration={onChangeDuration}
         onProgress={onChangeProgress}
         onPlaybackRateChange={onPlaybackRateChange}
-        url={`https://${host}${hls[currentQuality]}`}
+        url={URL}
         onError={(_, data) => {
           if (data?.fatal) {
             onError();
