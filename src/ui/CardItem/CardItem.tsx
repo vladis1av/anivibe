@@ -34,7 +34,7 @@ const CardItem: FC<CardItemProps> = ({
   return (
     <Link path={pathTo} className={clsx(classes.link, className, { [classes.big]: big })}>
 
-      <ImageWithPlaceholder src={currentImage} className={classes.image}/>
+      <ImageWithPlaceholder src={currentImage} className={classes.image} />
 
       {title && <div className={classes.cardItemContent}>
         <Typography align="center" variant="h5" component="h2" className={classes.title}>

@@ -188,18 +188,18 @@ const Chapter: FC<ChapterProps> = ({
       </Drawer>
 
       <div className={classes.mainImageWrapper} style={{ maxWidth: width, minHeight: '256px' }}>
-        <ImageWithPlaceholder src={img} spinerSize={55} showLoaderSpiner spinnerHeight={'85vh'}/>
+        <ImageWithPlaceholder src={img} spinerSize={55} showLoaderSpiner spinnerHeight={'85vh'} />
 
         <div className={classes.mainImageControlerWrapper}>
           <div className={classes.mainImageController} onClick={prevPage} />
-          <div className={classes.mainImageController} onClick={nextPage}/>
+          <div className={classes.mainImageController} onClick={nextPage} />
         </div>
       </div>
 
       <div className={classes.bottomControls}>
         <div className={classes.miniPaginateControls}>
           <Button className={clsx(classes.button, classes.buttonMenu)} onClick={drawerToggle} variant="outlined">
-            <MenuSVG className={classes.menuSvg}/>
+            <MenuSVG className={classes.menuSvg} />
           </Button>
         </div>
 
@@ -226,7 +226,7 @@ const Chapter: FC<ChapterProps> = ({
             onClick={prevPage}
             disabled={cantChangePrev}
           >
-            <ArrowSVG width={20} height={20}/>
+            <ArrowSVG width={20} height={20} />
           </Button>
 
           <Button
@@ -235,7 +235,7 @@ const Chapter: FC<ChapterProps> = ({
             onClick={nextPage}
             disabled={cantChangeNext}
           >
-            <ArrowSVG width={20} height={20}/>
+            <ArrowSVG width={20} height={20} />
           </Button>
         </div>
       </div>
