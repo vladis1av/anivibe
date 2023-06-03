@@ -16,6 +16,8 @@ import { ELoadingStatus } from '@enums/enums';
 
 import { PLACEHOLDER_POSTER, POSTER_NOT_FOUND } from '@constants/common';
 
+import useCommonStyles from '@styles/Common.styles';
+
 import useImageWithPlaceholderStyles from './ImageWithPlaceholder.styles';
 
 type ImageWithPlacefolderProps = ImgHTMLAttributes<HTMLImageElement> & {
@@ -50,11 +52,14 @@ const ImageWithPlaceholder: FC<ImageWithPlacefolderProps> = ({
   spinnerWidth,
 }) => {
   const classes = useImageWithPlaceholderStyles();
+  const commonClasses = useCommonStyles();
+
   const [loadingStatus, setLoadingStatus] = useState<ELoadingStatusType>(ELoadingStatus.pending);
   const imageIsSuccess = loadingStatus !== ELoadingStatus.pending && loadingStatus !== ELoadingStatus.error;
 
   const imageSource = imageIsSuccess ? src : placeholderImg;
-  const imageError = loadingStatus === ELoadingStatus.error && errorImage;
+  const imageErrorSource = loadingStatus === ELoadingStatus.error && errorImage;
+  const loadingStatusIsPending = loadingStatus === ELoadingStatus.pending;
   const loadingStatusIsReset = loadingStatus === ELoadingStatus.success || loadingStatus === ELoadingStatus.error;
 
   const onLoad = useCallback(() => {
@@ -72,6 +77,7 @@ const ImageWithPlaceholder: FC<ImageWithPlacefolderProps> = ({
 
   useEffect(() => {
     const img = new Image();
+
     if (inView) {
       if (loadingStatusIsReset) {
         setLoadingStatus(ELoadingStatus.pending);
@@ -80,6 +86,7 @@ const ImageWithPlaceholder: FC<ImageWithPlacefolderProps> = ({
       img.addEventListener('load', onLoad);
       img.addEventListener('error', onError);
     }
+
     return () => {
       img.removeEventListener('load', onLoad);
       img.removeEventListener('error', onError);
@@ -88,17 +95,36 @@ const ImageWithPlaceholder: FC<ImageWithPlacefolderProps> = ({
 
   return (
     <div ref={ref} className={clsx(classes.imageWrapper, className)}>
-      {
-        showLoaderSpiner && loadingStatus === ELoadingStatus.pending
-          ? <div className={clsx(classes.image, classes.center)} style={{ width: spinnerWidth, height: spinnerHeight }}>
-            <CircularProgress size={spinerSize} color="primary" />
-          </div>
-          : <>
-            <img src={imageError || imageSource} alt={alt} className={classes.image} width={width} height={height} />
+      <img
+        alt={alt}
+        width={width}
+        height={height}
+        src={imageErrorSource || imageSource}
+        className={classes.image}
+      />
 
-            {imageIsSuccess && blure && <div className={classes.imageBlure} />}
-          </>
+      <div className={
+        clsx(
+          classes.imageBlure,
+          commonClasses.hide,
+          { [commonClasses.show]: loadingStatusIsPending || blure },
+        )
       }
+      />
+
+      <div
+        style={{ width: spinnerWidth, height: spinnerHeight }}
+        className={
+          clsx(
+            classes.image,
+            classes.center,
+            commonClasses.hide,
+            { [commonClasses.show]: showLoaderSpiner && loadingStatusIsPending },
+          )
+        }
+      >
+        <CircularProgress size={spinerSize} color="primary" />
+      </div>
     </div>
   );
 };
