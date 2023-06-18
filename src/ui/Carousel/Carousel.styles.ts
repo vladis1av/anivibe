@@ -6,6 +6,9 @@ const useCarouselStyles = makeStyles(() => ({
   carousel: {
     width: '100%',
     position: 'relative',
+    overflowX: 'hidden',
+    transition: 'transform 0.5s',
+
     '&:hover': {
       '& $button': {
         transition: 'all 0.2s ease-out',
@@ -14,14 +17,17 @@ const useCarouselStyles = makeStyles(() => ({
       },
     },
   },
-  carouselList: {
+  carouselListScrollSnap: {
     scrollPadding: '4rem',
     scrollSnapType: 'x mandatory',
+    scrollBehavior: 'smooth',
+  },
+  carouselList: {
     scrollbarWidth: 'none',
     overscrollBehaviorX: 'contain',
     overflowX: 'auto',
     whiteSpace: 'nowrap',
-    transition: 'transform 0.3s',
+    transition: 'transform 0.5s',
     display: 'flex',
     padding: '15px 0',
 
@@ -42,37 +48,6 @@ const useCarouselStyles = makeStyles(() => ({
         flex: '0 0 5px',
       },
     },
-  },
-  button: {
-    position: 'absolute',
-    height: 'calc(100% - 30px)',
-    top: '50%',
-    transform: 'translateY(-50%)',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: 0,
-    minWidth: 44,
-    opacity: 0,
-    transition: 'all 0.2s ease-out',
-    borderRadius: 0,
-  },
-  buttonPrev: {
-    left: 0,
-    borderTopRightRadius: 22,
-    borderBottomRightRadius: 22,
-  },
-  buttonNext: {
-    right: 0,
-    borderTopLeftRadius: 22,
-    borderBottomLeftRadius: 22,
-  },
-  nextSvg: {
-    transform: 'rotate(180deg)',
-  },
-  hideButton: {
-    opacity: '0!important',
-    cursor: 'default',
   },
 }));
 
