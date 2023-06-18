@@ -1,26 +1,31 @@
 import React, {
   FC,
+  MouseEvent,
   ReactNode,
-  useCallback,
+  WheelEvent,
   useEffect,
   useRef,
   useState,
 } from 'react';
 
-import Button from '@mui/material/Button';
 import clsx from 'clsx';
 
 import { ButtonSideType, EScrollSideType } from '@interfaces/common';
 
 import { EButtonSide, EScrollSide } from '@enums/enums';
 
-import { CAROUSEL_ARROW_SVG_SIZE } from '@constants/common';
-
-import ArrowSVG from '@assets/svg/arrow';
-
 import useCarouselStyles from './Carousel.styles';
 import CarouselItem from './CarouselItem';
+import Controls from './Controls/Controls';
 import ShowMoreLink from './ShowMoreLink';
+
+type UListMouseEvent = MouseEvent<HTMLUListElement>;
+
+type ScrollState = {
+  isPressed: boolean;
+  clientX: number;
+  scrollX: number;
+};
 
 type CarouselProps = {
   children: ReactNode;
@@ -28,6 +33,8 @@ type CarouselProps = {
   showMoreLink?: string;
   childMaxWidth?: number;
 };
+
+// carousel for any components
 
 const Carousel: FC<CarouselProps> = ({
   children,
@@ -37,50 +44,161 @@ const Carousel: FC<CarouselProps> = ({
 }) => {
   const classes = useCarouselStyles();
   const currentChildWidth = childMaxWidth ? `${childMaxWidth}px` : undefined;
-  const [buttonIsHidden, setButtonIsHidden] = useState<ButtonSideType>(EButtonSide.prev);
-  const [childMaxWidthWithPx, setChildMaxWidthWithPx] = useState<string | undefined>(currentChildWidth);
 
+  const [scrollWidth, setScrollWidth] = useState<number>(0);
+  const [hiddenButtonSide, setHiddenButtonSide] = useState<ButtonSideType>(EButtonSide.prev);
+  const [childMaxWidthWithPx, setChildMaxWidthWithPx] = useState<string | undefined>(currentChildWidth);
   const carouselListRef = useRef<HTMLUListElement | null>(null);
 
-  const getButtonHiddenStyle = (condition: ButtonSideType) => (buttonIsHidden === condition ? classes.hideButton : '');
+  const [{
+    isPressed,
+    clientX,
+    scrollX,
+  }, setState] = useState<ScrollState>({
+    isPressed: false,
+    clientX: 0,
+    scrollX: 0,
+  });
 
-  const scrollTo = (scrollSide: EScrollSideType) => () => {
-    if (carouselListRef.current && showControls && childMaxWidthWithPx) {
-      const scrollWidth = Number(childMaxWidthWithPx.slice(0, childMaxWidthWithPx.length - 2)) * 2;
-      const valueToScroll = scrollSide === EScrollSide.right ? scrollWidth : -scrollWidth;
+  const scrollXIsLessZero = (currentScrollX: number): boolean => currentScrollX < 0;
+  const getScrollX = (currentClientX: number): number => scrollX - currentClientX + clientX;
+  const scrollXIsGreaterSrollWidth = (currentScrollX: number): boolean => currentScrollX > scrollWidth;
+  const scrollSideIsLeft = (currentScrollSide: EScrollSideType): boolean => currentScrollSide === EScrollSide.left;
 
-      carouselListRef.current.scrollBy({
-        left: valueToScroll,
-        behavior: 'smooth',
+  const setControlsVisible = () => {
+    if (carouselListRef.current && showControls) {
+      const scrollIsEnd = (carouselListRef.current.offsetWidth + carouselListRef.current.scrollLeft)
+           >= carouselListRef.current.scrollWidth;
+      const scrollIsStart = !carouselListRef.current.scrollLeft;
+
+      if (scrollIsStart) {
+        setHiddenButtonSide(EButtonSide.prev);
+      }
+      if (scrollIsEnd) {
+        setHiddenButtonSide(EButtonSide.next);
+      }
+      if (!scrollIsEnd && !scrollIsStart) {
+        setHiddenButtonSide(null);
+      }
+    }
+  };
+
+  const scrollTo = (scrollValue: number, behavior: 'smooth' | 'auto') => {
+    if (carouselListRef.current) {
+      carouselListRef.current.scrollTo({
+        left: scrollValue,
+        behavior,
       });
     }
   };
 
-  const hideButton = (condition: boolean, buttonSide: ButtonSideType) => {
-    if (condition) {
-      setButtonIsHidden(buttonSide);
+  const onScrollX = (scrollToValue: number, currentScrollX: number, currentClientX?: number) => {
+    if (carouselListRef.current) {
+      if (scrollXIsLessZero(currentScrollX)) {
+        scrollTo(-scrollWidth, 'smooth');
+        setState((prevState) => ({ ...prevState, scrollX: 0, clientX: currentClientX || prevState.clientX }));
+        return;
+      }
+
+      if (scrollXIsGreaterSrollWidth(currentScrollX)) {
+        scrollTo(scrollWidth, 'smooth');
+        setState((prevState) => ({ ...prevState, scrollX: scrollWidth, clientX: currentClientX || prevState.clientX }));
+        return;
+      }
+
+      scrollTo(scrollToValue, 'smooth');
+      setState((prevState) => ({
+        ...prevState,
+        scrollX: currentScrollX,
+        clientX: currentClientX || prevState.clientX,
+      }));
     }
   };
 
-  const setControlsVisible = useCallback(() => {
-    const currentRef = carouselListRef.current;
-    if (showControls && currentRef) {
-      const scrollIsEnd = (currentRef.offsetWidth + currentRef.scrollLeft)
-           >= currentRef.scrollWidth;
-      const scrollIsStart = !currentRef.scrollLeft;
-
-      hideButton(scrollIsStart, EButtonSide.prev);
-      hideButton(scrollIsEnd, EButtonSide.next);
-      hideButton(!scrollIsEnd && !scrollIsStart, null);
+  const scrollBySide = (scrollSide: EScrollSideType) => () => {
+    if (carouselListRef.current && showControls && childMaxWidthWithPx) {
+      const scrollElemWidth = Number(childMaxWidthWithPx.slice(0, childMaxWidthWithPx.length - 2)) * 2;
+      const currentScrollSideIsLeft = scrollSideIsLeft(scrollSide);
+      const valueToScroll = currentScrollSideIsLeft ? -scrollElemWidth : scrollElemWidth;
+      const sXValue = currentScrollSideIsLeft
+        ? Math.round(scrollX - scrollElemWidth)
+        : Math.round(scrollX + scrollElemWidth);
+      onScrollX(valueToScroll + carouselListRef.current.scrollLeft, sXValue);
     }
-  }, []);
+  };
+
+  const setCarouselTranslate = (translateValue: number) => {
+    if (!carouselListRef.current) return;
+    carouselListRef.current.style.transform = `translate(${(translateValue)}%)`;
+  };
+
+  const getCarouselTranslateBounce = (
+    currentX: number,
+    isStartScrollBounce?: boolean,
+  ) => {
+    const bounce = currentX / 100;
+    return isStartScrollBounce ? bounce : -bounce;
+  };
+
+  const onMouseMove = (e: UListMouseEvent) => {
+    e.preventDefault();
+    if (!carouselListRef.current) return;
+
+    if (isPressed) {
+      const sX = getScrollX(e.clientX);
+      const x = e.pageX - carouselListRef.current.offsetLeft;
+
+      if (scrollXIsLessZero(sX)) {
+        setCarouselTranslate(getCarouselTranslateBounce(x, true));
+        return;
+      }
+
+      if (scrollXIsGreaterSrollWidth(sX)) {
+        setCarouselTranslate(getCarouselTranslateBounce(x));
+        return;
+      }
+
+      carouselListRef.current.scrollLeft = sX;
+      setState((prevState) => ({ ...prevState, scrollX: sX, clientX: e.clientX }));
+    }
+  };
+
+  const onWheel = (e: WheelEvent<HTMLUListElement>) => {
+    if (carouselListRef.current) {
+      const { deltaY } = e;
+      const wheelValue = carouselListRef.current.scrollLeft + deltaY * 1.5;
+      const scrollXWidth = deltaY > 0 ? scrollX + wheelValue : scrollX - wheelValue;
+
+      onScrollX(wheelValue, scrollXWidth, e.clientX);
+    }
+  };
+
+  const onMouseDown = (e: UListMouseEvent) => {
+    e.preventDefault();
+    setState((prevState) => ({
+      ...prevState,
+      isPressed: true,
+      clientX: e.clientX,
+    }));
+  };
+
+  const onMouseUp = (e: UListMouseEvent) => {
+    e.preventDefault();
+    if (!carouselListRef.current) return;
+    setState((prevState) => ({ ...prevState, isPressed: false, clientX: 0 }));
+    setCarouselTranslate(0);
+  };
 
   useEffect(() => {
     if (carouselListRef.current) {
-      const elment = carouselListRef.current?.firstElementChild?.firstElementChild;
+      setScrollWidth(carouselListRef.current.scrollWidth - carouselListRef.current.clientWidth);
 
-      if (elment && !childMaxWidthWithPx) {
-        setChildMaxWidthWithPx(getComputedStyle(elment).width);
+      if (!childMaxWidthWithPx) {
+        const firstElement = carouselListRef.current.firstElementChild?.firstElementChild;
+
+        if (firstElement) {
+          setChildMaxWidthWithPx(getComputedStyle(firstElement).width);
+        }
       }
 
       carouselListRef.current.addEventListener('scroll', setControlsVisible);
@@ -89,14 +207,23 @@ const Carousel: FC<CarouselProps> = ({
     return () => {
       if (carouselListRef.current) {
         carouselListRef.current.removeEventListener('scroll', setControlsVisible);
+
         carouselListRef.current = null;
       }
     };
-  }, []);
+  }, [carouselListRef]);
 
   return (
     <div className={classes.carousel}>
-      <ul className={classes.carouselList} ref={carouselListRef}>
+      <ul
+        onWheel={onWheel}
+        onMouseUp={onMouseUp}
+        ref={carouselListRef}
+        onMouseLeave={onMouseUp}
+        onMouseDown={onMouseDown}
+        onMouseMove={onMouseMove}
+        className={clsx(classes.carouselList, classes.carouselListScrollSnap)}
+      >
         {React.Children.map(children, (child) => <CarouselItem maxWidth={childMaxWidthWithPx}>
           {child}
         </CarouselItem>)}
@@ -108,21 +235,12 @@ const Carousel: FC<CarouselProps> = ({
         }
       </ul>
 
-      <Button
-        onClick={scrollTo(EScrollSide.left)}
-        variant="text"
-        className={clsx(classes.button, classes.buttonPrev, getButtonHiddenStyle(EButtonSide.prev))}
-      >
-        <ArrowSVG {...CAROUSEL_ARROW_SVG_SIZE}/>
-      </Button>
-
-      <Button
-        onClick={scrollTo(EScrollSide.right)}
-        variant="text"
-        className={clsx(classes.button, classes.buttonNext, getButtonHiddenStyle(EButtonSide.next))}
-      >
-        <ArrowSVG className={classes.nextSvg} {...CAROUSEL_ARROW_SVG_SIZE} />
-      </Button>
+      <Controls
+        showControls={showControls}
+        buttonSide={hiddenButtonSide}
+        onNext={scrollBySide(EScrollSide.right)}
+        onBack={scrollBySide(EScrollSide.left)}
+      />
     </div>
   );
 };
