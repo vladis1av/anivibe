@@ -7,7 +7,6 @@ export const HOUR: number = 3600;
 export const MINUTE: number = 60;
 export const SKIP_OST_TITLE: string = 'Пропустить';
 export const NEXT_EPIDSODE_TITLE: string = 'Следующая серия';
-export const CAROUSEL_ARROW_SVG_SIZE: SvgIconProps = { height: 25, width: 25 };
 export const SECONDS_FOR_SHOW_BUTTONS: number = 20;
 export const API_ITEMS_LIMIT: number = 18;
 export const CHAPTER_TITLE: string = 'Список Глав';
