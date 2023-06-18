@@ -8,5 +8,5 @@
 - [**react-player**](https://github.com/CookPete/react-player "**react-player**")
 - [**GraphQL**](https://graphql.org "**GraphQL**")
 - [**Axios**](https://axios-http.com "Axios")
--  [**Material UI**](https://mui.com "**Material UI 5**")
+-  [**Material UI 5**](https://mui.com "**Material UI**")
 - [**clsx**](https://github.com/lukeed/clsx "**clsx**")
