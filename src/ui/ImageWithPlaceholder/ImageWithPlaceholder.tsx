@@ -112,19 +112,19 @@ const ImageWithPlaceholder: FC<ImageWithPlacefolderProps> = ({
       }
       />
 
-      <div
-        style={{ width: spinnerWidth, height: spinnerHeight }}
-        className={
-          clsx(
-            classes.image,
-            classes.center,
-            commonClasses.hide,
-            { [commonClasses.show]: showLoaderSpiner && loadingStatusIsPending },
-          )
-        }
-      >
-        <CircularProgress size={spinerSize} color="primary" />
-      </div>
+      { showLoaderSpiner && loadingStatusIsPending
+       && <div
+         style={{ width: spinnerWidth, height: spinnerHeight }}
+         className={
+           clsx(
+             classes.image,
+             classes.center,
+           )
+         }
+       >
+         <CircularProgress size={spinerSize} color="primary" />
+       </div>
+      }
     </div>
   );
 };
