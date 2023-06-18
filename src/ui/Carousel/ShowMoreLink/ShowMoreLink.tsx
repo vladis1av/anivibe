@@ -1,4 +1,4 @@
-import { FC, memo } from 'react';
+import { FC } from 'react';
 
 import Link from '@ui/Link';
 
@@ -22,4 +22,4 @@ const ShowMoreLink: FC<ShowMoreLinkProps> = ({ link }) => {
   </Link>;
 };
 
-export default memo(ShowMoreLink);
+export default ShowMoreLink;
