@@ -13,6 +13,7 @@ type LinkProps = {
   className?: string;
   onClick?: ((e: any) => void) | undefined;
   scroll?: boolean;
+  draggable?: boolean;
 };
 
 const Link: FC<LinkProps> = ({
@@ -22,12 +23,13 @@ const Link: FC<LinkProps> = ({
   className,
   onClick,
   scroll = true,
+  draggable = false,
 }) => {
   const classes = useCardListStyles();
   const currentStyles = clsx(classes.link, className);
 
-  return <NextLink href={{ pathname: path, query }} scroll={scroll}>
-    <a className={currentStyles} onClick={onClick}>
+  return <NextLink href={{ pathname: path, query }} scroll={scroll} >
+    <a className={currentStyles} onClick={onClick} draggable={draggable}>
       {children}
     </a>
   </NextLink>;
