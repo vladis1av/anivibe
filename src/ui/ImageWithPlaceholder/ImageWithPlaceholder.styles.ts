@@ -5,9 +5,11 @@ const useImageWithPlaceholderStyles = makeStyles(() => ({
     width: '100%',
     height: '100%',
     position: 'relative',
+    userSelect: 'none',
   },
   image: {
     objectFit: 'cover',
+    userSelect: 'none',
   },
   center: {
     display: 'flex',
