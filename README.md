@@ -8,6 +8,5 @@
 - [**react-player**](https://github.com/CookPete/react-player "**react-player**")
 - [**GraphQL**](https://graphql.org "**GraphQL**")
 - [**Axios**](https://axios-http.com "Axios")
--  [**Material UI**](https://mui.com "**Material UI**")
-- [**Сlassnames**](https://github.com/JedWatson/classnames "**Сlassnames**")
+-  [**Material UI**](https://mui.com "**Material UI 5**")
 - [**clsx**](https://github.com/lukeed/clsx "**clsx**")
