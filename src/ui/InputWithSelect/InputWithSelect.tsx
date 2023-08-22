@@ -51,7 +51,7 @@ const InputWithSelect: FC<InputWithSelectProps> = ({
         className={clsx(classes.input, className)}
         placeholder={placeholder}
         startAdornment={<InputAdornment position="start">
-          <SearchSVG className={classes.inputSearchIcon} />
+          <SearchSVG className={clsx(classes.inputSearchIcon, { [classes.inputSearchIconIsFocused]: isFocused })} />
         </InputAdornment>}
         endAdornment={
           <Button onClick={onClose} className={classes.button}>
