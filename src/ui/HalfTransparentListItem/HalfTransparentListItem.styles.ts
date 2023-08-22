@@ -25,6 +25,8 @@ const useHalfTransparentListItemStyles = makeStyles(() => ({
     padding: '0px 0px',
   },
   halfTransparentListItemDisabled: {
+    cursor: 'default',
+
     '&:hover': {
       backgroundColor: EColor.transparent,
     },
