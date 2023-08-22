@@ -5,7 +5,7 @@ const useScreenStyles = makeStyles(() => ({
     backgroundColor: 'transparent',
     position: 'absolute',
     top: 0,
-    zIndex: 1,
+    zIndex: 3,
     width: '100%',
     height: '100%',
   },
