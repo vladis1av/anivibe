@@ -11,6 +11,7 @@ export type SettingsListItemProps = {
   menuTitle: string;
   menuItem: EmotionJSX.Element | string;
   onClick?: () => void;
+  isDisabled?: boolean;
 };
 
 const SettingsListItem: FC<SettingsListItemProps> = ({
@@ -18,11 +19,12 @@ const SettingsListItem: FC<SettingsListItemProps> = ({
   menuTitle,
   menuItem,
   onClick,
+  isDisabled,
 }) => {
   const classes = useSettingsListStyles();
 
   return (
-    <HalfTransparentListItem onClick={onClick}>
+    <HalfTransparentListItem isDisabled={isDisabled} onClick={onClick}>
       <div className={classes.videoPlayerSettingsListItemSvg}>
         {svg}
       </div>
