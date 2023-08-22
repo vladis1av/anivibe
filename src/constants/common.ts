@@ -31,11 +31,15 @@ export const USER_ACTIVITY_EVENTS = ['mousedown', 'mousemove', 'keydown', 'touch
 export const CIRCLES = [{ begin: 0.2, cx: 0 }, { begin: 0.3, cx: 50 }, { begin: 0.4, cx: 100 }];
 export const SETTINGS_MENU_ITEM_TITLE = {
   [EVideoPlayerMenu.quality]: 'Качество',
+  [EVideoPlayerMenu.ambientMode]: 'Освещение',
   [EVideoPlayerMenu.playbackRate]: 'Скорость',
   [EVideoPlayerMenu.default]: undefined,
 };
 export const SETTINGS_MENU_ITEMS: Array<EVideoPlayerMenuType> = [
-  EVideoPlayerMenu.default, EVideoPlayerMenu.quality, EVideoPlayerMenu.playbackRate,
+  EVideoPlayerMenu.default,
+  EVideoPlayerMenu.ambientMode,
+  EVideoPlayerMenu.quality,
+  EVideoPlayerMenu.playbackRate,
 ];
 export const SELECT_SEARCH_TYPES: Array<SelectType> = [
   { name: 'Аниме', type: ECollection.anime },
