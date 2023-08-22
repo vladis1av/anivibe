@@ -50,31 +50,33 @@ const Controls: FC<ControlsProps> = ({
   const {
     state: {
       status,
-      currentQuality,
-      playbackRate,
-      duration,
-      playedSeconds,
-      loadedSeconds,
       played,
-      sourceIndex,
       volume,
-      isFullScreen,
-      settingsMenu: settingsMenuKey,
+      duration,
       isPlaying,
+      sourceIndex,
+      playbackRate,
+      isFullScreen,
+      loadedSeconds,
+      playedSeconds,
+      currentQuality,
+      ambientModeIsActive,
+      settingsMenu: settingsMenuKey,
     },
     actions: {
-      onPlaybackRateChange,
       onTogglePlay,
-      onToggleFullScreen,
-      onChangeSettingsMenu,
       onChangeSource,
-      onChangeQuality,
-      onChangeProgressSeconds,
       onChangeVolume,
-      onVolumeMuteToggle,
-      onSetDefaultSettingsMenu,
-      onToggleSettingsMenu,
       onCloseSettings,
+      onChangeQuality,
+      onVolumeMuteToggle,
+      onToggleFullScreen,
+      onToggleAmbientMode,
+      onToggleSettingsMenu,
+      onPlaybackRateChange,
+      onChangeSettingsMenu,
+      onChangeProgressSeconds,
+      onSetDefaultSettingsMenu,
     },
   } = useVideoPlayer(videoPlayerRef, videoPlayerWrapperRef);
   const showNextEpisodeButtonTime = Number((duration - 60).toFixed(0));
@@ -90,26 +92,26 @@ const Controls: FC<ControlsProps> = ({
       />
 
       <WatchOrSkip
-        playedSeconds={playedSeconds}
-        opening={opening}
         ending={ending}
+        opening={opening}
         currentEpisode={sourceIndex}
+        playedSeconds={playedSeconds}
         episodesLength={playlistLength}
         onChangeEpisode={onChangeSource}
         onSkip={onChangeProgressSeconds}
         showNextEpisodeButtonTime={showNextEpisodeButtonTime}
+        endButtonsClasses={classes.videoPlayerWatchOrSkipButtonsEnd}
         buttonsWrapperClasses={classes.videoPlayerWatchOrSkipButtons}
         startButtonsClasses={classes.videoPlayerWatchOrSkipButtonsStart}
-        endButtonsClasses={classes.videoPlayerWatchOrSkipButtonsEnd}
       />
 
       <div className={classes.videoPlayerControlsList}>
         <div className={classes.videoPlayerControlsListItem}>
           <ButtonPlay
             onPlay={onTogglePlay}
-            isPlaying={status === EVideoPlayerStatus.loading || isPlaying}
             playSvgProps={VIDEO_PLAYER_SVG_SIZE}
             pauseSvgProps={VIDEO_PLAYER_SVG_SIZE}
+            isPlaying={status === EVideoPlayerStatus.loading || isPlaying}
           />
 
           <Duration className={commonClasses.marginLeftTwelve} elapsed={played} duration={duration} />
@@ -133,6 +135,8 @@ const Controls: FC<ControlsProps> = ({
             onBack={onSetDefaultSettingsMenu}
             onChangeQuality={onChangeQuality}
             onCloseSettings={onCloseSettings}
+            ambientModeIsActive={ambientModeIsActive}
+            onChangeAmbientMode={onToggleAmbientMode}
             onToggleSettingsMenu={onToggleSettingsMenu}
             onChangeSettingsMenu={onChangeSettingsMenu}
             onPlaybackRateChange={onPlaybackRateChange}
