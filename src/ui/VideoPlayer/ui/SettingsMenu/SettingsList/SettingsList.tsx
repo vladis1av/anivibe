@@ -56,7 +56,6 @@ const SettingsList: FC<SettingsListProps> = ({
             menuItem: <Switch
               size="small"
               checked={ambientModeIsActive}
-              onChange={onChangeAmbientMode}
               className={classes.videoPlayerSettingsListItemSwitch}
             />,
           };
@@ -77,6 +76,7 @@ const SettingsList: FC<SettingsListProps> = ({
 
   const onClickSettingsItem = (settingsKey: EVideoPlayerMenuType) => {
     if (isAmbientKey(settingsKey)) {
+      onChangeAmbientMode();
       return;
     }
     onChangeMenu(settingsKey);
@@ -88,7 +88,6 @@ const SettingsList: FC<SettingsListProps> = ({
         const props = getMenuListItem(key);
         if (props) {
           return <SettingsListItem
-            isDisabled={isAmbientKey(key)}
             onClick={() => onClickSettingsItem(key)}
             key={`${props.menuTitle}-${i}`} {...props}
           />;
