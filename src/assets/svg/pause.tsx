@@ -10,16 +10,16 @@ const PauseSVG: FC<SvgIconProps> = ({
   height = 25,
   className,
 }) => (
-
-  <svg
+  <svg xmlns="http://www.w3.org/2000/svg"
     width={width}
     height={height}
     className={className}
     fill={fill}
-    viewBox="0 0 16 16"
-  >
-    <path d="M5.5 3.5A1.5 1.5 0 017 5v6a1.5 1.5 0 01-3 0V5a1.5 1.5 0 011.5-1.5zm5 0A1.5 1.5 0
-     0112 5v6a1.5 1.5 0 01-3 0V5a1.5 1.5 0 011.5-1.5z"></path>
+    viewBox="0 0 256 256">
+    <path fill="none" d="M0 0H256V256H0z"></path>
+    <path d="M216 48v160a16 16 0 01-16 16h-36a16 16 0 01-16-16V48a16 16 0
+    0116-16h36a16 16 0 0116 16zM92 32H56a16 16 0 00-16 16v160a16 16 0 0016 16h36a16
+    16 0 0016-16V48a16 16 0 00-16-16z"></path>
   </svg>
 );
 
