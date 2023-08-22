@@ -1,5 +1,7 @@
 import { FC, memo, useCallback } from 'react';
 
+import { Switch } from '@mui/material';
+
 import { EVideoPlayerMenuType } from '@interfaces/common';
 import { EHlsQualityType } from '@interfaces/hls';
 
@@ -7,6 +9,7 @@ import { EVideoPlayerMenu } from '@enums/enums';
 
 import { SETTINGS_MENU_ITEMS, SETTINGS_MENU_ITEM_TITLE } from '@constants/common';
 
+import AmbientTvSVG from '@assets/svg/ambientTv';
 import PlaybackSpeedSVG from '@assets/svg/playbackSpeed';
 import SettingsSVG from '@assets/svg/settings';
 
@@ -18,17 +21,22 @@ import SettingsListItem from '../SettingsListItem';
 import { SettingsListItemProps } from '../SettingsListItem/SettingsListItem';
 
 type SettingsListProps = {
-  currentQuality: EHlsQualityType;
   onChangeMenu: (menuKey: EVideoPlayerMenuType) => void;
+  onChangeAmbientMode: () => void;
   playbackRate: number;
+  currentQuality: EHlsQualityType;
+  ambientModeIsActive: boolean;
 };
 
 const SettingsList: FC<SettingsListProps> = ({
-  currentQuality,
   onChangeMenu,
+  onChangeAmbientMode,
   playbackRate,
+  currentQuality,
+  ambientModeIsActive,
 }) => {
   const classes = useSettingsListStyles();
+
   const getMenuListItem = useCallback(
     (menuKey: EVideoPlayerMenuType): SettingsListItemProps | null => {
       switch (menuKey) {
@@ -41,6 +49,17 @@ const SettingsList: FC<SettingsListProps> = ({
               quality={currentQuality}
             />,
           };
+        case EVideoPlayerMenu.ambientMode:
+          return {
+            menuTitle: SETTINGS_MENU_ITEM_TITLE[EVideoPlayerMenu.ambientMode],
+            svg: <AmbientTvSVG height={23} />,
+            menuItem: <Switch
+              size="small"
+              checked={ambientModeIsActive}
+              onChange={onChangeAmbientMode}
+              className={classes.videoPlayerSettingsListItemSwitch}
+            />,
+          };
         case EVideoPlayerMenu.playbackRate:
           return {
             menuTitle: SETTINGS_MENU_ITEM_TITLE[EVideoPlayerMenu.playbackRate],
@@ -51,15 +70,28 @@ const SettingsList: FC<SettingsListProps> = ({
           return null;
       }
     },
-    [playbackRate, currentQuality],
+    [playbackRate, currentQuality, ambientModeIsActive],
   );
+
+  const isAmbientKey = (currentKey: EVideoPlayerMenuType) => currentKey === EVideoPlayerMenu.ambientMode;
+
+  const onClickSettingsItem = (settingsKey: EVideoPlayerMenuType) => {
+    if (isAmbientKey(settingsKey)) {
+      return;
+    }
+    onChangeMenu(settingsKey);
+  };
 
   return (
     <>
       {SETTINGS_MENU_ITEMS.map((key, i) => {
         const props = getMenuListItem(key);
         if (props) {
-          return <SettingsListItem onClick={() => onChangeMenu(key)} key={`${props.menuTitle}-${i}`} {...props} />;
+          return <SettingsListItem
+            isDisabled={isAmbientKey(key)}
+            onClick={() => onClickSettingsItem(key)}
+            key={`${props.menuTitle}-${i}`} {...props}
+          />;
         }
         return null;
       })}
@@ -68,4 +100,5 @@ const SettingsList: FC<SettingsListProps> = ({
 };
 
 export default memo(SettingsList, (prevProps, nextProps) => prevProps.currentQuality === nextProps.currentQuality
-&& prevProps.playbackRate === nextProps.playbackRate);
+&& prevProps.playbackRate === nextProps.playbackRate
+&& prevProps.ambientModeIsActive === nextProps.ambientModeIsActive);
