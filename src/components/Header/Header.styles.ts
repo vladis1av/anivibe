@@ -1,14 +1,17 @@
+import { Theme } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 
-import { EColor } from '@enums/enums';
+import { EColor, ETheme } from '@enums/enums';
 
-const useHeaderStyles = makeStyles(() => ({
+const useHeaderStyles = makeStyles((theme: Theme) => ({
   header: {
     position: 'fixed',
     width: '100%',
     top: 0,
     zIndex: 35,
-    backgroundColor: EColor.halfTransparentBlack,
+    backgroundColor: theme.palette.mode === ETheme.light
+      ? EColor.halfTransparentLightGray
+      : EColor.halfTransparentBlack,
     backdropFilter: 'blur(35px)',
     boxShadow: '0 2px 8px 2px rgb(0 0 0 / 24%)',
   },
