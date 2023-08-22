@@ -30,6 +30,7 @@ export enum EVideoPlayerMenu {
   default = 'default',
   playbackRate = 'playbackRate',
   quality = 'quality',
+  ambientMode = 'ambientMode',
 }
 
 export enum EFilter {
@@ -130,6 +131,7 @@ export enum EColor {
   lightBlue = '#70c1ff',
   transparent = 'transparent',
   lightGray = 'rgb(158, 158, 158)',
+  halfTransparentLightGray = 'rgba(120, 120, 120, 50%)',
   darkTransparent = 'rgba(17, 17, 17, 0.8)',
   halfTransparentBlack = 'rgba(0, 0, 0, 0.5)',
   lightTransparent = 'rgba(255, 255, 255, 0.08)',
