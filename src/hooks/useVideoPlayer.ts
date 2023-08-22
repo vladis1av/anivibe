@@ -15,11 +15,12 @@ import {
   setPlaybackRate,
   setSource,
   SetSourceActionProps,
-  setTogglePlay,
-  setToggleSettingsMenu,
+  togglePlay,
+  toggleAmbientMode,
+  toggleSettingsMenu,
   setVideoPlayerState,
   setVolumeByStep,
-  setVolumeToggle,
+  volumeToggle,
 } from '@redux/slices/videoPlayer';
 
 import useAppDispatch from './useAppDispatch';
@@ -49,13 +50,15 @@ const useVideoPlayer = (
     loadingStatus: EVideoPlayerStatusType,
   ) => dispatch(setVideoPlayerState({ status: loadingStatus }));
 
+  const onToggleAmbientMode = () => dispatch(toggleAmbientMode());
+
   const onChangeSettingsMenu = (
     menuKey: EVideoPlayerMenuType,
   ) => dispatch(setVideoPlayerState({ settingsMenu: menuKey }));
 
-  const onVolumeMuteToggle = () => dispatch(setVolumeToggle());
+  const onVolumeMuteToggle = () => dispatch(volumeToggle());
 
-  const onToggleSettingsMenu = () => dispatch(setToggleSettingsMenu());
+  const onToggleSettingsMenu = () => dispatch(toggleSettingsMenu());
 
   const onPlaybackRateChange = (speed: string) => dispatch(setPlaybackRate(speed));
 
@@ -91,7 +94,7 @@ const useVideoPlayer = (
     if (videoPlayerWrapperRef && videoPlayerWrapperRef.current && !state.playerIsFocused) {
       videoPlayerWrapperRef.current.focus();
     }
-    await dispatch(setTogglePlay());
+    await dispatch(togglePlay());
   };
 
   const onCloseSettings = () => {
@@ -208,6 +211,7 @@ const useVideoPlayer = (
     actions: {
       onChangeStatus,
       onVolumeMuteToggle,
+      onToggleAmbientMode,
       onChangeSettingsMenu,
       onToggleSettingsMenu,
       onPlaybackRateChange,
