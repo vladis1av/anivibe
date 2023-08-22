@@ -46,7 +46,7 @@ const Manga: FC<MangaPageProps> = ({ manga }) => {
   const seoTitle = `${russian} - ${getMangaSeoTitle(kind)}`;
 
   return (
-    <MainLayout>
+    <MainLayout clearPaddingTop>
       <SeoHead
         tabTitle={seoTitle}
         title={seoTitle}

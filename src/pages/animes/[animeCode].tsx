@@ -70,7 +70,7 @@ export default function Anime({ anime }: AnimePageProps) {
   const currentVoices = generateUnifiedList(ECollection.anime, voice);
 
   return (
-    <MainLayout>
+    <MainLayout clearPaddingTop>
       <SeoHead
         tabTitle={`${title} - ${SEO_ANIME_DETAIL_PAGE_TITLE}`}
         title={`${title} - ${SEO_ANIME_WATCH_ONLINE_TEXT}`}
