@@ -18,6 +18,11 @@ const useInputWithSelectStyles = makeStyles((theme: Theme) => ({
     '&:before, &:after': {
       display: 'none',
     },
+
+    '&:hover svg': {
+      transition: 'all 0.2s ease-out',
+      fill: EColor.black,
+    },
   },
   inputSearchIcon: {
     fill: EColor.lightGray,
