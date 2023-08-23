@@ -183,7 +183,8 @@ const MediaInfo: FC<MediaInfoProps> = (props) => {
   return (
     <>
       <div className={classes.bannerWrapper}>
-        <ImageWithPlaceholder src={imageHeaderBanner}
+        <ImageWithPlaceholder
+          src={imageHeaderBanner}
           alt={title}
           className={classes.bannerImage}
           placeholderImg={PLACEHOLDER_BANNER}
