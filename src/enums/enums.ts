@@ -57,7 +57,7 @@ export enum EAnimeReliase {
   ona = 'ONA',
 }
 
-export enum EFyle {
+export enum EFile {
   jpg = 'jpg',
   webp = 'webp',
   torrent = 'torrent',

@@ -13,7 +13,7 @@ import {
 
 import { TorrentList } from '@interfaces/anime';
 
-import { EFyle } from '@enums/enums';
+import { EFile } from '@enums/enums';
 
 import AppSVG from '@assets/svg/app';
 import CheckSVG from '@assets/svg/check';
@@ -89,11 +89,11 @@ const Torrent: FC<TorrentList> = ({ list }) => {
 
                 <TableCell align="center">
                   <div className={classes.linkWrapper}>
-                    <Link href={getFileLink(EFyle.torrent, id)}>
+                    <Link href={getFileLink(EFile.torrent, id)}>
                       <AppSVG className={classes.downLoadSvg} />
                     </Link>
 
-                    <Link href={`${EFyle.magnet}${hash}`} className={classes.magnet}>
+                    <Link href={`${EFile.magnet}${hash}`} className={classes.magnet}>
                       <MagnetSVG />
                     </Link>
                   </div>
