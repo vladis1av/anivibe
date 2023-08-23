@@ -12,6 +12,7 @@ export enum EButtonSide {
 }
 
 export enum ETheme {
+  auto = 'auto',
   dark = 'dark',
   light = 'light',
 }
