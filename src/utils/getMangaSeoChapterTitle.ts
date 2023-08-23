@@ -7,16 +7,22 @@ const getMangaSeoChapterTitle = ({
   page,
   chapter,
   vol,
+  hideTitleKeys,
 }: GetMangaSeoProps) => {
   const titles = getTitles(page);
   const string: string[] = [];
 
-  [title, vol, chapter, page].forEach((value, idx, array) => {
+  [title, vol, chapter, page].forEach((value, key, array) => {
+    const arrayIsLastKey = array.length === key + 1;
+    const currentTitle = titles[key];
     if (value || value === 0) {
-      string.push(array.length === idx + 1 ? titles[idx] : `${titles[idx]} ${value}`);
+      if (hideTitleKeys?.length && hideTitleKeys[key] === key) {
+        string.push(arrayIsLastKey ? currentTitle : `${value}`);
+        return;
+      }
+      string.push(arrayIsLastKey ? currentTitle : `${currentTitle} ${value}`);
     }
   });
-
   return string.join(' ');
 };
 
