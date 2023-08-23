@@ -46,7 +46,7 @@ const Main: FC<MainPageProps> = ({ collections }) => (
 export const getServerSideProps: GetServerSideProps<MainPageProps> = async () => {
   const animes = await getFilteredData({
     method: 'getUpdates',
-    filters: ['id', 'code'],
+    filters: ['id', 'code', 'names'],
     params: { limit: COLLECTION_ITEMS_LIMIT },
   }) || [];
   const mangas = await getMangas({ limit: COLLECTION_ITEMS_LIMIT });
