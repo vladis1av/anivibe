@@ -1,6 +1,6 @@
 import { FC } from 'react';
 
-import { EMediaInfo } from '@enums/enums';
+import { EMediaInfo, ETheme } from '@enums/enums';
 
 import ImageWithPlaceholder from '@ui/ImageWithPlaceholder';
 import Link from '@ui/Link';
@@ -44,7 +44,7 @@ const SearchCard: FC<SearchCardProps> = ({
       onClick={onClick}>
       <div className={classes.searchCardImage}
       >
-        <ImageWithPlaceholder src={currentImage} alt={title} />
+        <ImageWithPlaceholder src={currentImage} alt={title} skeletonTheme={ETheme.light}/>
       </div>
 
       <div className={classes.infoList}>
