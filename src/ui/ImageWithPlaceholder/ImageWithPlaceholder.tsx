@@ -11,10 +11,13 @@ import clsx from 'clsx';
 import { useInView } from 'react-intersection-observer';
 
 import { ELoadingStatusType } from '@interfaces/common';
+import { EThemeType } from '@interfaces/theme';
 
-import { ELoadingStatus } from '@enums/enums';
+import { ELoadingStatus, ETheme } from '@enums/enums';
 
 import { PLACEHOLDER_POSTER, POSTER_NOT_FOUND } from '@constants/common';
+
+import useSkeletonTheme from '@hooks/useSkeletonTheme';
 
 import useCommonStyles from '@styles/Common.styles';
 
@@ -22,34 +25,35 @@ import useImageWithPlaceholderStyles from './ImageWithPlaceholder.styles';
 
 type ImageWithPlacefolderProps = ImgHTMLAttributes<HTMLImageElement> & {
   src: string;
+  alt?: string;
   placeholderImg?: string;
   errorImage?: string;
-  blure?: boolean;
-  alt?: string;
+  skeletonTheme?: EThemeType;
   width?: number;
+  blure?: boolean;
   heigth?: number | 'auto';
   threshold?: number;
   showLoaderSpiner?: boolean;
   spinerSize?: number;
-  spinnerHeight?: string;
   spinnerWidth?: string;
-
+  spinnerHeight?: string;
 };
 
 const ImageWithPlaceholder: FC<ImageWithPlacefolderProps> = ({
   src,
-  className,
+  alt,
   placeholderImg = PLACEHOLDER_POSTER,
   errorImage = POSTER_NOT_FOUND,
-  alt,
-  blure = false,
+  skeletonTheme = ETheme.auto,
   width,
+  className,
+  blure = false,
   height = 'auto',
   threshold = 0.4,
   showLoaderSpiner,
   spinerSize = 30,
-  spinnerHeight,
   spinnerWidth,
+  spinnerHeight,
 }) => {
   const classes = useImageWithPlaceholderStyles();
   const commonClasses = useCommonStyles();
@@ -75,6 +79,8 @@ const ImageWithPlaceholder: FC<ImageWithPlacefolderProps> = ({
     triggerOnce: true,
   });
 
+  const skeleton = useSkeletonTheme(skeletonTheme);
+
   useEffect(() => {
     const img = new Image();
 
@@ -95,6 +101,7 @@ const ImageWithPlaceholder: FC<ImageWithPlacefolderProps> = ({
 
   return (
     <div ref={ref} className={clsx(classes.imageWrapper, className)}>
+
       <img
         alt={alt}
         width={width}
@@ -108,6 +115,7 @@ const ImageWithPlaceholder: FC<ImageWithPlacefolderProps> = ({
           classes.imageBlure,
           commonClasses.hide,
           { [commonClasses.show]: loadingStatusIsPending || blure },
+          { [skeleton]: loadingStatusIsPending },
         )
       }
       />
