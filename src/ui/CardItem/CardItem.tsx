@@ -14,6 +14,7 @@ export type CardItemProps = {
   id: number;
   pathTo: string;
   title?: string;
+  hideTitle?: boolean;
   imageSource?: string;
   big?: boolean;
   className?: string;
@@ -22,6 +23,7 @@ export type CardItemProps = {
 const CardItem: FC<CardItemProps> = ({
   id,
   title,
+  hideTitle,
   pathTo,
   imageSource,
   big = false,
@@ -34,9 +36,9 @@ const CardItem: FC<CardItemProps> = ({
   return (
     <Link path={pathTo} className={clsx(classes.link, className, { [classes.big]: big })}>
 
-      <ImageWithPlaceholder src={currentImage} className={classes.image} />
+      <ImageWithPlaceholder src={currentImage} className={classes.image} alt={title}/>
 
-      {title && <div className={classes.cardItemContent}>
+      {title && !hideTitle && <div className={classes.cardItemContent}>
         <Typography align="center" variant="h5" component="h2" className={classes.title}>
           {title}
         </Typography>
