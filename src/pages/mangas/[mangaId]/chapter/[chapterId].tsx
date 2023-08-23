@@ -146,6 +146,10 @@ const Chapter: FC<ChapterProps> = ({
     title: russian, page, chapter: ch, vol,
   });
 
+  const altTitleImg = getMangaSeoChapterTitle({
+    title: russian, page, chapter: ch, vol, hideTitleKeys: [0],
+  });
+
   const onCloseDrawer = () => setDrawerIsOpen(false);
 
   return (
@@ -167,7 +171,7 @@ const Chapter: FC<ChapterProps> = ({
           className={classes.link}
         >
           <div className={classes.poster}>
-            <ImageWithPlaceholder src={image.original} />
+            <ImageWithPlaceholder src={image.original} alt={russian} />
           </div>
 
           <Typography className={classes.title} align="center" variant="h5" component="h1">
@@ -187,8 +191,17 @@ const Chapter: FC<ChapterProps> = ({
         />
       </Drawer>
 
-      <div className={classes.mainImageWrapper} style={{ maxWidth: width, minHeight: '256px' }}>
-        <ImageWithPlaceholder src={img} spinerSize={55} showLoaderSpiner spinnerHeight={'85vh'} />
+      <div
+        className={classes.mainImageWrapper}
+        style={{ maxWidth: width, minHeight: '256px' }}
+      >
+        <ImageWithPlaceholder
+          src={img}
+          spinerSize={55}
+          showLoaderSpiner
+          spinnerHeight={'85vh'}
+          alt={altTitleImg}
+        />
 
         <div className={classes.mainImageControlerWrapper}>
           <div className={classes.mainImageController} onClick={prevPage} />
