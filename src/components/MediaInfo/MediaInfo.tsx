@@ -190,6 +190,8 @@ const MediaInfo: FC<MediaInfoProps> = (props) => {
           placeholderImg={PLACEHOLDER_BANNER}
           blure={Boolean(!bannerImageHightQuality)}
         />
+
+        <div className={classes.bannerImageGradient}></div>
       </div>
 
       <Container className={classes.detailContent}>

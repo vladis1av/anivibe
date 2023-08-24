@@ -1,6 +1,8 @@
 import { Theme } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 
+import { ETheme } from '@enums/enums';
+
 const useMediaInfoStyles = makeStyles((theme: Theme) => ({
   content: {
     position: 'relative',
@@ -52,6 +54,15 @@ const useMediaInfoStyles = makeStyles((theme: Theme) => ({
   bannerImage: {
     position: 'absolute',
     height: 300,
+  },
+  bannerImageGradient: {
+    background: `${theme.palette.mode === ETheme.dark
+      ? 'linear-gradient(180deg, rgba(15,15,15,0) 0, #0f0f0f 100%, #0f0f0f 100%)'
+      : 'linear-gradient(180deg, rgba(255,255,255,0) 0, rgba(255,255,255,1) 100%)'}`,
+    position: 'absolute',
+    bottom: 0,
+    width: '100%',
+    height: '100%',
   },
   detailContent: {
     maxWidth: 1200,
