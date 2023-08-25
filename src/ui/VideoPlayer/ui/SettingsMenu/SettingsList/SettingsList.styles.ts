@@ -7,6 +7,9 @@ const useSettingsListStyles = makeStyles(() => ({
     padding: '0px 0px !important',
   },
   videoPlayerSettingsListItemSwitch: {
+    '& .MuiSwitch-thumb': {
+      backgroundColor: EColor.lightGray,
+    },
     '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': {
       backgroundColor: EColor.lightBlue,
     },
