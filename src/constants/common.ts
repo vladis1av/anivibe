@@ -1,7 +1,9 @@
-import { EVideoPlayerMenuType, MainRouteType, SelectType } from '@interfaces/common';
+import {
+  EVideoPlayerMenuType, MainRouteType, PlaceholdersType, SelectType,
+} from '@interfaces/common';
 import { SvgIconProps } from '@interfaces/svg';
 
-import { ECollection, EVideoPlayerMenu } from '@enums/enums';
+import { ECollection, EPlaceholder, EVideoPlayerMenu } from '@enums/enums';
 
 export const HOUR: number = 3600;
 export const MINUTE: number = 60;
@@ -21,14 +23,26 @@ export const SEARCH_ANIME_PLACEHOLDER: string = 'Поиск аниме...';
 export const SEARCH_MANGA_PLACEHOLDER: string = 'Поиск манги...';
 export const THEME_FROM_LOCAL_STORAGE: string = 'anime-APP-theme';
 export const IS_DEV: boolean = process.env.NODE_ENV === 'development';
-export const POSTER_NOT_FOUND: string = '/images/poster-not-found.png';
-export const PLACEHOLDER_POSTER: string = '/images/poster-placeholder.png';
-export const PLACEHOLDER_BANNER: string = '/images/banner-placeholder.png';
-export const PLACEHOLDER_POSTER_BLACK: string = '/images/poster-placeholder-black.png';
+export const POSTER_ERROR_LIGHT: string = '/images/poster-failed-to-load.svg';
+export const POSTER_DARK: string = '/images/poster-placeholder-dark.svg';
+export const POSTER_LIGHT: string = '/images/poster-placeholder-light.svg';
+export const BANNER_LIGHT: string = '/images/banner-placeholder-light.svg';
 export const VIDEO_PLAYER_SVG_SIZE: SvgIconProps = { width: 20, height: 20 };
 export const PLAYBACK_SPEED: Array<number> = [0.25, 0.5, 0.75, 1, 1.25, 1.5, 1.75, 2];
 export const USER_ACTIVITY_EVENTS = ['mousedown', 'mousemove', 'keydown', 'touchstart'];
 export const CIRCLES = [{ begin: 0.2, cx: 0 }, { begin: 0.3, cx: 50 }, { begin: 0.4, cx: 100 }];
+export const PLACEHOLDERS: PlaceholdersType = {
+  [EPlaceholder.poster]: {
+    dark: POSTER_DARK,
+    light: POSTER_LIGHT,
+  },
+  [EPlaceholder.banner]: {
+    dark: BANNER_LIGHT,
+  },
+  [EPlaceholder.error]: {
+    light: POSTER_ERROR_LIGHT,
+  },
+};
 export const SETTINGS_MENU_ITEM_TITLE = {
   [EVideoPlayerMenu.quality]: 'Качество',
   [EVideoPlayerMenu.ambientMode]: 'Освещение',
