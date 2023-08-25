@@ -24,6 +24,7 @@ export const SEARCH_MANGA_PLACEHOLDER: string = 'Поиск манги...';
 export const THEME_FROM_LOCAL_STORAGE: string = 'anime-APP-theme';
 export const IS_DEV: boolean = process.env.NODE_ENV === 'development';
 export const POSTER_ERROR_LIGHT: string = '/images/poster-failed-to-load.svg';
+export const POSTER_SEO_DARK: string = '/images/poster-placeholder-dark.png';
 export const POSTER_DARK: string = '/images/poster-placeholder-dark.svg';
 export const POSTER_LIGHT: string = '/images/poster-placeholder-light.svg';
 export const BANNER_LIGHT: string = '/images/banner-placeholder-light.svg';
