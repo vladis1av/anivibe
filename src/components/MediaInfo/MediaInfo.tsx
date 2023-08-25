@@ -11,9 +11,11 @@ import { ECollectionType } from '@interfaces/collection';
 import { EMediaInfoValueType, EReliaseType } from '@interfaces/common';
 import { MangaChapterList, MangaGenres } from '@interfaces/manga';
 
-import { ELinkPath, EMediaInfo, EReliase } from '@enums/enums';
+import {
+  ELinkPath, EMediaInfo, EPlaceholder, EReliase, ESkeleton, ETheme,
+} from '@enums/enums';
 
-import { CHAPTER_TITLE, PLACEHOLDER_BANNER } from '@constants/common';
+import { BANNER_LIGHT, CHAPTER_TITLE } from '@constants/common';
 import { CHAPTERS_MATCH_MEDIA } from '@constants/matchMedia';
 
 import Chapters from '@ui/Chapters';
@@ -187,8 +189,9 @@ const MediaInfo: FC<MediaInfoProps> = (props) => {
           src={imageHeaderBanner}
           alt={title}
           className={classes.bannerImage}
-          placeholderImg={PLACEHOLDER_BANNER}
+          placeholderImage={BANNER_LIGHT}
           blure={Boolean(!bannerImageHightQuality)}
+          skeletonVariant={ESkeleton.waveAuto}
         />
 
         <div className={classes.bannerImageGradient}></div>
@@ -197,7 +200,12 @@ const MediaInfo: FC<MediaInfoProps> = (props) => {
       <Container className={classes.detailContent}>
         <div className={classes.posterWrapper}>
           <div className={classes.poster}>
-            <ImageWithPlaceholder src={imagePoster} alt={title} />
+            <ImageWithPlaceholder
+              alt={title}
+              src={imagePoster}
+              placeholderVariant={EPlaceholder.poster}
+              placeholderTheme={ETheme.light}
+            />
           </div>
 
           <div className={classes.posterInfo}>

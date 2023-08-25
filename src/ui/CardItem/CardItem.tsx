@@ -3,6 +3,8 @@ import { FC } from 'react';
 import { Typography } from '@mui/material';
 import clsx from 'clsx';
 
+import { EPlaceholder } from '@enums/enums';
+
 import ImageWithPlaceholder from '@ui/ImageWithPlaceholder';
 import Link from '@ui/Link';
 
@@ -36,7 +38,12 @@ const CardItem: FC<CardItemProps> = ({
   return (
     <Link path={pathTo} className={clsx(classes.link, className, { [classes.big]: big })}>
 
-      <ImageWithPlaceholder src={currentImage} className={classes.image} alt={title}/>
+      <ImageWithPlaceholder
+        src={currentImage}
+        className={classes.image}
+        alt={title}
+        placeholderVariant={EPlaceholder.poster}
+      />
 
       {title && !hideTitle && <div className={classes.cardItemContent}>
         <Typography align="center" variant="h5" component="h2" className={classes.title}>

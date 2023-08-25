@@ -20,6 +20,8 @@ import clsx from 'clsx';
 import { MangaChapterList, MangaWithPages } from '@interfaces/manga';
 import { MangaChapterQuery, QueryType } from '@interfaces/query';
 
+import { EPlaceholder, ETheme } from '@enums/enums';
+
 import { NOT_FOUND_CHAPTER_ERROR } from '@constants/error';
 
 import Chapters from '@ui/Chapters';
@@ -193,14 +195,16 @@ const Chapter: FC<ChapterProps> = ({
 
       <div
         className={classes.mainImageWrapper}
-        style={{ maxWidth: width, minHeight: '256px' }}
+        style={{ maxWidth: width, minHeight: '87vh' }}
       >
         <ImageWithPlaceholder
           src={img}
           spinerSize={55}
           showLoaderSpiner
-          spinnerHeight={'85vh'}
           alt={altTitleImg}
+          spinnerHeight={'85vh'}
+          placeholderTheme={ETheme.light}
+          placeholderVariant={EPlaceholder.poster}
         />
 
         <div className={classes.mainImageControlerWrapper}>
