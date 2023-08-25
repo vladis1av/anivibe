@@ -12,7 +12,6 @@ export enum EButtonSide {
 }
 
 export enum ETheme {
-  auto = 'auto',
   dark = 'dark',
   light = 'light',
 }
@@ -25,6 +24,12 @@ export enum ECollection {
 export enum EScrollSide {
   left = 'left',
   right = 'right',
+}
+
+export enum EPlaceholder {
+  poster = 'poster',
+  banner = 'banner',
+  error = 'error',
 }
 
 export enum EVideoPlayerMenu {
@@ -108,6 +113,15 @@ export enum EHlsQualityKey {
   fhd = 'fhd',
   hd = 'hd',
   sd = 'sd',
+}
+
+export enum ESkeleton {
+  waveAuto = 'waveAuto',
+  waveLight = 'waveLight',
+  waveDark = 'waveDark',
+  pulseAuto = 'pulseAuto',
+  pulseDark = 'pulseDark',
+  pulseLight = 'pulseLight',
 }
 
 export enum EMediaInfo {
