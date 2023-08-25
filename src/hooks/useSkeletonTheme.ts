@@ -1,20 +1,25 @@
-import { EThemeType } from '@interfaces/theme';
+import clsx from 'clsx';
 
-import { ETheme } from '@enums/enums';
+import { ESkeletonType } from '@interfaces/common';
+
+import { ESkeleton } from '@enums/enums';
 
 import useSkeletonStyles from '@styles/Skeleton.styles';
 
-const useSkeletonTheme = (currentSkeletonTheme: EThemeType): string => {
+const useSkeletonTheme = (currentSkeletonTheme: ESkeletonType): string => {
   const classes = useSkeletonStyles();
+
   switch (currentSkeletonTheme) {
-    case ETheme.auto:
-      return classes.skeletonAutoTheme;
-    case ETheme.dark:
-      return classes.skeletonDarkTheme;
-    case ETheme.light:
-      return classes.skeletonLightTheme;
+    case ESkeleton.pulseAuto:
+    case ESkeleton.pulseDark:
+    case ESkeleton.pulseLight:
+      return classes[currentSkeletonTheme];
+    case ESkeleton.waveAuto:
+    case ESkeleton.waveDark:
+    case ESkeleton.waveLight:
+      return clsx(classes.waveBase, classes[currentSkeletonTheme]);
     default:
-      return classes.skeletonAutoTheme;
+      return classes.pulseAuto;
   }
 };
 
