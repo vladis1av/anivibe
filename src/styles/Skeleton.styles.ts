@@ -30,7 +30,7 @@ const useSkeletonStyles = makeStyles((theme: Theme) => ({
       left: 0,
       transform: 'translateX(-100%)',
       backgroundRepeat: 'no-repeat',
-      animation: '$skeleton-pulse 1.5s linear infinite',
+      animation: '$skeleton-wave 1.5s linear infinite',
       content: '" "',
     },
   },
