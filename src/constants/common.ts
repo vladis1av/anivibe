@@ -7,6 +7,10 @@ import { ECollection, EPlaceholder, EVideoPlayerMenu } from '@enums/enums';
 
 export const HOUR: number = 3600;
 export const MINUTE: number = 60;
+export const ANIME_TITLE: string = 'Аниме';
+export const MANGA_TITLE: string = 'Манга';
+export const ANIME_DESCRIPTION: string = 'На данной странице отображены аниме, отсортированные по годам';
+export const MANGA_DESCRIPTION: string = 'На данной странице отображена манга, отсортированная по популярности';
 export const SKIP_OST_TITLE: string = 'Пропустить';
 export const NEXT_EPIDSODE_TITLE: string = 'Следующая серия';
 export const SECONDS_FOR_SHOW_BUTTONS: number = 20;
