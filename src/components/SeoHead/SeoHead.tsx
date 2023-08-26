@@ -11,14 +11,23 @@ const {
   CLIENT_API,
 } = publicRuntimeConfig;
 
+type Tags = Array<string> ;
+
 type SeoHeadProps = {
   tabTitle: string;
   title: string;
   description: string;
   keywords?: string;
   imageSource?: string;
-  videoTags?: Array<string>
+  videoTags?: Tags;
+  bookTags?: Tags;
 };
+
+const getTags = (tagName: 'video' | 'book', tags?: Tags) => tags && tags.length && tags.map((tag, i) => <meta
+  key={`${tag}-${i}`}
+  content={tag}
+  property={`${tagName}:tag`}
+/>);
 
 const SeoHead: FC<SeoHeadProps> = ({
   tabTitle,
@@ -27,6 +36,7 @@ const SeoHead: FC<SeoHeadProps> = ({
   keywords,
   imageSource,
   videoTags,
+  bookTags,
 }) => (<Head>
   <title>{tabTitle}</title>
   <meta content={title} property="og:title" />
@@ -35,11 +45,8 @@ const SeoHead: FC<SeoHeadProps> = ({
   <meta content={description} name="twitter:description" />
   <meta content={description} name="description" />
   <meta content={!IS_SERVER ? document.URL : CLIENT_API} property="og:url" />
-  {videoTags && videoTags.length && videoTags.map((tag, i) => <meta
-    key={`${tag}-${i}`}
-    content={tag}
-    property="video:tag"
-  />)}
+  {getTags('video', videoTags)}
+  {getTags('book', bookTags)}
   {imageSource && <meta content={imageSource} property="og:image"/>}
   {imageSource && <meta content={imageSource} property="twitter:image"/>}
   {keywords && <meta content={keywords} name="Keywords" />}
