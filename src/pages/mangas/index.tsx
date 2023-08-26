@@ -8,7 +8,9 @@ import { MangaQuery } from '@interfaces/query';
 
 import { ECollection } from '@enums/enums';
 
-import { API_ITEMS_LIMIT, NOT_FOUND_TITLES } from '@constants/common';
+import {
+  API_ITEMS_LIMIT, MANGA_DESCRIPTION, MANGA_TITLE, NOT_FOUND_TITLES,
+} from '@constants/common';
 import { FILTER_MENU_MATCH_MEDIA, PAGINATION_MATCH_MEDIA } from '@constants/matchMedia';
 import { MANGA_FILTERS_PAGE_DESCRIPTION, MANGA_FILTERS_PAGE_KEYWORDS, MANGA_FILTERS_PAGE_TITLE } from '@constants/seo';
 
@@ -17,6 +19,7 @@ import { setFilterType, setFilterValuesFromQuery } from '@redux/slices/filters';
 import { nextReduxWrapper } from '@redux/store';
 
 import Error from '@ui/Error';
+import PageDescription from '@ui/PageDescription/PageDescription';
 
 import FilterCardList from '@components/FilterCardList';
 import FilterMenu from '@components/FilterMenu';
@@ -76,21 +79,23 @@ const Mangas: FC<MangaPageProps> = ({ pagesCount, page }) => {
         keywords={MANGA_FILTERS_PAGE_KEYWORDS}
       />
 
-      <div className={classes.content}>
-        <div className={classes.filterCardListWrapper}>
-          {
-            !filteredData.length
-              ? <Error errorText={NOT_FOUND_TITLES} />
-              : <>
-                {getPagination(classes.paginationWrapperTop)}
-                <FilterCardList filteredList={filteredData} />
-              </>
-          }
+      <div className={classes.contentWrapper}>
+        <PageDescription title={MANGA_TITLE} description={MANGA_DESCRIPTION} className={classes.pageDescription}/>
+        {getPagination(classes.paginationWrapperTop)}
 
-          {getPagination(classes.paginationWrapperBottom)}
+        <div className={classes.content}>
+          <div className={classes.filterCardListWrapper}>
+            {
+              !filteredData.length
+                ? <Error errorText={NOT_FOUND_TITLES} />
+                : <FilterCardList filteredList={filteredData} />
+            }
+
+            {getPagination(classes.paginationWrapperBottom)}
+          </div>
+
+          <FilterMenu isDesktopOrBelow={isMobileFilterMenu} />
         </div>
-
-        <FilterMenu isDesktopOrBelow={isMobileFilterMenu} />
       </div>
     </MainLayout>
   );

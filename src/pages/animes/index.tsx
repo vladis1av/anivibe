@@ -7,6 +7,8 @@ import { AnimeQuery } from '@interfaces/query';
 import { ECollection, ELoadingStatus } from '@enums/enums';
 
 import {
+  ANIME_DESCRIPTION,
+  ANIME_TITLE,
   API_ITEMS_LIMIT,
   DEFAULT_YEAR_FOR_QUERY, LOADED_ALL_TITLES, LOAD_MORE, NOT_FOUND_TITLES,
 } from '@constants/common';
@@ -23,6 +25,7 @@ import { nextReduxWrapper } from '@redux/store';
 
 import Error from '@ui/Error';
 import InfiniteLoadMore from '@ui/InfiniteLoadMore';
+import PageDescription from '@ui/PageDescription/PageDescription';
 
 import FilterCardList from '@components/FilterCardList';
 import FilterMenu from '@components/FilterMenu';
@@ -82,24 +85,28 @@ const Animes: FC = () => {
         keywords={ANIME_FILTERS_PAGE_KEYWORDS}
       />
 
-      <div className={classes.content}>
-        {
-          !filteredData.length
-            ? <Error errorText={NOT_FOUND_TITLES} />
-            : <div className={classes.filterCardListWrapper}>
-              <FilterCardList filteredList={filteredData} />
+      <div className={classes.contentWrapper}>
+        <PageDescription title={ANIME_TITLE} description={ANIME_DESCRIPTION} />
 
-              <InfiniteLoadMore
-                isPending={dataPending}
-                isError={dataError}
-                loadMoreCallback={loadMoreData}
-                errorText={LOADED_ALL_TITLES}
-                defaultText={LOAD_MORE}
-              />
-            </div>
-        }
+        <div className={classes.content}>
+          {
+            !filteredData.length
+              ? <Error errorText={NOT_FOUND_TITLES} />
+              : <div className={classes.filterCardListWrapper}>
+                <FilterCardList filteredList={filteredData} />
 
-        <FilterMenu isDesktopOrBelow={isMobile} />
+                <InfiniteLoadMore
+                  isPending={dataPending}
+                  isError={dataError}
+                  loadMoreCallback={loadMoreData}
+                  errorText={LOADED_ALL_TITLES}
+                  defaultText={LOAD_MORE}
+                />
+              </div>
+          }
+
+          <FilterMenu isDesktopOrBelow={isMobile} />
+        </div>
       </div>
     </MainLayout>
   );
