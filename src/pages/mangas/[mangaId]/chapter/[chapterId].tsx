@@ -93,8 +93,8 @@ const Chapter: FC<ChapterProps> = ({
     image,
     russian,
     name,
-    description,
     chapters,
+    kind,
   } = manga;
   const { ch_prev: chapterPrev, ch_next: chapterNext } = pages;
   const { img, width } = pages.list[page - 1];
@@ -145,26 +145,28 @@ const Chapter: FC<ChapterProps> = ({
   };
 
   const seoTitle = getMangaSeoChapterTitle({
-    title: russian, page, chapter: ch, vol,
+    title: russian, page, mangaType: kind, chapter: ch, vol, isReading: true,
+  });
+
+  const seoDescription = getMangaSeoChapterTitle({
+    title: russian, page, mangaType: kind, chapter: ch, vol, isReading: false,
   });
 
   const altTitleImg = getMangaSeoChapterTitle({
-    title: russian, page, chapter: ch, vol, hideTitleKeys: [0],
+    title: russian, page, mangaType: kind, chapter: ch, vol, hideTitleKeys: [0],
   });
-
-  const onCloseDrawer = () => setDrawerIsOpen(false);
 
   return (
     <MainLayout full>
       <SeoHead
-        tabTitle={seoTitle}
         title={seoTitle}
-        description={description}
+        tabTitle={seoTitle}
+        description={seoDescription}
         imageSource={image.preview}
       />
 
-      <Drawer open={drawerIsOpen} onClose={onCloseDrawer} className={classes.drawer}>
-        <Button className={clsx(classes.closeDrawerButton)} onClick={onCloseDrawer} variant="text">
+      <Drawer open={drawerIsOpen} onClose={closeDrawer} className={classes.drawer}>
+        <Button className={clsx(classes.closeDrawerButton)} onClick={closeDrawer} variant="text">
           <CloseSVG className={classes.closeDrawerButtonIcon} />
         </Button>
 
