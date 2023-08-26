@@ -56,7 +56,7 @@ const SearchCard: FC<SearchCardProps> = ({
       </div>
 
       <div className={classes.infoList}>
-        <h3 className={classes.title}>{title}</h3>
+        <span className={classes.title} title={title}>{title}</span>
 
         <div>
           {
