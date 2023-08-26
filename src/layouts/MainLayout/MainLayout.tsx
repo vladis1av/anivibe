@@ -54,14 +54,14 @@ const MainLayout: FC<MainLayoutProps> = ({
         options={{ showSpinner: false }}
       />
 
-      <div className={clsx(classes.wrapper, className, {
+      <main className={clsx(classes.wrapper, className, {
         [classes.full]: full,
         [classes.fullHeight]: fullHeight,
         [classes.paddings]: paddings,
         [classes.clearPaddingTop]: clearPaddingTop,
       })}>
         {children}
-      </div>
+      </main>
     </>
   );
 };
