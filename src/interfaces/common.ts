@@ -52,11 +52,13 @@ export type MainRouteType = {
 };
 
 export type GetMangaSeoProps = {
-  title: string,
-  page: number,
-  chapter: number | null,
-  vol: number | null,
-  hideTitleKeys?: Array<number>,
+  title: string;
+  page: number;
+  isReading?: boolean;
+  mangaType: EMangaReliaseType;
+  chapter: number | null;
+  vol: number | null;
+  hideTitleKeys?: Array<number>;
 };
 
 export type VideoPlayerProgressType = {
