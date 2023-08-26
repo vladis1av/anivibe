@@ -1,8 +1,9 @@
 import { FC } from 'react';
 
+import getConfig from 'next/config';
 import dynamic from 'next/dynamic';
+import { useRouter } from 'next/router';
 
-import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import clsx from 'clsx';
 
@@ -12,6 +13,7 @@ import { EMediaInfoValueType, EReliaseType } from '@interfaces/common';
 import { MangaChapterList, MangaGenres } from '@interfaces/manga';
 
 import {
+  ECollection,
   ELinkPath, EMediaInfo, EPlaceholder, EReliase, ESkeleton, ETheme,
 } from '@enums/enums';
 
@@ -31,6 +33,12 @@ import useMatchMedia from '@hooks/useMatchMedia';
 import entries from '@utils/entries';
 
 import useMediaInfoStyles from './MediaInfo.styles';
+
+const { publicRuntimeConfig } = getConfig();
+
+const {
+  CLIENT_API,
+} = publicRuntimeConfig;
 
 const VideoPlayer = dynamic(() => import('@ui/VideoPlayer'), { ssr: false });
 
@@ -98,11 +106,11 @@ const MediaInfo: FC<MediaInfoProps> = (props) => {
     description,
   };
   const classes = useMediaInfoStyles();
+  const { asPath } = useRouter();
   const imagePoster = useCheckWebpSupport(image);
   const imageHeaderBanner = (!bannerImageHightQuality
     ? imagePoster
     : bannerImageHightQuality);
-
   const getLink = ({
     items,
     pathType,
@@ -172,7 +180,7 @@ const MediaInfo: FC<MediaInfoProps> = (props) => {
         });
 
       case EMediaInfo.description:
-        return <ReadMore text={description} />;
+        return <ReadMore text={description} itemPropTitle="description"/>;
 
       default:
         return null;
@@ -197,7 +205,11 @@ const MediaInfo: FC<MediaInfoProps> = (props) => {
         <div className={classes.bannerImageGradient}></div>
       </div>
 
-      <Container className={classes.detailContent}>
+      <section
+        className={classes.detailContent}
+        itemScope
+        itemType={`${type === ECollection.anime ? 'http://schema.org/Movie' : 'http://schema.org/CreativeWork'}`}
+      >
         <div className={classes.posterWrapper}>
           <div className={classes.poster}>
             <ImageWithPlaceholder
@@ -205,11 +217,15 @@ const MediaInfo: FC<MediaInfoProps> = (props) => {
               src={imagePoster}
               placeholderVariant={EPlaceholder.poster}
               placeholderTheme={ETheme.light}
+              skeletonVariant={ESkeleton.waveAuto}
             />
           </div>
 
           <div className={classes.posterInfo}>
-            <Typography className={classes.title} variant="h1">
+            <meta content={`${CLIENT_API}${asPath}`} itemProp="url" />
+            <meta content={title} itemProp="headline" />
+
+            <Typography className={classes.title} variant="h1" itemProp="name">
               {title}
             </Typography>
 
@@ -240,7 +256,7 @@ const MediaInfo: FC<MediaInfoProps> = (props) => {
 
         {chaptersList
          && <Chapters chapters={chaptersList} itemSize={itemSize} title={CHAPTER_TITLE} border/>}
-      </Container>
+      </section>
     </>
   );
 };
