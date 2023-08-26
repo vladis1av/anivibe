@@ -8,6 +8,7 @@ import { MangaDetail } from '@interfaces/manga';
 import { ECollection } from '@enums/enums';
 
 import { NOT_FOUND_MANGA_ERROR } from '@constants/error';
+import { SEO_MANGA_READ_ONLINE_TEXT } from '@constants/seo';
 
 import Error from '@ui/Error';
 
@@ -24,9 +25,10 @@ import getMangaSeoTitle from '@utils/getMangaSeoTitle';
 
 type MangaPageProps = {
   manga: (MangaDetail & BannerImage) | null;
+  bookTags: Array<string>;
 };
 
-const Manga: FC<MangaPageProps> = ({ manga }) => {
+const Manga: FC<MangaPageProps> = ({ manga, bookTags }) => {
   if (!manga) {
     return <MainLayout fullHeight>
       <Error errorText={NOT_FOUND_MANGA_ERROR} goHome />
@@ -48,10 +50,11 @@ const Manga: FC<MangaPageProps> = ({ manga }) => {
   return (
     <MainLayout clearPaddingTop>
       <SeoHead
-        tabTitle={seoTitle}
         title={seoTitle}
-        description={description}
+        tabTitle={seoTitle}
+        description={[`${SEO_MANGA_READ_ONLINE_TEXT} ${russian}`, description].join(' — ')}
         imageSource={image.original}
+        bookTags={bookTags}
       />
 
       <MediaInfo
@@ -88,7 +91,10 @@ export const getServerSideProps: GetServerSideProps<MangaPageProps> = async ({ p
   }
 
   return {
-    props: { manga: result },
+    props: {
+      manga: result,
+      bookTags: manga?.genres.map((value) => value.russian) || [],
+    },
   };
 };
 
