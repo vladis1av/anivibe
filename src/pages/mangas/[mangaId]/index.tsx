@@ -50,6 +50,7 @@ const Manga: FC<MangaPageProps> = ({ manga, bookTags }) => {
   return (
     <MainLayout clearPaddingTop>
       <SeoHead
+        isCanonical
         title={seoTitle}
         tabTitle={seoTitle}
         description={[`${SEO_MANGA_READ_ONLINE_TEXT} ${russian}`, description].join(' — ')}

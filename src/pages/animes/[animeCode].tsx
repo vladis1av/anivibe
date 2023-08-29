@@ -72,6 +72,7 @@ export default function Anime({ anime }: AnimePageProps) {
   return (
     <MainLayout clearPaddingTop>
       <SeoHead
+        isCanonical
         tabTitle={`${title} - ${SEO_ANIME_DETAIL_PAGE_TITLE}`}
         title={`${title} - ${SEO_ANIME_WATCH_ONLINE_TEXT}`}
         description={[`${SEO_ANIME_WATCH_ONLINE_TEXT} ${title}`, description].join(' — ')}

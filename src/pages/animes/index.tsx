@@ -79,6 +79,7 @@ const Animes: FC = () => {
   return (
     <MainLayout full paddings fullHeight>
       <SeoHead
+        isCanonical
         tabTitle={ANIME_FILTERS_PAGE_TITLE}
         title={ANIME_FILTERS_PAGE_TITLE}
         description={ANIME_FILTERS_PAGE_DESCRIPTION}

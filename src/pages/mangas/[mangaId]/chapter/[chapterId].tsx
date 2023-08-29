@@ -159,6 +159,7 @@ const Chapter: FC<ChapterProps> = ({
   return (
     <MainLayout full>
       <SeoHead
+        isCanonical
         title={seoTitle}
         tabTitle={seoTitle}
         description={seoDescription}

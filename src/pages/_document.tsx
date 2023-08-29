@@ -1,6 +1,5 @@
 import { Children } from 'react';
 
-import getConfig from 'next/config';
 import Document, {
   Html, Head, Main, NextScript,
 } from 'next/document';
@@ -12,12 +11,6 @@ import { IS_DEV } from '@constants/common';
 
 import createEmotionCache from '@utils/createEmotionCache';
 
-const { publicRuntimeConfig } = getConfig();
-
-const {
-  CLIENT_API,
-} = publicRuntimeConfig;
-
 export default class MyDocument extends Document {
   render() {
     return (
@@ -28,7 +21,6 @@ export default class MyDocument extends Document {
           <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
           <meta name="yandex-verification" content="c348945bfd78b269" />
           <link rel="icon" type="image/png" href="/favicon.ico" />
-          <link rel="canonical" href={`${CLIENT_API}`} />
           <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
           {(this.props as any).emotionStyleTags}
         </Head>

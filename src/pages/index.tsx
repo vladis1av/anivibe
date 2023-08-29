@@ -26,6 +26,7 @@ type MainPageProps = {
 const Main: FC<MainPageProps> = ({ collections }) => (
   <MainLayout full>
     <SeoHead
+      isCanonical
       tabTitle={SEO_TITLE}
       title={SEO_TITLE}
       description={SEO_DESCRIPTION}

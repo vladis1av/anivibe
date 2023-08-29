@@ -73,6 +73,7 @@ const Mangas: FC<MangaPageProps> = ({ pagesCount, page }) => {
   return (
     <MainLayout full paddings fullHeight>
       <SeoHead
+        isCanonical
         tabTitle={MANGA_FILTERS_PAGE_TITLE}
         title={MANGA_FILTERS_PAGE_TITLE}
         description={MANGA_FILTERS_PAGE_DESCRIPTION}
