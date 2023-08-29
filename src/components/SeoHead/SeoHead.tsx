@@ -16,6 +16,7 @@ type Tags = Array<string> ;
 type SeoHeadProps = {
   tabTitle: string;
   title: string;
+  isCanonical?: boolean;
   description: string;
   keywords?: string;
   imageSource?: string;
@@ -32,24 +33,29 @@ const getTags = (tagName: 'video' | 'book', tags?: Tags) => tags && tags.length 
 const SeoHead: FC<SeoHeadProps> = ({
   tabTitle,
   title,
+  isCanonical,
   description,
   keywords,
   imageSource,
   videoTags,
   bookTags,
-}) => (<Head>
-  <title>{tabTitle}</title>
-  <meta content={title} property="og:title" />
-  <meta content={title} property="twitter:title" />
-  <meta content={description} name="og:description" />
-  <meta content={description} name="twitter:description" />
-  <meta content={description} name="description" />
-  <meta content={!IS_SERVER ? document.URL : CLIENT_API} property="og:url" />
-  {getTags('video', videoTags)}
-  {getTags('book', bookTags)}
-  {imageSource && <meta content={imageSource} property="og:image"/>}
-  {imageSource && <meta content={imageSource} property="twitter:image"/>}
-  {keywords && <meta content={keywords} name="Keywords" />}
-</Head>);
+}) => {
+  const fullLing = !IS_SERVER ? document.URL : CLIENT_API as string;
+  return (<Head>
+    <title>{tabTitle}</title>
+    <meta content={title} property="og:title" />
+    <meta content={title} property="twitter:title" />
+    <meta content={description} name="og:description" />
+    <meta content={description} name="twitter:description" />
+    <meta content={description} name="description" />
+    { isCanonical && <link rel="canonical" href={`${fullLing}`} />}
+    <meta content={fullLing} property="og:url" />
+    {getTags('video', videoTags)}
+    {getTags('book', bookTags)}
+    {imageSource && <meta content={imageSource} property="og:image"/>}
+    {imageSource && <meta content={imageSource} property="twitter:image"/>}
+    {keywords && <meta content={keywords} name="Keywords" />}
+  </Head>);
+};
 
 export default SeoHead;
