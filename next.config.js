@@ -39,7 +39,7 @@ module.exports = {
     DESU_ME_API2: process.env.DESU_ME_API2,
     SHIKIMORI_API: process.env.SHIKIMORI_API,
     ANILIST_API: process.env.ANILIST_API,
-    CLIENT_API: process.env.CLIENT_API,
+    HOST: process.env.HOST,
     ANILIST_API_KEY: process.env.ANILIST_API_KEY,
     JPG_URL: process.env.JPG_URL,
     WEBP_URL: process.env.WEBP_URL,
