@@ -1,8 +1,6 @@
 import { FC } from 'react';
 
-import getConfig from 'next/config';
 import dynamic from 'next/dynamic';
-import { useRouter } from 'next/router';
 
 import Typography from '@mui/material/Typography';
 import clsx from 'clsx';
@@ -34,12 +32,6 @@ import entries from '@utils/entries';
 
 import useMediaInfoStyles from './MediaInfo.styles';
 
-const { publicRuntimeConfig } = getConfig();
-
-const {
-  CLIENT_API,
-} = publicRuntimeConfig;
-
 const VideoPlayer = dynamic(() => import('@ui/VideoPlayer'), { ssr: false });
 
 type Media = {
@@ -58,6 +50,7 @@ type Media = {
 type MediaKey = keyof Media;
 
 type MediaInfoProps = Media & {
+  fullUrl: string;
   type: ECollectionType;
   title: string;
   image?: string | number;
@@ -75,6 +68,7 @@ type GetLinkProps = {
 
 const MediaInfo: FC<MediaInfoProps> = (props) => {
   const {
+    fullUrl,
     type,
     title,
     image,
@@ -106,7 +100,6 @@ const MediaInfo: FC<MediaInfoProps> = (props) => {
     description,
   };
   const classes = useMediaInfoStyles();
-  const { asPath } = useRouter();
   const imagePoster = useCheckWebpSupport(image);
   const imageHeaderBanner = (!bannerImageHightQuality
     ? imagePoster
@@ -222,7 +215,7 @@ const MediaInfo: FC<MediaInfoProps> = (props) => {
           </div>
 
           <div className={classes.posterInfo}>
-            <meta content={`${CLIENT_API}${asPath}`} itemProp="url" />
+            <meta content={fullUrl} itemProp="url" />
             <meta content={title} itemProp="headline" />
 
             <Typography className={classes.title} variant="h1" itemProp="name">
