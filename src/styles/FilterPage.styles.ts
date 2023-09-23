@@ -3,11 +3,10 @@ import { makeStyles } from '@mui/styles';
 const useFilterPageStyles = makeStyles(() => ({
   contentWrapper: {
     marginTop: 20,
+    height: 'calc(100% - 75px)',
   },
   content: {
     display: 'flex',
-    height: '100%',
-    position: 'relative',
   },
   pageDescription: {
     marginBottom: 30,
