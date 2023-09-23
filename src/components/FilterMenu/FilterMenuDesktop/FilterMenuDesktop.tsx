@@ -8,7 +8,7 @@ const filterMenuDesktop: FC = () => {
   const classes = useFilterMenuDesktopStyles();
 
   return <aside className={classes.filterMenuDesktop}>
-    <Filters className={classes.filters}/>
+    <Filters />
   </aside>;
 };
 
