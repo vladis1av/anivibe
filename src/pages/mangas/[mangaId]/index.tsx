@@ -20,15 +20,17 @@ import MainLayout from '@layouts/MainLayout';
 import { getHightQualityBanner } from '@services/api/common';
 import { getMangaById } from '@services/api/manga';
 
+import getFullUrlFromServerSide from '@utils/getFullUrlFromServerSide';
 import getIdFromString from '@utils/getIdFromString';
 import getMangaSeoTitle from '@utils/getMangaSeoTitle';
 
 type MangaPageProps = {
+  fullUrl: string;
   manga: (MangaDetail & BannerImage) | null;
   bookTags: Array<string>;
 };
 
-const Manga: FC<MangaPageProps> = ({ manga, bookTags }) => {
+const Manga: FC<MangaPageProps> = ({ fullUrl, manga, bookTags }) => {
   if (!manga) {
     return <MainLayout fullHeight>
       <Error errorText={NOT_FOUND_MANGA_ERROR} goHome />
@@ -50,7 +52,8 @@ const Manga: FC<MangaPageProps> = ({ manga, bookTags }) => {
   return (
     <MainLayout clearPaddingTop>
       <SeoHead
-        isCanonical
+        canonical={fullUrl}
+        ogUrl={fullUrl}
         title={seoTitle}
         tabTitle={seoTitle}
         description={[`${SEO_MANGA_READ_ONLINE_TEXT} ${russian}`, description].join(' — ')}
@@ -59,6 +62,7 @@ const Manga: FC<MangaPageProps> = ({ manga, bookTags }) => {
       />
 
       <MediaInfo
+        fullUrl={fullUrl}
         type={ECollection.manga}
         reliaseType={kind}
         title={russian}
@@ -74,8 +78,9 @@ const Manga: FC<MangaPageProps> = ({ manga, bookTags }) => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps<MangaPageProps> = async ({ params, res }) => {
+export const getServerSideProps: GetServerSideProps<MangaPageProps> = async ({ params, res, resolvedUrl }) => {
   const { mangaId } = params as { mangaId: string };
+  const fullUrl = getFullUrlFromServerSide(resolvedUrl);
 
   const currentMangaId = getIdFromString(mangaId) || mangaId;
   const manga = await getMangaById(currentMangaId);
@@ -93,6 +98,7 @@ export const getServerSideProps: GetServerSideProps<MangaPageProps> = async ({ p
 
   return {
     props: {
+      fullUrl,
       manga: result,
       bookTags: manga?.genres.map((value) => value.russian) || [],
     },

@@ -2,6 +2,8 @@ import { FC } from 'react';
 
 import { useRouter } from 'next/router';
 
+import clsx from 'clsx';
+
 import { AnimeQuery } from '@interfaces/query';
 
 import { ECollection, ELoadingStatus } from '@enums/enums';
@@ -41,11 +43,19 @@ import useMatchMedia from '@hooks/useMatchMedia';
 
 import checkObjectValueAndExcludeKey from '@utils/checkObjectValueAndExcludeKey';
 import entries from '@utils/entries';
+import getFullUrlFromServerSide from '@utils/getFullUrlFromServerSide';
 
+import useCommonStyles from '@styles/Common.styles';
 import useFilterPageStyles from '@styles/FilterPage.styles';
 
-const Animes: FC = () => {
+type AnimesProps = {
+  fullUrl: string;
+};
+
+const Animes: FC<AnimesProps> = ({ fullUrl }) => {
   const classes = useFilterPageStyles();
+  const commonClasses = useCommonStyles();
+
   const {
     filteredData,
     loadingState,
@@ -54,6 +64,7 @@ const Animes: FC = () => {
   const route = useRouter();
   const dataError = loadingState === ELoadingStatus.error;
   const dataPending = loadingState === ELoadingStatus.pending;
+  const filteredDataIsNotFound = !filteredData.length;
   const { query } = route;
   const {
     years, genres, seasons, voices,
@@ -79,7 +90,8 @@ const Animes: FC = () => {
   return (
     <MainLayout full paddings fullHeight>
       <SeoHead
-        isCanonical
+        canonical={fullUrl}
+        ogUrl={fullUrl}
         tabTitle={ANIME_FILTERS_PAGE_TITLE}
         title={ANIME_FILTERS_PAGE_TITLE}
         description={ANIME_FILTERS_PAGE_DESCRIPTION}
@@ -89,9 +101,9 @@ const Animes: FC = () => {
       <div className={classes.contentWrapper}>
         <PageDescription title={ANIME_TITLE} description={ANIME_DESCRIPTION} />
 
-        <div className={classes.content}>
+        <div className={clsx(classes.content, { [commonClasses.fullHeight]: filteredDataIsNotFound })}>
           {
-            !filteredData.length
+            filteredDataIsNotFound
               ? <Error errorText={NOT_FOUND_TITLES} />
               : <div className={classes.filterCardListWrapper}>
                 <FilterCardList filteredList={filteredData} />
@@ -114,9 +126,8 @@ const Animes: FC = () => {
 };
 
 export const getServerSideProps = nextReduxWrapper.getServerSideProps(
-  (store) => async (
-    { query },
-  ) => {
+  (store) => async ({ query, resolvedUrl }) => {
+    const fullUrl = getFullUrlFromServerSide(resolvedUrl);
     const { filters: { filterType, filterItems } } = store.getState();
 
     const {
@@ -171,7 +182,7 @@ export const getServerSideProps = nextReduxWrapper.getServerSideProps(
     });
 
     return {
-      props: {},
+      props: { fullUrl },
     };
   },
 );

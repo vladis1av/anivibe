@@ -19,14 +19,18 @@ import MainLayout from '@layouts/MainLayout';
 import { getFilteredData } from '@services/api/anime';
 import { getMangas } from '@services/api/manga';
 
+import getFullUrlFromServerSide from '@utils/getFullUrlFromServerSide';
+
 type MainPageProps = {
-  collections: CollectionType[]
+  collections: CollectionType[];
+  fullUrl: string;
 };
 
-const Main: FC<MainPageProps> = ({ collections }) => (
+const Main: FC<MainPageProps> = ({ collections, fullUrl }) => (
   <MainLayout full>
     <SeoHead
-      isCanonical
+      canonical={fullUrl}
+      ogUrl={fullUrl}
       tabTitle={SEO_TITLE}
       title={SEO_TITLE}
       description={SEO_DESCRIPTION}
@@ -44,16 +48,18 @@ const Main: FC<MainPageProps> = ({ collections }) => (
   </MainLayout>
 );
 
-export const getServerSideProps: GetServerSideProps<MainPageProps> = async () => {
+export const getServerSideProps: GetServerSideProps<MainPageProps> = async ({ resolvedUrl }) => {
   const animes = await getFilteredData({
     method: 'getUpdates',
     filters: ['id', 'code', 'names'],
     params: { limit: COLLECTION_ITEMS_LIMIT },
   }) || [];
   const mangas = await getMangas({ limit: COLLECTION_ITEMS_LIMIT });
+  const fullUrl = getFullUrlFromServerSide(resolvedUrl);
 
   return {
     props: {
+      fullUrl,
       collections: [
         {
           type: ECollection.anime,

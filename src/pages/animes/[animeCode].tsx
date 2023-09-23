@@ -21,6 +21,7 @@ import MainLayout from '@layouts/MainLayout';
 import { getAnimeByCode } from '@services/api/anime';
 import { getHightQualityBanner } from '@services/api/common';
 
+import getFullUrlFromServerSide from '@utils/getFullUrlFromServerSide';
 import getNameFromString from '@utils/getNameFromString';
 
 const { publicRuntimeConfig } = getConfig();
@@ -30,6 +31,7 @@ const {
 } = publicRuntimeConfig;
 
 type AnimePageProps = {
+  fullUrl: string;
   anime: (AnimeType & BannerImage) | null;
 };
 
@@ -45,7 +47,7 @@ const generateUnifiedList = (type: ECollectionType, data: string[]): MangaGenres
   russian: item,
 }));
 
-export default function Anime({ anime }: AnimePageProps) {
+export default function Anime({ anime, fullUrl }: AnimePageProps) {
   if (!anime) {
     return <MainLayout fullHeight>
       <Error errorText={NOT_FOUND_ANIME_ERROR} goHome />;
@@ -72,7 +74,8 @@ export default function Anime({ anime }: AnimePageProps) {
   return (
     <MainLayout clearPaddingTop>
       <SeoHead
-        isCanonical
+        canonical={fullUrl}
+        ogUrl={fullUrl}
         tabTitle={`${title} - ${SEO_ANIME_DETAIL_PAGE_TITLE}`}
         title={`${title} - ${SEO_ANIME_WATCH_ONLINE_TEXT}`}
         description={[`${SEO_ANIME_WATCH_ONLINE_TEXT} ${title}`, description].join(' — ')}
@@ -81,6 +84,7 @@ export default function Anime({ anime }: AnimePageProps) {
       />
 
       <MediaInfo
+        fullUrl={fullUrl}
         type={ECollection.anime}
         reliaseType={reliaseType.toLowerCase()}
         title={title}
@@ -100,8 +104,9 @@ export default function Anime({ anime }: AnimePageProps) {
   );
 }
 
-export const getServerSideProps: GetServerSideProps<AnimePageProps> = async ({ params, res }) => {
+export const getServerSideProps: GetServerSideProps<AnimePageProps> = async ({ params, res, resolvedUrl }) => {
   const { animeCode } = params as { animeCode: string };
+  const fullUrl = getFullUrlFromServerSide(resolvedUrl);
   const currentAnimeCode = getNameFromString(animeCode);
 
   const fetchedAnime = await getAnimeByCode(currentAnimeCode);
@@ -119,6 +124,6 @@ export const getServerSideProps: GetServerSideProps<AnimePageProps> = async ({ p
   }
 
   return {
-    props: { anime: result },
+    props: { anime: result, fullUrl },
   };
 };

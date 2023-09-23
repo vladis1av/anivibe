@@ -3,6 +3,7 @@ import { FC } from 'react';
 import { useRouter } from 'next/router';
 
 import { Pagination } from '@mui/material';
+import clsx from 'clsx';
 
 import { MangaQuery } from '@interfaces/query';
 
@@ -33,19 +34,25 @@ import useAppSelector from '@hooks/useAppSelector';
 import useMatchMedia from '@hooks/useMatchMedia';
 
 import entries from '@utils/entries';
+import getFullUrlFromServerSide from '@utils/getFullUrlFromServerSide';
 
+import useCommonStyles from '@styles/Common.styles';
 import useFilterPageStyles from '@styles/FilterPage.styles';
 
 type MangaPageProps = {
   pagesCount: number;
   page: number;
+  fullUrl: string;
 };
 
-const Mangas: FC<MangaPageProps> = ({ pagesCount, page }) => {
+const Mangas: FC<MangaPageProps> = ({ pagesCount, page, fullUrl }) => {
   const classes = useFilterPageStyles();
+  const commonClasses = useCommonStyles();
+
   const {
     filteredData,
   } = useAppSelector(getFilterDataState);
+  const filteredDataIsNotFound = !filteredData.length;
   const route = useRouter();
   const { query } = route;
 
@@ -60,20 +67,29 @@ const Mangas: FC<MangaPageProps> = ({ pagesCount, page }) => {
   const [isMobileFilterMenu] = useMatchMedia(FILTER_MENU_MATCH_MEDIA);
   const [isMobilePagination] = useMatchMedia(PAGINATION_MATCH_MEDIA);
 
-  const getPagination = (className: string) => <div className={className}>
-    <Pagination
-      page={page}
-      size={isMobilePagination ? 'small' : 'large'}
-      shape="rounded"
-      count={pagesCount}
-      onChange={(_, muiPage) => setPage(muiPage)}
-    />
-  </div>;
+  const getPagination = (className: string) => {
+    if (!pagesCount) {
+      return null;
+    }
+
+    return (
+      <div className={className}>
+        <Pagination
+          page={page}
+          size={isMobilePagination ? 'small' : 'large'}
+          shape="rounded"
+          count={pagesCount}
+          onChange={(_, muiPage) => setPage(muiPage)}
+        />
+      </div>
+    );
+  };
 
   return (
     <MainLayout full paddings fullHeight>
       <SeoHead
-        isCanonical
+        canonical={fullUrl}
+        ogUrl={fullUrl}
         tabTitle={MANGA_FILTERS_PAGE_TITLE}
         title={MANGA_FILTERS_PAGE_TITLE}
         description={MANGA_FILTERS_PAGE_DESCRIPTION}
@@ -84,7 +100,7 @@ const Mangas: FC<MangaPageProps> = ({ pagesCount, page }) => {
         <PageDescription title={MANGA_TITLE} description={MANGA_DESCRIPTION} className={classes.pageDescription}/>
         {getPagination(classes.paginationWrapperTop)}
 
-        <div className={classes.content}>
+        <div className={clsx(classes.content, { [commonClasses.fullHeight]: filteredDataIsNotFound }) }>
           <div className={classes.filterCardListWrapper}>
             {
               !filteredData.length
@@ -104,11 +120,12 @@ const Mangas: FC<MangaPageProps> = ({ pagesCount, page }) => {
 
 export const getServerSideProps = nextReduxWrapper
   .getServerSideProps<MangaPageProps>((store) => async (
-  { query },
+  { query, resolvedUrl },
 ) => {
   const { page = '1', genres } = query as unknown as MangaQuery;
   const { filters: { filterType } } = store.getState();
   const currentPage = Number(page);
+  const fullUrl = getFullUrlFromServerSide(resolvedUrl);
 
   if (filterType === ECollection.anime) {
     store.dispatch(setFilterType(ECollection.manga));
@@ -133,7 +150,7 @@ export const getServerSideProps = nextReduxWrapper
   });
 
   return {
-    props: { pagesCount, page: currentPage },
+    props: { pagesCount, page: currentPage, fullUrl },
   };
 });
 

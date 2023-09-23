@@ -40,12 +40,14 @@ import MenuSVG from '@assets/svg/menu';
 import { getMangaChapterById } from '@services/api/manga';
 
 import generateMangaPath from '@utils/generateMangaPath';
+import getFullUrlFromServerSide from '@utils/getFullUrlFromServerSide';
 import getIdFromString from '@utils/getIdFromString';
 import getMangaSeoChapterTitle from '@utils/getMangaSeoChapterTitle';
 
 import useChapterPageStyles from '@styles/ChapterPage.styles';
 
 type ChapterProps = {
+  fullUrl: string;
   manga: MangaWithPages | null;
   page: number;
   activeChapter: string;
@@ -53,6 +55,7 @@ type ChapterProps = {
 };
 
 const Chapter: FC<ChapterProps> = ({
+  fullUrl,
   manga,
   page,
   activeChapter,
@@ -159,7 +162,8 @@ const Chapter: FC<ChapterProps> = ({
   return (
     <MainLayout full>
       <SeoHead
-        isCanonical
+        canonical={fullUrl}
+        ogUrl={fullUrl}
         title={seoTitle}
         tabTitle={seoTitle}
         description={seoDescription}
@@ -263,10 +267,11 @@ const Chapter: FC<ChapterProps> = ({
   );
 };
 
-export const getServerSideProps: GetServerSideProps<ChapterProps> = async ({ query, res }) => {
+export const getServerSideProps: GetServerSideProps<ChapterProps> = async ({ query, res, resolvedUrl }) => {
   const { mangaId, chapterId, page = '1' } = query as MangaChapterQuery;
   const currentMangaId = getIdFromString(mangaId) || mangaId;
   const mangaWithPages = await getMangaChapterById(currentMangaId, chapterId);
+  const fullUrl = getFullUrlFromServerSide(resolvedUrl);
   const error = !mangaWithPages || !mangaWithPages.pages;
   const currentPage = Number(page);
   let pageLimitNotExceeded = false;
@@ -282,6 +287,7 @@ export const getServerSideProps: GetServerSideProps<ChapterProps> = async ({ que
 
   return {
     props: {
+      fullUrl,
       manga: mangaWithPages,
       activeChapter: chapterId,
       page: pageLimitNotExceeded ? currentPage : 1,
