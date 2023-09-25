@@ -1,5 +1,7 @@
 import { ReactNode, FC } from 'react';
 
+import getConfig from 'next/config';
+
 import clsx from 'clsx';
 import NextNProgress from 'nextjs-progressbar';
 
@@ -19,6 +21,15 @@ import Header from '@components/Header';
 import useAppSelector from '@hooks/useAppSelector';
 
 import useMainLayoutStyles from './MainLayout.styles';
+
+const { publicRuntimeConfig } = getConfig();
+
+const { RUNTIME, REGIONS } = publicRuntimeConfig;
+
+export const config = {
+  runtime: RUNTIME, // 'nodejs' (default) | 'edge'
+  regions: REGIONS,
+};
 
 type MainLayoutProps = {
   children: ReactNode;
