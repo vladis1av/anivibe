@@ -30,24 +30,22 @@ const getMangaRewrites = () => {
 
 module.exports = {
   swcMinify: true,
-  async rewrites() {
-    return getMangaRewrites()
-  },
   publicRuntimeConfig: {
     RUNTIME,
     REGIONS,
-    ANILIBRIA_API: process.env.ANILIBRIA_API,
-    ANILIBRIA_DOMEN: process.env.ANILIBRIA_DOMEN,
-    DESU_ME_API_NUMBER,
     DESU_ME_API,
-    DESU_ME_API2: process.env.DESU_ME_API2,
-    SHIKIMORI_API: process.env.SHIKIMORI_API,
-    ANILIST_API: process.env.ANILIST_API,
+    DESU_ME_API_NUMBER,
     HOST: process.env.HOST,
-    ANILIST_API_KEY: process.env.ANILIST_API_KEY,
     JPG_URL: process.env.JPG_URL,
     WEBP_URL: process.env.WEBP_URL,
     TORRENT_URL: process.env.TORRENT_URL,
-    DESU_ME_API_WITH_CORS: process.env.DESU_ME_API_WITH_CORS,
-  }
+    ANILIST_API: process.env.ANILIST_API,
+    DESU_ME_API2: process.env.DESU_ME_API2,
+    ANILIBRIA_API: process.env.ANILIBRIA_API,
+    ANILIST_API_KEY: process.env.ANILIST_API_KEY,
+    ANILIBRIA_DOMEN: process.env.ANILIBRIA_DOMEN,
+  },
+  async rewrites() {
+    return getMangaRewrites()
+  },
 };
