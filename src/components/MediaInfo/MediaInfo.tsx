@@ -12,18 +12,20 @@ import { MangaChapterList, MangaGenres } from '@interfaces/manga';
 
 import {
   ECollection,
-  ELinkPath, EMediaInfo, EPlaceholder, EReliase, ESkeleton, ETheme,
+  ELinkPath,
+  EMediaInfo,
+  EPlaceholder,
+  EReliase,
+  ESkeleton,
+  ETheme,
 } from '@enums/enums';
 
 import { BANNER_LIGHT, CHAPTER_TITLE } from '@constants/common';
 import { CHAPTERS_MATCH_MEDIA } from '@constants/matchMedia';
 
-import Chapters from '@ui/Chapters';
 import ImageWithPlaceholder from '@ui/ImageWithPlaceholder';
 import Link from '@ui/Link';
 import ReadMore from '@ui/ReadMore';
-
-import Torrent from '@components/Torrent';
 
 import useCheckWebpSupport from '@hooks/useCheckWebpSupport';
 import useMatchMedia from '@hooks/useMatchMedia';
@@ -33,6 +35,8 @@ import entries from '@utils/entries';
 import useMediaInfoStyles from './MediaInfo.styles';
 
 const VideoPlayer = dynamic(() => import('@ui/VideoPlayer'), { ssr: false });
+const Torrent = dynamic(() => import('@components/Torrent'));
+const Chapters = dynamic(() => import('@ui/Chapters'));
 
 type Media = {
   reliaseType?: string;
