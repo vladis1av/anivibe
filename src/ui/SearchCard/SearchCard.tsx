@@ -65,7 +65,7 @@ const SearchCard: FC<SearchCardProps> = ({
                 return null;
               }
 
-              return <div>
+              return <div key={key}>
                 <span className={classes.genre}>{`${EMediaInfo[key]}: `}</span>
 
                 <span>{value}</span>
