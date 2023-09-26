@@ -1,15 +1,12 @@
-import getConfig from 'next/config';
-
 import axios from 'axios';
 
 import { Anime, AnimeKeys } from '@interfaces/anime';
 import { FilteredProps } from '@interfaces/services';
 
 import generateQuery from '@utils/generateQuery';
+import getEnv from '@utils/getEnv';
 
-const { publicRuntimeConfig } = getConfig();
-
-const { ANILIBRIA_API } = publicRuntimeConfig;
+const { ANILIBRIA_API } = getEnv();
 
 export const getFilteredData = async <
   T extends AnimeKeys, R extends Array<Pick<Anime, T>> | [], E = null>({

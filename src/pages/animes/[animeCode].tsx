@@ -1,7 +1,5 @@
 import { GetServerSideProps } from 'next';
 
-import getConfig from 'next/config';
-
 import { Anime as AnimeType, BannerImage } from '@interfaces/anime';
 import { ECollectionType } from '@interfaces/collection';
 import { MangaGenres } from '@interfaces/manga';
@@ -21,14 +19,11 @@ import MainLayout from '@layouts/MainLayout';
 import { getAnimeByCode } from '@services/api/anime';
 import { getHightQualityBanner } from '@services/api/common';
 
+import getEnv from '@utils/getEnv';
 import getFullUrlFromServerSide from '@utils/getFullUrlFromServerSide';
 import getNameFromString from '@utils/getNameFromString';
 
-const { publicRuntimeConfig } = getConfig();
-
-const {
-  ANILIBRIA_DOMEN,
-} = publicRuntimeConfig;
+const { ANILIBRIA_DOMEN } = getEnv();
 
 type AnimePageProps = {
   fullUrl: string;

@@ -1,19 +1,16 @@
-import getConfig from 'next/config';
-
 import { EFile } from '@enums/enums';
 
-const { publicRuntimeConfig } = getConfig();
-
-const {
-  JPG_URL,
-  WEBP_URL,
-  TORRENT_URL,
-} = publicRuntimeConfig;
+import getEnv from './getEnv';
 
 const getFileLink = (
   type: keyof typeof EFile,
   value: number,
 ): string => {
+  const {
+    JPG_URL,
+    WEBP_URL,
+    TORRENT_URL,
+  } = getEnv();
   switch (type) {
     case EFile.jpg:
       return `${JPG_URL}${value}.${EFile.jpg}`;

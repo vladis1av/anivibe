@@ -1,5 +1,3 @@
-import getConfig from 'next/config';
-
 import axios from 'axios';
 
 import { MangaBase, MangaDetail, MangaWithPages } from '@interfaces/manga';
@@ -7,10 +5,9 @@ import { MangaParams, MangaResponse } from '@interfaces/services';
 
 import generateQuery from '@utils/generateQuery';
 import getApiByNumber from '@utils/getApiByNumber';
+import getEnv from '@utils/getEnv';
 
-const { publicRuntimeConfig } = getConfig();
-
-const { DESU_ME_API, DESU_ME_API_NUMBER } = publicRuntimeConfig;
+const { DESU_ME_API, DESU_ME_API_NUMBER } = getEnv();
 
 const MANGA_API_NAME = 'DESU_ME_API';
 const MANGA_API_REWRITE_SOURCE = '/manga/api/';
