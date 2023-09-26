@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from 'redaxios';
 
 import { MangaBase, MangaDetail, MangaWithPages } from '@interfaces/manga';
 import { MangaParams, MangaResponse } from '@interfaces/services';

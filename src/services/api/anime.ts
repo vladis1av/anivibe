@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from 'redaxios';
 
 import { Anime, AnimeKeys } from '@interfaces/anime';
 import { FilteredProps } from '@interfaces/services';
@@ -7,6 +7,7 @@ import generateQuery from '@utils/generateQuery';
 import getEnv from '@utils/getEnv';
 
 const { ANILIBRIA_API } = getEnv();
+const currentAnimeApi = ANILIBRIA_API;
 
 export const getFilteredData = async <
   T extends AnimeKeys, R extends Array<Pick<Anime, T>> | [], E = null>({
@@ -17,7 +18,7 @@ export const getFilteredData = async <
   try {
     const generatedQuery = generateQuery({ filter: filters, ...params });
 
-    const { data } = await axios.get<R>(encodeURI(`${ANILIBRIA_API}${method}?${generatedQuery}`));
+    const { data } = await axios.get<R>(encodeURI(`${currentAnimeApi}${method}?${generatedQuery}`));
 
     return data;
   } catch (error) {
@@ -28,7 +29,7 @@ export const getFilteredData = async <
 
 export const getAnimeByCode = async (id: string): Promise<Anime | null> => {
   try {
-    const { data } = await axios.get(encodeURI(`${ANILIBRIA_API}getTitle?code=${id}&playlist_type=array`));
+    const { data } = await axios.get(encodeURI(`${currentAnimeApi}getTitle?code=${id}&playlist_type=array`));
 
     return data;
   } catch (error) {
@@ -39,7 +40,7 @@ export const getAnimeByCode = async (id: string): Promise<Anime | null> => {
 
 export const getYears = async (): Promise<number[] | []> => {
   try {
-    const { data } = await axios.get(encodeURI(`${ANILIBRIA_API}getYears`));
+    const { data } = await axios.get(encodeURI(`${currentAnimeApi}getYears`));
 
     return data;
   } catch (error) {
