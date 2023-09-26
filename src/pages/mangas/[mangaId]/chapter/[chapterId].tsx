@@ -7,14 +7,12 @@ import {
 
 import { GetServerSideProps } from 'next';
 
+import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 
-import {
-  Button,
-  Drawer,
-  NativeSelect,
-  Typography,
-} from '@mui/material';
+import Button from '@mui/material/Button';
+import NativeSelect from '@mui/material/NativeSelect';
+import Typography from '@mui/material/Typography';
 import clsx from 'clsx';
 
 import { MangaChapterList, MangaWithPages } from '@interfaces/manga';
@@ -45,6 +43,8 @@ import getIdFromString from '@utils/getIdFromString';
 import getMangaSeoChapterTitle from '@utils/getMangaSeoChapterTitle';
 
 import useChapterPageStyles from '@styles/ChapterPage.styles';
+
+const Drawer = dynamic(() => import('@mui/material/Drawer'));
 
 type ChapterProps = {
   fullUrl: string;

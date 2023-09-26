@@ -1,5 +1,7 @@
 import { FC, useRef } from 'react';
 
+import dynamic from 'next/dynamic';
+
 import clsx from 'clsx';
 
 import { ECollectionType } from '@interfaces/collection';
@@ -14,8 +16,6 @@ import {
 } from '@redux/slices/searchByType';
 
 import InputWithSelect from '@ui/InputWithSelect';
-import LoadingStatus from '@ui/LoadingStatus';
-import SearchCard from '@ui/SearchCard';
 
 import useAppDispatch from '@hooks/useAppDispatch';
 import useAppSelector from '@hooks/useAppSelector';
@@ -25,6 +25,9 @@ import useOnClickOutside from '@hooks/useOnClickOutside';
 import getSearchProps, { SearchPropsData } from '@utils/getSearchProps';
 
 import useMainSearchStyles from './MainSearch.styles';
+
+const SearchCard = dynamic(() => import('@ui/SearchCard'));
+const LoadingStatus = dynamic(() => import('@ui/LoadingStatus'));
 
 type MainSearchProps = {
   onFocus: () => void;

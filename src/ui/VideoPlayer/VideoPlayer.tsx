@@ -19,12 +19,12 @@ import useVideoPlayer from '@hooks/useVideoPlayer';
 
 import useCommonStyles from '@styles/Common.styles';
 
-import Controls from './components/Controls';
 import Playlist from './ui/Playlist';
 import Screen from './ui/Screen';
 import VideoPlayerStatus from './ui/VideoPlayerStatus';
 import useVideoPlayerStyles from './VideoPlayer.styles';
 
+const Controls = dynamic(() => import('./components/Controls'), { ssr: false });
 const ReactPlayer = dynamic(() => import('./ReactPlayerWrapper'), { ssr: false });
 
 type VideoPlayerProps = {
