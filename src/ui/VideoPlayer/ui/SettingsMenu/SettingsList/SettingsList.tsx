@@ -1,6 +1,6 @@
 import { FC, memo, useCallback } from 'react';
 
-import { Switch } from '@mui/material';
+import Switch from '@mui/material/Switch';
 
 import { EVideoPlayerMenuType } from '@interfaces/common';
 import { EHlsQualityType } from '@interfaces/hls';

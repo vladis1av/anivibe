@@ -5,7 +5,7 @@ import {
 
 import { useRouter } from 'next/router';
 
-import { Typography } from '@mui/material';
+import Typography from '@mui/material/Typography';
 import { clsx } from 'clsx';
 import AutoSizer from 'react-virtualized-auto-sizer';
 import { FixedSizeList, ListChildComponentProps } from 'react-window';

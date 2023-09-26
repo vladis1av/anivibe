@@ -6,7 +6,7 @@ import {
   useState,
 } from 'react';
 
-import { CircularProgress } from '@mui/material';
+import CircularProgress from '@mui/material/CircularProgress';
 import clsx from 'clsx';
 import { useInView } from 'react-intersection-observer';
 

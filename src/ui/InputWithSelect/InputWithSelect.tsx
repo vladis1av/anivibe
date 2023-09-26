@@ -1,10 +1,8 @@
 import { FC } from 'react';
 
-import {
-  Button,
-  Input,
-  InputAdornment,
-} from '@mui/material';
+import Button from '@mui/material/Button';
+import Input from '@mui/material/Input';
+import InputAdornment from '@mui/material/InputAdornment';
 import clsx from 'clsx';
 
 import { SelectType } from '@interfaces/common';

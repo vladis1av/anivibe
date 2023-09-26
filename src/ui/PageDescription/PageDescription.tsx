@@ -1,6 +1,6 @@
 import { FC } from 'react';
 
-import { Typography } from '@mui/material';
+import Typography from '@mui/material/Typography';
 import clsx from 'clsx';
 
 import usePageDescriptionStyles from './PageDescription.styles';

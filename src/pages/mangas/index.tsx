@@ -2,7 +2,7 @@ import { FC } from 'react';
 
 import { useRouter } from 'next/router';
 
-import { Pagination } from '@mui/material';
+import Pagination from '@mui/material/Pagination';
 import clsx from 'clsx';
 
 import { MangaQuery } from '@interfaces/query';

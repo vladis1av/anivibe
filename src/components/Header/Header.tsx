@@ -2,7 +2,7 @@ import { FC } from 'react';
 
 import { useRouter } from 'next/router';
 
-import { Button } from '@mui/material';
+import Button from '@mui/material/Button';
 import clsx from 'clsx';
 
 import { EColor, ELinkPath, ERouteName } from '@enums/enums';

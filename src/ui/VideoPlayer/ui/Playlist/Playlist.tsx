@@ -4,9 +4,8 @@ import {
 
 import { useRouter } from 'next/router';
 
-import {
-  Autocomplete, AutocompleteChangeReason, AutocompleteRenderInputParams, TextField,
-} from '@mui/material';
+import Autocomplete, { AutocompleteChangeReason, AutocompleteRenderInputParams } from '@mui/material/Autocomplete';
+import TextField from '@mui/material/TextField';
 import clsx from 'clsx';
 
 import { Playlist as PlaylistType } from '@interfaces/anime';

@@ -1,9 +1,9 @@
 import { FC } from 'react';
 
-import {
-  Autocomplete, Button, TextField,
-} from '@mui/material';
+import Autocomplete from '@mui/material/Autocomplete';
+import Button from '@mui/material/Button';
 import FormControl from '@mui/material/FormControl';
+import TextField from '@mui/material/TextField';
 import clsx from 'clsx';
 
 import { ECollection, EFilter, ELinkPath } from '@enums/enums';
