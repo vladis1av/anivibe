@@ -1,4 +1,3 @@
-/* eslint-disable no-bitwise */
 import {
   FC, useEffect, useState, createRef,
 } from 'react';
@@ -110,13 +109,12 @@ const Chapters: FC<ChaptersProps> = ({
           containerStyles,
           { [classes.chaptersContentFullHeight]: contentFullHeight },
         )}>
-        {// @ts-ignore maybe react-18 error 'AutoSizer' cannot be used as a JSX component.
+        {
           <AutoSizer>
             { ({ height, width }) => (
               // @ts-ignore maybe react-18 error 'FixedSizeList' cannot be used as a JSX component.
               <FixedSizeList
                 itemData={filteredChapters}
-                // @ts-ignore i dont know how typed this ref. fix in future
                 ref={fixedSizeListRef}
                 height={height}
                 itemCount={filteredChapters.length}
