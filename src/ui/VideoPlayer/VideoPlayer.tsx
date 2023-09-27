@@ -190,7 +190,7 @@ const VideoPlayer: FC<VideoPlayerProps> = ({ player }) => {
 
       <ReactPlayer
         width="100%"
-        height="auto"
+        height="100%"
         volume={volume}
         controls={false}
         onReady={onReady}
@@ -210,15 +210,7 @@ const VideoPlayer: FC<VideoPlayerProps> = ({ player }) => {
             onError();
           }
         }}
-        style={{
-          top: 0,
-          left: 0,
-          borderRadius: 8,
-          display: 'flex',
-          zIndex: 2,
-          overflow: 'hidden',
-          position: 'absolute', // не хочет во время смены темы сохранять стили, пускай пока что так тогда
-        }}
+        className={classes.reactPlayer}
         config={{
           file: {
             forceHLS: true,
