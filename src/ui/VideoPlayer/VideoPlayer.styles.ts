@@ -1,17 +1,28 @@
-import { Theme } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 
-import { ETheme } from '@enums/enums';
-
-const useVideoPlayerStyles = makeStyles((theme: Theme) => ({
+const useVideoPlayerStyles = makeStyles(() => ({
   videoPlayerWrapper: {
     position: 'relative',
     paddingTop: '56.25%',
     borderRadius: 8,
-    boxShadow: theme.palette.mode === ETheme.light
-      ? '0px 0px 15px 1px rgba(0, 0, 0, 0.4)'
-      : '0px 0px 15px 1px rgba(255, 255, 255, 0.4)',
     outline: 'none',
+    zIndex: 2,
+  },
+  ambientWrapper: {
+    position: 'absolute',
+    borderRadius: 8,
+    left: 0,
+    top: 0,
+    width: '100%',
+    height: '100%',
+    zIndex: 1,
+    transition: 'opacity 0.2s ease-in-out, visibility 0.2s ease-in-out',
+    transitionDelay: '0.2s',
+    filter: 'blur(40px)',
+  },
+  ambientCanvas: {
+    width: '100%',
+    height: '100%',
   },
   videoPlayerFullScreen: {
     border: 'none',

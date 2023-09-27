@@ -1,6 +1,6 @@
 import { FC, ReactNode } from 'react';
 
-import { Button } from '@mui/material';
+import Button from '@mui/material/Button';
 import clsx from 'clsx';
 
 import CloseSVG from '@assets/svg/close';

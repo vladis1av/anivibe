@@ -1,7 +1,5 @@
 import { useEffect, useState } from 'react';
 
-import { PLACEHOLDER_POSTER } from '@constants/common';
-
 import getFileLink from '@utils/getFileLink';
 
 let elem: HTMLCanvasElement | null = null;
@@ -34,7 +32,7 @@ const useCheckWebpSupport = (imageSource?: number | string) => {
     }
   }, [imageSource]);
 
-  return imageUrl || PLACEHOLDER_POSTER;
+  return imageUrl || '';
 };
 
 export default useCheckWebpSupport;

@@ -34,21 +34,20 @@ export type FiltersState = {
   filterValues: FilterValues;
 };
 
-const intersect = (array1: Values<FilterItems>, array2: string[]): (string | FilterGenreType)[] | [] => {
-  if (array1.length && array2.length) {
-    const res = filter(
-      array1,
-      (value) => {
-        const isFind = (array2.find((val) => {
-          const currentValue = val.toLowerCase();
-          return (typeof value === 'number'
-            ? `${value}` === currentValue
-            : value?.kind.toLowerCase() === currentValue || value.label.toLowerCase() === currentValue);
-        }));
-          // temporarily until I figure out why "find" return string || undefineds
-        return Boolean(isFind);
-      },
-    );
+const intersect = (filterItems: Values<FilterItems>, QueryKeys: string[]): (string | FilterGenreType)[] | [] => {
+  if (filterItems.length && QueryKeys.length) {
+    const strArr = new Set(QueryKeys);
+
+    const res = filter(filterItems, (value) => {
+      if (typeof value === 'number') {
+        return strArr.has(`${value}`);
+      }
+      const kind = value?.kind || '';
+      const { label } = value;
+
+      return strArr.has(kind.toLowerCase()) || strArr.has(label.toLowerCase())
+        || strArr.has(kind) || strArr.has(label);
+    });
 
     if (res) return res.map((item) => (typeof item === 'number' ? `${item}` : item));
 

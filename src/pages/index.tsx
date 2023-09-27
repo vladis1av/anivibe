@@ -7,7 +7,7 @@ import { CollectionType } from '@interfaces/collection';
 import { ECollection, ELinkPath } from '@enums/enums';
 
 import { ANIME_COLLECTION_TITLE, MANGA_COLLECTION_TITLE } from '@constants/collection';
-import { COLLECTION_ITEMS_LIMIT, PLACEHOLDER_POSTER_BLACK } from '@constants/common';
+import { COLLECTION_ITEMS_LIMIT, POSTER_SEO_DARK } from '@constants/common';
 import { SEO_DESCRIPTION, SEO_KEYWORDS_APP, SEO_TITLE } from '@constants/seo';
 
 import Collection from '@ui/Collection';
@@ -19,18 +19,23 @@ import MainLayout from '@layouts/MainLayout';
 import { getFilteredData } from '@services/api/anime';
 import { getMangas } from '@services/api/manga';
 
+import getFullUrlFromServerSide from '@utils/getFullUrlFromServerSide';
+
 type MainPageProps = {
-  collections: CollectionType[]
+  collections: CollectionType[];
+  fullUrl: string;
 };
 
-const Main: FC<MainPageProps> = ({ collections }) => (
+const Main: FC<MainPageProps> = ({ collections, fullUrl }) => (
   <MainLayout full>
     <SeoHead
+      canonical={fullUrl}
+      ogUrl={fullUrl}
       tabTitle={SEO_TITLE}
       title={SEO_TITLE}
       description={SEO_DESCRIPTION}
       keywords={SEO_KEYWORDS_APP}
-      imageSource={PLACEHOLDER_POSTER_BLACK}
+      imageSource={POSTER_SEO_DARK}
     />
 
     {
@@ -43,16 +48,18 @@ const Main: FC<MainPageProps> = ({ collections }) => (
   </MainLayout>
 );
 
-export const getServerSideProps: GetServerSideProps<MainPageProps> = async () => {
+export const getServerSideProps: GetServerSideProps<MainPageProps> = async ({ resolvedUrl }) => {
   const animes = await getFilteredData({
     method: 'getUpdates',
-    filters: ['id', 'code'],
+    filters: ['id', 'code', 'names'],
     params: { limit: COLLECTION_ITEMS_LIMIT },
   }) || [];
   const mangas = await getMangas({ limit: COLLECTION_ITEMS_LIMIT });
+  const fullUrl = getFullUrlFromServerSide(resolvedUrl);
 
   return {
     props: {
+      fullUrl,
       collections: [
         {
           type: ECollection.anime,

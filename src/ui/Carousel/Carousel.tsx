@@ -23,6 +23,7 @@ type UListMouseEvent = MouseEvent<HTMLUListElement>;
 
 type ScrollState = {
   isPressed: boolean;
+  isScrolling: boolean;
   clientX: number;
   scrollX: number;
 };
@@ -53,9 +54,11 @@ const Carousel: FC<CarouselProps> = ({
   const [{
     isPressed,
     clientX,
+    isScrolling,
     scrollX,
   }, setState] = useState<ScrollState>({
     isPressed: false,
+    isScrolling: false,
     clientX: 0,
     scrollX: 0,
   });
@@ -159,7 +162,9 @@ const Carousel: FC<CarouselProps> = ({
       }
 
       carouselListRef.current.scrollLeft = sX;
-      setState((prevState) => ({ ...prevState, scrollX: sX, clientX: e.clientX }));
+      setState((prevState) => ({
+        ...prevState, scrollX: sX, clientX: e.clientX, isScrolling: true,
+      }));
     }
   };
 
@@ -185,7 +190,9 @@ const Carousel: FC<CarouselProps> = ({
   const onMouseUp = (e: UListMouseEvent) => {
     e.preventDefault();
     if (!carouselListRef.current) return;
-    setState((prevState) => ({ ...prevState, isPressed: false, clientX: 0 }));
+    setState((prevState) => ({
+      ...prevState, isPressed: false, clientX: 0, isScrolling: false,
+    }));
     setCarouselTranslate(0);
   };
 
@@ -224,12 +231,12 @@ const Carousel: FC<CarouselProps> = ({
         onMouseMove={onMouseMove}
         className={clsx(classes.carouselList, classes.carouselListScrollSnap)}
       >
-        {React.Children.map(children, (child) => <CarouselItem maxWidth={childMaxWidthWithPx}>
+        {React.Children.map(children, (child) => <CarouselItem maxWidth={childMaxWidthWithPx} isDisabled={isScrolling}>
           {child}
         </CarouselItem>)}
 
         {
-          showMoreLink && <CarouselItem maxWidth={childMaxWidthWithPx}>
+          showMoreLink && <CarouselItem maxWidth={childMaxWidthWithPx} isDisabled={isScrolling}>
             <ShowMoreLink link={showMoreLink}/>
           </CarouselItem>
         }

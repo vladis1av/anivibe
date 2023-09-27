@@ -12,11 +12,22 @@ const useInputWithSelectStyles = makeStyles((theme: Theme) => ({
     color: EColor.black,
     transition: 'all 0.2s ease-out',
     padding: '0 5px',
+    '&.Mui-focused .MuiInputAdornment-root svg': {
+      fill: EColor.black,
+    },
     '&:before, &:after': {
       display: 'none',
     },
+
+    '&:hover svg': {
+      transition: 'all 0.2s ease-out',
+      fill: EColor.black,
+    },
   },
   inputSearchIcon: {
+    fill: EColor.lightGray,
+  },
+  inputSearchIconIsFocused: {
     fill: EColor.black,
   },
   inputCloseIcon: {

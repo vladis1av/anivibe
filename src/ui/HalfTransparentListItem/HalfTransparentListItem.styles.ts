@@ -7,7 +7,8 @@ const useHalfTransparentListItemStyles = makeStyles(() => ({
     cursor: 'pointer',
     width: '100%',
     borderRadius: 3,
-    transition: 'background-color 0.2s ease-out',
+    transition: 'background-color 0.2s ease-out, hover 0.5s ease-out',
+
     display: 'flex',
     alignItems: 'center',
     padding: '12px 15px',
@@ -18,6 +19,7 @@ const useHalfTransparentListItemStyles = makeStyles(() => ({
     },
 
     '&:hover': {
+      transition: 'hover 0.5s ease-out',
       backgroundColor: EColor.lightTransparent,
     },
   },

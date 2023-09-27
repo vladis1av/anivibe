@@ -19,6 +19,9 @@ const useMainLayoutStyles = makeStyles(() => ({
       paddingRight: 5,
     },
   },
+  clearPaddingTop: {
+    paddingTop: 0,
+  },
   full: {
     maxWidth: 1920,
   },

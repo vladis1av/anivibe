@@ -35,12 +35,12 @@ const Collection: FC<CollectionType> = ({
         {
           isTitle && link
             ? <Link path={link} className={classes.collectionLink}>
-              <Typography variant="h3" className={classes.collectionTitle}>
+              <Typography variant="h2" className={classes.collectionTitle}>
                 {title}
                 <ArrowSVG className={classes.collectionTitleSvg}/>
               </Typography>
             </Link>
-            : <Typography variant="h3" className={classes.collectionTitle}>
+            : <Typography variant="h2" className={classes.collectionTitle}>
               {title}
             </Typography>
         }

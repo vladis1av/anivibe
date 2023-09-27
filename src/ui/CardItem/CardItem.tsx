@@ -1,7 +1,8 @@
 import { FC } from 'react';
 
-import { Typography } from '@mui/material';
 import clsx from 'clsx';
+
+import { EPlaceholder } from '@enums/enums';
 
 import ImageWithPlaceholder from '@ui/ImageWithPlaceholder';
 import Link from '@ui/Link';
@@ -14,6 +15,7 @@ export type CardItemProps = {
   id: number;
   pathTo: string;
   title?: string;
+  hideTitle?: boolean;
   imageSource?: string;
   big?: boolean;
   className?: string;
@@ -22,6 +24,7 @@ export type CardItemProps = {
 const CardItem: FC<CardItemProps> = ({
   id,
   title,
+  hideTitle,
   pathTo,
   imageSource,
   big = false,
@@ -32,17 +35,24 @@ const CardItem: FC<CardItemProps> = ({
   const currentImage = imageSource || image;
 
   return (
-    <Link path={pathTo} className={clsx(classes.link, className, { [classes.big]: big })}>
+    <article className={clsx(classes.cardItem, { [classes.big]: big, className })}>
+      <Link path={pathTo} className={clsx(classes.cardLink)}>
 
-      <ImageWithPlaceholder src={currentImage} className={classes.image} />
+        <ImageWithPlaceholder
+          src={currentImage}
+          className={classes.image}
+          alt={title}
+          placeholderVariant={EPlaceholder.poster}
+        />
 
-      {title && <div className={classes.cardItemContent}>
-        <Typography align="center" variant="h5" component="h2" className={classes.title}>
-          {title}
-        </Typography>
-      </div>
-      }
-    </Link>
+        {title && !hideTitle && <div className={classes.cardItemContent}>
+          <span className={classes.title} itemProp="name">
+            {title}
+          </span>
+        </div>
+        }
+      </Link>
+    </article>
   );
 };
 

@@ -8,6 +8,7 @@ import { MangaDetail } from '@interfaces/manga';
 import { ECollection } from '@enums/enums';
 
 import { NOT_FOUND_MANGA_ERROR } from '@constants/error';
+import { SEO_MANGA_READ_ONLINE_TEXT } from '@constants/seo';
 
 import Error from '@ui/Error';
 
@@ -19,14 +20,17 @@ import MainLayout from '@layouts/MainLayout';
 import { getHightQualityBanner } from '@services/api/common';
 import { getMangaById } from '@services/api/manga';
 
+import getFullUrlFromServerSide from '@utils/getFullUrlFromServerSide';
 import getIdFromString from '@utils/getIdFromString';
 import getMangaSeoTitle from '@utils/getMangaSeoTitle';
 
 type MangaPageProps = {
+  fullUrl: string;
   manga: (MangaDetail & BannerImage) | null;
+  bookTags: Array<string>;
 };
 
-const Manga: FC<MangaPageProps> = ({ manga }) => {
+const Manga: FC<MangaPageProps> = ({ fullUrl, manga, bookTags }) => {
   if (!manga) {
     return <MainLayout fullHeight>
       <Error errorText={NOT_FOUND_MANGA_ERROR} goHome />
@@ -46,15 +50,19 @@ const Manga: FC<MangaPageProps> = ({ manga }) => {
   const seoTitle = `${russian} - ${getMangaSeoTitle(kind)}`;
 
   return (
-    <MainLayout>
+    <MainLayout clearPaddingTop>
       <SeoHead
-        tabTitle={seoTitle}
+        canonical={fullUrl}
+        ogUrl={fullUrl}
         title={seoTitle}
-        description={description}
+        tabTitle={seoTitle}
+        description={[`${SEO_MANGA_READ_ONLINE_TEXT} ${russian}`, description].join(' — ')}
         imageSource={image.original}
+        bookTags={bookTags}
       />
 
       <MediaInfo
+        fullUrl={fullUrl}
         type={ECollection.manga}
         reliaseType={kind}
         title={russian}
@@ -70,8 +78,9 @@ const Manga: FC<MangaPageProps> = ({ manga }) => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps<MangaPageProps> = async ({ params, res }) => {
+export const getServerSideProps: GetServerSideProps<MangaPageProps> = async ({ params, res, resolvedUrl }) => {
   const { mangaId } = params as { mangaId: string };
+  const fullUrl = getFullUrlFromServerSide(resolvedUrl);
 
   const currentMangaId = getIdFromString(mangaId) || mangaId;
   const manga = await getMangaById(currentMangaId);
@@ -88,7 +97,11 @@ export const getServerSideProps: GetServerSideProps<MangaPageProps> = async ({ p
   }
 
   return {
-    props: { manga: result },
+    props: {
+      fullUrl,
+      manga: result,
+      bookTags: manga?.genres.map((value) => value.russian) || [],
+    },
   };
 };
 

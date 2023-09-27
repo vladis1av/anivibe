@@ -1,6 +1,7 @@
 import { FC, useEffect } from 'react';
 
-import { Button, CircularProgress } from '@mui/material';
+import Button from '@mui/material/Button';
+import CircularProgress from '@mui/material/CircularProgress';
 import { useInView } from 'react-intersection-observer';
 
 import useInfiniteLoadMoreStyles from './InfiniteLoadMore.styles';

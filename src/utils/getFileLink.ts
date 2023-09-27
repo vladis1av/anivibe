@@ -1,28 +1,25 @@
-import getConfig from 'next/config';
+import { EFile } from '@enums/enums';
 
-import { EFyle } from '@enums/enums';
-
-const { publicRuntimeConfig } = getConfig();
-
-const {
-  JPG_URL,
-  WEBP_URL,
-  TORRENT_URL,
-} = publicRuntimeConfig;
+import getEnv from './getEnv';
 
 const getFileLink = (
-  type: keyof typeof EFyle,
+  type: keyof typeof EFile,
   value: number,
 ): string => {
+  const {
+    JPG_URL,
+    WEBP_URL,
+    TORRENT_URL,
+  } = getEnv();
   switch (type) {
-    case EFyle.jpg:
-      return `${JPG_URL}${value}.${EFyle.jpg}`;
+    case EFile.jpg:
+      return `${JPG_URL}${value}.${EFile.jpg}`;
 
-    case EFyle.webp:
-      return `${WEBP_URL}${value}.${EFyle.webp}`;
+    case EFile.webp:
+      return `${WEBP_URL}${value}.${EFile.webp}`;
 
-    case EFyle.torrent:
-      return `${TORRENT_URL}${value}.${EFyle.torrent}`;
+    case EFile.torrent:
+      return `${TORRENT_URL}${value}.${EFile.torrent}`;
 
     default:
       return '';

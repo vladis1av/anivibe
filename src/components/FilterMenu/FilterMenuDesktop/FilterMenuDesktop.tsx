@@ -4,12 +4,12 @@ import Filters from '@components/Filters';
 
 import useFilterMenuDesktopStyles from './FilterMenuDesktop.styles';
 
-const filterMenuDesktop: FC = () => {
+const FilterMenuDesktop: FC = () => {
   const classes = useFilterMenuDesktopStyles();
 
   return <aside className={classes.filterMenuDesktop}>
-    <Filters className={classes.filters}/>
+    <Filters />
   </aside>;
 };
 
-export default filterMenuDesktop;
+export default FilterMenuDesktop;

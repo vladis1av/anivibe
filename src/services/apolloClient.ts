@@ -1,12 +1,8 @@
-import getConfig from 'next/config';
-
 import { ApolloClient, InMemoryCache } from '@apollo/client';
 
-const { publicRuntimeConfig } = getConfig();
+import getEnv from '@utils/getEnv';
 
-const {
-  ANILIST_API,
-} = publicRuntimeConfig;
+const { ANILIST_API } = getEnv();
 
 const apolloClient = new ApolloClient({
   uri: ANILIST_API,

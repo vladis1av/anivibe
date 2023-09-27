@@ -1,6 +1,6 @@
 import { FC, useState } from 'react';
 
-import { Input } from '@mui/material';
+import Input from '@mui/material/Input';
 
 import useDebounce from '@hooks/useDebounce';
 

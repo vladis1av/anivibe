@@ -58,6 +58,14 @@
     "@typescript-eslint/type-annotation-spacing": "warn",
     "react/jsx-props-no-multi-spaces": 1,
     "indent": "off",
+    "no-restricted-imports": [
+      "error",
+      {
+        "patterns": [
+          "@mui/*/*/*"
+        ]
+      }
+    ],
     "@typescript-eslint/indent": [
       "error",
       2

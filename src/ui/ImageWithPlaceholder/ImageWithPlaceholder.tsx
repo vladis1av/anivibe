@@ -6,15 +6,25 @@ import {
   useState,
 } from 'react';
 
-import { CircularProgress } from '@mui/material';
+import CircularProgress from '@mui/material/CircularProgress';
 import clsx from 'clsx';
 import { useInView } from 'react-intersection-observer';
 
-import { ELoadingStatusType } from '@interfaces/common';
+import { ELoadingStatusType, EPlaceholderType, ESkeletonType } from '@interfaces/common';
+import { EThemeType } from '@interfaces/theme';
 
-import { ELoadingStatus } from '@enums/enums';
+import {
+  ELoadingStatus, EPlaceholder, ESkeleton,
+} from '@enums/enums';
 
-import { PLACEHOLDER_POSTER, POSTER_NOT_FOUND } from '@constants/common';
+import {
+  POSTER_ERROR_LIGHT, POSTER_LIGHT, PLACEHOLDERS,
+} from '@constants/common';
+
+import { getThemeState } from '@redux/slices/theme';
+
+import useAppSelector from '@hooks/useAppSelector';
+import useSkeletonTheme from '@hooks/useSkeletonTheme';
 
 import useCommonStyles from '@styles/Common.styles';
 
@@ -22,40 +32,53 @@ import useImageWithPlaceholderStyles from './ImageWithPlaceholder.styles';
 
 type ImageWithPlacefolderProps = ImgHTMLAttributes<HTMLImageElement> & {
   src: string;
-  placeholderImg?: string;
-  errorImage?: string;
-  blure?: boolean;
   alt?: string;
   width?: number;
-  heigth?: number | 'auto';
+  blure?: boolean;
+  height?: number | 'auto';
   threshold?: number;
-  showLoaderSpiner?: boolean;
-  spinerSize?: number;
-  spinnerHeight?: string;
   spinnerWidth?: string;
-
+  spinnerHeight?: string;
+  spinerSize?: number;
+  showLoaderSpiner?: boolean;
+  placeholderImage?: string;
+  placeholderTheme?: EThemeType;
+  placeholderVariant?: EPlaceholderType;
+  errorImage?: string;
+  skeletonVariant?: ESkeletonType;
 };
 
 const ImageWithPlaceholder: FC<ImageWithPlacefolderProps> = ({
   src,
-  className,
-  placeholderImg = PLACEHOLDER_POSTER,
-  errorImage = POSTER_NOT_FOUND,
   alt,
-  blure = false,
   width,
+  className,
+  blure = false,
   height = 'auto',
   threshold = 0.4,
-  showLoaderSpiner,
-  spinerSize = 30,
-  spinnerHeight,
   spinnerWidth,
+  spinnerHeight,
+  spinerSize = 30,
+  showLoaderSpiner,
+  placeholderImage,
+  placeholderTheme,
+  placeholderVariant = EPlaceholder.poster,
+  errorImage = POSTER_ERROR_LIGHT,
+  skeletonVariant = ESkeleton.pulseAuto,
 }) => {
   const classes = useImageWithPlaceholderStyles();
+  const skeleton = useSkeletonTheme(skeletonVariant);
+  const selectedTheme = useAppSelector(getThemeState);
   const commonClasses = useCommonStyles();
-
   const [loadingStatus, setLoadingStatus] = useState<ELoadingStatusType>(ELoadingStatus.pending);
   const imageIsSuccess = loadingStatus !== ELoadingStatus.pending && loadingStatus !== ELoadingStatus.error;
+  let placeholderImg = placeholderImage;
+
+  if (!placeholderImage && placeholderVariant) {
+    const placeholderCurrentTheme = placeholderTheme || selectedTheme;
+    const placeholder = PLACEHOLDERS[placeholderVariant][placeholderCurrentTheme];
+    placeholderImg = placeholder || POSTER_LIGHT;
+  }
 
   const imageSource = imageIsSuccess ? src : placeholderImg;
   const imageErrorSource = loadingStatus === ELoadingStatus.error && errorImage;
@@ -82,6 +105,7 @@ const ImageWithPlaceholder: FC<ImageWithPlacefolderProps> = ({
       if (loadingStatusIsReset) {
         setLoadingStatus(ELoadingStatus.pending);
       }
+
       img.src = src;
       img.addEventListener('load', onLoad);
       img.addEventListener('error', onError);
@@ -108,6 +132,7 @@ const ImageWithPlaceholder: FC<ImageWithPlacefolderProps> = ({
           classes.imageBlure,
           commonClasses.hide,
           { [commonClasses.show]: loadingStatusIsPending || blure },
+          { [skeleton]: loadingStatusIsPending },
         )
       }
       />

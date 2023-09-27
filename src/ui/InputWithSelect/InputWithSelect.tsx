@@ -1,10 +1,8 @@
 import { FC } from 'react';
 
-import {
-  Button,
-  Input,
-  InputAdornment,
-} from '@mui/material';
+import Button from '@mui/material/Button';
+import Input from '@mui/material/Input';
+import InputAdornment from '@mui/material/InputAdornment';
 import clsx from 'clsx';
 
 import { SelectType } from '@interfaces/common';
@@ -51,7 +49,7 @@ const InputWithSelect: FC<InputWithSelectProps> = ({
         className={clsx(classes.input, className)}
         placeholder={placeholder}
         startAdornment={<InputAdornment position="start">
-          <SearchSVG className={classes.inputSearchIcon} />
+          <SearchSVG className={clsx(classes.inputSearchIcon, { [classes.inputSearchIconIsFocused]: isFocused })} />
         </InputAdornment>}
         endAdornment={
           <Button onClick={onClose} className={classes.button}>

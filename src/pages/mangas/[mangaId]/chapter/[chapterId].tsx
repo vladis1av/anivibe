@@ -7,18 +7,18 @@ import {
 
 import { GetServerSideProps } from 'next';
 
+import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 
-import {
-  Button,
-  Drawer,
-  NativeSelect,
-  Typography,
-} from '@mui/material';
+import Button from '@mui/material/Button';
+import NativeSelect from '@mui/material/NativeSelect';
+import Typography from '@mui/material/Typography';
 import clsx from 'clsx';
 
 import { MangaChapterList, MangaWithPages } from '@interfaces/manga';
 import { MangaChapterQuery, QueryType } from '@interfaces/query';
+
+import { EPlaceholder, ETheme } from '@enums/enums';
 
 import { NOT_FOUND_CHAPTER_ERROR } from '@constants/error';
 
@@ -38,12 +38,16 @@ import MenuSVG from '@assets/svg/menu';
 import { getMangaChapterById } from '@services/api/manga';
 
 import generateMangaPath from '@utils/generateMangaPath';
+import getFullUrlFromServerSide from '@utils/getFullUrlFromServerSide';
 import getIdFromString from '@utils/getIdFromString';
 import getMangaSeoChapterTitle from '@utils/getMangaSeoChapterTitle';
 
 import useChapterPageStyles from '@styles/ChapterPage.styles';
 
+const Drawer = dynamic(() => import('@mui/material/Drawer'));
+
 type ChapterProps = {
+  fullUrl: string;
   manga: MangaWithPages | null;
   page: number;
   activeChapter: string;
@@ -51,6 +55,7 @@ type ChapterProps = {
 };
 
 const Chapter: FC<ChapterProps> = ({
+  fullUrl,
   manga,
   page,
   activeChapter,
@@ -91,8 +96,8 @@ const Chapter: FC<ChapterProps> = ({
     image,
     russian,
     name,
-    description,
     chapters,
+    kind,
   } = manga;
   const { ch_prev: chapterPrev, ch_next: chapterNext } = pages;
   const { img, width } = pages.list[page - 1];
@@ -143,22 +148,30 @@ const Chapter: FC<ChapterProps> = ({
   };
 
   const seoTitle = getMangaSeoChapterTitle({
-    title: russian, page, chapter: ch, vol,
+    title: russian, page, mangaType: kind, chapter: ch, vol, isReading: true,
   });
 
-  const onCloseDrawer = () => setDrawerIsOpen(false);
+  const seoDescription = getMangaSeoChapterTitle({
+    title: russian, page, mangaType: kind, chapter: ch, vol, isReading: false,
+  });
+
+  const altTitleImg = getMangaSeoChapterTitle({
+    title: russian, page, mangaType: kind, chapter: ch, vol, hideTitleKeys: [0],
+  });
 
   return (
     <MainLayout full>
       <SeoHead
-        tabTitle={seoTitle}
+        canonical={fullUrl}
+        ogUrl={fullUrl}
         title={seoTitle}
-        description={description}
+        tabTitle={seoTitle}
+        description={seoDescription}
         imageSource={image.preview}
       />
 
-      <Drawer open={drawerIsOpen} onClose={onCloseDrawer} className={classes.drawer}>
-        <Button className={clsx(classes.closeDrawerButton)} onClick={onCloseDrawer} variant="text">
+      <Drawer open={drawerIsOpen} onClose={closeDrawer} className={classes.drawer}>
+        <Button className={clsx(classes.closeDrawerButton)} onClick={closeDrawer} variant="text">
           <CloseSVG className={classes.closeDrawerButtonIcon} />
         </Button>
 
@@ -167,7 +180,7 @@ const Chapter: FC<ChapterProps> = ({
           className={classes.link}
         >
           <div className={classes.poster}>
-            <ImageWithPlaceholder src={image.original} />
+            <ImageWithPlaceholder src={image.original} alt={russian} />
           </div>
 
           <Typography className={classes.title} align="center" variant="h5" component="h1">
@@ -187,8 +200,19 @@ const Chapter: FC<ChapterProps> = ({
         />
       </Drawer>
 
-      <div className={classes.mainImageWrapper} style={{ maxWidth: width, minHeight: '256px' }}>
-        <ImageWithPlaceholder src={img} spinerSize={55} showLoaderSpiner spinnerHeight={'85vh'} />
+      <div
+        className={classes.mainImageWrapper}
+        style={{ maxWidth: width, minHeight: '87vh' }}
+      >
+        <ImageWithPlaceholder
+          src={img}
+          spinerSize={55}
+          showLoaderSpiner
+          alt={altTitleImg}
+          spinnerHeight={'85vh'}
+          placeholderTheme={ETheme.light}
+          placeholderVariant={EPlaceholder.poster}
+        />
 
         <div className={classes.mainImageControlerWrapper}>
           <div className={classes.mainImageController} onClick={prevPage} />
@@ -243,10 +267,11 @@ const Chapter: FC<ChapterProps> = ({
   );
 };
 
-export const getServerSideProps: GetServerSideProps<ChapterProps> = async ({ query, res }) => {
+export const getServerSideProps: GetServerSideProps<ChapterProps> = async ({ query, res, resolvedUrl }) => {
   const { mangaId, chapterId, page = '1' } = query as MangaChapterQuery;
   const currentMangaId = getIdFromString(mangaId) || mangaId;
   const mangaWithPages = await getMangaChapterById(currentMangaId, chapterId);
+  const fullUrl = getFullUrlFromServerSide(resolvedUrl);
   const error = !mangaWithPages || !mangaWithPages.pages;
   const currentPage = Number(page);
   let pageLimitNotExceeded = false;
@@ -262,6 +287,7 @@ export const getServerSideProps: GetServerSideProps<ChapterProps> = async ({ que
 
   return {
     props: {
+      fullUrl,
       manga: mangaWithPages,
       activeChapter: chapterId,
       page: pageLimitNotExceeded ? currentPage : 1,

@@ -1,5 +1,5 @@
 import {
-  FC, useRef, useEffect,
+  FC, useRef, useEffect, useMemo,
 } from 'react';
 
 import dynamic from 'next/dynamic';
@@ -14,16 +14,17 @@ import { QueryType, VideoPlayerEpisodeQuery } from '@interfaces/query';
 import { USER_ACTIVITY_EVENTS } from '@constants/common';
 
 import useCheckUserActivity from '@hooks/useCheckUserActivity';
+import useInterval from '@hooks/useInterval';
 import useVideoPlayer from '@hooks/useVideoPlayer';
 
 import useCommonStyles from '@styles/Common.styles';
 
-import Controls from './components/Controls';
 import Playlist from './ui/Playlist';
 import Screen from './ui/Screen';
 import VideoPlayerStatus from './ui/VideoPlayerStatus';
 import useVideoPlayerStyles from './VideoPlayer.styles';
 
+const Controls = dynamic(() => import('./components/Controls'), { ssr: false });
 const ReactPlayer = dynamic(() => import('./ReactPlayerWrapper'), { ssr: false });
 
 type VideoPlayerProps = {
@@ -36,43 +37,63 @@ const VideoPlayer: FC<VideoPlayerProps> = ({ player }) => {
   const { query: { episode = '1' } } = route as unknown as QueryType<VideoPlayerEpisodeQuery>;
   const classes = useVideoPlayerStyles();
   const commonClasses = useCommonStyles();
-  const videoPlayerRef = useRef<VideoPlayerRef>(null);
-  const videoPlayerWrapperRef = useRef<HTMLDivElement>(null);
+  const videoPlayerRef = useRef<VideoPlayerRef | null>(null);
+  const videoPlayerWrapperRef = useRef<HTMLDivElement | null>(null);
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const ctx = canvasRef.current?.getContext('2d');
+  const internalPlayer = useMemo(() => videoPlayerRef.current?.getInternalPlayer(), [videoPlayerRef.current]);
+
+  const onDrawAmbientImage = () => {
+    if (!internalPlayer || !canvasRef.current) {
+      return;
+    }
+    if (ctx) {
+      ctx.drawImage(
+        internalPlayer as CanvasImageSource,
+        0,
+        0,
+        canvasRef.current.width,
+        canvasRef.current.height,
+      );
+    }
+  };
+
   const {
     state: {
       status,
-      isFullScreen,
-      duration,
-      currentQuality,
-      sourceIndex,
-      settingsMenu,
-      controlsIsActive,
-      playerIsFocused,
-      played,
-      playbackRate,
-      playedSeconds,
       volume,
+      played,
       isError,
       isPaused,
+      duration,
       isPlaying,
       screenfull,
+      sourceIndex,
+      isFullScreen,
+      playbackRate,
+      settingsMenu,
+      playedSeconds,
+      currentQuality,
+      playerIsFocused,
+      controlsIsActive,
+      ambientModeIsActive,
     },
     actions: {
-      onPlaybackRateChange,
-      onChangeSource,
-      onAutoQuality,
       onError,
-      onChangeProgress,
-      onChangeDuration,
       onReady,
-      onSetBuffer,
       onActive,
       onInactive,
+      onSetBuffer,
       onTogglePlay,
+      onAutoQuality,
+      onChangeSource,
+      onChangeDuration,
+      onChangeProgress,
       onToggleFullScreen,
       onChangeFullScreen,
       onVideoPlayerFocus,
       onVideoPlayerBlure,
+      onPlaybackRateChange,
       onVideoPlayerKeydown,
     },
   } = useVideoPlayer(videoPlayerRef, videoPlayerWrapperRef);
@@ -80,6 +101,7 @@ const VideoPlayer: FC<VideoPlayerProps> = ({ player }) => {
   const { hls, skips: { opening, ending } } = playlist[sourceIndex]
   ?? { hls: {}, skips: { opening: [], ending: [] }, serie: 0 };
   const playlistLength = playlist ? playlist.length : 0;
+  const URL = hls[currentQuality] ? `https://${host}${hls[currentQuality]}` : undefined;
 
   useEffect(() => {
     onAutoQuality(hls);
@@ -114,7 +136,27 @@ const VideoPlayer: FC<VideoPlayerProps> = ({ player }) => {
     };
   }, [screenfull, playerIsFocused, volume, duration, playedSeconds, status, videoPlayerRef.current]);
 
-  const URL = hls[currentQuality] ? `https://${host}${hls[currentQuality]}` : undefined;
+  useEffect(() => {
+    const internalPlayerIsReady = videoPlayerRef.current && internalPlayer;
+
+    if (internalPlayerIsReady) {
+      onDrawAmbientImage();
+      internalPlayerIsReady.addEventListener('loadeddata', onDrawAmbientImage);
+    }
+
+    return () => {
+      if (internalPlayerIsReady) {
+        internalPlayerIsReady.removeEventListener('loadeddata', onDrawAmbientImage);
+      }
+    };
+  }, [videoPlayerRef.current, ctx, internalPlayer, ambientModeIsActive]);
+
+  useInterval(
+    onDrawAmbientImage,
+    ambientModeIsActive && isPlaying && !isFullScreen
+      ? 1000 / 15
+      : null, // runs at 15fps when video is playing, and stops when video is paused
+  );
 
   return (
     <div
@@ -130,6 +172,22 @@ const VideoPlayer: FC<VideoPlayerProps> = ({ player }) => {
           [classes.videoPlayerFullScreen]: isFullScreen,
         })}
     >
+      {
+        <div className={
+          clsx(
+            classes.ambientWrapper,
+            commonClasses.displayHide,
+            { [commonClasses.displayShow]: ambientModeIsActive },
+          )
+        }>
+          <canvas
+            id="canvas"
+            ref={canvasRef}
+            className={classes.ambientCanvas}
+          />
+        </div>
+      }
+
       <ReactPlayer
         width="100%"
         height="auto"
@@ -157,6 +215,7 @@ const VideoPlayer: FC<VideoPlayerProps> = ({ player }) => {
           left: 0,
           borderRadius: 8,
           display: 'flex',
+          zIndex: 2,
           overflow: 'hidden',
           position: 'absolute', // не хочет во время смены темы сохранять стили, пускай пока что так тогда
         }}

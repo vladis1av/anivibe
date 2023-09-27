@@ -2,11 +2,15 @@ import { FC } from 'react';
 
 import { useRouter } from 'next/router';
 
+import clsx from 'clsx';
+
 import { AnimeQuery } from '@interfaces/query';
 
 import { ECollection, ELoadingStatus } from '@enums/enums';
 
 import {
+  ANIME_DESCRIPTION,
+  ANIME_TITLE,
   API_ITEMS_LIMIT,
   DEFAULT_YEAR_FOR_QUERY, LOADED_ALL_TITLES, LOAD_MORE, NOT_FOUND_TITLES,
 } from '@constants/common';
@@ -23,6 +27,7 @@ import { nextReduxWrapper } from '@redux/store';
 
 import Error from '@ui/Error';
 import InfiniteLoadMore from '@ui/InfiniteLoadMore';
+import PageDescription from '@ui/PageDescription/PageDescription';
 
 import FilterCardList from '@components/FilterCardList';
 import FilterMenu from '@components/FilterMenu';
@@ -38,11 +43,19 @@ import useMatchMedia from '@hooks/useMatchMedia';
 
 import checkObjectValueAndExcludeKey from '@utils/checkObjectValueAndExcludeKey';
 import entries from '@utils/entries';
+import getFullUrlFromServerSide from '@utils/getFullUrlFromServerSide';
 
+import useCommonStyles from '@styles/Common.styles';
 import useFilterPageStyles from '@styles/FilterPage.styles';
 
-const Animes: FC = () => {
+type AnimesProps = {
+  fullUrl: string;
+};
+
+const Animes: FC<AnimesProps> = ({ fullUrl }) => {
   const classes = useFilterPageStyles();
+  const commonClasses = useCommonStyles();
+
   const {
     filteredData,
     loadingState,
@@ -51,6 +64,7 @@ const Animes: FC = () => {
   const route = useRouter();
   const dataError = loadingState === ELoadingStatus.error;
   const dataPending = loadingState === ELoadingStatus.pending;
+  const filteredDataIsNotFound = !filteredData.length;
   const { query } = route;
   const {
     years, genres, seasons, voices,
@@ -76,39 +90,44 @@ const Animes: FC = () => {
   return (
     <MainLayout full paddings fullHeight>
       <SeoHead
+        canonical={fullUrl}
+        ogUrl={fullUrl}
         tabTitle={ANIME_FILTERS_PAGE_TITLE}
         title={ANIME_FILTERS_PAGE_TITLE}
         description={ANIME_FILTERS_PAGE_DESCRIPTION}
         keywords={ANIME_FILTERS_PAGE_KEYWORDS}
       />
 
-      <div className={classes.content}>
-        {
-          !filteredData.length
-            ? <Error errorText={NOT_FOUND_TITLES} />
-            : <div className={classes.filterCardListWrapper}>
-              <FilterCardList filteredList={filteredData} />
+      <div className={classes.contentWrapper}>
+        <PageDescription title={ANIME_TITLE} description={ANIME_DESCRIPTION} />
 
-              <InfiniteLoadMore
-                isPending={dataPending}
-                isError={dataError}
-                loadMoreCallback={loadMoreData}
-                errorText={LOADED_ALL_TITLES}
-                defaultText={LOAD_MORE}
-              />
-            </div>
-        }
+        <div className={clsx(classes.content, { [commonClasses.fullHeight]: filteredDataIsNotFound })}>
+          {
+            filteredDataIsNotFound
+              ? <Error errorText={NOT_FOUND_TITLES} />
+              : <div className={classes.filterCardListWrapper}>
+                <FilterCardList filteredList={filteredData} />
 
-        <FilterMenu isDesktopOrBelow={isMobile} />
+                <InfiniteLoadMore
+                  isPending={dataPending}
+                  isError={dataError}
+                  loadMoreCallback={loadMoreData}
+                  errorText={LOADED_ALL_TITLES}
+                  defaultText={LOAD_MORE}
+                />
+              </div>
+          }
+
+          <FilterMenu isDesktopOrBelow={isMobile} />
+        </div>
       </div>
     </MainLayout>
   );
 };
 
 export const getServerSideProps = nextReduxWrapper.getServerSideProps(
-  (store) => async (
-    { query },
-  ) => {
+  (store) => async ({ query, resolvedUrl }) => {
+    const fullUrl = getFullUrlFromServerSide(resolvedUrl);
     const { filters: { filterType, filterItems } } = store.getState();
 
     const {
@@ -163,7 +182,7 @@ export const getServerSideProps = nextReduxWrapper.getServerSideProps(
     });
 
     return {
-      props: {},
+      props: { fullUrl },
     };
   },
 );

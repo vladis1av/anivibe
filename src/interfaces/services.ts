@@ -22,7 +22,7 @@ export type Params = {
 
 export type SearchAnimeType = Pick<Anime, 'id' | 'code' | 'genres' | 'names' | 'type' | 'season'>;
 
-export type FetchedLastAnimeUpdatedResult = Pick<Anime, 'id' | 'code'>;
+export type FetchedLastAnimeUpdatedResult = Pick<Anime, 'id' | 'code' | 'names'>;
 
 export type PageNavParams = {
   count: number;

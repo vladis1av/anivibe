@@ -38,7 +38,7 @@ const WatchOrSkip: FC<WatchOrSkipProps> = ({
   opening,
   currentEpisode,
   episodesLength,
-  showNextEpisodeButtonTime = false,
+  showNextEpisodeButtonTime,
   ending,
   onSkip,
   onChangeEpisode,
@@ -59,7 +59,7 @@ const WatchOrSkip: FC<WatchOrSkipProps> = ({
   const [endingPlaying] = getTimesFromDuration(startEnPlayingTime, SECONDS_FOR_SHOW_BUTTONS, playedSeconds);
 
   const isLastEpisode = currentEpisode === episodesLength;
-  const showNextEpisodeButton = playedSeconds >= showNextEpisodeButtonTime;
+  const showNextEpisodeButton = showNextEpisodeButtonTime ? playedSeconds >= showNextEpisodeButtonTime : false;
   const lastButtonClasses = clsx(classes.videoPlayerWatchOrSkipButton, commonClasses.marginLeftTen);
   const startButtonClass = openingPlaying && startButtonsClasses;
   const endButtonClass = (endingPlaying || showNextEpisodeButton) && endButtonsClasses;

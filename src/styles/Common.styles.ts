@@ -27,6 +27,9 @@ const useCommonStyles = makeStyles(() => ({
   marginRightTen: {
     marginRight: 10,
   },
+  fullHeight: {
+    height: '100%',
+  },
 }));
 
 export default useCommonStyles;

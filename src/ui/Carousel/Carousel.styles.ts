@@ -18,7 +18,8 @@ const useCarouselStyles = makeStyles(() => ({
     },
   },
   carouselListScrollSnap: {
-    scrollPadding: '4rem',
+    scrollPaddingRight: '4rem',
+    scrollPaddingLeft: '4rem',
     scrollSnapType: 'x mandatory',
     scrollBehavior: 'smooth',
   },

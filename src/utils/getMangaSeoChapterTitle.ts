@@ -1,22 +1,49 @@
-import { GetMangaSeoProps } from '@interfaces/common';
+import { EMangaReliaseType, GetMangaSeoProps } from '@interfaces/common';
 
-const getTitles = (pageNumber: number) => ['Читать мангу', 'Том', 'Глава', `[Страница ${pageNumber}]`];
+import { EReliaseKey } from '@enums/enums';
+
+const readWords = {
+  [EReliaseKey.manga]: 'мангу',
+  [EReliaseKey.manhua]: 'маньхуа',
+  [EReliaseKey.manhwa]: 'манхву',
+};
+
+const readingWords = {
+  [EReliaseKey.manga]: 'манги',
+  [EReliaseKey.manhua]: 'маньхуа',
+  [EReliaseKey.manhwa]: 'манхвы',
+};
+
+const getTitles = (mangaType: EMangaReliaseType, pageNumber: number, isReading?: boolean): string[] => {
+  const readTitle = isReading ? 'Чтение' : 'Читать';
+  const mangaTitle = isReading ? readingWords[mangaType] : readWords[mangaType];
+
+  return [`${readTitle} ${mangaTitle}`, 'Том', 'Глава', `[Страница ${pageNumber}]`];
+};
 
 const getMangaSeoChapterTitle = ({
   title,
   page,
+  isReading,
+  mangaType,
   chapter,
   vol,
+  hideTitleKeys,
 }: GetMangaSeoProps) => {
-  const titles = getTitles(page);
+  const titles = getTitles(mangaType, page, isReading);
   const string: string[] = [];
 
-  [title, vol, chapter, page].forEach((value, idx, array) => {
+  [title, vol, chapter, page].forEach((value, key, array) => {
+    const arrayIsLastKey = array.length === key + 1;
+    const currentTitle = titles[key];
     if (value || value === 0) {
-      string.push(array.length === idx + 1 ? titles[idx] : `${titles[idx]} ${value}`);
+      if (hideTitleKeys?.length && hideTitleKeys[key] === key) {
+        string.push(arrayIsLastKey ? currentTitle : `${value}`);
+        return;
+      }
+      string.push(arrayIsLastKey ? currentTitle : `${currentTitle} ${value}`);
     }
   });
-
   return string.join(' ');
 };
 

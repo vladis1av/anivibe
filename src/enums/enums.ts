@@ -26,10 +26,17 @@ export enum EScrollSide {
   right = 'right',
 }
 
+export enum EPlaceholder {
+  poster = 'poster',
+  banner = 'banner',
+  error = 'error',
+}
+
 export enum EVideoPlayerMenu {
   default = 'default',
   playbackRate = 'playbackRate',
   quality = 'quality',
+  ambientMode = 'ambientMode',
 }
 
 export enum EFilter {
@@ -56,7 +63,7 @@ export enum EAnimeReliase {
   ona = 'ONA',
 }
 
-export enum EFyle {
+export enum EFile {
   jpg = 'jpg',
   webp = 'webp',
   torrent = 'torrent',
@@ -108,6 +115,15 @@ export enum EHlsQualityKey {
   sd = 'sd',
 }
 
+export enum ESkeleton {
+  waveAuto = 'waveAuto',
+  waveLight = 'waveLight',
+  waveDark = 'waveDark',
+  pulseAuto = 'pulseAuto',
+  pulseDark = 'pulseDark',
+  pulseLight = 'pulseLight',
+}
+
 export enum EMediaInfo {
   reliaseType = 'Тип',
   episodes = 'Эпизоды',
@@ -130,6 +146,7 @@ export enum EColor {
   lightBlue = '#70c1ff',
   transparent = 'transparent',
   lightGray = 'rgb(158, 158, 158)',
+  halfTransparentLightGray = 'rgba(120, 120, 120, 50%)',
   darkTransparent = 'rgba(17, 17, 17, 0.8)',
   halfTransparentBlack = 'rgba(0, 0, 0, 0.5)',
   lightTransparent = 'rgba(255, 255, 255, 0.08)',

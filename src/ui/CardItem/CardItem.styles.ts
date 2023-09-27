@@ -4,18 +4,21 @@ import { makeStyles } from '@mui/styles';
 import { ETheme } from '@enums/enums';
 
 const useCardItemStyles = makeStyles((theme: Theme) => ({
-  link: {
-    display: 'flex',
-    flexDirection: 'column',
+  cardItem: {
     maxWidth: 200,
     width: '100%',
-    color: 'inherit',
     transition: 'all 0.2s ease-out',
 
     '&:hover': {
       transform: 'scale(1.05)',
       transition: 'all 0.2s ease-out',
     },
+  },
+  cardLink: {
+    color: 'inherit',
+    height: '100%',
+    display: 'flex',
+    flexDirection: 'column',
   },
   cardItemContent: {
     width: '100%',
@@ -34,6 +37,8 @@ const useCardItemStyles = makeStyles((theme: Theme) => ({
     textOverflow: 'ellipsis',
     whiteSpace: 'nowrap',
     overflow: 'hidden',
+    display: 'block',
+    textAlign: 'center',
   },
   big: {
     maxWidth: 220,

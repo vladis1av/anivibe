@@ -20,6 +20,7 @@ export type SetSourceActionProps = {
 export type VideoPlayerState = {
   status: EVideoPlayerStatusType,
   sourceIndex: number;
+  ambientModeIsActive: boolean;
   isFullScreen: boolean;
   currentQuality: EHlsQualityType;
   settingsMenu: EVideoPlayerMenuType | null;
@@ -39,6 +40,7 @@ export type VideoPlayerState = {
 const initialState: VideoPlayerState = {
   status: EVideoPlayerStatus.idle,
   sourceIndex: 0,
+  ambientModeIsActive: true,
   isFullScreen: false,
   currentQuality: EHlsQualityKey.fhd,
   settingsMenu: null,
@@ -64,6 +66,12 @@ export const videoPlayerSlice = createSlice({
       state.playbackRate = parseFloat(payload);
       state.settingsMenu = null;
     },
+    toggleAmbientMode: (state) => {
+      if (state.ambientModeIsActive) {
+        return { ...state, ambientModeIsActive: false };
+      }
+      return { ...state, ambientModeIsActive: true };
+    },
     setFocus: (state, { payload }: PayloadAction<FocusEvent<HTMLDivElement, Element>>) => {
       if (payload.currentTarget === payload.target) {
         state.playerIsFocused = true;
@@ -87,7 +95,7 @@ export const videoPlayerSlice = createSlice({
 
       state.status = EVideoPlayerStatus.idle;
     },
-    setToggleSettingsMenu: (state) => {
+    toggleSettingsMenu: (state) => {
       const settingsMenuIsOpen = state.settingsMenu;
 
       if (!settingsMenuIsOpen) {
@@ -97,7 +105,7 @@ export const videoPlayerSlice = createSlice({
 
       state.settingsMenu = null;
     },
-    setTogglePlay: (state) => {
+    togglePlay: (state) => {
       switch (state.status) {
         case EVideoPlayerStatus.error:
           return;
@@ -138,7 +146,7 @@ export const videoPlayerSlice = createSlice({
         }
       }
     },
-    setVolumeToggle: (state) => {
+    volumeToggle: (state) => {
       const currentVolume = state.volume;
       if (currentVolume || numberAfterDecimal(currentVolume)) {
         state.prevVolume = currentVolume;
@@ -168,12 +176,13 @@ export const videoPlayerSlice = createSlice({
 export const {
   setVideoPlayerState,
   setPlaybackRate,
+  toggleAmbientMode,
   setFocus,
   setSource,
-  setToggleSettingsMenu,
-  setTogglePlay,
+  toggleSettingsMenu,
+  togglePlay,
   setAutoQuality,
-  setVolumeToggle,
+  volumeToggle,
   setVolumeByStep,
 } = videoPlayerSlice.actions;
 

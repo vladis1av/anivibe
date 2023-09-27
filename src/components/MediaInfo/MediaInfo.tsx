@@ -2,7 +2,6 @@ import { FC } from 'react';
 
 import dynamic from 'next/dynamic';
 
-import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import clsx from 'clsx';
 
@@ -11,17 +10,22 @@ import { ECollectionType } from '@interfaces/collection';
 import { EMediaInfoValueType, EReliaseType } from '@interfaces/common';
 import { MangaChapterList, MangaGenres } from '@interfaces/manga';
 
-import { ELinkPath, EMediaInfo, EReliase } from '@enums/enums';
+import {
+  ECollection,
+  ELinkPath,
+  EMediaInfo,
+  EPlaceholder,
+  EReliase,
+  ESkeleton,
+  ETheme,
+} from '@enums/enums';
 
-import { CHAPTER_TITLE, PLACEHOLDER_BANNER } from '@constants/common';
+import { BANNER_LIGHT, CHAPTER_TITLE } from '@constants/common';
 import { CHAPTERS_MATCH_MEDIA } from '@constants/matchMedia';
 
-import Chapters from '@ui/Chapters';
 import ImageWithPlaceholder from '@ui/ImageWithPlaceholder';
 import Link from '@ui/Link';
 import ReadMore from '@ui/ReadMore';
-
-import Torrent from '@components/Torrent';
 
 import useCheckWebpSupport from '@hooks/useCheckWebpSupport';
 import useMatchMedia from '@hooks/useMatchMedia';
@@ -31,6 +35,8 @@ import entries from '@utils/entries';
 import useMediaInfoStyles from './MediaInfo.styles';
 
 const VideoPlayer = dynamic(() => import('@ui/VideoPlayer'), { ssr: false });
+const Torrent = dynamic(() => import('@components/Torrent'));
+const Chapters = dynamic(() => import('@ui/Chapters'));
 
 type Media = {
   reliaseType?: string;
@@ -48,6 +54,7 @@ type Media = {
 type MediaKey = keyof Media;
 
 type MediaInfoProps = Media & {
+  fullUrl: string;
   type: ECollectionType;
   title: string;
   image?: string | number;
@@ -65,6 +72,7 @@ type GetLinkProps = {
 
 const MediaInfo: FC<MediaInfoProps> = (props) => {
   const {
+    fullUrl,
     type,
     title,
     image,
@@ -100,7 +108,6 @@ const MediaInfo: FC<MediaInfoProps> = (props) => {
   const imageHeaderBanner = (!bannerImageHightQuality
     ? imagePoster
     : bannerImageHightQuality);
-
   const getLink = ({
     items,
     pathType,
@@ -170,7 +177,7 @@ const MediaInfo: FC<MediaInfoProps> = (props) => {
         });
 
       case EMediaInfo.description:
-        return <ReadMore text={description} />;
+        return <ReadMore text={description} itemPropTitle="description"/>;
 
       default:
         return null;
@@ -183,22 +190,39 @@ const MediaInfo: FC<MediaInfoProps> = (props) => {
   return (
     <>
       <div className={classes.bannerWrapper}>
-        <ImageWithPlaceholder src={imageHeaderBanner}
+        <ImageWithPlaceholder
+          src={imageHeaderBanner}
           alt={title}
           className={classes.bannerImage}
-          placeholderImg={PLACEHOLDER_BANNER}
+          placeholderImage={BANNER_LIGHT}
           blure={Boolean(!bannerImageHightQuality)}
+          skeletonVariant={ESkeleton.waveAuto}
         />
+
+        <div className={classes.bannerImageGradient}></div>
       </div>
 
-      <Container className={classes.detailContent}>
+      <section
+        className={classes.detailContent}
+        itemScope
+        itemType={`${type === ECollection.anime ? 'http://schema.org/Movie' : 'http://schema.org/CreativeWork'}`}
+      >
         <div className={classes.posterWrapper}>
           <div className={classes.poster}>
-            <ImageWithPlaceholder src={imagePoster} alt={title} />
+            <ImageWithPlaceholder
+              alt={title}
+              src={imagePoster}
+              placeholderVariant={EPlaceholder.poster}
+              placeholderTheme={ETheme.light}
+              skeletonVariant={ESkeleton.waveAuto}
+            />
           </div>
 
           <div className={classes.posterInfo}>
-            <Typography className={classes.title} variant="h1">
+            <meta content={fullUrl} itemProp="url" />
+            <meta content={title} itemProp="headline" />
+
+            <Typography className={classes.title} variant="h1" itemProp="name">
               {title}
             </Typography>
 
@@ -229,7 +253,7 @@ const MediaInfo: FC<MediaInfoProps> = (props) => {
 
         {chaptersList
          && <Chapters chapters={chaptersList} itemSize={itemSize} title={CHAPTER_TITLE} border/>}
-      </Container>
+      </section>
     </>
   );
 };

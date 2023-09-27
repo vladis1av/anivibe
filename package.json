@@ -23,14 +23,13 @@
     "@mui/styles": "^5.10.2",
     "@reduxjs/toolkit": "^1.8.5",
     "autoprefixer": "^10.4.8",
-    "axios": "^0.27.2",
     "clean-css": "^5.3.1",
     "clsx": "^1.2.1",
     "date-fns": "^2.29.2",
     "dotenv": "^16.0.3",
     "gql": "^1.1.2",
     "graphql": "^16.6.0",
-    "next": "^12.2.5",
+    "next": "^12.3.4",
     "next-redux-wrapper": "^8.1.0",
     "nextjs-progressbar": "^0.0.14",
     "postcss": "^8.4.16",
@@ -41,6 +40,7 @@
     "react-redux": "^8.0.2",
     "react-virtualized-auto-sizer": "^1.0.7",
     "react-window": "^1.8.8",
+    "redaxios": "^0.5.1",
     "screenfull": "^6.0.2"
   },
   "devDependencies": {

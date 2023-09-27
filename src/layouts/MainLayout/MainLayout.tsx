@@ -26,6 +26,7 @@ type MainLayoutProps = {
   full?: boolean;
   fullHeight?: boolean;
   paddings?: boolean;
+  clearPaddingTop?: boolean;
 };
 
 const MainLayout: FC<MainLayoutProps> = ({
@@ -34,6 +35,7 @@ const MainLayout: FC<MainLayoutProps> = ({
   full,
   fullHeight,
   paddings,
+  clearPaddingTop,
 }) => {
   const classes = useMainLayoutStyles();
   const overlayIsOpen = useAppSelector(getOverlay);
@@ -52,13 +54,14 @@ const MainLayout: FC<MainLayoutProps> = ({
         options={{ showSpinner: false }}
       />
 
-      <div className={clsx(classes.wrapper, className, {
+      <main className={clsx(classes.wrapper, className, {
         [classes.full]: full,
         [classes.fullHeight]: fullHeight,
         [classes.paddings]: paddings,
+        [classes.clearPaddingTop]: clearPaddingTop,
       })}>
         {children}
-      </div>
+      </main>
     </>
   );
 };

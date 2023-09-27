@@ -13,23 +13,30 @@ export type CollectionData = CollectionDataType<MangaBase, FetchedLastAnimeUpdat
 
 const getCollectionProps = (data: CollectionData): CardItemProps | null => {
   const [type, item] = data;
+  const hideTitle = true;
 
   switch (type) {
     case ECollection.anime: {
-      const { id, code } = item;
+      const { id, code, names } = item;
 
       return {
         id,
         pathTo: generateAnimePath(id, code),
+        title: names.ru,
+        hideTitle,
       };
     }
     case ECollection.manga: {
-      const { id, image, name } = item;
+      const {
+        id, image, name, russian,
+      } = item;
 
       return {
         id,
         imageSource: image.original,
         pathTo: generateMangaPath(id, name),
+        title: russian,
+        hideTitle,
       };
     }
     default:
