@@ -1,6 +1,7 @@
-const getApiByNumber = (api: string, apiNumber: string, defaultApi: string): string => {
-  const apiByNumber = `${api}${apiNumber}`;
-  return process.env[apiByNumber] || defaultApi;
-};
+const getApiByNumber = (
+  apiArr: string[],
+  apiNumber: number | string,
+  defaultApi: string,
+) => apiArr[Number(apiNumber)] || defaultApi;
 
 export default getApiByNumber;
