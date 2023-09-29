@@ -18,12 +18,13 @@ import MainLayout from '@layouts/MainLayout';
 
 import { getAnimeByCode } from '@services/api/anime';
 import { getHightQualityBanner } from '@services/api/common';
+// import { test } from '@services/api/test';
 
 import getEnv from '@utils/getEnv';
 import getFullUrlFromServerSide from '@utils/getFullUrlFromServerSide';
 import getNameFromString from '@utils/getNameFromString';
 
-const { ANILIBRIA_DOMEN } = getEnv();
+const { publicRuntimeConfig: { ANIME_DOMEN } } = getEnv();
 
 type AnimePageProps = {
   fullUrl: string;
@@ -74,7 +75,7 @@ export default function Anime({ anime, fullUrl }: AnimePageProps) {
         tabTitle={`${title} - ${SEO_ANIME_DETAIL_PAGE_TITLE}`}
         title={`${title} - ${SEO_ANIME_WATCH_ONLINE_TEXT}`}
         description={[`${SEO_ANIME_WATCH_ONLINE_TEXT} ${title}`, description].join(' — ')}
-        imageSource={`${ANILIBRIA_DOMEN}${medium.url}`}
+        imageSource={`${ANIME_DOMEN}${medium.url}`}
         videoTags={genres}
       />
 
@@ -98,7 +99,6 @@ export default function Anime({ anime, fullUrl }: AnimePageProps) {
     </MainLayout>
   );
 }
-
 export const getServerSideProps: GetServerSideProps<AnimePageProps> = async ({ params, res, resolvedUrl }) => {
   const { animeCode } = params as { animeCode: string };
   const fullUrl = getFullUrlFromServerSide(resolvedUrl);

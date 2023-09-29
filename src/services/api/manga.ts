@@ -7,12 +7,10 @@ import generateQuery from '@utils/generateQuery';
 import getApiByNumber from '@utils/getApiByNumber';
 import getEnv from '@utils/getEnv';
 
-const { DESU_ME_API, DESU_ME_API_NUMBER } = getEnv();
+const { publicRuntimeConfig: { MANGAS_API, MANGA_API_NUMBER } } = getEnv();
 
-const MANGA_API_NAME = 'DESU_ME_API';
 const MANGA_API_REWRITE_SOURCE = '/manga/api/';
-
-const currentMangaApi = getApiByNumber(MANGA_API_NAME, DESU_ME_API_NUMBER, DESU_ME_API);
+const currentMangaApi = getApiByNumber(MANGAS_API, MANGA_API_NUMBER, MANGAS_API[0]);
 
 export const getMangaById = async (id: string): Promise<MangaDetail | null> => {
   try {
