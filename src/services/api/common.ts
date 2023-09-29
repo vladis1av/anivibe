@@ -7,7 +7,7 @@ import getMediaInfo from '@services/queries/getMediaInfo';
 
 import getEnv from '@utils/getEnv';
 
-const { serverRuntimeConfig: { ANILIST_API } } = getEnv();
+const { publicRuntimeConfig: { ANILIST_API } } = getEnv();
 
 // eslint-disable-next-line import/prefer-default-export
 export const getHightQualityBanner = async (id: string, type: ECollectionType): Promise<BannerImage> => {

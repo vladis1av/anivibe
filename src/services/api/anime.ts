@@ -6,8 +6,9 @@ import { FilteredProps } from '@interfaces/services';
 import generateQuery from '@utils/generateQuery';
 import getEnv from '@utils/getEnv';
 
-const { ANILIBRIA_API } = getEnv();
-const currentAnimeApi = ANILIBRIA_API;
+const { publicRuntimeConfig: { ANIME_API } } = getEnv();
+
+const currentAnimeApi = ANIME_API;
 
 export const getFilteredData = async <
   T extends AnimeKeys, R extends Array<Pick<Anime, T>> | [], E = null>({
