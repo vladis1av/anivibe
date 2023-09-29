@@ -22,7 +22,8 @@ const useVideoPlayerStyles = makeStyles(() => ({
   },
   ambientWrapper: {
     position: 'absolute',
-    borderRadius: 8,
+    borderRadius: 10,
+    backfaceVisibility: 'hidden',
     left: 0,
     top: 0,
     width: '100%',
@@ -35,6 +36,7 @@ const useVideoPlayerStyles = makeStyles(() => ({
   ambientCanvas: {
     width: '100%',
     height: '100%',
+    display: 'block',
   },
   videoPlayerFullScreen: {
     border: 'none',
