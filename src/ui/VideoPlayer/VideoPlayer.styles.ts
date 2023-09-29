@@ -1,7 +1,5 @@
 import { makeStyles } from '@mui/styles';
 
-import { EColor } from '@enums/enums';
-
 const useVideoPlayerStyles = makeStyles(() => ({
   videoPlayerWrapper: {
     position: 'relative',
@@ -9,16 +7,6 @@ const useVideoPlayerStyles = makeStyles(() => ({
     borderRadius: 8,
     outline: 'none',
     zIndex: 2,
-  },
-  reactPlayer: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    borderRadius: 8,
-    display: 'flex',
-    zIndex: 2,
-    overflow: 'hidden',
-    backgroundColor: EColor.black,
   },
   ambientWrapper: {
     position: 'absolute',

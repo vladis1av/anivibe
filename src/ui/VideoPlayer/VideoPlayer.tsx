@@ -11,6 +11,8 @@ import { Player } from '@interfaces/anime';
 import { VideoPlayerRef } from '@interfaces/common';
 import { QueryType, VideoPlayerEpisodeQuery } from '@interfaces/query';
 
+import { EColor } from '@enums/enums';
+
 import { USER_ACTIVITY_EVENTS } from '@constants/common';
 
 import useCheckUserActivity from '@hooks/useCheckUserActivity';
@@ -154,8 +156,8 @@ const VideoPlayer: FC<VideoPlayerProps> = ({ player }) => {
   useInterval(
     onDrawAmbientImage,
     ambientModeIsActive && isPlaying && !isFullScreen
-      ? 1000 / 15
-      : null, // runs at 15fps when video is playing, and stops when video is paused
+      ? 1000 / 10
+      : null, // runs at 10fps when video is playing, and stops when video is paused
   );
 
   return (
@@ -205,12 +207,21 @@ const VideoPlayer: FC<VideoPlayerProps> = ({ player }) => {
         onProgress={onChangeProgress}
         onPlaybackRateChange={onPlaybackRateChange}
         url={URL}
+        style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          borderRadius: 8,
+          display: 'flex',
+          zIndex: 2,
+          overflow: 'hidden',
+          backgroundColor: EColor.black,
+        }}
         onError={(_, data) => {
           if (data?.fatal) {
             onError();
           }
         }}
-        className={classes.reactPlayer}
         config={{
           file: {
             forceHLS: true,
