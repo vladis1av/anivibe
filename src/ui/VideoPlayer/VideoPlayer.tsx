@@ -1,5 +1,5 @@
 import {
-  FC, useRef, useEffect, useMemo,
+  FC, useRef, useEffect,
 } from 'react';
 
 import dynamic from 'next/dynamic';
@@ -16,11 +16,11 @@ import { EColor } from '@enums/enums';
 import { USER_ACTIVITY_EVENTS } from '@constants/common';
 
 import useCheckUserActivity from '@hooks/useCheckUserActivity';
-import useInterval from '@hooks/useInterval';
 import useVideoPlayer from '@hooks/useVideoPlayer';
 
 import useCommonStyles from '@styles/Common.styles';
 
+import Cinematic from './ui/Cinematic';
 import Playlist from './ui/Playlist';
 import Screen from './ui/Screen';
 import VideoPlayerStatus from './ui/VideoPlayerStatus';
@@ -28,6 +28,7 @@ import useVideoPlayerStyles from './VideoPlayer.styles';
 
 const Controls = dynamic(() => import('./components/Controls'), { ssr: false });
 const ReactPlayer = dynamic(() => import('./ReactPlayerWrapper'), { ssr: false });
+const ambientModeFPS = 10;
 
 type VideoPlayerProps = {
   player: Player;
@@ -41,24 +42,6 @@ const VideoPlayer: FC<VideoPlayerProps> = ({ player }) => {
   const commonClasses = useCommonStyles();
   const videoPlayerRef = useRef<VideoPlayerRef | null>(null);
   const videoPlayerWrapperRef = useRef<HTMLDivElement | null>(null);
-  const canvasRef = useRef<HTMLCanvasElement | null>(null);
-  const ctx = canvasRef.current?.getContext('2d');
-  const internalPlayer = useMemo(() => videoPlayerRef.current?.getInternalPlayer(), [videoPlayerRef.current]);
-
-  const onDrawAmbientImage = () => {
-    if (!internalPlayer || !canvasRef.current) {
-      return;
-    }
-    if (ctx) {
-      ctx.drawImage(
-        internalPlayer as CanvasImageSource,
-        0,
-        0,
-        canvasRef.current.width,
-        canvasRef.current.height,
-      );
-    }
-  };
 
   const {
     state: {
@@ -78,7 +61,7 @@ const VideoPlayer: FC<VideoPlayerProps> = ({ player }) => {
       currentQuality,
       playerIsFocused,
       controlsIsActive,
-      ambientModeIsActive,
+      cinematicIsActive,
     },
     actions: {
       onError,
@@ -138,28 +121,6 @@ const VideoPlayer: FC<VideoPlayerProps> = ({ player }) => {
     };
   }, [screenfull, playerIsFocused, volume, duration, playedSeconds, status, videoPlayerRef.current]);
 
-  useEffect(() => {
-    const internalPlayerIsReady = videoPlayerRef.current && internalPlayer;
-
-    if (internalPlayerIsReady) {
-      onDrawAmbientImage();
-      internalPlayerIsReady.addEventListener('loadeddata', onDrawAmbientImage);
-    }
-
-    return () => {
-      if (internalPlayerIsReady) {
-        internalPlayerIsReady.removeEventListener('loadeddata', onDrawAmbientImage);
-      }
-    };
-  }, [videoPlayerRef.current, ctx, internalPlayer, ambientModeIsActive]);
-
-  useInterval(
-    onDrawAmbientImage,
-    ambientModeIsActive && isPlaying && !isFullScreen
-      ? 1000 / 10
-      : null, // runs at 10fps when video is playing, and stops when video is paused
-  );
-
   return (
     <div
       tabIndex={0}
@@ -174,21 +135,13 @@ const VideoPlayer: FC<VideoPlayerProps> = ({ player }) => {
           [classes.videoPlayerFullScreen]: isFullScreen,
         })}
     >
-      {
-        <div className={
-          clsx(
-            classes.ambientWrapper,
-            commonClasses.displayHide,
-            { [commonClasses.displayShow]: ambientModeIsActive },
-          )
-        }>
-          <canvas
-            id="canvas"
-            ref={canvasRef}
-            className={classes.ambientCanvas}
-          />
-        </div>
-      }
+      <Cinematic
+        fps={ambientModeFPS}
+        isPlaying={isPlaying}
+        isFullScreen={isFullScreen}
+        isActive={cinematicIsActive}
+        videoPlayerRef={videoPlayerRef}
+      />
 
       <ReactPlayer
         width="100%"
@@ -218,7 +171,7 @@ const VideoPlayer: FC<VideoPlayerProps> = ({ player }) => {
           backgroundColor: EColor.black,
         }}
         onError={(_, data) => {
-          if (data?.fatal) {
+          if (data && data.fatal) {
             onError();
           }
         }}
