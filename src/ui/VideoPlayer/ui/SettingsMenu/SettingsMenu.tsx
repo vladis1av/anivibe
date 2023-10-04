@@ -31,7 +31,7 @@ type SettingsMenuProps = {
   settingsMenu: EVideoPlayerMenuType | null;
   playbackRate: number;
   currentQuality: EHlsQualityKeyType;
-  ambientModeIsActive: boolean;
+  cinematicIsActive: boolean;
   onBack: () => void;
   onChangeAmbientMode: () => void;
   onChangeQuality: (quality: EHlsQualityKeyType) => void;
@@ -46,7 +46,7 @@ const SettingsMenu: FC<SettingsMenuProps> = ({
   settingsMenu,
   playbackRate,
   currentQuality,
-  ambientModeIsActive,
+  cinematicIsActive,
   onBack,
   onChangeAmbientMode,
   onChangeQuality,
@@ -67,7 +67,7 @@ const SettingsMenu: FC<SettingsMenuProps> = ({
           currentQuality={currentQuality}
           onChangeMenu={onChangeSettingsMenu}
           onChangeAmbientMode={onChangeAmbientMode}
-          ambientModeIsActive={ambientModeIsActive}
+          cinematicIsActive={cinematicIsActive}
         />;
 
       case EVideoPlayerMenu.quality:
@@ -129,7 +129,7 @@ export default memo(SettingsMenu, (prevProps, nextProps) => {
   if (prevProps.currentQuality !== nextProps.currentQuality) {
     return false;
   }
-  if (prevProps.ambientModeIsActive !== nextProps.ambientModeIsActive) {
+  if (prevProps.cinematicIsActive !== nextProps.cinematicIsActive) {
     return false;
   }
   return true;

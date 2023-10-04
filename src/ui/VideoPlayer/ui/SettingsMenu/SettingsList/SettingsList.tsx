@@ -25,7 +25,7 @@ type SettingsListProps = {
   onChangeAmbientMode: () => void;
   playbackRate: number;
   currentQuality: EHlsQualityType;
-  ambientModeIsActive: boolean;
+  cinematicIsActive: boolean;
 };
 
 const SettingsList: FC<SettingsListProps> = ({
@@ -33,7 +33,7 @@ const SettingsList: FC<SettingsListProps> = ({
   onChangeAmbientMode,
   playbackRate,
   currentQuality,
-  ambientModeIsActive,
+  cinematicIsActive,
 }) => {
   const classes = useSettingsListStyles();
 
@@ -55,7 +55,7 @@ const SettingsList: FC<SettingsListProps> = ({
             svg: <AmbientTvSVG height={23} />,
             menuItem: <Switch
               size="small"
-              checked={ambientModeIsActive}
+              checked={cinematicIsActive}
               className={classes.videoPlayerSettingsListItemSwitch}
             />,
           };
@@ -69,7 +69,7 @@ const SettingsList: FC<SettingsListProps> = ({
           return null;
       }
     },
-    [playbackRate, currentQuality, ambientModeIsActive],
+    [playbackRate, currentQuality, cinematicIsActive],
   );
 
   const isAmbientKey = (currentKey: EVideoPlayerMenuType) => currentKey === EVideoPlayerMenu.ambientMode;
@@ -100,4 +100,4 @@ const SettingsList: FC<SettingsListProps> = ({
 
 export default memo(SettingsList, (prevProps, nextProps) => prevProps.currentQuality === nextProps.currentQuality
 && prevProps.playbackRate === nextProps.playbackRate
-&& prevProps.ambientModeIsActive === nextProps.ambientModeIsActive);
+&& prevProps.cinematicIsActive === nextProps.cinematicIsActive);
