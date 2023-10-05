@@ -1,5 +1,8 @@
-import { format, fromUnixTime } from 'date-fns';
-
-const getDateFromUnix = (unixDate: number): string => format(fromUnixTime(unixDate), 'dd.mm.yyyy\u00A0HH:mm');
+const getDateFromUnix = (unixDate: number): Date => {
+  const unixTimestamp = unixDate;
+  // Create a new JavaScript Date object based on the timestamp
+  // multiplied by 1000 so that the argument is in milliseconds, not seconds.
+  return new Date(unixTimestamp * 1000);
+};
 
 export default getDateFromUnix;
