@@ -5,6 +5,7 @@ import {
   EButtonSide,
   ELinkPath,
   ELoadingStatus,
+  ELocale,
   EMangaReliase,
   EMediaInfo,
   EPlaceholder,
@@ -18,6 +19,7 @@ import {
 
 import { EThemeType } from './theme';
 
+export type ELocaleType = `${ELocale}`;
 export type EReliaseType = keyof typeof EReliase;
 export type EMediaInfoValueType = `${EMediaInfo}`;
 export type ESkeletonType = keyof typeof ESkeleton;
