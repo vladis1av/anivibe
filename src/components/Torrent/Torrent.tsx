@@ -11,7 +11,7 @@ import TableRow from '@mui/material/TableRow';
 
 import { TorrentList } from '@interfaces/anime';
 
-import { EFile } from '@enums/enums';
+import { EFile, ELocale } from '@enums/enums';
 
 import AppSVG from '@assets/svg/app';
 import CheckSVG from '@assets/svg/check';
@@ -21,6 +21,7 @@ import MagnetSVG from '@assets/svg/magnet';
 import getDateFromUnix from '@utils/getDateFromUnix';
 import getFileLink from '@utils/getFileLink';
 import getFileSize from '@utils/getFileSize';
+import getFormatedDate from '@utils/getFormatedDate';
 
 import useTorrentStyles from './Torrent.styles';
 
@@ -82,7 +83,10 @@ const Torrent: FC<TorrentList> = ({ list }) => {
                 </TableCell>
 
                 <TableCell align="center">
-                  {getDateFromUnix(uploadedTimestamp)}
+                  {getFormatedDate({
+                    date: getDateFromUnix(uploadedTimestamp),
+                    locale: ELocale.ru,
+                  })}
                 </TableCell>
 
                 <TableCell align="center">
