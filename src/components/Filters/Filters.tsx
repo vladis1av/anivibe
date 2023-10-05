@@ -64,7 +64,7 @@ const Filters: FC<FiltersProps> = ({ className, onFiltersAcceptCallback }) => {
                 id="tags-outlined"
                 sx={{ width: 300 }}
                 value={filterValues[key]}
-                classes={{ paper: classes.paper }}
+                classes={{ root: classes.label, inputRoot: classes.inputRoot, paper: classes.paper }}
                 onChange={(_, filterValue, reason) => {
                   if (reason === 'removeOption') {
                     dispatch(setFilterValue({ [key]: filterValue }));

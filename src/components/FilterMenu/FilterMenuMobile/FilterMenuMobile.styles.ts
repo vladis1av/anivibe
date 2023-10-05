@@ -13,14 +13,15 @@ const useFilterMenuMobileStyles = makeStyles((theme: Theme) => ({
   },
   filterMenuButton: {
     color: EColor.white,
-    transform: 'rotate(270deg)',
     position: 'fixed',
     fontWeight: 600,
-    right: '-8px',
-    top: 100,
+    minWidth: 35,
+    height: 35,
+    top: 115,
+    right: '5px',
     border: `1px solid ${EColor.white}`,
     padding: 2,
-    backdropFilter: 'blur(55px)',
+    backdropFilter: 'blur(10px)',
     backgroundColor: EColor.halfTransparentBlack,
 
     '&:hover': {
@@ -34,7 +35,7 @@ const useFilterMenuMobileStyles = makeStyles((theme: Theme) => ({
     '@media (min-width: 0) and (max-width: 1025px)': {
       top: 60,
       right: 0,
-      backdropFilter: 'blur(35px)',
+      backdropFilter: 'blur(25px)',
       backgroundColor: theme.palette.mode === ETheme.dark ? EColor.halfTransparentBlack : EColor.halfTransparentWhite,
     },
     '@media (min-width: 0) and (max-width: 450px)': {

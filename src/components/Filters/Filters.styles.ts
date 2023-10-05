@@ -9,8 +9,44 @@ const useFiltersStyles = makeStyles((theme: Theme) => ({
     flexDirection: 'column',
     alignItems: 'center',
   },
+  label: {
+    transition: 'opacity 0.2s ease-out',
+
+    '& .MuiInputLabel-root': {
+      color: theme.palette.text.primary,
+    },
+    '&:hover .MuiInputLabel-root': {
+      transition: 'opacity 0.2s ease-out',
+
+      opacity: 0.5,
+    },
+  },
+  inputRoot: {
+    color: 'white',
+    transition: 'opacity 0.2s ease-out',
+
+    '& .MuiOutlinedInput-notchedOutline': {
+      borderColor: theme.palette.primary.dark,
+    },
+    '&:hover .MuiOutlinedInput-notchedOutline': {
+      transition: 'opacity 0.2s ease-out',
+
+      opacity: 0.5,
+    },
+    '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+      borderColor: theme.palette.primary.dark,
+    },
+  },
+  filter: {
+    '& .MuiInputBase-root': {
+      border: '1px solid red',
+    },
+    '& .MuiInputBase-root:hover': {
+      border: '1px solid red',
+    },
+  },
   paper: {
-    backdropFilter: 'blur(35px)',
+    backdropFilter: 'blur(25px)',
     backgroundColor: theme.palette.mode === ETheme.dark ? EColor.halfTransparentBlack : EColor.halfTransparentWhite,
     border: `1px solid ${theme.palette.primary.dark}`,
   },
