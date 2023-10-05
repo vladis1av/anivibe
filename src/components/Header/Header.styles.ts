@@ -13,7 +13,7 @@ const useHeaderStyles = makeStyles((theme: Theme) => ({
     backgroundColor: theme.palette.mode === ETheme.light
       ? EColor.halfTransparentLightGray
       : EColor.halfTransparentBlack,
-    backdropFilter: 'blur(35px)',
+    backdropFilter: 'blur(25px)',
     boxShadow: '0 2px 8px 2px rgb(0 0 0 / 24%)',
   },
   headerContainer: {
