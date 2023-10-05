@@ -6,6 +6,8 @@ import Drawer from '@ui/Drawer';
 
 import Filters from '@components/Filters';
 
+import FilterSVG from '@assets/svg/filter';
+
 import useFilterMenuMobileStyles from './FilterMenuMobile.styles';
 
 type FilterMenuMobileProps = {
@@ -23,7 +25,7 @@ const FilterMenuMobile: FC<FilterMenuMobileProps> = ({
 
   return <div className={classes.filterMenuTabletAndBelow}>
     <Button onClick={onClickMenuButton} className={classes.filterMenuButton} variant="text">
-      Меню
+      <FilterSVG />
     </Button>
 
     <Drawer
