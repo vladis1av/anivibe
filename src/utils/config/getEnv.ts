@@ -48,11 +48,10 @@ const getEnvObj = (config: ConfigType): ConfigType => {
 };
 
 const getEnv = () => {
-  const { publicRuntimeConfig, serverRuntimeConfig } = getConfig();
+  const { publicRuntimeConfig } = getConfig();
 
   return {
     publicRuntimeConfig: getEnvObj(publicRuntimeConfig),
-    serverRuntimeConfig: getEnvObj(serverRuntimeConfig),
   };
 };
 
