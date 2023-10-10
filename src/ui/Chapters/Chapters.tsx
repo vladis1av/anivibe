@@ -12,10 +12,10 @@ import { FixedSizeList, ListChildComponentProps } from 'react-window';
 import { MangaChapterList } from '@interfaces/manga';
 import { MangaChapterQuery, QueryType } from '@interfaces/query';
 
+import filter from '@utils/array/filter';
 import chapterIsActive from '@utils/chapterIsActive';
-import filter from '@utils/filter';
-import formatChapterTitle from '@utils/formatChapterTitle';
-import formatTextWithoutSymbols from '@utils/formatTextWithoutSymbols';
+import formatChapterTitle from '@utils/formatting/formatChapterTitle';
+import formatTextWithoutSymbols from '@utils/regexp/formatTextWithoutSymbols';
 
 import ChapterRow from './ChapterRow';
 import useChaptersStyles from './Chapters.styles';

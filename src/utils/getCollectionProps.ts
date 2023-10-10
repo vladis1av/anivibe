@@ -6,8 +6,8 @@ import { ECollection } from '@enums/enums';
 
 import { CardItemProps } from '@ui/CardItem/CardItem';
 
-import generateAnimePath from './generateAnimePath';
-import generateMangaPath from './generateMangaPath';
+import formatAnimePath from '@utils/formatting/formatAnimePath';
+import formatMangaPath from '@utils/formatting/formatMangaPath';
 
 export type CollectionData = CollectionDataType<MangaBase, FetchedLastAnimeUpdatedResult>;
 
@@ -21,7 +21,7 @@ const getCollectionProps = (data: CollectionData): CardItemProps | null => {
 
       return {
         id,
-        pathTo: generateAnimePath(id, code),
+        pathTo: formatAnimePath(id, code),
         title: names.ru,
         hideTitle,
       };
@@ -34,7 +34,7 @@ const getCollectionProps = (data: CollectionData): CardItemProps | null => {
       return {
         id,
         imageSource: image.original,
-        pathTo: generateMangaPath(id, name),
+        pathTo: formatMangaPath(id, name),
         title: russian,
         hideTitle,
       };

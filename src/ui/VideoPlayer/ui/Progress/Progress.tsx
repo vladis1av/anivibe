@@ -4,8 +4,8 @@ import {
 
 import Slider from '@mui/material/Slider';
 
-import formatDuration from '@utils/formatDuration';
-import valueIsNumber from '@utils/valueIsNumber';
+import formatDuration from '@utils/number/formatDuration';
+import valueIsNumber from '@utils/number/valueIsNumber';
 
 import useProgressStyles from './Progress.styles';
 

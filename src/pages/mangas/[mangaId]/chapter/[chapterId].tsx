@@ -37,10 +37,10 @@ import MenuSVG from '@assets/svg/menu';
 
 import { getMangaChapterById } from '@services/api/manga';
 
-import generateMangaPath from '@utils/generateMangaPath';
+import formatMangaPath from '@utils/formatting/formatMangaPath';
 import getFullUrlFromServerSide from '@utils/getFullUrlFromServerSide';
-import getIdFromString from '@utils/getIdFromString';
-import getMangaSeoChapterTitle from '@utils/getMangaSeoChapterTitle';
+import getIdFromString from '@utils/regexp/getIdFromString';
+import getMangaSeoChapterTitle from '@utils/seo/getMangaSeoChapterTitle';
 
 import useChapterPageStyles from '@styles/ChapterPage.styles';
 
@@ -176,7 +176,7 @@ const Chapter: FC<ChapterProps> = ({
         </Button>
 
         <Link
-          path={generateMangaPath(id, name)}
+          path={formatMangaPath(id, name)}
           className={classes.link}
         >
           <div className={classes.poster}>

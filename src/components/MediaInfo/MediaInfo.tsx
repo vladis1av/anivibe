@@ -30,7 +30,7 @@ import ReadMore from '@ui/ReadMore';
 import useCheckWebpSupport from '@hooks/useCheckWebpSupport';
 import useMatchMedia from '@hooks/useMatchMedia';
 
-import entries from '@utils/entries';
+import entries from '@utils/object/entries';
 
 import useMediaInfoStyles from './MediaInfo.styles';
 

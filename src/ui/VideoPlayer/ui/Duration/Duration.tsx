@@ -2,7 +2,7 @@ import { FC, memo } from 'react';
 
 import clsx from 'clsx';
 
-import formatDuration from '@utils/formatDuration';
+import formatDuration from '@utils/number/formatDuration';
 
 import useDurationStyles from './Duration.styles';
 

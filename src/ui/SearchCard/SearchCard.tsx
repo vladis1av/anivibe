@@ -9,7 +9,7 @@ import Link from '@ui/Link';
 
 import useCheckWebpSupport from '@hooks/useCheckWebpSupport';
 
-import entries from '@utils/entries';
+import entries from '@utils/object/entries';
 
 import useSearchCardStyles from './SearchCard.styles';
 

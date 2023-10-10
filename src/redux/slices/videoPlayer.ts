@@ -9,8 +9,8 @@ import { EHlsQualityKey, EVideoPlayerMenu, EVideoPlayerStatus } from '@enums/enu
 
 import { AppState } from '@redux/store';
 
-import entries from '@utils/entries';
-import numberAfterDecimal from '@utils/numberAfterDecimal';
+import numberAfterDecimal from '@utils/number/numberAfterDecimal';
+import entries from '@utils/object/entries';
 
 export type SetSourceActionProps = {
   currentEpisode: number;

@@ -16,8 +16,8 @@ import { AppState } from '@redux/store';
 import { getFilteredData } from '@services/api/anime';
 import { getMangas } from '@services/api/manga';
 
-import checkObjectValueAndExcludeKey from '@utils/checkObjectValueAndExcludeKey';
-import getAppHydrate from '@utils/getAppHydrate';
+import checkObjectValueAndExcludeKey from '@utils/object/checkObjectValueAndExcludeKey';
+import getAppHydrate from '@utils/store/getAppHydrate';
 
 export type FilteredData = Pick<Anime, 'id' | 'code' | 'names'>[] | MangaBase[] | [];
 

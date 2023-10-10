@@ -21,8 +21,8 @@ import { getHightQualityBanner } from '@services/api/common';
 import { getMangaById } from '@services/api/manga';
 
 import getFullUrlFromServerSide from '@utils/getFullUrlFromServerSide';
-import getIdFromString from '@utils/getIdFromString';
-import getMangaSeoTitle from '@utils/getMangaSeoTitle';
+import getIdFromString from '@utils/regexp/getIdFromString';
+import getMangaSeoTitle from '@utils/seo/getMangaSeoTitle';
 
 type MangaPageProps = {
   fullUrl: string;

@@ -18,11 +18,10 @@ import MainLayout from '@layouts/MainLayout';
 
 import { getAnimeByCode } from '@services/api/anime';
 import { getHightQualityBanner } from '@services/api/common';
-// import { test } from '@services/api/test';
 
-import getEnv from '@utils/getEnv';
+import getEnv from '@utils/config/getEnv';
 import getFullUrlFromServerSide from '@utils/getFullUrlFromServerSide';
-import getNameFromString from '@utils/getNameFromString';
+import getNameFromString from '@utils/regexp/getNameFromString';
 
 const { publicRuntimeConfig: { ANIME_DOMEN } } = getEnv();
 

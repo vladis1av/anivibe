@@ -25,9 +25,9 @@ import SunSVG from '@assets/svg/sun';
 import useAppDispatch from '@hooks/useAppDispatch';
 import useAppSelector from '@hooks/useAppSelector';
 
-import entries from '@utils/entries';
-import getOnlyText from '@utils/getOnlyText';
 import getRouteIcon from '@utils/getRouteIcon';
+import entries from '@utils/object/entries';
+import getOnlyText from '@utils/regexp/getOnlyText';
 
 import useCommonStyles from '@styles/Common.styles';
 

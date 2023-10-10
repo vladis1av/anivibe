@@ -11,8 +11,8 @@ import { NEXT_EPIDSODE_TITLE, SECONDS_FOR_SHOW_BUTTONS, SKIP_OST_TITLE } from '@
 
 import { SetSourceActionProps } from '@redux/slices/videoPlayer';
 
-import getTimesFromDuration from '@utils/getTimesFromDuration';
-import getTimeSkip from '@utils/getTimeSkip';
+import getTimesFromDuration from '@utils/number/getTimesFromDuration';
+import getTimeSkip from '@utils/number/getTimeSkip';
 
 import useCommonStyles from '@styles/Common.styles';
 

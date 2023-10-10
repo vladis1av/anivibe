@@ -17,8 +17,8 @@ import Link from '@ui/Link';
 import useAppDispatch from '@hooks/useAppDispatch';
 import useAppSelector from '@hooks/useAppSelector';
 
-import entries from '@utils/entries';
-import generateQuery from '@utils/generateQuery';
+import generateQuery from '@utils/api/generateQuery';
+import entries from '@utils/object/entries';
 
 import useFiltersStyles from './Filters.styles';
 

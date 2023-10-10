@@ -10,9 +10,9 @@ import { ELinkPath, ELocale } from '@enums/enums';
 import Link from '@ui/Link';
 
 import chapterIsActive from '@utils/chapterIsActive';
-import formatChapterTitle from '@utils/formatChapterTitle';
-import getDateFromUnix from '@utils/getDateFromUnix';
-import getFormatedDate from '@utils/getFormatedDate';
+import getDateFromUnix from '@utils/date/getDateFromUnix';
+import getFormatedDate from '@utils/date/getFormatedDate';
+import formatChapterTitle from '@utils/formatting/formatChapterTitle';
 
 import useChaptersStyles from './ChapterRow.styles';
 

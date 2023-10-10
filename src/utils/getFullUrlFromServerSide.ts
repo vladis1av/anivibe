@@ -1,4 +1,4 @@
-import getEnv from './getEnv';
+import getEnv from './config/getEnv';
 
 const getFullUrlFromServerSide = (resolvedUrl: string): string => {
   const { publicRuntimeConfig: { HOST } } = getEnv();

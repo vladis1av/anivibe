@@ -33,8 +33,8 @@ import { getMangas } from '@services/api/manga';
 import useAppSelector from '@hooks/useAppSelector';
 import useMatchMedia from '@hooks/useMatchMedia';
 
-import entries from '@utils/entries';
 import getFullUrlFromServerSide from '@utils/getFullUrlFromServerSide';
+import entries from '@utils/object/entries';
 
 import useCommonStyles from '@styles/Common.styles';
 import useFilterPageStyles from '@styles/FilterPage.styles';

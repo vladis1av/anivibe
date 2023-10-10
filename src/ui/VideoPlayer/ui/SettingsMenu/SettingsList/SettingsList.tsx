@@ -13,7 +13,7 @@ import AmbientTvSVG from '@assets/svg/ambientTv';
 import PlaybackSpeedSVG from '@assets/svg/playbackSpeed';
 import SettingsSVG from '@assets/svg/settings';
 
-import getPlaybackRateValue from '@utils/getPlaybackRateValue';
+import formatPlaybackRate from '@utils/formatting/formatPlaybackRate';
 
 import useSettingsListStyles from './SettingsList.styles';
 import QualityType from '../../QualityType';
@@ -63,7 +63,7 @@ const SettingsList: FC<SettingsListProps> = ({
           return {
             menuTitle: SETTINGS_MENU_ITEM_TITLE[EVideoPlayerMenu.playbackRate],
             svg: <PlaybackSpeedSVG />,
-            menuItem: getPlaybackRateValue(playbackRate),
+            menuItem: formatPlaybackRate(playbackRate),
           };
         default:
           return null;

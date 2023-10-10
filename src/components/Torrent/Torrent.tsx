@@ -18,10 +18,10 @@ import CheckSVG from '@assets/svg/check';
 import ArrowLongSVG from '@assets/svg/longArrow';
 import MagnetSVG from '@assets/svg/magnet';
 
-import getDateFromUnix from '@utils/getDateFromUnix';
-import getFileLink from '@utils/getFileLink';
-import getFileSize from '@utils/getFileSize';
-import getFormatedDate from '@utils/getFormatedDate';
+import getDateFromUnix from '@utils/date/getDateFromUnix';
+import getFormatedDate from '@utils/date/getFormatedDate';
+import getFileLink from '@utils/file/getFileLink';
+import getFileSize from '@utils/file/getFileSize';
 
 import useTorrentStyles from './Torrent.styles';
 
