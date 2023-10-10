@@ -1,6 +1,10 @@
 import { Anime, AnimeKeys } from './anime';
 
-export type FilteredProps<T> = {
+export type IsEdgeFunctions = {
+  isEdgeFunctions?: boolean;
+};
+
+export type FilteredProps<T> = IsEdgeFunctions & {
   filters?: T[],
   method: 'getUpdates' | 'searchTitles',
   params?: Params,
