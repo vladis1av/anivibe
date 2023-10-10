@@ -1,6 +1,6 @@
 import { EFile } from '@enums/enums';
 
-import getEnv from './getEnv';
+import getEnv from '../config/getEnv';
 
 const getFileLink = (type: keyof typeof EFile, value: number): string => {
   const {

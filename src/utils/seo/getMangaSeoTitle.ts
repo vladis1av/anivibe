@@ -4,7 +4,7 @@ import { EMangaReliase, EReliaseKey } from '@enums/enums';
 
 import { APP_NAME_UPPER_CASE } from '@constants/seo';
 
-import replaceLastCharacter from './replaceLastCharacter';
+import replaceLastCharacter from '../regexp/replaceLastCharacter';
 
 const getTitle = (type: string) => `Легко и удобно читать ${type} онлайн на ${APP_NAME_UPPER_CASE}`;
 

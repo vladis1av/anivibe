@@ -1,7 +1,7 @@
 import { ELinkPath } from '@enums/enums';
 
-const generateMangaPath = (id: number, name: string) => `
+const formatMangaPath = (id: number, name: string) => `
 ${ELinkPath.mangas}/${id}-${name.split(' ').join('-').toLowerCase()}
 `;
 
-export default generateMangaPath;
+export default formatMangaPath;

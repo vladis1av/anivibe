@@ -6,8 +6,8 @@ import { FilteredData } from '@redux/slices/filteredData';
 
 import CardItem from '@ui/CardItem';
 
-import generateAnimePath from '@utils/generateAnimePath';
-import generateMangaPath from '@utils/generateMangaPath';
+import formatAnimePath from '@utils/formatting/formatAnimePath';
+import formatMangaPath from '@utils/formatting/formatMangaPath';
 
 import useFilterCardStyles from './FilterCardList.styles';
 
@@ -30,7 +30,7 @@ const FilterCardList: FC<FilterCardListProps> = ({
             key={id}
             id={id}
             title={names.ru}
-            pathTo={generateAnimePath(id, code)}
+            pathTo={formatAnimePath(id, code)}
           />;
         }
 
@@ -43,7 +43,7 @@ const FilterCardList: FC<FilterCardListProps> = ({
           id={id}
           title={russian}
           imageSource={image.original}
-          pathTo={generateMangaPath(id, name)}
+          pathTo={formatMangaPath(id, name)}
         />;
       })
     }
