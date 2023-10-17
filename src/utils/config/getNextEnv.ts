@@ -1,19 +1,6 @@
 import getConfig from 'next/config';
 
-type ConfigType = {
-  HOST: string;
-  RUNTIME: string;
-  JPG_URL: string;
-  WEBP_URL: string;
-  REGIONS: string[];
-  ANIME_API: string;
-  ANIME_DOMEN: string;
-  TORRENT_URL: string;
-  ANILIST_API: string;
-  MANGAS_API: string[];
-  ANILIST_API_KEY: string;
-  MANGA_API_NUMBER: string;
-};
+import { ConfigType } from '@interfaces/config';
 
 const getEnvObj = (config: ConfigType): ConfigType => {
   const {
@@ -29,6 +16,9 @@ const getEnvObj = (config: ConfigType): ConfigType => {
     ANIME_DOMEN,
     ANILIST_API_KEY,
     MANGA_API_NUMBER,
+    EDGE_FUNCTIONS_ANIME_API,
+    EDGE_FUNCTIONS_MANGA_API,
+    EDGE_FUNCTIONS_ANILIST_API,
   } = config;
 
   return {
@@ -44,10 +34,13 @@ const getEnvObj = (config: ConfigType): ConfigType => {
     ANIME_DOMEN,
     ANILIST_API_KEY,
     MANGA_API_NUMBER,
+    EDGE_FUNCTIONS_ANIME_API,
+    EDGE_FUNCTIONS_MANGA_API,
+    EDGE_FUNCTIONS_ANILIST_API,
   };
 };
 
-const getEnv = () => {
+const getNextEnv = () => {
   const { publicRuntimeConfig } = getConfig();
 
   return {
@@ -55,4 +48,4 @@ const getEnv = () => {
   };
 };
 
-export default getEnv;
+export default getNextEnv;
