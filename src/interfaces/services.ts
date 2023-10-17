@@ -1,10 +1,11 @@
 import { Anime, AnimeKeys } from './anime';
+import { ERuntimeValueType } from './common';
 
-export type IsEdgeFunctions = {
-  isEdgeFunctions?: boolean;
+export type RuntimeType = {
+  runtime?: ERuntimeValueType;
 };
 
-export type FilteredProps<T> = IsEdgeFunctions & {
+export type FilteredProps<T> = RuntimeType & {
   filters?: T[],
   method: 'getUpdates' | 'searchTitles',
   params?: Params,
