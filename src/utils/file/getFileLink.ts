@@ -1,6 +1,6 @@
 import { EFile } from '@enums/enums';
 
-import getEnv from '../config/getEnv';
+import getNextEnv from '../config/getNextEnv';
 
 const getFileLink = (type: keyof typeof EFile, value: number): string => {
   const {
@@ -9,7 +9,7 @@ const getFileLink = (type: keyof typeof EFile, value: number): string => {
       WEBP_URL,
       TORRENT_URL,
     },
-  } = getEnv();
+  } = getNextEnv();
 
   switch (type) {
     case EFile.jpg:
