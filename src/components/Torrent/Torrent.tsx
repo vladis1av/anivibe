@@ -1,4 +1,4 @@
-import { FC, memo } from 'react';
+import { FC } from 'react';
 
 import Link from '@mui/material/Link';
 import Paper from '@mui/material/Paper';
@@ -120,4 +120,4 @@ const Torrent: FC<TorrentList> = ({ list }) => {
   );
 };
 
-export default memo(Torrent);
+export default Torrent;
