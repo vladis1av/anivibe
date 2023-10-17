@@ -11,6 +11,11 @@ export enum EButtonSide {
   next = 'next',
 }
 
+export enum ERuntime {
+  serverless = 'nodejs',
+  edge = 'experimental-edge',
+}
+
 export enum ETheme {
   dark = 'dark',
   light = 'light',
