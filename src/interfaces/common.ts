@@ -11,6 +11,7 @@ import {
   EPlaceholder,
   EReliase,
   EReliaseKey,
+  ERuntime,
   EScrollSide,
   ESkeleton,
   EVideoPlayerMenu,
@@ -20,6 +21,7 @@ import {
 import { EThemeType } from './theme';
 
 export type ELocaleType = `${ELocale}`;
+export type ERuntimeValueType = `${ERuntime}`;
 export type EReliaseType = keyof typeof EReliase;
 export type EMediaInfoValueType = `${EMediaInfo}`;
 export type ESkeletonType = keyof typeof ESkeleton;
