@@ -19,11 +19,12 @@ import MainLayout from '@layouts/MainLayout';
 import { getAnimeByCode } from '@services/api/anime';
 import { getHightQualityBanner } from '@services/api/common';
 
-import getEnv from '@utils/config/getEnv';
+import getRuntime from '@utils/api/getRuntime';
+import getNextEnv from '@utils/config/getNextEnv';
 import getFullUrlFromServerSide from '@utils/getFullUrlFromServerSide';
 import getNameFromString from '@utils/regexp/getNameFromString';
 
-const { publicRuntimeConfig: { ANIME_DOMEN } } = getEnv();
+const { publicRuntimeConfig: { ANIME_DOMEN } } = getNextEnv();
 
 type AnimePageProps = {
   fullUrl: string;
@@ -99,22 +100,23 @@ export default function Anime({ anime, fullUrl }: AnimePageProps) {
   );
 }
 export const getServerSideProps: GetServerSideProps<AnimePageProps> = async ({ params, res, resolvedUrl }) => {
+  const runtime = getRuntime();
   const { animeCode } = params as { animeCode: string };
   const fullUrl = getFullUrlFromServerSide(resolvedUrl);
   const currentAnimeCode = getNameFromString(animeCode);
 
-  const fetchedAnime = await getAnimeByCode(currentAnimeCode);
+  const anime = await getAnimeByCode(currentAnimeCode, runtime);
   let result = null;
 
-  if (!fetchedAnime) {
+  if (!anime) {
     res.statusCode = 404;
   }
 
-  if (fetchedAnime) {
+  if (anime) {
     const {
       bannerImageHightQuality,
-    } = await getHightQualityBanner(fetchedAnime.names.en || currentAnimeCode, ECollection.anime);
-    result = { ...fetchedAnime, bannerImageHightQuality };
+    } = await getHightQualityBanner(anime.names.en || currentAnimeCode, ECollection.anime, runtime);
+    result = { ...anime, bannerImageHightQuality };
   }
 
   return {

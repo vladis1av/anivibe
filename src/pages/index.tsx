@@ -19,6 +19,7 @@ import MainLayout from '@layouts/MainLayout';
 import { getFilteredData } from '@services/api/anime';
 import { getMangas } from '@services/api/manga';
 
+import getRuntime from '@utils/api/getRuntime';
 import getFullUrlFromServerSide from '@utils/getFullUrlFromServerSide';
 
 type MainPageProps = {
@@ -49,12 +50,14 @@ const Main: FC<MainPageProps> = ({ collections, fullUrl }) => (
 );
 
 export const getServerSideProps: GetServerSideProps<MainPageProps> = async ({ resolvedUrl }) => {
+  const runtime = getRuntime();
   const animes = await getFilteredData({
     method: 'getUpdates',
     filters: ['id', 'code', 'names'],
     params: { limit: COLLECTION_ITEMS_LIMIT },
+    runtime,
   }) || [];
-  const mangas = await getMangas({ limit: COLLECTION_ITEMS_LIMIT });
+  const mangas = await getMangas({ limit: COLLECTION_ITEMS_LIMIT }, false, runtime);
   const fullUrl = getFullUrlFromServerSide(resolvedUrl);
 
   return {

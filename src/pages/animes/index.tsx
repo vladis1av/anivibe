@@ -41,6 +41,7 @@ import useAppDispatch from '@hooks/useAppDispatch';
 import useAppSelector from '@hooks/useAppSelector';
 import useMatchMedia from '@hooks/useMatchMedia';
 
+import getRuntime from '@utils/api/getRuntime';
 import getFullUrlFromServerSide from '@utils/getFullUrlFromServerSide';
 import checkObjectValueAndExcludeKey from '@utils/object/checkObjectValueAndExcludeKey';
 import entries from '@utils/object/entries';
@@ -127,6 +128,7 @@ const Animes: FC<AnimesProps> = ({ fullUrl }) => {
 
 export const getServerSideProps = nextReduxWrapper.getServerSideProps(
   (store) => async ({ query, resolvedUrl }) => {
+    const runtime = getRuntime();
     const fullUrl = getFullUrlFromServerSide(resolvedUrl);
     const { filters: { filterType, filterItems } } = store.getState();
 
@@ -162,6 +164,7 @@ export const getServerSideProps = nextReduxWrapper.getServerSideProps(
         ...currentParams,
         limit: API_ITEMS_LIMIT,
       },
+      runtime,
     }) || [];
 
     // if i use store.dispatch(fetchFilteredData) doesn't work all the time, i dont know why ( maybe HYDRATE

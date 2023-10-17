@@ -20,6 +20,7 @@ import MainLayout from '@layouts/MainLayout';
 import { getHightQualityBanner } from '@services/api/common';
 import { getMangaById } from '@services/api/manga';
 
+import getRuntime from '@utils/api/getRuntime';
 import getFullUrlFromServerSide from '@utils/getFullUrlFromServerSide';
 import getIdFromString from '@utils/regexp/getIdFromString';
 import getMangaSeoTitle from '@utils/seo/getMangaSeoTitle';
@@ -79,11 +80,12 @@ const Manga: FC<MangaPageProps> = ({ fullUrl, manga, bookTags }) => {
 };
 
 export const getServerSideProps: GetServerSideProps<MangaPageProps> = async ({ params, res, resolvedUrl }) => {
+  const runtime = getRuntime();
   const { mangaId } = params as { mangaId: string };
   const fullUrl = getFullUrlFromServerSide(resolvedUrl);
 
   const currentMangaId = getIdFromString(mangaId) || mangaId;
-  const manga = await getMangaById(currentMangaId);
+  const manga = await getMangaById(currentMangaId, runtime);
   const error = !manga;
   let result = null;
 
@@ -92,7 +94,7 @@ export const getServerSideProps: GetServerSideProps<MangaPageProps> = async ({ p
   }
 
   if (!error) {
-    const { bannerImageHightQuality } = await getHightQualityBanner(manga.name, ECollection.manga);
+    const { bannerImageHightQuality } = await getHightQualityBanner(manga.name, ECollection.manga, runtime);
     result = { ...manga, bannerImageHightQuality };
   }
 
