@@ -35,7 +35,8 @@ import entries from '@utils/object/entries';
 import useMediaInfoStyles from './MediaInfo.styles';
 
 const VideoPlayer = dynamic(() => import('@ui/VideoPlayer'), { ssr: false });
-const Torrent = dynamic(() => import('@components/Torrent'));
+// mui serverside error
+const Torrent = dynamic(() => import('@components/Torrent'), { ssr: false });
 const Chapters = dynamic(() => import('@ui/Chapters'));
 
 type Media = {
