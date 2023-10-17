@@ -39,6 +39,9 @@ const getMangaRewrites = () => {
 
 module.exports = {
   publicRuntimeConfig: env,
+  httpAgentOptions: {
+    keepAlive: false,
+  },
   async rewrites() {
     return getMangaRewrites()
   },
