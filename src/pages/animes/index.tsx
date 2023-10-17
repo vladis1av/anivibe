@@ -173,7 +173,7 @@ export const getServerSideProps = nextReduxWrapper.getServerSideProps(
     }
 
     if (!filterItems.years.length) {
-      const yearsRes = await getYears();
+      const yearsRes = await getYears(runtime);
       store.dispatch(setYears(yearsRes));
     }
 
