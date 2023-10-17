@@ -14,9 +14,12 @@ const env = {
   TORRENT_URL: process.env.TORRENT_URL,
   ANILIST_API: process.env.ANILIST_API,
   ANILIST_API_KEY: process.env.ANILIST_API_KEY,
-  REGIONS: process.env.REGIONS?.split(',') || [],
+  REGIONS: process.env.REGIONS?.split(',') || [""],
   MANGA_API_NUMBER: process.env.MANGA_API_NUMBER || 0,
   MANGAS_API: process.env.MANGAS_API?.split(',') || [""],
+  EDGE_FUNCTIONS_ANIME_API: process.env.EDGE_FUNCTIONS_ANIME_API,
+  EDGE_FUNCTIONS_MANGA_API: process.env.EDGE_FUNCTIONS_MANGA_API,
+  EDGE_FUNCTIONS_ANILIST_API: process.env.EDGE_FUNCTIONS_ANILIST_API
 }
 
 const getRewrite = (source, destination) => {
@@ -30,36 +33,13 @@ const getApiByNumber = (apiArr, apiNumber, defaultApi) => (apiArr[Number(apiNumb
 
 const getMangaRewrites = () => {
   return ([
-    getRewrite(REWRITE_MANGA_API_SOURCE, getApiByNumber(env.MANGAS_API, env.MANGAS_API_NUMBER, env.MANGAS_API[0]))
+    getRewrite(REWRITE_MANGA_API_SOURCE, getApiByNumber(env.MANGAS_API, env.MANGAS_API_NUMBER, env.MANGAS_API[0])),
   ])
 };
 
 module.exports = {
-  swcMinify: true,
-  // compiler: {
-  //   emotion: true,
-  // },
-  // experimental: {
-  //   runtime: RUNTIME, // nodejs || experimental-edge
-  // },
-  serverRuntimeConfig: {
-    ...env
-  },
-  publicRuntimeConfig: {
-    ...env
-  },
+  publicRuntimeConfig: env,
   async rewrites() {
     return getMangaRewrites()
   },
-  // webpack: (config, ctx) => {
-  //   if (ctx.nextRuntime === "edge") {
-  //     if (!config.resolve.conditionNames) {
-  //       config.resolve.conditionNames = ['require', 'node'];
-  //     }
-  //     if (!config.resolve.conditionNames.includes("worker")) {
-  //       config.resolve.conditionNames.push("worker");
-  //     }
-  //   }
-  //   return config;
-  // },
 };
