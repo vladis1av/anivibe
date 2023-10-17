@@ -1,12 +1,17 @@
+import { ERuntimeValueType } from '@interfaces/common';
+
+import isEdgeRuntime from './isEdgeRuntime';
+
 const serverlessOrEdgeApi = (
   edgeApi: string | undefined,
   serverlessApi: string | undefined,
-  isEdge?: boolean,
-): string => {
-  if (isEdge) {
-    return edgeApi || '';
+  runtime?: ERuntimeValueType,
+) => {
+  if (isEdgeRuntime(runtime)) {
+    return edgeApi;
   }
-  return serverlessApi || '';
+
+  return serverlessApi;
 };
 
 export default serverlessOrEdgeApi;
