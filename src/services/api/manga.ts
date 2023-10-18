@@ -1,33 +1,21 @@
 import axios from 'redaxios';
 
-import { ERuntimeValueType } from '@interfaces/common';
 import { MangaBase, MangaDetail, MangaWithPages } from '@interfaces/manga';
 import { MangaParams, MangaResponse } from '@interfaces/services';
 
 import generateQuery from '@utils/api/generateQuery';
 import getApiByNumber from '@utils/api/getApiByNumber';
-import isEdgeRuntime from '@utils/api/isEdgeRuntime';
-import serverlessOrEdgeApi from '@utils/api/serverlessOrEdgeApi';
-import getProcessEnv from '@utils/config/getProcessEnv';
+import getNextEnv from '@utils/config/getNextEnv';
 
-// edge functions not support next.config.js {publicRuntimeConfig || serverRuntimeConfig} getConfig
-const { MANGAS_API, MANGA_API_NUMBER, EDGE_FUNCTIONS_MANGA_API } = getProcessEnv();
+const { publicRuntimeConfig: { MANGAS_API, MANGA_API_NUMBER } } = getNextEnv();
 
 const MANGA_API_REWRITE_SOURCE = '/manga/api/';
-const mangaApi = getApiByNumber(MANGAS_API, Number(MANGA_API_NUMBER), MANGAS_API[0]);
+const CURRENT_MANGA_API = getApiByNumber(MANGAS_API, Number(MANGA_API_NUMBER), MANGAS_API[0]);
 
-export const getMangaById = async (id: string, runtime?: ERuntimeValueType): Promise<MangaDetail | null> => {
+export const getMangaById = async (id: string): Promise<MangaDetail | null> => {
   try {
-    if (isEdgeRuntime(runtime)) {
-      const { data } = await axios.get<MangaDetail | null>(
-        encodeURI(`${EDGE_FUNCTIONS_MANGA_API}getMangaById?id=${id}`),
-      );
-
-      return data;
-    }
-
     const { data } = await axios.get<MangaResponse<MangaDetail | MangaDetail[]>>(
-      encodeURI(`${mangaApi}${id}`),
+      encodeURI(`${CURRENT_MANGA_API}${id}`),
     );
 
     // if id === 0 returns array with manga
@@ -45,18 +33,10 @@ export const getMangaById = async (id: string, runtime?: ERuntimeValueType): Pro
 export const getMangaChapterById = async (
   mangaId: string,
   chapterId: string,
-  runtime?: ERuntimeValueType,
 ): Promise<MangaWithPages | null> => {
   try {
-    if (isEdgeRuntime(runtime)) {
-      const { data } = await axios.get<MangaWithPages | null>(
-        encodeURI(`${EDGE_FUNCTIONS_MANGA_API}getMangaChapterById?id=${mangaId}&chapter=${chapterId}`),
-      );
-      return data;
-    }
-
     const { data } = await axios.get<MangaResponse<MangaWithPages>>(
-      encodeURI(`${mangaApi}${mangaId}/chapter/${chapterId}`),
+      encodeURI(`${CURRENT_MANGA_API}${mangaId}/chapter/${chapterId}`),
     );
 
     if (data.error) {
@@ -73,12 +53,10 @@ export const getMangaChapterById = async (
 export const getMangas = async (
   params: MangaParams,
   cors?: boolean,
-  runtime?: ERuntimeValueType,
 ): Promise<MangaResponse<MangaBase[]> | null> => {
   try {
-    const currentMangaApi = serverlessOrEdgeApi(`${EDGE_FUNCTIONS_MANGA_API}/getMangas`, mangaApi, runtime);
     const query = generateQuery(params);
-    const currentAPI = cors ? MANGA_API_REWRITE_SOURCE : currentMangaApi;
+    const currentAPI = cors ? MANGA_API_REWRITE_SOURCE : CURRENT_MANGA_API;
 
     const { data } = await axios.get<MangaResponse<MangaBase[]>>(
       encodeURI(`${currentAPI}?${query}`),
