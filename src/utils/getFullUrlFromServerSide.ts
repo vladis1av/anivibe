@@ -1,7 +1,7 @@
-import getProcessEnv from './config/getProcessEnv';
+import getNextEnv from './config/getNextEnv';
 
 const getFullUrlFromServerSide = (resolvedUrl: string): string => {
-  const { HOST } = getProcessEnv();
+  const { publicRuntimeConfig: { HOST } } = getNextEnv();
 
   const { origin, pathname } = new URL(resolvedUrl, HOST);
 
