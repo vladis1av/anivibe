@@ -16,10 +16,14 @@ const useChapterRowStyles = makeStyles((theme: Theme) => ({
     fontSize: 16,
   },
   date: {
+    fontSize: 15,
+    minWidth: 210,
+    textAlign: 'end',
     marginLeft: 'auto',
     color: theme.palette.primary.main,
     paddingLeft: 5,
     '@media (min-width: 0) and (max-width: 650px)': {
+      textAlign: 'start',
       marginLeft: 'initial',
     },
   },
