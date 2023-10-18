@@ -37,8 +37,10 @@ import MenuSVG from '@assets/svg/menu';
 
 import { getMangaChapterById } from '@services/api/manga';
 
+import getNextEnv from '@utils/config/getNextEnv';
 import formatMangaPath from '@utils/formatting/formatMangaPath';
 import getFullUrlFromServerSide from '@utils/getFullUrlFromServerSide';
+import changeDomainZone from '@utils/regexp/changeDomainZone';
 import getIdFromString from '@utils/regexp/getIdFromString';
 import getMangaSeoChapterTitle from '@utils/seo/getMangaSeoChapterTitle';
 
@@ -61,6 +63,7 @@ const Chapter: FC<ChapterProps> = ({
   activeChapter,
   pageLimitNotExceeded,
 }) => {
+  const { publicRuntimeConfig: { MANGA_IMAGE_DOMAIN } } = getNextEnv();
   const classes = useChapterPageStyles();
   const [drawerIsOpen, setDrawerIsOpen] = useState<boolean>(false);
   const route = useRouter();
@@ -159,6 +162,8 @@ const Chapter: FC<ChapterProps> = ({
     title: russian, page, mangaType: kind, chapter: ch, vol, hideTitleKeys: [0],
   });
 
+  const currentMangaChapterImage = MANGA_IMAGE_DOMAIN ? changeDomainZone(img, MANGA_IMAGE_DOMAIN) : img;
+
   return (
     <MainLayout full>
       <SeoHead
@@ -205,7 +210,7 @@ const Chapter: FC<ChapterProps> = ({
         style={{ maxWidth: width, minHeight: '87vh' }}
       >
         <ImageWithPlaceholder
-          src={img}
+          src={currentMangaChapterImage}
           threshold={0.1}
           spinerSize={55}
           showLoaderSpiner
