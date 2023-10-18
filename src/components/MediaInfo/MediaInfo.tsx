@@ -21,14 +21,12 @@ import {
 } from '@enums/enums';
 
 import { BANNER_LIGHT, CHAPTER_TITLE } from '@constants/common';
-import { CHAPTERS_MATCH_MEDIA } from '@constants/matchMedia';
 
 import ImageWithPlaceholder from '@ui/ImageWithPlaceholder';
 import Link from '@ui/Link';
 import ReadMore from '@ui/ReadMore';
 
 import useCheckWebpSupport from '@hooks/useCheckWebpSupport';
-import useMatchMedia from '@hooks/useMatchMedia';
 
 import entries from '@utils/object/entries';
 
@@ -38,6 +36,7 @@ const VideoPlayer = dynamic(() => import('@ui/VideoPlayer'), { ssr: false });
 // mui serverside error
 const Torrent = dynamic(() => import('@components/Torrent'), { ssr: false });
 const Chapters = dynamic(() => import('@ui/Chapters'));
+const ITEM_SIZE = 48;
 
 type Media = {
   reliaseType?: string;
@@ -185,9 +184,6 @@ const MediaInfo: FC<MediaInfoProps> = (props) => {
     }
   };
 
-  const [isTablet] = useMatchMedia(CHAPTERS_MATCH_MEDIA);
-  const itemSize = isTablet ? 57 : 35;
-
   return (
     <>
       <div className={classes.bannerWrapper}>
@@ -253,7 +249,7 @@ const MediaInfo: FC<MediaInfoProps> = (props) => {
         {torrent && <Torrent list={torrent.list} />}
 
         {chaptersList
-         && <Chapters chapters={chaptersList} itemSize={itemSize} title={CHAPTER_TITLE} border/>}
+         && <Chapters chapters={chaptersList} itemSize={ITEM_SIZE} title={CHAPTER_TITLE} border/>}
       </section>
     </>
   );
