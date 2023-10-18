@@ -37,7 +37,6 @@ import MenuSVG from '@assets/svg/menu';
 
 import { getMangaChapterById } from '@services/api/manga';
 
-import getRuntime from '@utils/api/getRuntime';
 import formatMangaPath from '@utils/formatting/formatMangaPath';
 import getFullUrlFromServerSide from '@utils/getFullUrlFromServerSide';
 import getIdFromString from '@utils/regexp/getIdFromString';
@@ -269,10 +268,9 @@ const Chapter: FC<ChapterProps> = ({
 };
 
 export const getServerSideProps: GetServerSideProps<ChapterProps> = async ({ query, res, resolvedUrl }) => {
-  const runtime = getRuntime();
   const { mangaId, chapterId, page = '1' } = query as MangaChapterQuery;
   const currentMangaId = getIdFromString(mangaId) || mangaId;
-  const mangaWithPages = await getMangaChapterById(currentMangaId, chapterId, runtime);
+  const mangaWithPages = await getMangaChapterById(currentMangaId, chapterId);
   const fullUrl = getFullUrlFromServerSide(resolvedUrl);
   const error = !mangaWithPages || !mangaWithPages.pages;
   const currentPage = Number(page);

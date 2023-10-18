@@ -19,7 +19,6 @@ import MainLayout from '@layouts/MainLayout';
 import { getAnimeByCode } from '@services/api/anime';
 import { getHightQualityBanner } from '@services/api/common';
 
-import getRuntime from '@utils/api/getRuntime';
 import getNextEnv from '@utils/config/getNextEnv';
 import getFullUrlFromServerSide from '@utils/getFullUrlFromServerSide';
 import getNameFromString from '@utils/regexp/getNameFromString';
@@ -100,12 +99,11 @@ export default function Anime({ anime, fullUrl }: AnimePageProps) {
   );
 }
 export const getServerSideProps: GetServerSideProps<AnimePageProps> = async ({ params, res, resolvedUrl }) => {
-  const runtime = getRuntime();
   const { animeCode } = params as { animeCode: string };
   const fullUrl = getFullUrlFromServerSide(resolvedUrl);
   const currentAnimeCode = getNameFromString(animeCode);
 
-  const anime = await getAnimeByCode(currentAnimeCode, runtime);
+  const anime = await getAnimeByCode(currentAnimeCode);
   let result = null;
 
   if (!anime) {
@@ -115,7 +113,7 @@ export const getServerSideProps: GetServerSideProps<AnimePageProps> = async ({ p
   if (anime) {
     const {
       bannerImageHightQuality,
-    } = await getHightQualityBanner(anime.names.en || currentAnimeCode, ECollection.anime, runtime);
+    } = await getHightQualityBanner(anime.names.en || currentAnimeCode, ECollection.anime);
     result = { ...anime, bannerImageHightQuality };
   }
 

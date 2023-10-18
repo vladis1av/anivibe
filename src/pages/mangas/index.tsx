@@ -33,7 +33,6 @@ import { getMangas } from '@services/api/manga';
 import useAppSelector from '@hooks/useAppSelector';
 import useMatchMedia from '@hooks/useMatchMedia';
 
-import getRuntime from '@utils/api/getRuntime';
 import getFullUrlFromServerSide from '@utils/getFullUrlFromServerSide';
 import entries from '@utils/object/entries';
 
@@ -123,7 +122,6 @@ export const getServerSideProps = nextReduxWrapper
   .getServerSideProps<MangaPageProps>((store) => async (
   { query, resolvedUrl },
 ) => {
-  const runtime = getRuntime();
   const { page = '1', genres } = query as unknown as MangaQuery;
   const { filters: { filterType } } = store.getState();
   const currentPage = Number(page);
@@ -140,8 +138,6 @@ export const getServerSideProps = nextReduxWrapper
       page: currentPage,
       genres,
     },
-    false,
-    runtime,
   );
 
   const currentCount = mangas?.pageNavParams?.count || 0;

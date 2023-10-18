@@ -1,11 +1,6 @@
 import { Anime, AnimeKeys } from './anime';
-import { ERuntimeValueType } from './common';
 
-export type RuntimeType = {
-  runtime?: ERuntimeValueType;
-};
-
-export type FilteredProps<T> = RuntimeType & {
+export type FilteredProps<T> = {
   filters?: T[],
   method: 'getUpdates' | 'searchTitles',
   params?: Params,
