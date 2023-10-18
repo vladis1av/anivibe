@@ -194,8 +194,7 @@ const Chapter: FC<ChapterProps> = ({
         </Link>
 
         <Chapters
-          hideDate
-          itemSize={35}
+          itemSize={55}
           contentFullHeight
           fullWidthInput
           chapters={chapters.list}
