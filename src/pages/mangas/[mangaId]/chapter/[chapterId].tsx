@@ -206,6 +206,7 @@ const Chapter: FC<ChapterProps> = ({
       >
         <ImageWithPlaceholder
           src={img}
+          threshold={0.1}
           spinerSize={55}
           showLoaderSpiner
           alt={altTitleImg}
