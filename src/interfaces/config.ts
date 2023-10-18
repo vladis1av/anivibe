@@ -9,4 +9,5 @@ export type ConfigType = {
   MANGAS_API: string[];
   ANILIST_API_KEY: string;
   MANGA_API_NUMBER: string;
+  MANGA_IMAGE_DOMAIN: string;
 };
