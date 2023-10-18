@@ -7,15 +7,17 @@ const useHeaderStyles = makeStyles((theme: Theme) => ({
   header: {
     position: 'fixed',
     width: '100%',
+    backfaceVisibility: 'hidden',
     top: 0,
     zIndex: 35,
     backgroundColor: theme.palette.mode === ETheme.light
       ? EColor.halfTransparentLightGray
       : EColor.halfTransparentBlack,
-    backdropFilter: 'blur(35px)',
+    backdropFilter: 'blur(25px)',
     boxShadow: '0 2px 8px 2px rgb(0 0 0 / 24%)',
   },
   headerContainer: {
+    backfaceVisibility: 'hidden',
     height: 60,
     maxWidth: 1920,
     color: EColor.white,

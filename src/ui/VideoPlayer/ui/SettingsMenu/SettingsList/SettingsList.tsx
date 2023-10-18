@@ -13,7 +13,7 @@ import AmbientTvSVG from '@assets/svg/ambientTv';
 import PlaybackSpeedSVG from '@assets/svg/playbackSpeed';
 import SettingsSVG from '@assets/svg/settings';
 
-import getPlaybackRateValue from '@utils/getPlaybackRateValue';
+import formatPlaybackRate from '@utils/formatting/formatPlaybackRate';
 
 import useSettingsListStyles from './SettingsList.styles';
 import QualityType from '../../QualityType';
@@ -25,7 +25,7 @@ type SettingsListProps = {
   onChangeAmbientMode: () => void;
   playbackRate: number;
   currentQuality: EHlsQualityType;
-  ambientModeIsActive: boolean;
+  cinematicIsActive: boolean;
 };
 
 const SettingsList: FC<SettingsListProps> = ({
@@ -33,7 +33,7 @@ const SettingsList: FC<SettingsListProps> = ({
   onChangeAmbientMode,
   playbackRate,
   currentQuality,
-  ambientModeIsActive,
+  cinematicIsActive,
 }) => {
   const classes = useSettingsListStyles();
 
@@ -55,7 +55,7 @@ const SettingsList: FC<SettingsListProps> = ({
             svg: <AmbientTvSVG height={23} />,
             menuItem: <Switch
               size="small"
-              checked={ambientModeIsActive}
+              checked={cinematicIsActive}
               className={classes.videoPlayerSettingsListItemSwitch}
             />,
           };
@@ -63,13 +63,13 @@ const SettingsList: FC<SettingsListProps> = ({
           return {
             menuTitle: SETTINGS_MENU_ITEM_TITLE[EVideoPlayerMenu.playbackRate],
             svg: <PlaybackSpeedSVG />,
-            menuItem: getPlaybackRateValue(playbackRate),
+            menuItem: formatPlaybackRate(playbackRate),
           };
         default:
           return null;
       }
     },
-    [playbackRate, currentQuality, ambientModeIsActive],
+    [playbackRate, currentQuality, cinematicIsActive],
   );
 
   const isAmbientKey = (currentKey: EVideoPlayerMenuType) => currentKey === EVideoPlayerMenu.ambientMode;
@@ -100,4 +100,4 @@ const SettingsList: FC<SettingsListProps> = ({
 
 export default memo(SettingsList, (prevProps, nextProps) => prevProps.currentQuality === nextProps.currentQuality
 && prevProps.playbackRate === nextProps.playbackRate
-&& prevProps.ambientModeIsActive === nextProps.ambientModeIsActive);
+&& prevProps.cinematicIsActive === nextProps.cinematicIsActive);

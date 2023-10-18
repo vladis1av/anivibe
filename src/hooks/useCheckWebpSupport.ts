@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-import getFileLink from '@utils/getFileLink';
+import getFileLink from '@utils/file/getFileLink';
 
 let elem: HTMLCanvasElement | null = null;
 

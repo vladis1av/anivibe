@@ -1,13 +1,16 @@
 import axios from 'redaxios';
 
-import { Anime, AnimeKeys } from '@interfaces/anime';
+import {
+  Anime, AnimeKeys, AnimeResponse,
+} from '@interfaces/anime';
 import { FilteredProps } from '@interfaces/services';
 
-import generateQuery from '@utils/generateQuery';
-import getEnv from '@utils/getEnv';
+import isAnimeResponseError from '@typeGuards/isAnimeResponseError';
 
-const { ANILIBRIA_API } = getEnv();
-const currentAnimeApi = ANILIBRIA_API;
+import generateQuery from '@utils/api/generateQuery';
+import getNextEnv from '@utils/config/getNextEnv';
+
+const { publicRuntimeConfig: { ANIME_API } } = getNextEnv();
 
 export const getFilteredData = async <
   T extends AnimeKeys, R extends Array<Pick<Anime, T>> | [], E = null>({
@@ -18,7 +21,7 @@ export const getFilteredData = async <
   try {
     const generatedQuery = generateQuery({ filter: filters, ...params });
 
-    const { data } = await axios.get<R>(encodeURI(`${currentAnimeApi}${method}?${generatedQuery}`));
+    const { data } = await axios.get<R>(encodeURI(`${ANIME_API}${method}?${generatedQuery}`));
 
     return data;
   } catch (error) {
@@ -27,9 +30,15 @@ export const getFilteredData = async <
   }
 };
 
-export const getAnimeByCode = async (id: string): Promise<Anime | null> => {
+export const getAnimeByCode = async (code: string): Promise<Anime | null> => {
   try {
-    const { data } = await axios.get(encodeURI(`${currentAnimeApi}getTitle?code=${id}&playlist_type=array`));
+    const {
+      data,
+    } = await axios.get<AnimeResponse>(encodeURI(`${ANIME_API}getTitle?code=${code}&playlist_type=array`));
+
+    if (isAnimeResponseError(data)) {
+      return null;
+    }
 
     return data;
   } catch (error) {
@@ -40,7 +49,7 @@ export const getAnimeByCode = async (id: string): Promise<Anime | null> => {
 
 export const getYears = async (): Promise<number[] | []> => {
   try {
-    const { data } = await axios.get(encodeURI(`${currentAnimeApi}getYears`));
+    const { data } = await axios.get(encodeURI(`${ANIME_API}getYears`));
 
     return data;
   } catch (error) {

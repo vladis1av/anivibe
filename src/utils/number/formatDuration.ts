@@ -1,7 +1,7 @@
 import { HOUR, MINUTE } from '@constants/common';
 
-import filter from './filter';
 import leadingZero from './leadingZero';
+import filter from '../array/filter';
 
 const formatDuration = (durationInSeconds: number): string => {
   const hours = Math.floor(durationInSeconds / HOUR);

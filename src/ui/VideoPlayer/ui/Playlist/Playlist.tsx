@@ -13,7 +13,7 @@ import { QueryType, VideoPlayerEpisodeQuery } from '@interfaces/query';
 
 import { SetSourceActionProps } from '@redux/slices/videoPlayer';
 
-import getSerie from '@utils/getSerie';
+import formatSerie from '@utils/formatting/formatSerie';
 
 import usePlaylistStyles from './Playlist.styles';
 
@@ -33,9 +33,9 @@ const Playlist: FC<PlaylistProps> = memo(
   }) => {
     const route = useRouter();
     const classes = usePlaylistStyles();
-    const serie = getSerie(sourceIndex + 1);
+    const serie = formatSerie(sourceIndex + 1);
     const { query } = route as unknown as QueryType<VideoPlayerEpisodeQuery>;
-    const options: string[] = playlist.map((option) => getSerie(option.serie));
+    const options: string[] = playlist.map((option) => formatSerie(option.serie));
 
     const setEpisodeQuery = (episode: string) => {
       query.episode = episode;

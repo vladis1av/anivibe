@@ -19,11 +19,11 @@ import MainLayout from '@layouts/MainLayout';
 import { getAnimeByCode } from '@services/api/anime';
 import { getHightQualityBanner } from '@services/api/common';
 
-import getEnv from '@utils/getEnv';
+import getNextEnv from '@utils/config/getNextEnv';
 import getFullUrlFromServerSide from '@utils/getFullUrlFromServerSide';
-import getNameFromString from '@utils/getNameFromString';
+import getNameFromString from '@utils/regexp/getNameFromString';
 
-const { ANILIBRIA_DOMEN } = getEnv();
+const { publicRuntimeConfig: { ANIME_DOMEN } } = getNextEnv();
 
 type AnimePageProps = {
   fullUrl: string;
@@ -74,7 +74,7 @@ export default function Anime({ anime, fullUrl }: AnimePageProps) {
         tabTitle={`${title} - ${SEO_ANIME_DETAIL_PAGE_TITLE}`}
         title={`${title} - ${SEO_ANIME_WATCH_ONLINE_TEXT}`}
         description={[`${SEO_ANIME_WATCH_ONLINE_TEXT} ${title}`, description].join(' — ')}
-        imageSource={`${ANILIBRIA_DOMEN}${medium.url}`}
+        imageSource={`${ANIME_DOMEN}${medium.url}`}
         videoTags={genres}
       />
 
@@ -98,24 +98,23 @@ export default function Anime({ anime, fullUrl }: AnimePageProps) {
     </MainLayout>
   );
 }
-
 export const getServerSideProps: GetServerSideProps<AnimePageProps> = async ({ params, res, resolvedUrl }) => {
   const { animeCode } = params as { animeCode: string };
   const fullUrl = getFullUrlFromServerSide(resolvedUrl);
   const currentAnimeCode = getNameFromString(animeCode);
 
-  const fetchedAnime = await getAnimeByCode(currentAnimeCode);
+  const anime = await getAnimeByCode(currentAnimeCode);
   let result = null;
 
-  if (!fetchedAnime) {
+  if (!anime) {
     res.statusCode = 404;
   }
 
-  if (fetchedAnime) {
+  if (anime) {
     const {
       bannerImageHightQuality,
-    } = await getHightQualityBanner(fetchedAnime.names.en || currentAnimeCode, ECollection.anime);
-    result = { ...fetchedAnime, bannerImageHightQuality };
+    } = await getHightQualityBanner(anime.names.en || currentAnimeCode, ECollection.anime);
+    result = { ...anime, bannerImageHightQuality };
   }
 
   return {

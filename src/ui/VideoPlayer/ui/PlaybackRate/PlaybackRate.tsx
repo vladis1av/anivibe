@@ -4,7 +4,7 @@ import { PLAYBACK_SPEED } from '@constants/common';
 
 import HalfTransparentListItem from '@ui/HalfTransparentListItem';
 
-import getPlaybackRateValue from '@utils/getPlaybackRateValue';
+import formatPlaybackRate from '@utils/formatting/formatPlaybackRate';
 
 import SettingsSelect from '../SettingsSelect';
 
@@ -31,7 +31,7 @@ const PlaybackRate: FC<PlaybackRateProps> = ({
           <SettingsSelect
             isSelected={playbackRate === currentSpeed}
           >
-            {getPlaybackRateValue(currentSpeed)}
+            {formatPlaybackRate(currentSpeed)}
           </SettingsSelect>
         </HalfTransparentListItem>
       ))}

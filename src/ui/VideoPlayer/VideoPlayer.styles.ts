@@ -8,22 +8,6 @@ const useVideoPlayerStyles = makeStyles(() => ({
     outline: 'none',
     zIndex: 2,
   },
-  ambientWrapper: {
-    position: 'absolute',
-    borderRadius: 8,
-    left: 0,
-    top: 0,
-    width: '100%',
-    height: '100%',
-    zIndex: 1,
-    transition: 'opacity 0.2s ease-in-out, visibility 0.2s ease-in-out',
-    transitionDelay: '0.2s',
-    filter: 'blur(40px)',
-  },
-  ambientCanvas: {
-    width: '100%',
-    height: '100%',
-  },
   videoPlayerFullScreen: {
     border: 'none',
   },

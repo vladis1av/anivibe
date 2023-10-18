@@ -6,8 +6,8 @@ import clsx from 'clsx';
 import VolumeSVG from '@assets/svg/volume';
 import VolumeMuteSVG from '@assets/svg/volumeMute';
 
-import numberAfterDecimal from '@utils/numberAfterDecimal';
-import valueIsNumber from '@utils/valueIsNumber';
+import numberAfterDecimal from '@utils/number/numberAfterDecimal';
+import valueIsNumber from '@utils/number/valueIsNumber';
 
 import useVolumeStyles from './Volume.styles';
 import BaseButton from '../BaseButton';

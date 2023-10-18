@@ -41,9 +41,9 @@ import useAppDispatch from '@hooks/useAppDispatch';
 import useAppSelector from '@hooks/useAppSelector';
 import useMatchMedia from '@hooks/useMatchMedia';
 
-import checkObjectValueAndExcludeKey from '@utils/checkObjectValueAndExcludeKey';
-import entries from '@utils/entries';
 import getFullUrlFromServerSide from '@utils/getFullUrlFromServerSide';
+import checkObjectValueAndExcludeKey from '@utils/object/checkObjectValueAndExcludeKey';
+import entries from '@utils/object/entries';
 
 import useCommonStyles from '@styles/Common.styles';
 import useFilterPageStyles from '@styles/FilterPage.styles';

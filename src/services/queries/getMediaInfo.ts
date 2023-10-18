@@ -1,8 +1,6 @@
-import gql from 'graphql-tag';
-
 import { ECollectionType } from '@interfaces/collection';
 
-const getMediaInfo = (type: ECollectionType) => gql`
+const getMediaInfo = (type: ECollectionType) => `
 query ($search: String) {
   Media(search: $search, type: ${type.toUpperCase()}) {
     id

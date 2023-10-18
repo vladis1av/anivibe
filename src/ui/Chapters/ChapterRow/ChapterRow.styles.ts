@@ -6,28 +6,23 @@ const useChapterRowStyles = makeStyles((theme: Theme) => ({
     display: 'flex',
     alignItems: 'center',
     paddingRight: 8,
-
-    '@media (min-width: 0) and (max-width: 650px)': {
-      flexDirection: 'column',
-      alignItems: 'initial',
-    },
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
   },
   text: {
     fontSize: 16,
   },
   date: {
-    marginLeft: 'auto',
+    fontSize: 15,
+    opacity: 0.6,
     color: theme.palette.primary.main,
     paddingLeft: 5,
-    '@media (min-width: 0) and (max-width: 650px)': {
-      marginLeft: 'initial',
-    },
   },
   link: {
     color: theme.palette.primary.main,
     marginTop: 1,
     fontSize: 16,
-    padding: '5px 5px 5px 5px',
+    padding: '0px 5px 0px 5px',
     textOverflow: 'ellipsis',
     whiteSpace: 'nowrap',
     overflow: 'hidden',

@@ -5,13 +5,14 @@ import { ListChildComponentProps } from 'react-window';
 
 import { MangaChapterList } from '@interfaces/manga';
 
-import { ELinkPath } from '@enums/enums';
+import { ELinkPath, ELocale } from '@enums/enums';
 
 import Link from '@ui/Link';
 
 import chapterIsActive from '@utils/chapterIsActive';
-import formatChapterTitle from '@utils/formatChapterTitle';
-import getDateFromUnix from '@utils/getDateFromUnix';
+import getDateFromUnix from '@utils/date/getDateFromUnix';
+import getFormatedDate from '@utils/date/getFormatedDate';
+import formatChapterTitle from '@utils/formatting/formatChapterTitle';
 
 import useChaptersStyles from './ChapterRow.styles';
 
@@ -62,7 +63,7 @@ const ChapterRow: FC<ChapterRowProps<ListChildComponentProps<MangaChapterList[]>
 
       {
         !hideDate && <span className={clsx(classes.text, classes.date)}>
-          {getDateFromUnix(date)}
+          {getFormatedDate({ date: getDateFromUnix(date), locale: ELocale.ru, withCustomFormat: true })}
         </span>
       }
     </div>

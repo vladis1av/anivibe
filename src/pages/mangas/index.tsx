@@ -33,8 +33,8 @@ import { getMangas } from '@services/api/manga';
 import useAppSelector from '@hooks/useAppSelector';
 import useMatchMedia from '@hooks/useMatchMedia';
 
-import entries from '@utils/entries';
 import getFullUrlFromServerSide from '@utils/getFullUrlFromServerSide';
+import entries from '@utils/object/entries';
 
 import useCommonStyles from '@styles/Common.styles';
 import useFilterPageStyles from '@styles/FilterPage.styles';
@@ -131,9 +131,14 @@ export const getServerSideProps = nextReduxWrapper
     store.dispatch(setFilterType(ECollection.manga));
   }
 
-  const mangas = await getMangas({
-    order: 'popular', limit: API_ITEMS_LIMIT, page: currentPage, genres,
-  });
+  const mangas = await getMangas(
+    {
+      order: 'popular',
+      limit: API_ITEMS_LIMIT,
+      page: currentPage,
+      genres,
+    },
+  );
 
   const currentCount = mangas?.pageNavParams?.count || 0;
   const pagesCount = Math.ceil(currentCount / API_ITEMS_LIMIT);

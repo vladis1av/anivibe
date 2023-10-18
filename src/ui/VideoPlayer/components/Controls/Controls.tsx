@@ -60,7 +60,7 @@ const Controls: FC<ControlsProps> = ({
       loadedSeconds,
       playedSeconds,
       currentQuality,
-      ambientModeIsActive,
+      cinematicIsActive,
       settingsMenu: settingsMenuKey,
     },
     actions: {
@@ -135,7 +135,7 @@ const Controls: FC<ControlsProps> = ({
             onBack={onSetDefaultSettingsMenu}
             onChangeQuality={onChangeQuality}
             onCloseSettings={onCloseSettings}
-            ambientModeIsActive={ambientModeIsActive}
+            cinematicIsActive={cinematicIsActive}
             onChangeAmbientMode={onToggleAmbientMode}
             onToggleSettingsMenu={onToggleSettingsMenu}
             onChangeSettingsMenu={onChangeSettingsMenu}

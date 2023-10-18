@@ -1,4 +1,4 @@
-import { FC, memo } from 'react';
+import { FC } from 'react';
 
 import Link from '@mui/material/Link';
 import Paper from '@mui/material/Paper';
@@ -11,16 +11,17 @@ import TableRow from '@mui/material/TableRow';
 
 import { TorrentList } from '@interfaces/anime';
 
-import { EFile } from '@enums/enums';
+import { EFile, ELocale } from '@enums/enums';
 
 import AppSVG from '@assets/svg/app';
 import CheckSVG from '@assets/svg/check';
 import ArrowLongSVG from '@assets/svg/longArrow';
 import MagnetSVG from '@assets/svg/magnet';
 
-import getDateFromUnix from '@utils/getDateFromUnix';
-import getFileLink from '@utils/getFileLink';
-import getFileSize from '@utils/getFileSize';
+import getDateFromUnix from '@utils/date/getDateFromUnix';
+import getFormatedDate from '@utils/date/getFormatedDate';
+import getFileLink from '@utils/file/getFileLink';
+import getFileSize from '@utils/file/getFileSize';
 
 import useTorrentStyles from './Torrent.styles';
 
@@ -82,7 +83,10 @@ const Torrent: FC<TorrentList> = ({ list }) => {
                 </TableCell>
 
                 <TableCell align="center">
-                  {getDateFromUnix(uploadedTimestamp)}
+                  {getFormatedDate({
+                    date: getDateFromUnix(uploadedTimestamp),
+                    locale: ELocale.ru,
+                  })}
                 </TableCell>
 
                 <TableCell align="center">
@@ -116,4 +120,4 @@ const Torrent: FC<TorrentList> = ({ list }) => {
   );
 };
 
-export default memo(Torrent);
+export default Torrent;

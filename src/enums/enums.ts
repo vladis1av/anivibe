@@ -26,6 +26,11 @@ export enum EScrollSide {
   right = 'right',
 }
 
+export enum ELocale {
+  ru = 'ru',
+  us = 'en-US',
+}
+
 export enum EPlaceholder {
   poster = 'poster',
   banner = 'banner',

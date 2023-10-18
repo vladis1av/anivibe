@@ -17,8 +17,8 @@ import Link from '@ui/Link';
 import useAppDispatch from '@hooks/useAppDispatch';
 import useAppSelector from '@hooks/useAppSelector';
 
-import entries from '@utils/entries';
-import generateQuery from '@utils/generateQuery';
+import generateQuery from '@utils/api/generateQuery';
+import entries from '@utils/object/entries';
 
 import useFiltersStyles from './Filters.styles';
 
@@ -64,7 +64,7 @@ const Filters: FC<FiltersProps> = ({ className, onFiltersAcceptCallback }) => {
                 id="tags-outlined"
                 sx={{ width: 300 }}
                 value={filterValues[key]}
-                classes={{ paper: classes.paper }}
+                classes={{ root: classes.label, inputRoot: classes.inputRoot, paper: classes.paper }}
                 onChange={(_, filterValue, reason) => {
                   if (reason === 'removeOption') {
                     dispatch(setFilterValue({ [key]: filterValue }));

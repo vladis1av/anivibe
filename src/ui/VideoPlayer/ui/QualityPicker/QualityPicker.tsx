@@ -4,7 +4,7 @@ import { HlsQuality, EHlsQualityType } from '@interfaces/hls';
 
 import HalfTransparentListItem from '@ui/HalfTransparentListItem';
 
-import entries from '@utils/entries';
+import entries from '@utils/object/entries';
 
 import QualityType from '../QualityType';
 import SettingsSelect from '../SettingsSelect';

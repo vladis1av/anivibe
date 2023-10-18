@@ -9,8 +9,8 @@ import { EHlsQualityKey, EVideoPlayerMenu, EVideoPlayerStatus } from '@enums/enu
 
 import { AppState } from '@redux/store';
 
-import entries from '@utils/entries';
-import numberAfterDecimal from '@utils/numberAfterDecimal';
+import numberAfterDecimal from '@utils/number/numberAfterDecimal';
+import entries from '@utils/object/entries';
 
 export type SetSourceActionProps = {
   currentEpisode: number;
@@ -20,7 +20,7 @@ export type SetSourceActionProps = {
 export type VideoPlayerState = {
   status: EVideoPlayerStatusType,
   sourceIndex: number;
-  ambientModeIsActive: boolean;
+  cinematicIsActive: boolean;
   isFullScreen: boolean;
   currentQuality: EHlsQualityType;
   settingsMenu: EVideoPlayerMenuType | null;
@@ -40,7 +40,7 @@ export type VideoPlayerState = {
 const initialState: VideoPlayerState = {
   status: EVideoPlayerStatus.idle,
   sourceIndex: 0,
-  ambientModeIsActive: true,
+  cinematicIsActive: true,
   isFullScreen: false,
   currentQuality: EHlsQualityKey.fhd,
   settingsMenu: null,
@@ -67,10 +67,10 @@ export const videoPlayerSlice = createSlice({
       state.settingsMenu = null;
     },
     toggleAmbientMode: (state) => {
-      if (state.ambientModeIsActive) {
-        return { ...state, ambientModeIsActive: false };
+      if (state.cinematicIsActive) {
+        return { ...state, cinematicIsActive: false };
       }
-      return { ...state, ambientModeIsActive: true };
+      return { ...state, cinematicIsActive: true };
     },
     setFocus: (state, { payload }: PayloadAction<FocusEvent<HTMLDivElement, Element>>) => {
       if (payload.currentTarget === payload.target) {

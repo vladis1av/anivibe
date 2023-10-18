@@ -6,8 +6,8 @@ import { ECollection, EReliase } from '@enums/enums';
 
 import { SearchCardProps } from '@ui/SearchCard/SearchCard';
 
-import generateAnimePath from './generateAnimePath';
-import generateMangaPath from './generateMangaPath';
+import formatAnimePath from '@utils/formatting/formatAnimePath';
+import formatMangaPath from '@utils/formatting/formatMangaPath';
 
 export type SearchPropsData = CollectionDataType<MangaBase, SearchAnimeType>;
 
@@ -26,7 +26,7 @@ const getSearchProps = (data: SearchPropsData): SearchCardProps | null => {
         genres,
         mediaType: type.full_string,
         year: season.year,
-        pathTo: generateAnimePath(id, code) || code,
+        pathTo: formatAnimePath(id, code) || code,
       };
     }
     case ECollection.manga: {
@@ -40,7 +40,7 @@ const getSearchProps = (data: SearchPropsData): SearchCardProps | null => {
         genres,
         mediaType: EReliase[kind],
         imageUrl: image.preview,
-        pathTo: generateMangaPath(id, name) || `${id}`,
+        pathTo: formatMangaPath(id, name) || `${id}`,
       };
     }
     default:

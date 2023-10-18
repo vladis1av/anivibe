@@ -30,7 +30,7 @@ const useImageWithPlaceholderStyles = makeStyles(() => ({
     border: 0,
     bottom: 0,
     position: 'absolute',
-    backdropFilter: 'blur(10px)',
+    backdropFilter: 'blur(8px)',
   },
 }));
 
