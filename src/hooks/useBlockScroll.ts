@@ -6,7 +6,8 @@ const useBlockScroll = (condition: boolean) => {
       document.body.style.overflow = 'hidden';
       return;
     }
-    document.body.style.overflow = 'auto';
+    document.body.style.overflowX = 'hidden';
+    document.body.style.overflowY = 'auto';
   }, [condition]);
 };
 
