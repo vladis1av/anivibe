@@ -45,6 +45,7 @@ const useVideoPlayer = (
   const isPlaying = status === EVideoPlayerStatus.playing || status === EVideoPlayerStatus.loading;
   const isError = status === EVideoPlayerStatus.error;
   const isPaused = status === EVideoPlayerStatus.pause;
+  const isLoading = status === EVideoPlayerStatus.loading;
 
   const onChangeStatus = (
     loadingStatus: EVideoPlayerStatusType,
@@ -206,7 +207,12 @@ const useVideoPlayer = (
 
   return ({
     state: {
-      ...state, isPlaying, screenfull, isError, isPaused,
+      ...state,
+      isPlaying,
+      screenfull,
+      isError,
+      isPaused,
+      isLoading,
     },
     actions: {
       onChangeStatus,
