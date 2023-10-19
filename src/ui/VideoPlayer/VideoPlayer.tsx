@@ -51,6 +51,7 @@ const VideoPlayer: FC<VideoPlayerProps> = ({ player }) => {
       isError,
       isPaused,
       duration,
+      isLoading,
       isPlaying,
       screenfull,
       sourceIndex,
@@ -129,7 +130,8 @@ const VideoPlayer: FC<VideoPlayerProps> = ({ player }) => {
       onBlur={onVideoPlayerBlure}
       className={
         clsx(classes.videoPlayerWrapper, {
-          [classes.showVideoPlayerControls]: isError || Boolean(settingsMenu) || isPaused,
+          [classes.videoPlayerAspectRatio]: !isFullScreen,
+          [classes.showVideoPlayerControls]: isError || Boolean(settingsMenu) || isPaused || isLoading,
           [classes.showVideoPlayerControlsOnHover]: played,
           [classes.hideVideoPlayerControls]: isFullScreen && !controlsIsActive,
           [classes.videoPlayerFullScreen]: isFullScreen,
@@ -168,7 +170,7 @@ const VideoPlayer: FC<VideoPlayerProps> = ({ player }) => {
           display: 'flex',
           zIndex: 2,
           overflow: 'hidden',
-          backgroundColor: EColor.black,
+          backgroundColor: EColor.defaultBlack,
         }}
         onError={(_, data) => {
           if (data && data.fatal) {

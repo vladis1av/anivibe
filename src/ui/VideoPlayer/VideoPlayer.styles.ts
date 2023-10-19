@@ -1,9 +1,11 @@
 import { makeStyles } from '@mui/styles';
 
 const useVideoPlayerStyles = makeStyles(() => ({
+  videoPlayerAspectRatio: {
+    paddingTop: '56.25%',
+  },
   videoPlayerWrapper: {
     position: 'relative',
-    paddingTop: '56.25%',
     borderRadius: 8,
     outline: 'none',
     zIndex: 2,
