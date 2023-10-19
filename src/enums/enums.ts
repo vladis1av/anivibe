@@ -145,6 +145,7 @@ export enum EMediaInfo {
 export enum EColor {
   gray = '#7f7f7f',
   white = '#ffffff',
+  defaultBlack = '#000',
   black = '#0f0f0f',
   blue = '#1976d2d9',
   vividCyan = '#03dac5',
