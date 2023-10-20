@@ -22,10 +22,8 @@ import { EPlaceholder, ETheme } from '@enums/enums';
 
 import { NOT_FOUND_CHAPTER_ERROR } from '@constants/error';
 
-import Chapters from '@ui/Chapters';
 import Error from '@ui/Error';
 import ImageWithPlaceholder from '@ui/ImageWithPlaceholder';
-import Link from '@ui/Link';
 
 import SeoHead from '@components/SeoHead';
 
@@ -47,6 +45,8 @@ import getMangaSeoChapterTitle from '@utils/seo/getMangaSeoChapterTitle';
 import useChapterPageStyles from '@styles/ChapterPage.styles';
 
 const Drawer = dynamic(() => import('@mui/material/Drawer'));
+const Chapters = dynamic(() => import('@ui/Chapters'));
+const Link = dynamic(() => import('@ui/Link'));
 
 type ChapterProps = {
   fullUrl: string;
