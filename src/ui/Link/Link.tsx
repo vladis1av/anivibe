@@ -1,4 +1,4 @@
-import { FC, ReactNode } from 'react';
+import { CSSProperties, FC, ReactNode } from 'react';
 
 import NextLink from 'next/link';
 
@@ -15,6 +15,7 @@ type LinkProps = {
   scroll?: boolean;
   draggable?: boolean;
   attributeTitle?: string;
+  style?: CSSProperties;
 };
 
 const Link: FC<LinkProps> = ({
@@ -26,12 +27,13 @@ const Link: FC<LinkProps> = ({
   scroll = true,
   draggable = false,
   attributeTitle,
+  style,
 }) => {
   const classes = useCardListStyles();
   const currentStyles = clsx(classes.link, className);
 
-  return <NextLink href={{ pathname: path, query }} scroll={scroll} >
-    <a className={currentStyles} onClick={onClick} draggable={draggable} title={attributeTitle}>
+  return <NextLink href={{ pathname: path, query }} scroll={scroll}>
+    <a className={currentStyles} onClick={onClick} draggable={draggable} title={attributeTitle} style={style}>
       {children}
     </a>
   </NextLink>;
