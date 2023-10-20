@@ -43,28 +43,24 @@ const ChapterRow: FC<ChapterRowProps<ListChildComponentProps<MangaChapterList[]>
   } = data[index];
 
   return (
-    <div
+    <Link
       className={clsx(classes.chapter, { [classes.chapterActive]: chapterIsActive(id, activeMangaChapterId) })}
+      path={`${ELinkPath.mangas}/${mangaId}${ELinkPath.chapter}/${id}`}
+      onClick={onClickChapter}
       style={style}
     >
-      <Link
-        path={`${ELinkPath.mangas}/${mangaId}${ELinkPath.chapter}/${id}`}
-        className={classes.link}
-        onClick={onClickChapter}
-      >
-        <span className={classes.text}>
-          {
-            formatChapterTitle(vol, ch, title)
-          }
-        </span>
-      </Link>
+      <span className={classes.chapterTitle}>
+        {
+          formatChapterTitle(vol, ch, title)
+        }
+      </span>
 
       {
-        !hideDate && <span className={clsx(classes.text, classes.date)}>
+        !hideDate && <span className={classes.date}>
           {getFormatedDate({ date: getDateFromUnix(date), locale: ELocale.ru, withCustomFormat: true })}
         </span>
       }
-    </div>
+    </Link>
   );
 };
 

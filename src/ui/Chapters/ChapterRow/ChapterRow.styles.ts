@@ -9,6 +9,7 @@ const useChapterRowStyles = makeStyles((theme: Theme) => ({
     flexWrap: 'wrap',
     justifyContent: 'space-between',
     transition: 'opacity 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms',
+    marginBottom: 2,
 
     '&:hover': {
       opacity: 0.8,
@@ -18,18 +19,17 @@ const useChapterRowStyles = makeStyles((theme: Theme) => ({
   chapterActive: {
     backgroundColor: theme.palette.primary.main,
     borderRadius: 3,
-    '& $link': {
+
+    '& $chapterTitle': {
       color: theme.palette.primary.light,
     },
+
     '& $date': {
       color: theme.palette.primary.light,
       opacity: 0.8,
     },
   },
-  text: {
-    fontSize: 16,
-  },
-  link: {
+  chapterTitle: {
     color: theme.palette.primary.main,
     marginTop: 1,
     fontSize: 16,
