@@ -194,9 +194,9 @@ const Chapter: FC<ChapterProps> = ({
         </Link>
 
         <Chapters
-          itemSize={55}
-          contentFullHeight
+          itemSize={50}
           fullWidthInput
+          contentFullHeight
           chapters={chapters.list}
           onClickChapter={closeDrawer}
           activeChapterId={activeChapter}
