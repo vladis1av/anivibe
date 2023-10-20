@@ -56,7 +56,10 @@ type MediaKey = keyof Media;
 type MediaInfoProps = Media & {
   fullUrl: string;
   type: ECollectionType;
-  title: string;
+  title: {
+    ru: string;
+    en: string;
+  };
   image?: string | number;
   bannerImageHightQuality?: string | null;
   player?: Player;
@@ -189,7 +192,7 @@ const MediaInfo: FC<MediaInfoProps> = (props) => {
       <div className={classes.bannerWrapper}>
         <ImageWithPlaceholder
           src={imageHeaderBanner}
-          alt={title}
+          alt={title.ru}
           className={classes.bannerImage}
           placeholderImage={BANNER_LIGHT}
           blure={Boolean(!bannerImageHightQuality)}
@@ -207,7 +210,7 @@ const MediaInfo: FC<MediaInfoProps> = (props) => {
         <div className={classes.posterWrapper}>
           <div className={classes.poster}>
             <ImageWithPlaceholder
-              alt={title}
+              alt={title.ru}
               src={imagePoster}
               placeholderVariant={EPlaceholder.poster}
               placeholderTheme={ETheme.light}
@@ -217,10 +220,15 @@ const MediaInfo: FC<MediaInfoProps> = (props) => {
 
           <div className={classes.posterInfo}>
             <meta content={fullUrl} itemProp="url" />
-            <meta content={title} itemProp="headline" />
+            <meta content={title.en} itemProp="headline" />
+            {title.ru && <meta content={title.ru} itemProp="alternativeHeadline" />}
 
             <Typography className={classes.title} variant="h1" itemProp="name">
-              {title}
+              {title.ru}
+            </Typography>
+
+            <Typography className={classes.secondTitle} variant="h2" itemProp="name">
+              {title.en}
             </Typography>
 
             <ul className={classes.typeList}>
