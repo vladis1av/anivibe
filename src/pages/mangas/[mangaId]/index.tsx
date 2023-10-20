@@ -38,6 +38,7 @@ const Manga: FC<MangaPageProps> = ({ fullUrl, manga, bookTags }) => {
   }
 
   const {
+    name,
     russian,
     description,
     kind,
@@ -65,7 +66,7 @@ const Manga: FC<MangaPageProps> = ({ fullUrl, manga, bookTags }) => {
         fullUrl={fullUrl}
         type={ECollection.manga}
         reliaseType={kind}
-        title={russian}
+        title={{ ru: russian, en: name }}
         description={description}
         volumes={volumes}
         chapters={chapters}

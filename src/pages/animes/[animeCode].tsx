@@ -51,7 +51,7 @@ export default function Anime({ anime, fullUrl }: AnimePageProps) {
 
   const {
     id,
-    names: { ru: title = '' },
+    names: { ru, en },
     description,
     bannerImageHightQuality,
     type: { string: reliaseType, series, length: seriesDuration },
@@ -71,9 +71,9 @@ export default function Anime({ anime, fullUrl }: AnimePageProps) {
       <SeoHead
         canonical={fullUrl}
         ogUrl={fullUrl}
-        tabTitle={`${title} - ${SEO_ANIME_DETAIL_PAGE_TITLE}`}
-        title={`${title} - ${SEO_ANIME_WATCH_ONLINE_TEXT}`}
-        description={[`${SEO_ANIME_WATCH_ONLINE_TEXT} ${title}`, description].join(' — ')}
+        tabTitle={`${ru} - ${SEO_ANIME_DETAIL_PAGE_TITLE}`}
+        title={`${ru} - ${SEO_ANIME_WATCH_ONLINE_TEXT}`}
+        description={[`${SEO_ANIME_WATCH_ONLINE_TEXT} ${ru}`, description].join(' — ')}
         imageSource={`${ANIME_DOMEN}${medium.url}`}
         videoTags={genres}
       />
@@ -82,7 +82,7 @@ export default function Anime({ anime, fullUrl }: AnimePageProps) {
         fullUrl={fullUrl}
         type={ECollection.anime}
         reliaseType={reliaseType.toLowerCase()}
-        title={title}
+        title={{ ru, en }}
         seasons={seasonName}
         duration={seriesDuration}
         episodes={series}
