@@ -31,7 +31,8 @@ const useMediaInfoStyles = makeStyles((theme: Theme) => ({
       marginRight: 'auto',
       top: -230,
       textAlign: 'center',
-      height: 330,
+      width: 210,
+      height: 310,
     },
   },
   posterInfo: {
@@ -116,6 +117,20 @@ const useMediaInfoStyles = makeStyles((theme: Theme) => ({
 
     '@media (min-width: 0) and (max-width: 991px)': {
       fontSize: 18,
+    },
+  },
+  secondTitle: {
+    fontSize: 18,
+    fontWeight: 500,
+    textOverflow: 'ellipsis',
+    whiteSpace: 'nowrap',
+    overflow: 'hidden',
+    marginTop: 2,
+    marginBottom: 3,
+    opacity: 0.7,
+
+    '@media (min-width: 0) and (max-width: 991px)': {
+      fontSize: 15,
     },
   },
   text: {
