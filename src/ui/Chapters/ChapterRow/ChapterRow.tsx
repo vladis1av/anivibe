@@ -44,14 +44,12 @@ const ChapterRow: FC<ChapterRowProps<ListChildComponentProps<MangaChapterList[]>
 
   return (
     <div
-      className={classes.chapters}
+      className={clsx(classes.chapter, { [classes.chapterActive]: chapterIsActive(id, activeMangaChapterId) })}
       style={style}
     >
       <Link
         path={`${ELinkPath.mangas}/${mangaId}${ELinkPath.chapter}/${id}`}
-        className={
-          clsx(classes.link, { [classes.linkActive]: chapterIsActive(id, activeMangaChapterId) })
-        }
+        className={classes.link}
         onClick={onClickChapter}
       >
         <span className={classes.text}>

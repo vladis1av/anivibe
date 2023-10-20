@@ -2,21 +2,32 @@ import { Theme } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 
 const useChapterRowStyles = makeStyles((theme: Theme) => ({
-  chapters: {
+  chapter: {
     display: 'flex',
     alignItems: 'center',
     paddingRight: 8,
     flexWrap: 'wrap',
     justifyContent: 'space-between',
+    transition: 'opacity 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms',
+
+    '&:hover': {
+      opacity: 0.8,
+      transition: 'opacity 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms',
+    },
+  },
+  chapterActive: {
+    backgroundColor: theme.palette.primary.main,
+    borderRadius: 3,
+    '& $link': {
+      color: theme.palette.primary.light,
+    },
+    '& $date': {
+      color: theme.palette.primary.light,
+      opacity: 0.8,
+    },
   },
   text: {
     fontSize: 16,
-  },
-  date: {
-    fontSize: 15,
-    opacity: 0.6,
-    color: theme.palette.primary.main,
-    paddingLeft: 5,
   },
   link: {
     color: theme.palette.primary.main,
@@ -26,17 +37,12 @@ const useChapterRowStyles = makeStyles((theme: Theme) => ({
     textOverflow: 'ellipsis',
     whiteSpace: 'nowrap',
     overflow: 'hidden',
-    transition: 'opacity 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms',
-
-    '&:hover': {
-      opacity: 0.7,
-      transition: 'opacity 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms',
-    },
   },
-  linkActive: {
-    backgroundColor: theme.palette.primary.main,
-    color: theme.palette.primary.light,
-    borderRadius: 3,
+  date: {
+    fontSize: 15,
+    opacity: 0.7,
+    color: theme.palette.primary.main,
+    paddingLeft: 5,
   },
 }));
 
