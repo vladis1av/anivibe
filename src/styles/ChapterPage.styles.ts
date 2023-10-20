@@ -145,6 +145,7 @@ const useChapterPageStyles = makeStyles((theme: Theme) => ({
     },
   },
   closeDrawerButton: {
+    minWidth: 37,
     marginLeft: 'auto',
   },
   closeDrawerButtonIcon: {
