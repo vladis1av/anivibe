@@ -1,7 +1,7 @@
 import { HlsQuality } from './hls';
 
 export type BannerImage = {
-  bannerImageHightQuality: string | null
+  bannerImageHightQuality: string | null;
 };
 
 type Poster = {
@@ -9,7 +9,7 @@ type Poster = {
   raw_base64_file: string | null;
 };
 
-type Series = {
+type Episodes = {
   first: number;
   last: number;
   string: string;
@@ -39,7 +39,8 @@ type Status = {
 export type TimeSkipsType = [number, number] | [];
 
 export type Playlist = {
-  serie: number;
+  episode: number;
+  name: string | null;
   create_timestamp: number;
   hls: HlsQuality;
   preview: string;
@@ -47,12 +48,16 @@ export type Playlist = {
     ending: TimeSkipsType;
     opening: TimeSkipsType;
   };
+  uuid: string;
 };
 
 export type Player = {
-  alternative_player: string;
+  alternative_player: string | null;
+  episodes: Episodes;
+  is_rutube: boolean;
   host: string;
-  playlist: Array<Playlist>
+  list: Array<Playlist>;
+  rutube: Array<Playlist>;
 };
 
 export type Anime = {
@@ -60,7 +65,7 @@ export type Anime = {
   code: string;
   announce: string;
   status: Status;
-  series: Series;
+  series: Episodes;
   type: Type;
   torrents: Torrent;
   description: string;
@@ -82,7 +87,7 @@ export type Anime = {
     translator: Array<string>;
     editing: Array<string>;
     decor: Array<string>;
-    timing: Array<string>
+    timing: Array<string>;
   };
   season: {
     string: string;
@@ -100,7 +105,7 @@ export type Anime = {
 };
 
 export type TorrentListItems = {
-  series: Series;
+  episodes: Episodes;
   torrent_id: number;
   leechers: number;
   hash: string;
@@ -119,7 +124,7 @@ export type TorrentList = {
 };
 
 export type Torrent = TorrentList & {
-  series: Series;
+  episodes: Episodes;
 };
 
 export type AnimeInfoTypes = {

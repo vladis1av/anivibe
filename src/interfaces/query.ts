@@ -6,6 +6,7 @@ export type AnimeQuery = {
   seasons?: string;
   after?: string;
   voices?: string;
+  page?: string;
 };
 
 export type MangaQuery = {

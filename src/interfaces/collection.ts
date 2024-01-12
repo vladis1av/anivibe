@@ -12,6 +12,6 @@ export type CollectionDataType<M, A> = [ECollection.manga, M] |
 export type CollectionType = {
   title: string;
   type: ECollectionType;
-  collection: (MangaBase[] | FetchedLastAnimeUpdatedResult[]) | [];
+  collection: MangaBase[] | FetchedLastAnimeUpdatedResult[] | [];
   link?: string;
 };
