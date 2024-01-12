@@ -5,7 +5,7 @@ import { ELoadingStatusType } from '@interfaces/common';
 import { MangaBase } from '@interfaces/manga';
 import { SearchAnimeType } from '@interfaces/services';
 
-import { ECollection, ELoadingStatus } from '@enums/enums';
+import { EAnimeMethod, ECollection, ELoadingStatus } from '@enums/enums';
 
 import { SEARCH_BY_TYPE_FETCH_TITLES } from '@redux/actionType/searchByType.actionType';
 import { AppState } from '@redux/store';
@@ -35,8 +35,8 @@ export const fetchTitles = createAsyncThunk<FoundTitles, FetchTitlesType>(
     let result: FoundTitles = [];
 
     if (type === ECollection.anime) {
-      const animesResult = await getFilteredData({
-        method: 'searchTitles',
+      const animes = await getFilteredData({
+        method: EAnimeMethod.searchTitles,
         filters: [
           'id',
           'code',
@@ -47,7 +47,7 @@ export const fetchTitles = createAsyncThunk<FoundTitles, FetchTitlesType>(
         ],
         params: { search: searchValue },
       });
-      result = animesResult || [];
+      result = animes ? animes.list : [];
     } else {
       const mangasResult = await getMangas({ limit: 50, search: searchValue }, true);
       result = mangasResult?.response || [];
