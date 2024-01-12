@@ -16,11 +16,12 @@ import SeoHead from '@components/SeoHead';
 
 import MainLayout from '@layouts/MainLayout';
 
-import { getAnimeByCode } from '@services/api/anime';
+import { getAnimeById } from '@services/api/anime';
 import { getHightQualityBanner } from '@services/api/common';
 
 import getNextEnv from '@utils/config/getNextEnv';
 import getFullUrlFromServerSide from '@utils/getFullUrlFromServerSide';
+import getIdFromString from '@utils/regexp/getIdFromString';
 import getNameFromString from '@utils/regexp/getNameFromString';
 
 const { publicRuntimeConfig: { ANIME_DOMEN } } = getNextEnv();
@@ -81,19 +82,23 @@ export default function Anime({ anime, fullUrl }: AnimePageProps) {
       <MediaInfo
         fullUrl={fullUrl}
         type={ECollection.anime}
-        reliaseType={reliaseType.toLowerCase()}
         title={{ ru, en }}
-        seasons={seasonName}
-        duration={seriesDuration}
-        episodes={series}
-        voices={currentVoices}
-        description={description}
         image={id}
-        years={year}
         bannerImageHightQuality={bannerImageHightQuality}
-        genres={currentGenres}
         player={player}
         torrent={torrents}
+        media={
+          {
+            reliaseType: reliaseType.toLowerCase(),
+            duration: seriesDuration,
+            years: year,
+            seasons: seasonName,
+            episodes: series,
+            genres: currentGenres,
+            voices: currentVoices,
+            description,
+          }
+        }
       />
     </MainLayout>
   );
@@ -102,8 +107,9 @@ export const getServerSideProps: GetServerSideProps<AnimePageProps> = async ({ p
   const { animeCode } = params as { animeCode: string };
   const fullUrl = getFullUrlFromServerSide(resolvedUrl);
   const currentAnimeCode = getNameFromString(animeCode);
+  const currentAnimeId = getIdFromString(animeCode) || '';
 
-  const anime = await getAnimeByCode(currentAnimeCode);
+  const anime = await getAnimeById(currentAnimeId);
   let result = null;
 
   if (!anime) {

@@ -65,15 +65,17 @@ const Manga: FC<MangaPageProps> = ({ fullUrl, manga, bookTags }) => {
       <MediaInfo
         fullUrl={fullUrl}
         type={ECollection.manga}
-        reliaseType={kind}
         title={{ ru: russian, en: name }}
-        description={description}
-        volumes={volumes}
-        chapters={chapters}
         chaptersList={list}
-        genres={genres}
         image={image.original}
         bannerImageHightQuality={bannerImageHightQuality}
+        media={{
+          reliaseType: kind,
+          volumes,
+          chapters,
+          genres,
+          description,
+        }}
       />
     </MainLayout>
   );
