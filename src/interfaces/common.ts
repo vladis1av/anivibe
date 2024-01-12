@@ -17,6 +17,7 @@ import {
   EVideoPlayerStatus,
 } from '@enums/enums';
 
+import { MangaGenres } from './manga';
 import { EThemeType } from './theme';
 
 export type ELocaleType = `${ELocale}`;
@@ -79,3 +80,18 @@ export type SelectType = {
   name: string;
   type: string;
 };
+
+export type Media = {
+  reliaseType?: string;
+  duration?: number;
+  volumes?: number;
+  chapters?: number;
+  episodes?: number;
+  years?: number;
+  seasons?: string;
+  voices?: MangaGenres[];
+  genres?: MangaGenres[];
+  description: string;
+};
+
+export type MediaKey = keyof Media;
