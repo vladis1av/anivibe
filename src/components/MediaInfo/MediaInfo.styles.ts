@@ -45,9 +45,6 @@ const useMediaInfoStyles = makeStyles((theme: Theme) => ({
       marginTop: 100,
     },
   },
-  itemKey: {
-    marginLeft: 3,
-  },
   bannerWrapper: {
     position: 'relative',
     height: 300,
@@ -97,7 +94,6 @@ const useMediaInfoStyles = makeStyles((theme: Theme) => ({
     width: '100%',
     height: '100%',
   },
-
   detailContent: {
     maxWidth: 1200,
     margin: '0 auto',
@@ -133,10 +129,6 @@ const useMediaInfoStyles = makeStyles((theme: Theme) => ({
       fontSize: 15,
     },
   },
-  text: {
-    color: `${theme.palette.text.primary}`,
-    display: 'inline-flex',
-  },
   typeList: {
     marginTop: 5,
     color: theme.palette.text.secondary,
@@ -147,25 +139,6 @@ const useMediaInfoStyles = makeStyles((theme: Theme) => ({
     display: 'flex',
     flexWrap: 'wrap',
     alignItems: 'center',
-  },
-  link: {
-    color: `${theme.palette.text.primary}`,
-    marginRight: 2,
-    borderRadius: 5,
-    marginTop: 4,
-    padding: '1px 4px',
-    backgroundColor: `${theme.palette.background.default}`,
-    border: `1px solid ${theme.palette.text.secondary}`,
-    transition: 'opacity 0.2s ease-out',
-
-    '&:hover': {
-      transition: 'opacity 0.2s ease-out',
-      opacity: '0.7',
-    },
-
-    '&:first-child': {
-      marginLeft: 3,
-    },
   },
 }));
 
