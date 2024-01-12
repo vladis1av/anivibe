@@ -35,7 +35,7 @@ const Playlist: FC<PlaylistProps> = memo(
     const classes = usePlaylistStyles();
     const serie = formatSerie(sourceIndex + 1);
     const { query } = route as unknown as QueryType<VideoPlayerEpisodeQuery>;
-    const options: string[] = playlist.map((option) => formatSerie(option.serie));
+    const options: string[] = playlist.map((option) => formatSerie(option.episode));
 
     const setEpisodeQuery = (episode: string) => {
       query.episode = episode;

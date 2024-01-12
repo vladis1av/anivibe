@@ -35,14 +35,13 @@ type VideoPlayerProps = {
 };
 
 const VideoPlayer: FC<VideoPlayerProps> = ({ player }) => {
-  const { host, playlist } = player;
+  const { host, list } = player;
   const route = useRouter();
   const { query: { episode = '1' } } = route as unknown as QueryType<VideoPlayerEpisodeQuery>;
   const classes = useVideoPlayerStyles();
   const commonClasses = useCommonStyles();
   const videoPlayerRef = useRef<VideoPlayerRef | null>(null);
   const videoPlayerWrapperRef = useRef<HTMLDivElement | null>(null);
-
   const {
     state: {
       status,
@@ -84,14 +83,14 @@ const VideoPlayer: FC<VideoPlayerProps> = ({ player }) => {
     },
   } = useVideoPlayer(videoPlayerRef, videoPlayerWrapperRef);
 
-  const { hls, skips: { opening, ending } } = playlist[sourceIndex]
+  const { hls, skips: { opening, ending } } = list[sourceIndex]
   ?? { hls: {}, skips: { opening: [], ending: [] }, serie: 0 };
-  const playlistLength = playlist ? playlist.length : 0;
+  const playlistLength = list ? list.length : 0;
   const URL = hls[currentQuality] ? `https://${host}${hls[currentQuality]}` : undefined;
 
   useEffect(() => {
     onAutoQuality(hls);
-  }, [hls, sourceIndex, playlist]);
+  }, [hls, sourceIndex, list]);
 
   useEffect(() => {
     const currentEpisode = Number(episode);
@@ -101,7 +100,7 @@ const VideoPlayer: FC<VideoPlayerProps> = ({ player }) => {
     } else {
       onChangeSource({ currentEpisode });
     }
-  }, [playlist, episode]);
+  }, [list, episode]);
 
   useCheckUserActivity({
     onActive,
@@ -187,7 +186,7 @@ const VideoPlayer: FC<VideoPlayerProps> = ({ player }) => {
       <VideoPlayerStatus status={status} onPlay={onTogglePlay} playedSeconds={playedSeconds} />
 
       <Playlist
-        playlist={playlist}
+        playlist={list}
         sourceIndex={sourceIndex}
         onChangeSource={onChangeSource}
         className={clsx(classes.videoPlayerPlaylistWrapper, { [commonClasses.hide]: isPlaying })}
