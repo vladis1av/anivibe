@@ -14,6 +14,12 @@ import { AppState } from '@redux/store';
 import filter from '@utils/array/filter';
 import getAppHydrate from '@utils/store/getAppHydrate';
 
+export type FilterQuery = {
+  years?: string;
+  genres?: string;
+  seasons?: string;
+};
+
 type FilterItems = {
   years: number[] | [];
   genres: FilterGenreType[];

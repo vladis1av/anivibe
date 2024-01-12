@@ -1,6 +1,6 @@
 import { makeStyles } from '@mui/styles';
 
-const useFilterPageStyles = makeStyles(() => ({
+const useFilterPageContentStyles = makeStyles(() => ({
   contentWrapper: {
     marginTop: 20,
     height: 'calc(100% - 75px)',
@@ -30,4 +30,4 @@ const useFilterPageStyles = makeStyles(() => ({
   },
 }));
 
-export default useFilterPageStyles;
+export default useFilterPageContentStyles;

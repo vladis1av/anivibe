@@ -6,7 +6,9 @@ import { ELoadingStatusType } from '@interfaces/common';
 import { MangaBase } from '@interfaces/manga';
 import { Params } from '@interfaces/services';
 
-import { ECollection, ELoadingStatus } from '@enums/enums';
+import {
+  EAnimeMethod, ECollection, ELoadingStatus, EMangaOrderBy,
+} from '@enums/enums';
 
 import { DEFAULT_YEAR_FOR_QUERY } from '@constants/common';
 
@@ -90,8 +92,8 @@ export const fetchFilteredData = createAsyncThunk<unknown, FetchFilteredData>(
         const currentParams = checkObjectValueAndExcludeKey(params, ['after', 'limit'])
           ? params
           : { ...params, year: DEFAULT_YEAR_FOR_QUERY };
-        const animesResult = await getFilteredData({
-          method: 'searchTitles',
+        const animes = await getFilteredData({
+          method: EAnimeMethod.searchTitles,
           filters: [
             'id',
             'code',
@@ -99,9 +101,9 @@ export const fetchFilteredData = createAsyncThunk<unknown, FetchFilteredData>(
           ],
           params: currentParams,
         });
-        result = animesResult || [];
+        result = animes?.list || [];
       } else {
-        const mangasResult = await getMangas({ order: 'popular', ...params });
+        const mangasResult = await getMangas({ order: EMangaOrderBy.popular, ...params });
         result = mangasResult?.response || [];
       }
 

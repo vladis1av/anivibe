@@ -3,7 +3,7 @@ import axios from 'redaxios';
 import {
   Anime, AnimeKeys, AnimeResponse,
 } from '@interfaces/anime';
-import { FilteredProps } from '@interfaces/services';
+import { AnimesResponse, FilteredDataProps } from '@interfaces/services';
 
 import isAnimeResponseError from '@typeGuards/isAnimeResponseError';
 
@@ -13,11 +13,13 @@ import getNextEnv from '@utils/config/getNextEnv';
 const { publicRuntimeConfig: { ANIME_API } } = getNextEnv();
 
 export const getFilteredData = async <
-  T extends AnimeKeys, R extends Array<Pick<Anime, T>> | [], E = null>({
-  method,
-  filters,
-  params,
-}: FilteredProps<T>): Promise<R | E | null> => {
+  T extends AnimeKeys,
+  R extends AnimesResponse<Array<Pick<Anime, T>>>,
+>({
+  method, //  api method
+  filters, // what values will be in the response
+  params, //  query params
+}: FilteredDataProps<T>): Promise<R | null> => {
   try {
     const generatedQuery = generateQuery({ filter: filters, ...params });
 
@@ -30,13 +32,14 @@ export const getFilteredData = async <
   }
 };
 
-export const getAnimeByCode = async (code: string): Promise<Anime | null> => {
+export const getAnimeById = async (id: string): Promise<Anime | null> => {
   try {
     const {
       data,
-    } = await axios.get<AnimeResponse>(encodeURI(`${ANIME_API}getTitle?code=${code}&playlist_type=array`));
+    } = await axios.get<AnimeResponse>(encodeURI(`${ANIME_API}title?id=${id}&playlist_type=array`));
 
     if (isAnimeResponseError(data)) {
+      console.error(data.error);
       return null;
     }
 
@@ -49,7 +52,7 @@ export const getAnimeByCode = async (code: string): Promise<Anime | null> => {
 
 export const getYears = async (): Promise<number[] | []> => {
   try {
-    const { data } = await axios.get(encodeURI(`${ANIME_API}getYears`));
+    const { data } = await axios.get(encodeURI(`${ANIME_API}years`));
 
     return data;
   } catch (error) {

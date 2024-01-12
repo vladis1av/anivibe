@@ -63,7 +63,7 @@ const Torrent: FC<TorrentList> = ({ list }) => {
 
           <TableBody>
             {list.map(({
-              series,
+              episodes,
               quality,
               torrent_id: id,
               total_size: totalSize,
@@ -74,7 +74,7 @@ const Torrent: FC<TorrentList> = ({ list }) => {
               downloads,
             }) => (
               <TableRow key={id}>
-                <TableCell>{series.string}</TableCell>
+                <TableCell>{episodes.string}</TableCell>
 
                 <TableCell align="center">{quality.string}</TableCell>
 
