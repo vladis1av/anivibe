@@ -62,6 +62,7 @@ export enum EReliaseKey {
 }
 
 export enum EAnimeReliase {
+  special = 'Спешл',
   tv = 'TV',
   movie = 'Фильм',
   ova = 'OVA',
@@ -164,3 +165,13 @@ export const EReliase = {
   ...EAnimeReliase,
   ...EMangaReliase,
 };
+
+export enum EAnimeMethod {
+  getUpdatedTitles = 'title/updates',
+  getChangedTitles = 'title/changes',
+  searchTitles = 'title/search',
+}
+
+export enum EMangaOrderBy {
+  popular = 'popular',
+}
