@@ -4,7 +4,7 @@ import { GetServerSideProps } from 'next';
 
 import { CollectionType } from '@interfaces/collection';
 
-import { ECollection, ELinkPath } from '@enums/enums';
+import { EAnimeMethod, ECollection, ELinkPath } from '@enums/enums';
 
 import { ANIME_COLLECTION_TITLE, MANGA_COLLECTION_TITLE } from '@constants/collection';
 import { COLLECTION_ITEMS_LIMIT, POSTER_SEO_DARK } from '@constants/common';
@@ -49,11 +49,11 @@ const Main: FC<MainPageProps> = ({ collections, fullUrl }) => (
 );
 
 export const getServerSideProps: GetServerSideProps<MainPageProps> = async ({ resolvedUrl }) => {
-  const animes = await getFilteredData({
-    method: 'getUpdates',
+  const updatedAnimes = await getFilteredData({
+    method: EAnimeMethod.getUpdatedTitles,
     filters: ['id', 'code', 'names'],
     params: { limit: COLLECTION_ITEMS_LIMIT },
-  }) || [];
+  });
   const mangas = await getMangas({ limit: COLLECTION_ITEMS_LIMIT });
   const fullUrl = getFullUrlFromServerSide(resolvedUrl);
 
@@ -64,7 +64,7 @@ export const getServerSideProps: GetServerSideProps<MainPageProps> = async ({ re
         {
           type: ECollection.anime,
           title: ANIME_COLLECTION_TITLE,
-          collection: animes,
+          collection: updatedAnimes?.list || [], // if i try this for await, ts return never[]
           link: ELinkPath.animes,
         },
         {
