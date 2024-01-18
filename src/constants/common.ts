@@ -21,7 +21,6 @@ export const CHAPTER_TITLE: string = 'Список Глав';
 export const APP_LOGO: string = '(っ^‿^)っ';
 export const LOAD_MORE: string = 'Загрузить еще';
 export const COLLECTION_ITEMS_LIMIT: number = 10;
-export const DEFAULT_YEAR_FOR_QUERY: string = '2022';
 export const NOT_FOUND_TITLES: string = 'Ничего не найдено';
 export const LOADED_ALL_TITLES: string = 'Вы все просмотрели';
 export const IS_SERVER: boolean = typeof window === 'undefined';
