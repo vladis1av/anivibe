@@ -20,6 +20,8 @@ import MainLayout from '@layouts/MainLayout';
 import { getFilteredData } from '@services/api/anime';
 import { getMangas } from '@services/api/manga';
 
+import useIsLoading from '@hooks/useIsLoading';
+
 import getFullUrlFromServerSide from '@utils/getFullUrlFromServerSide';
 
 type MainPageProps = {
@@ -29,7 +31,7 @@ type MainPageProps = {
 
 const Main: FC<MainPageProps> = ({ collections, fullUrl }) => {
   // временное решение пока не разберусь почему апишка стала возвращать 403 forbiden в getServerSide
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const { isLoading, setIsLoading } = useIsLoading();
   const [currentCollections, setCurrentCollection] = useState<CollectionType[]>(collections);
 
   const getAnimes = async () => {
@@ -89,6 +91,7 @@ export const getServerSideProps: GetServerSideProps<MainPageProps> = async ({ re
     'Cache-Control',
     'public, s-maxage=1000, stale-while-revalidate=1200',
   );
+  // временное решение пока не разберусь почему апишка стала возвращать 403 forbiden в getServerSide
   // api перестало отвечать в getServerSideProps и посылает 403 forbiden но в useEffect работает
   // const updatedAnimes = await getFilteredData({
   //   method: EAnimeMethod.getUpdatedTitles,
