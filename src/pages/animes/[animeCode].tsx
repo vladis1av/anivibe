@@ -122,7 +122,6 @@ export default function Anime({ animeId, fullUrl }: AnimePageProps) {
           type={ECollection.anime}
           title={{ ru, en }}
           image={id}
-          isLoading={isLoading}
           bannerImageHightQuality={bannerImageHightQuality}
           player={player}
           torrent={torrents}
