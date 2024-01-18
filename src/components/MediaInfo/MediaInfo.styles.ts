@@ -45,7 +45,7 @@ const useMediaInfoStyles = makeStyles((theme: Theme) => ({
 
     '@media (min-width: 0) and (max-width: 600px)': {
       width: '100%',
-      marginTop: 100,
+      marginTop: 185,
     },
   },
   bannerWrapper: {
@@ -93,7 +93,7 @@ const useMediaInfoStyles = makeStyles((theme: Theme) => ({
       rgba(255,255,255,1))
       `}`,
     position: 'absolute',
-    bottom: 0,
+    bottom: '-5px',
     width: '100%',
     height: '100%',
   },
@@ -107,7 +107,6 @@ const useMediaInfoStyles = makeStyles((theme: Theme) => ({
     },
   },
   title: {
-    margin: '10px 0px 0px 0px',
     fontSize: 25,
     fontWeight: 500,
     textOverflow: 'ellipsis',
