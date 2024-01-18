@@ -2,11 +2,13 @@ import { FC } from 'react';
 
 import { SkeletonProps } from '@interfaces/common';
 
+import getEmptyArray from '@utils/array/getEmptyArray';
+
 import useCarouselSkeletonStyles from './Carousel.styles';
 import CardItemSkeleton from '../CardItem';
 import TextSkeleton from '../Text';
 
-const emptyArray = Array(11).fill(0).map((_, index) => index + 1);
+const emptyArray = getEmptyArray(8);
 
 const CarouselSkeleton: FC<Omit<SkeletonProps, 'className'>> = ({ skeletonType }) => {
   const classes = useCarouselSkeletonStyles();
