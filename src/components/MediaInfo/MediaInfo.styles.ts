@@ -18,11 +18,7 @@ const useMediaInfoStyles = makeStyles((theme: Theme) => ({
   poster: {
     width: 240,
     height: 360,
-    overflow: 'hidden',
-    position: 'absolute',
-    top: -130,
-    left: 0,
-    right: 0,
+
     borderRadius: 16,
     boxShadow: '0px 0px 35px 0px rgba(0, 0, 0, 0.3)',
 
@@ -34,6 +30,13 @@ const useMediaInfoStyles = makeStyles((theme: Theme) => ({
       width: 210,
       height: 310,
     },
+  },
+  posterPosition: {
+    overflow: 'hidden',
+    position: 'absolute',
+    top: -130,
+    left: 0,
+    right: 0,
   },
   posterInfo: {
     width: 'calc(100% - 260px)',
@@ -121,7 +124,7 @@ const useMediaInfoStyles = makeStyles((theme: Theme) => ({
     textOverflow: 'ellipsis',
     whiteSpace: 'nowrap',
     overflow: 'hidden',
-    marginTop: 2,
+    marginTop: 5,
     marginBottom: 3,
     opacity: 0.7,
 
@@ -132,6 +135,33 @@ const useMediaInfoStyles = makeStyles((theme: Theme) => ({
   typeList: {
     marginTop: 5,
     color: theme.palette.text.secondary,
+  },
+  typeListLoading: {
+    display: 'flex',
+    flexDirection: 'column',
+  },
+  descriptionSkeleton: {
+    marginTop: 5,
+    display: 'flex',
+    flexDirection: 'column',
+  },
+  playerLoader: {
+    padding: '25.25%',
+    width: '100%',
+    height: 350,
+  },
+  postInfoLoader: {
+    width: 'calc(100% - 260px)',
+    display: 'flex',
+    flexDirection: 'column',
+
+    '@media (min-width: 0) and (max-width: 600px)': {
+      width: '100%',
+      marginTop: 185,
+    },
+  },
+  bannerLoader: {
+    position: 'absolute',
   },
   typeListItem: {
     fontWeight: 500,

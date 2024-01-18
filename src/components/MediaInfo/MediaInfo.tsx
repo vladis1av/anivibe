@@ -3,6 +3,7 @@ import { FC } from 'react';
 import dynamic from 'next/dynamic';
 
 import Typography from '@mui/material/Typography';
+import clsx from 'clsx';
 
 import { Player, Torrent as TorrentType } from '@interfaces/anime';
 import { ECollectionType } from '@interfaces/collection';
@@ -87,7 +88,7 @@ const MediaInfo: FC<MediaInfoProps> = ({
         itemType={`${type === ECollection.anime ? 'http://schema.org/Movie' : 'http://schema.org/CreativeWork'}`}
       >
         <div className={classes.posterWrapper}>
-          <div className={classes.poster}>
+          <div className={clsx(classes.poster, classes.posterPosition)}>
             <ImageWithPlaceholder
               alt={title.ru}
               src={imagePoster}
