@@ -10,7 +10,7 @@ import {
   EAnimeMethod, ECollection, ELoadingStatus, EMangaOrderBy,
 } from '@enums/enums';
 
-import { DEFAULT_YEAR_FOR_QUERY } from '@constants/common';
+import { DEFAULT_CURRENT_YEAR } from '@constants/common';
 
 import { FETCH_FILTERED_DATA } from '@redux/actionType/filteredData.actionType';
 import { AppState } from '@redux/store';
@@ -89,9 +89,9 @@ export const fetchFilteredData = createAsyncThunk<unknown, FetchFilteredData>(
       let result: FilteredData = [];
       const typeIsAnime = filteredDataType === ECollection.anime;
       if (typeIsAnime) {
-        const currentParams = checkObjectValueAndExcludeKey(params, ['after', 'limit'])
+        const currentParams = checkObjectValueAndExcludeKey(params, ['after', 'items_per_page'])
           ? params
-          : { ...params, year: DEFAULT_YEAR_FOR_QUERY };
+          : { ...params, year: DEFAULT_CURRENT_YEAR };
         const animes = await getFilteredData({
           method: EAnimeMethod.searchTitles,
           filters: [
@@ -108,6 +108,9 @@ export const fetchFilteredData = createAsyncThunk<unknown, FetchFilteredData>(
       }
 
       if (!result.length) {
+        if (!loadMore) {
+          dispatch(setFilteredData({ data: [] }));
+        }
         throw new Error('Titles Not found : 404');
       }
 

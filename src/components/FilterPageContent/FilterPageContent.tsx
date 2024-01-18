@@ -15,12 +15,15 @@ import { getFilterDataState } from '@redux/slices/filteredData';
 import Error from '@ui/Error';
 import InfiniteLoadMore from '@ui/InfiniteLoadMore';
 import PageDescription from '@ui/PageDescription';
+import CardItemSkeleton from '@ui/Skeletons/CardItem/CardItem';
 
 import FilterCardList from '@components/FilterCardList';
 import FilterMenu from '@components/FilterMenu';
 
 import useAppSelector from '@hooks/useAppSelector';
 import useMatchMedia from '@hooks/useMatchMedia';
+
+import getEmptyArray from '@utils/array/getEmptyArray';
 
 import useCommonStyles from '@styles/Common.styles';
 
@@ -33,6 +36,8 @@ type FilterPageContentProps = {
   totalPages?: number;
   loadMore?: () => void;
 };
+
+const emptyArray = getEmptyArray(12);
 
 const FilterPageContent: FC<FilterPageContentProps> = ({
   title,
@@ -91,10 +96,19 @@ const FilterPageContent: FC<FilterPageContentProps> = ({
     <div className={clsx(classes.content, { [commonClasses.fullHeight]: filteredDataIsNotFound }) }>
       <div className={classes.filterCardListWrapper}>
         {
-          !filteredData.length
-            ? <Error errorText={NOT_FOUND_TITLES} />
-            : <FilterCardList filteredList={filteredData} />
+          !filteredData.length && dataError && <Error errorText={NOT_FOUND_TITLES} />
         }
+
+        {
+          filteredData.length > 0 && <FilterCardList filteredList={filteredData} />
+        }
+
+        <div className={classes.loadMoreCardItemList}>
+          {loadMore && dataPending && !filteredData.length && emptyArray.map(() => <CardItemSkeleton
+            withTextSkeleton={true}
+            className={classes.cardItemSkeleton}
+          />)}
+        </div>
 
         {
           loadMore && <InfiniteLoadMore

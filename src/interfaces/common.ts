@@ -81,6 +81,11 @@ export type SelectType = {
   type: string;
 };
 
+export type SkeletonProps = {
+  skeletonType?: ESkeletonType;
+  className?: string;
+};
+
 export type Media = {
   reliaseType?: string;
   duration?: number;

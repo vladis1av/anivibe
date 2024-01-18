@@ -18,18 +18,21 @@ export type FilterQuery = {
   years?: string;
   genres?: string;
   seasons?: string;
+  voices?: string;
 };
 
 type FilterItems = {
   years: number[] | [];
   genres: FilterGenreType[];
   seasons: FilterGenreType[];
+  voices: number[] | [];
 };
 
 type FilterValues = {
   years: string[] | [];
   genres: FilterGenreType[] | [];
   seasons: FilterGenreType[] | [];
+  voices: string[] | [];
 };
 
 type FilterKeys = keyof FilterItems;
@@ -67,6 +70,7 @@ const defaultFilterValues: FilterValues = {
   years: [],
   genres: [],
   seasons: [],
+  voices: [],
 };
 
 const initialState: FiltersState = {
@@ -75,7 +79,9 @@ const initialState: FiltersState = {
     years: [],
     genres: filterGenres,
     seasons: filterSeasons,
+    voices: [],
   },
+  // filter query
   filterValues: defaultFilterValues,
 };
 
@@ -88,17 +94,11 @@ export const filtersSlice = createSlice({
     setFilterType: (
       state,
       { payload }: PayloadAction<ECollectionType>,
-    ) => {
-      state.filterType = payload;
-    },
+    ) => ({ ...state, filterType: payload }),
     setYears: (
       state,
       { payload }: PayloadAction<number[] | []>,
-    ) => {
-      if (payload.length) {
-        state.filterItems.years = payload;
-      }
-    },
+    ) => ({ ...state, filterItems: { ...state.filterItems, years: payload } }),
     setFilterValuesFromQuery: (
       state,
       { payload: { key, keyItems } }: PayloadAction<{ key: FilterKeys, keyItems: string[] }>,
