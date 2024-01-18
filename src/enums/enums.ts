@@ -48,7 +48,9 @@ export enum EFilter {
   genres = 'Жанр',
   years = 'Год',
   seasons = 'Сезон',
+  voices = 'Озвучка',
 }
+
 export enum EMangaReliase {
   manga = 'Манга',
   manhwa = 'Манхва',
