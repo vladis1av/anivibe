@@ -11,8 +11,8 @@ import useSkeletonTheme from '@hooks/useSkeletonTheme';
 import useTextSkeletonStyles from './Text.styles';
 
 type TextSkeletonProps = SkeletonProps & {
-  width?: number;
-  height?: number;
+  width?: number | string;
+  height?: number | string;
 };
 
 const TextSkeleton: FC<TextSkeletonProps> = ({
