@@ -5,7 +5,7 @@ import {
 import { SvgIconProps } from '@interfaces/svg';
 
 import {
-  ECollection, EMangaOrderBy, EPlaceholder, EReleaseKind, EVideoPlayerMenu,
+  ECollection, EMangaOrderBy, EPlaceholder, EMangaReleaseKind, EVideoPlayerMenu,
 } from '@enums/enums';
 
 export const HOUR: number = 3600;
@@ -85,17 +85,17 @@ export const MANGA_ORDER_BY_SELECT = {
 };
 
 export const MANGA_RELEASE_READ_WORDS = {
-  [EReleaseKind.manga]: 'Мангу',
-  [EReleaseKind.manhua]: 'Маньхуа',
-  [EReleaseKind.manhwa]: 'Манхву',
-  [EReleaseKind.one_shot]: 'Ваншот',
-  [EReleaseKind.comics]: 'Комикс',
+  [EMangaReleaseKind.manga]: 'Мангу',
+  [EMangaReleaseKind.manhua]: 'Маньхуа',
+  [EMangaReleaseKind.manhwa]: 'Манхву',
+  [EMangaReleaseKind.one_shot]: 'Ваншот',
+  [EMangaReleaseKind.comics]: 'Комикс',
 };
 
 export const MANGA_RELEASE_READING_WORDS = {
-  [EReleaseKind.manga]: 'Манги',
-  [EReleaseKind.manhua]: 'Маньхуа',
-  [EReleaseKind.manhwa]: 'Манхвы',
-  [EReleaseKind.one_shot]: 'Ваншота',
-  [EReleaseKind.comics]: 'Комикса',
+  [EMangaReleaseKind.manga]: 'Манги',
+  [EMangaReleaseKind.manhua]: 'Маньхуа',
+  [EMangaReleaseKind.manhwa]: 'Манхвы',
+  [EMangaReleaseKind.one_shot]: 'Ваншота',
+  [EMangaReleaseKind.comics]: 'Комикса',
 };

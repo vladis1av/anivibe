@@ -60,7 +60,7 @@ export enum EMangaRelease {
   comics = 'Комикс',
 }
 
-export enum EReleaseKind {
+export enum EMangaReleaseKind {
   manga = 'manga',
   manhwa = 'manhwa',
   manhua = 'manhua',

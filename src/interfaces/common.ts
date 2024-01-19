@@ -10,7 +10,7 @@ import {
   EMediaInfo,
   EPlaceholder,
   ERelease,
-  EReleaseKind,
+  EMangaReleaseKind,
   EScrollSide,
   ESkeleton,
   EVideoPlayerMenu,
@@ -26,7 +26,7 @@ export type EMediaInfoValueType = `${EMediaInfo}`;
 export type ESkeletonType = keyof typeof ESkeleton;
 export type EScrollSideType = keyof typeof EScrollSide;
 export type EButtonPlayType = keyof typeof EButtonPlay;
-export type EReleaseKindType = keyof typeof EReleaseKind;
+export type EMangaReleaseKindType = keyof typeof EMangaReleaseKind;
 export type EPlaceholderType = keyof typeof EPlaceholder;
 export type EMangaReleaseType = keyof typeof EMangaRelease;
 export type ELoadingStatusType = keyof typeof ELoadingStatus;
