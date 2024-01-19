@@ -1,4 +1,4 @@
-import { TimeSkipsType } from '@interfaces/anime';
+import { TimeSkipsType } from '@interfaces/anime/anime';
 
 const getTimeSkip = (
   timeSkip: TimeSkipsType | undefined,

@@ -3,7 +3,7 @@ import { FC } from 'react';
 import { clsx } from 'clsx';
 import { ListChildComponentProps } from 'react-window';
 
-import { MangaChapterList } from '@interfaces/manga';
+import { MangaChapterList } from '@interfaces/manga/manga';
 
 import { ELinkPath, ELocale } from '@enums/enums';
 

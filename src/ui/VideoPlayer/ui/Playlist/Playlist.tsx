@@ -8,7 +8,7 @@ import Autocomplete, { AutocompleteChangeReason, AutocompleteRenderInputParams }
 import TextField from '@mui/material/TextField';
 import clsx from 'clsx';
 
-import { Playlist as PlaylistType } from '@interfaces/anime';
+import { Playlist as PlaylistType } from '@interfaces/anime/anime';
 import { QueryType, VideoPlayerEpisodeQuery } from '@interfaces/query';
 
 import { SetSourceActionProps } from '@redux/slices/videoPlayer';

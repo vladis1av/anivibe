@@ -7,7 +7,7 @@ import { useRouter } from 'next/router';
 
 import clsx from 'clsx';
 
-import { Player } from '@interfaces/anime';
+import { Player } from '@interfaces/anime/anime';
 import { VideoPlayerRef } from '@interfaces/common';
 import { QueryType, VideoPlayerEpisodeQuery } from '@interfaces/query';
 

@@ -1,6 +1,6 @@
+import { FetchedLastAnimeUpdatedResult } from '@interfaces/anime/service';
 import { CollectionDataType } from '@interfaces/collection';
-import { MangaBase } from '@interfaces/manga';
-import { FetchedLastAnimeUpdatedResult } from '@interfaces/services';
+import { MangaBase } from '@interfaces/manga/manga';
 
 import { ECollection } from '@enums/enums';
 

@@ -1,6 +1,6 @@
 import axios from 'redaxios';
 
-import { BannerImage } from '@interfaces/anime';
+import { BannerImage } from '@interfaces/anime/anime';
 import { ECollectionType } from '@interfaces/collection';
 
 import getMediaInfo from '@services/queries/getMediaInfo';

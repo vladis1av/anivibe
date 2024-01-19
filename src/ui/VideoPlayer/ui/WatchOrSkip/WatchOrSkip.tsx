@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 
 import clsx from 'clsx';
 
-import { TimeSkipsType } from '@interfaces/anime';
+import { TimeSkipsType } from '@interfaces/anime/anime';
 import { QueryType, VideoPlayerEpisodeQuery } from '@interfaces/query';
 
 import { NEXT_EPIDSODE_TITLE, SECONDS_FOR_SHOW_BUTTONS, SKIP_OST_TITLE } from '@constants/common';

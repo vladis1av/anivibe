@@ -9,8 +9,9 @@ import { clsx } from 'clsx';
 import AutoSizer from 'react-virtualized-auto-sizer';
 import { FixedSizeList, ListChildComponentProps } from 'react-window';
 
-import { MangaChapterList } from '@interfaces/manga';
-import { MangaChapterQuery, QueryType } from '@interfaces/query';
+import { MangaChapterList } from '@interfaces/manga/manga';
+import { MangaPageChapterQuery } from '@interfaces/manga/pageQuery';
+import { QueryType } from '@interfaces/query';
 
 import filter from '@utils/array/filter';
 import chapterIsActive from '@utils/chapterIsActive';
@@ -49,7 +50,7 @@ const Chapters: FC<ChaptersProps> = ({
   const classes = useChaptersStyles();
   const [activeRow, setActiveRow] = useState<number | null>(null);
   const [filteredChapters, setFilteredChapters] = useState<MangaChapterList[] | []>(chapters);
-  const { query: { mangaId } } = useRouter() as unknown as QueryType<MangaChapterQuery>;
+  const { query: { mangaId } } = useRouter() as unknown as QueryType<MangaPageChapterQuery>;
   const fixedSizeListRef = createRef<FixedSizeList<HTMLDivElement>>();
 
   const getRow: FC<ListChildComponentProps<MangaChapterList[]>> = ({ data, index, style }) => <ChapterRow

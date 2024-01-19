@@ -4,7 +4,7 @@ import {
 
 import clsx from 'clsx';
 
-import { TimeSkipsType } from '@interfaces/anime';
+import { TimeSkipsType } from '@interfaces/anime/anime';
 import { VideoPlayerRef } from '@interfaces/common';
 import { HlsQuality } from '@interfaces/hls';
 

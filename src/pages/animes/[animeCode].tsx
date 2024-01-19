@@ -2,9 +2,9 @@ import { useEffect, useState } from 'react';
 
 import { GetServerSideProps } from 'next';
 
-import { Anime as AnimeType, BannerImage } from '@interfaces/anime';
+import { Anime as AnimeType, BannerImage } from '@interfaces/anime/anime';
 import { ECollectionType } from '@interfaces/collection';
-import { MangaGenres } from '@interfaces/manga';
+import { MangaGenres } from '@interfaces/manga/manga';
 
 import { ECollection } from '@enums/enums';
 
@@ -93,7 +93,7 @@ export default function Anime({ animeId, fullUrl }: AnimePageProps) {
       names: { ru, en },
       description,
       bannerImageHightQuality,
-      type: { string: reliaseType, series, length: seriesDuration },
+      type: { string: releaseType, series, length: seriesDuration },
       team: { voice },
       player,
       torrents,
@@ -127,7 +127,7 @@ export default function Anime({ animeId, fullUrl }: AnimePageProps) {
           torrent={torrents}
           media={
             {
-              reliaseType: reliaseType.toLowerCase(),
+              releaseType: releaseType.toLowerCase(),
               duration: seriesDuration,
               years: year,
               seasons: seasonName,

@@ -1,4 +1,4 @@
-import { AnimeResponse, AnimeResponseError } from '@interfaces/anime';
+import { AnimeResponse, AnimeResponseError } from '@interfaces/anime/service';
 
 const isAnimeResponseError = (item: AnimeResponse): item is AnimeResponseError => 'error' in item;
 
