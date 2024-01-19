@@ -4,7 +4,8 @@ import { GetServerSideProps } from 'next';
 
 import { useRouter } from 'next/router';
 
-import { AnimeQuery, QueryType } from '@interfaces/query';
+import { AnimePageQuery } from '@interfaces/anime/pageQuery';
+import { QueryType } from '@interfaces/query';
 
 import { ECollection } from '@enums/enums';
 
@@ -20,7 +21,7 @@ import {
   getFilterDataState,
 } from '@redux/slices/filteredData';
 import {
-  setYears, getFilters, setFilterValuesFromQuery, FilterQuery, setFilterType,
+  setYears, getFilters, setFilterValuesFromQuery, AnimeFilterQuery, setFilterType,
 } from '@redux/slices/filters';
 
 import FilterPageContent from '@components/FilterPageContent';
@@ -42,13 +43,13 @@ type AnimesProps = {
 const Animes: FC<AnimesProps> = ({ fullUrl }) => {
 // временное решение пока не разберусь почему апишка стала возвращать 403 forbiden в getServerSide
   const { filteredData } = useAppSelector(getFilterDataState);
-  const { filterItems, filterType } = useAppSelector(getFilters);
+  const { animeFilters, filterType } = useAppSelector(getFilters);
 
   const dispatch = useAppDispatch();
   const route = useRouter();
-  const { query } = route as unknown as QueryType<AnimeQuery>;
+  const { query } = route as unknown as QueryType<AnimePageQuery>;
 
-  const getFilteredAnimes = async (currentQuery: AnimeQuery, isLoadMore: boolean = false) => {
+  const getFilteredAnimes = async (currentQuery: AnimePageQuery, isLoadMore: boolean = false) => {
     const totalItemsLength = filteredData.length;
     const {
       years, genres, seasons, voices,
@@ -61,14 +62,14 @@ const Animes: FC<AnimesProps> = ({ fullUrl }) => {
         season_code: seasons,
         genres,
         voice: voices,
-        after: totalItemsLength && isLoadMore ? `${totalItemsLength}` : undefined,
-        items_per_page: `${API_ITEMS_LIMIT}`,
+        after: totalItemsLength && isLoadMore ? totalItemsLength : undefined,
+        items_per_page: API_ITEMS_LIMIT,
       },
     }));
   };
 
   const getFilterYears = async () => {
-    if (!filterItems.years.length) {
+    if (!animeFilters.years.length) {
       const yearsRes = await getYears();
       dispatch(setYears(yearsRes));
     }
@@ -82,18 +83,21 @@ const Animes: FC<AnimesProps> = ({ fullUrl }) => {
 
   useEffect(() => {
     getFilterYears();
-  }, [filterItems.years]);
+  }, [animeFilters.years]);
 
   useEffect(() => {
     Object.entries(query).forEach(([key, value]) => {
       if (value) {
-        const currentKey = key as keyof FilterQuery;
+        const currentKey = key as keyof AnimeFilterQuery;
         const currentValue = value as string;
         const itemsFromQuery = currentValue.split(',');
-        dispatch(setFilterValuesFromQuery({ key: currentKey, keyItems: itemsFromQuery }));
+        dispatch(setFilterValuesFromQuery({
+          filterTypeWithKey: [ECollection.anime, currentKey],
+          filterQueryValues: itemsFromQuery,
+        }));
       }
     });
-  }, [query, filterItems.years]);
+  }, [query, animeFilters.years]);
 
   useEffect(() => {
     getFilteredAnimes(query, false);
