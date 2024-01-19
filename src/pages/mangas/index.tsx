@@ -1,8 +1,8 @@
 import { FC } from 'react';
 
-import { MangaQuery } from '@interfaces/query';
+import { MangaPageQuery } from '@interfaces/manga/pageQuery';
 
-import { ECollection } from '@enums/enums';
+import { ECollection, EMangaOrderBy } from '@enums/enums';
 
 import {
   API_ITEMS_LIMIT, MANGA_DESCRIPTION, MANGA_TITLE,
@@ -53,7 +53,7 @@ export const getServerSideProps = nextReduxWrapper
   .getServerSideProps<MangaPageProps>((store) => async (
   { query, resolvedUrl },
 ) => {
-  const { page = '1', genres } = query as unknown as MangaQuery;
+  const { page = '1', genres, order } = query as unknown as MangaPageQuery;
   const { filters: { filterType } } = store.getState();
   const fullUrl = getFullUrlFromServerSide(resolvedUrl);
   const currentPage = Number(page);
@@ -64,7 +64,7 @@ export const getServerSideProps = nextReduxWrapper
 
   const mangas = await getMangas(
     {
-      order: 'popular',
+      order: order || EMangaOrderBy.updated,
       limit: API_ITEMS_LIMIT,
       page: currentPage,
       genres,
@@ -78,7 +78,7 @@ export const getServerSideProps = nextReduxWrapper
     store.dispatch(setFilteredData({ data: mangas.response }));
   }
 
-  setFiltersFromQuery(store, { genres });
+  setFiltersFromQuery(store, [ECollection.manga, { genres, order }]);
 
   return {
     props: { pagesCount, page: currentPage, fullUrl },
