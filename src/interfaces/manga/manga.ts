@@ -1,11 +1,4 @@
-import { EMangaReliaseType } from '@interfaces/common';
-
-export type PageParams = {
-  count: number;
-  page: number;
-  limit: number;
-  order_by: string,
-};
+import { EMangaReleaseType } from '@interfaces/common';
 
 export type MangaChapter = {
   vol: number;
@@ -58,7 +51,7 @@ export type MangaBase = {
   id: number;
   name: string;
   russian: string;
-  kind: EMangaReliaseType,
+  kind: EMangaReleaseType,
   image: MangaImage;
   url: string;
   reading: string;
