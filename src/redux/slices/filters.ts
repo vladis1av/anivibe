@@ -1,54 +1,93 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import { ECollectionType } from '@interfaces/collection';
 import {
-  FilterGenreType, Values,
+  EFilterLoadingType,
+  EMangaReleaseKindType,
+  FilterKindType,
+  Values,
 } from '@interfaces/common';
 
-import { ECollection } from '@enums/enums';
+import { ECollection, EFilterLoading, ELoadingStatus } from '@enums/enums';
 
-import { filterSeasons, filterGenres } from '@constants/filters';
+import {
+  FILTER_ORDERS_BY, FILTER_SEASONS, FILTER_GENRES, MANGA_FILTER_KINDS,
+} from '@constants/filters';
 
+import { FETCH_FILTER_YEARS } from '@redux/actionType/filters.actionType';
 import { AppState } from '@redux/store';
+
+import { getYears } from '@services/api/anime';
 
 import filter from '@utils/array/filter';
 import getAppHydrate from '@utils/store/getAppHydrate';
 
-export type FilterQuery = {
+export type MangaFilterKinds = Array<EMangaReleaseKindType>;
+
+export type AnimeFilterQuery = {
   years?: string;
+  voices?: string;
   genres?: string;
   seasons?: string;
-  voices?: string;
 };
 
-type FilterItems = {
+export type MangaFilterQuery = {
+  genres?: string;
+  order?: string;
+  kinds?: string;
+};
+
+export type AnimeFilters = {
   years: number[] | [];
-  genres: FilterGenreType[];
-  seasons: FilterGenreType[];
   voices: number[] | [];
+  genres: FilterKindType[];
+  seasons: FilterKindType[];
+};
+
+export type MangaFilters = {
+  genres: FilterKindType[];
+  order: FilterKindType[] | [];
+  kinds: FilterKindType[];
 };
 
 type FilterValues = {
   years: string[] | [];
-  genres: FilterGenreType[] | [];
-  seasons: FilterGenreType[] | [];
   voices: string[] | [];
+  kinds: MangaFilterKinds | [];
+  genres: FilterKindType[] | [];
+  seasons: FilterKindType[] | [];
+  order: FilterKindType[] | [];
 };
 
-type FilterKeys = keyof FilterItems;
+type AnimeFilterKeys = keyof AnimeFilters;
+type MangaFilterKeys = keyof MangaFilters;
+
+export type FiltersKeyses = AnimeFilterKeys | MangaFilterKeys;
+
+export type FilterTypeWithKey = [ECollection.manga, MangaFilterKeys] | [ECollection.anime, AnimeFilterKeys];
+export type FilterQueryWithType = [ECollection.manga, MangaFilterQuery] | [ECollection.anime, AnimeFilterQuery];
+
+type FiltersLoading = {
+  [key in FiltersKeyses]?: EFilterLoadingType;
+};
 
 export type FiltersState = {
   filterType: ECollectionType;
-  filterItems: FilterItems;
-  filterValues: FilterValues;
+  filtersLoading: FiltersLoading;
+  animeFilters: AnimeFilters;
+  mangaFilters: MangaFilters;
+  filtersQueryValues: FilterValues;
 };
 
-const intersect = (filterItems: Values<FilterItems>, QueryKeys: string[]): (string | FilterGenreType)[] | [] => {
-  if (filterItems.length && QueryKeys.length) {
-    const strArr = new Set(QueryKeys);
+const intersect = (
+  filterItems: Values<AnimeFilters> | Values<MangaFilters>,
+  queryKeys: string[],
+): (FilterKindType)[] | number[] | MangaFilterKinds | [] => {
+  if (filterItems && filterItems.length && queryKeys.length) {
+    const strArr = new Set(queryKeys);
 
     const res = filter(filterItems, (value) => {
-      if (typeof value === 'number') {
+      if (typeof value === 'number' || typeof value === 'string') {
         return strArr.has(`${value}`);
       }
       const kind = value?.kind || '';
@@ -58,31 +97,37 @@ const intersect = (filterItems: Values<FilterItems>, QueryKeys: string[]): (stri
         || strArr.has(kind) || strArr.has(label);
     });
 
-    if (res) return res.map((item) => (typeof item === 'number' ? `${item}` : item));
-
-    return [];
+    return res;
   }
 
   return [];
 };
 
-const defaultFilterValues: FilterValues = {
+const defaultFiltersQueryValues: FilterValues = {
   years: [],
+  voices: [],
   genres: [],
   seasons: [],
-  voices: [],
+  order: [],
+  kinds: [],
 };
 
 const initialState: FiltersState = {
   filterType: ECollection.anime,
-  filterItems: {
+  filtersLoading: { years: ELoadingStatus.pending },
+  animeFilters: {
     years: [],
-    genres: filterGenres,
-    seasons: filterSeasons,
     voices: [],
+    genres: FILTER_GENRES,
+    seasons: FILTER_SEASONS,
   },
-  // filter query
-  filterValues: defaultFilterValues,
+  mangaFilters: {
+    genres: FILTER_GENRES,
+    order: FILTER_ORDERS_BY,
+    kinds: MANGA_FILTER_KINDS,
+  },
+  // filter values from query
+  filtersQueryValues: defaultFiltersQueryValues,
 };
 
 const HYDRATE = getAppHydrate();
@@ -91,29 +136,51 @@ export const filtersSlice = createSlice({
   name: 'filters',
   initialState,
   reducers: {
-    setFilterType: (
-      state,
-      { payload }: PayloadAction<ECollectionType>,
-    ) => ({ ...state, filterType: payload }),
     setYears: (
       state,
       { payload }: PayloadAction<number[] | []>,
-    ) => ({ ...state, filterItems: { ...state.filterItems, years: payload } }),
-    setFilterValuesFromQuery: (
+    ) => ({ ...state, animeFilters: { ...state.animeFilters, years: payload } }),
+    setFilterType: (
       state,
-      { payload: { key, keyItems } }: PayloadAction<{ key: FilterKeys, keyItems: string[] }>,
-    ) => {
-      const currentFilterItem = state.filterItems[key];
-      state.filterValues = { ...state.filterValues, [key]: intersect(currentFilterItem, keyItems) };
-    },
+      { payload }: PayloadAction<ECollectionType>,
+    ) => ({ ...state, filterType: payload, filtersQueryValues: defaultFiltersQueryValues }),
     setFilterValue: (
       state,
       { payload }: PayloadAction<Partial<FilterValues>>,
     ) => {
-      state.filterValues = { ...state.filterValues, ...payload };
+      state.filtersQueryValues = { ...state.filtersQueryValues, ...payload };
     },
     cleanFilterValues: (state) => {
-      state.filterValues = defaultFilterValues;
+      state.filtersQueryValues = defaultFiltersQueryValues;
+    },
+    setFilterValuesFromQuery: (
+      state,
+      {
+        payload: { filterTypeWithKey, filterQueryValues },
+      }: PayloadAction<{ filterTypeWithKey: FilterTypeWithKey, filterQueryValues: string[] }>,
+    ) => {
+      const { animeFilters, mangaFilters } = state;
+      const [type, filterKey] = filterTypeWithKey;
+      const currentFilters = type === ECollection.anime ? animeFilters[filterKey] : mangaFilters[filterKey];
+
+      state.filtersQueryValues = {
+        ...state.filtersQueryValues,
+        [filterKey]: intersect(currentFilters, filterQueryValues),
+      };
+    },
+    setOrDeleteFilterLoadingKey: (
+      state,
+      {
+        payload: { filterKey, isDelete, loadingStatus },
+      }: PayloadAction<{ filterKey: FiltersKeyses, loadingStatus?: EFilterLoadingType, isDelete?: boolean }>,
+    ) => {
+      if (isDelete) {
+        delete state.filtersLoading[filterKey];
+        return;
+      }
+      if (loadingStatus) {
+        state.filtersLoading[filterKey] = loadingStatus;
+      }
     },
   },
   extraReducers: (builder) => {
@@ -126,13 +193,29 @@ export const filtersSlice = createSlice({
 });
 
 export const {
-  setFilterType,
   setYears,
+  setFilterType,
   setFilterValue,
-  setFilterValuesFromQuery,
   cleanFilterValues,
+  setFilterValuesFromQuery,
+  setOrDeleteFilterLoadingKey,
 } = filtersSlice.actions;
 
 export const getFilters = ({ filters }: AppState) => filters;
-
 export const filtersReducer = filtersSlice.reducer;
+
+export const fetchFilterYears = createAsyncThunk(
+  FETCH_FILTER_YEARS,
+  async (_, { dispatch }) => {
+    dispatch(setOrDeleteFilterLoadingKey({ filterKey: 'years', loadingStatus: EFilterLoading.pending }));
+    try {
+      const years = await getYears();
+      dispatch(setYears(years));
+      dispatch(setOrDeleteFilterLoadingKey({ filterKey: 'years', isDelete: true }));
+    } catch (error) {
+      dispatch(
+        setOrDeleteFilterLoadingKey({ filterKey: 'years', loadingStatus: EFilterLoading.error }),
+      );
+    }
+  },
+);
