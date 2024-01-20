@@ -1,15 +1,16 @@
-import { setFilterValuesFromQuery } from '@redux/slices/filters';
-import { AppStore } from '@redux/store';
+import { FilterQueryWithType, FilterTypeWithKey, setFilterValuesFromQuery } from '@redux/slices/filters';
+import { AppDispatch } from '@redux/store';
 
-import { FilterQuery } from '../../redux/slices/filters';
-
-const setFiltersFromQuery = (store: AppStore, params: FilterQuery) => {
+const setFiltersFromQuery = (dispatch: AppDispatch, paramsWithType: FilterQueryWithType) => {
+  const [type, params] = paramsWithType;
   Object.entries(params).forEach(([key, value]) => {
     if (value) {
-      const currentKey = key as keyof FilterQuery;
-      const currentValue = value as string;
-      const itemsFromQuery = currentValue.split(',');
-      store.dispatch(setFilterValuesFromQuery({ key: currentKey, keyItems: itemsFromQuery }));
+      const itemsFromQuery = value.split(',');
+
+      dispatch(setFilterValuesFromQuery({
+        filterTypeWithKey: [type, key] as FilterTypeWithKey,
+        filterQueryValues: itemsFromQuery,
+      }));
     }
   });
 };
