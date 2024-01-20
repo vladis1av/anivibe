@@ -123,8 +123,8 @@ const initialState: FiltersState = {
   },
   mangaFilters: {
     genres: FILTER_GENRES,
-    order: FILTER_ORDERS_BY,
     kinds: MANGA_FILTER_KINDS,
+    order: FILTER_ORDERS_BY,
   },
   // filter values from query
   filtersQueryValues: defaultFiltersQueryValues,
