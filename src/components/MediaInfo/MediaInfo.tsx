@@ -114,7 +114,13 @@ const MediaInfo: FC<MediaInfoProps> = ({
                 const currentKey = key as MediaKey;
                 const mediaName = EMediaInfo[currentKey];
                 if (mediaName && value) {
-                  return <li key={key} className={classes.typeListItem}>
+                  return <li
+                    key={key}
+                    className={clsx(
+                      classes.typeListItem,
+                      { [classes.typeListItemAlignItems]: currentKey !== 'description' },
+                    )}
+                  >
                     {`${mediaName}:`}
                     <MediaListInfo type={type} media={media} mediaKey={currentKey} mediaType={mediaName} />
                   </li>;
