@@ -81,7 +81,7 @@ export const getServerSideProps = nextReduxWrapper
     store.dispatch(setFilteredData({ data: mangas.response }));
   }
 
-  setFiltersFromQuery(store, [ECollection.manga, { genres, order, kinds }]);
+  setFiltersFromQuery(store.dispatch, [ECollection.manga, { genres, order, kinds }]);
 
   return {
     props: { pagesCount, page: currentPage, fullUrl },
