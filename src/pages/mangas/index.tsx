@@ -5,7 +5,7 @@ import { MangaPageQuery } from '@interfaces/manga/pageQuery';
 import { ECollection, EMangaOrderBy } from '@enums/enums';
 
 import {
-  API_ITEMS_LIMIT, MANGA_DESCRIPTION, MANGA_TITLE,
+  API_FILTER_ITEMS_LIMIT, MANGA_DESCRIPTION, MANGA_TITLE,
 } from '@constants/common';
 import { MANGA_FILTERS_PAGE_DESCRIPTION, MANGA_FILTERS_PAGE_KEYWORDS, MANGA_FILTERS_PAGE_TITLE } from '@constants/seo';
 
@@ -53,7 +53,9 @@ export const getServerSideProps = nextReduxWrapper
   .getServerSideProps<MangaPageProps>((store) => async (
   { query, resolvedUrl },
 ) => {
-  const { page = '1', genres, order } = query as unknown as MangaPageQuery;
+  const {
+    page = '1', genres, kinds, order,
+  } = query as unknown as MangaPageQuery;
   const { filters: { filterType } } = store.getState();
   const fullUrl = getFullUrlFromServerSide(resolvedUrl);
   const currentPage = Number(page);
@@ -64,21 +66,22 @@ export const getServerSideProps = nextReduxWrapper
 
   const mangas = await getMangas(
     {
-      order: order || EMangaOrderBy.updated,
-      limit: API_ITEMS_LIMIT,
-      page: currentPage,
+      kinds,
       genres,
+      page: currentPage,
+      limit: API_FILTER_ITEMS_LIMIT,
+      order: order || EMangaOrderBy.updated,
     },
   );
 
   const currentCount = mangas?.pageNavParams?.count || 0;
-  const pagesCount = Math.ceil(currentCount / Number(API_ITEMS_LIMIT));
+  const pagesCount = Math.ceil(currentCount / API_FILTER_ITEMS_LIMIT);
 
   if (mangas && mangas.response?.length) {
     store.dispatch(setFilteredData({ data: mangas.response }));
   }
 
-  setFiltersFromQuery(store, [ECollection.manga, { genres, order }]);
+  setFiltersFromQuery(store, [ECollection.manga, { genres, order, kinds }]);
 
   return {
     props: { pagesCount, page: currentPage, fullUrl },
