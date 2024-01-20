@@ -12,7 +12,7 @@ import { ECollection } from '@enums/enums';
 import {
   ANIME_DESCRIPTION,
   ANIME_TITLE,
-  API_ITEMS_LIMIT,
+  API_FILTER_ITEMS_LIMIT,
 } from '@constants/common';
 import { ANIME_FILTERS_PAGE_DESCRIPTION, ANIME_FILTERS_PAGE_KEYWORDS, ANIME_FILTERS_PAGE_TITLE } from '@constants/seo';
 
@@ -21,15 +21,13 @@ import {
   getFilterDataState,
 } from '@redux/slices/filteredData';
 import {
-  setYears, getFilters, setFilterValuesFromQuery, AnimeFilterQuery, setFilterType,
+  getFilters, setFilterValuesFromQuery, AnimeFilterQuery, setFilterType, cleanFilterValues, fetchFilterYears,
 } from '@redux/slices/filters';
 
 import FilterPageContent from '@components/FilterPageContent';
 import SeoHead from '@components/SeoHead';
 
 import MainLayout from '@layouts/MainLayout';
-
-import { getYears } from '@services/api/anime';
 
 import useAppDispatch from '@hooks/useAppDispatch';
 import useAppSelector from '@hooks/useAppSelector';
@@ -49,7 +47,7 @@ const Animes: FC<AnimesProps> = ({ fullUrl }) => {
   const route = useRouter();
   const { query } = route as unknown as QueryType<AnimePageQuery>;
 
-  const getFilteredAnimes = async (currentQuery: AnimePageQuery, isLoadMore: boolean = false) => {
+  const getFilteredAnimes = (currentQuery: AnimePageQuery, isLoadMore: boolean = false) => {
     const totalItemsLength = filteredData.length;
     const {
       years, genres, seasons, voices,
@@ -63,15 +61,14 @@ const Animes: FC<AnimesProps> = ({ fullUrl }) => {
         genres,
         voice: voices,
         after: totalItemsLength && isLoadMore ? totalItemsLength : undefined,
-        items_per_page: API_ITEMS_LIMIT,
+        items_per_page: API_FILTER_ITEMS_LIMIT,
       },
     }));
   };
 
-  const getFilterYears = async () => {
+  const getFilterYears = () => {
     if (!animeFilters.years.length) {
-      const yearsRes = await getYears();
-      dispatch(setYears(yearsRes));
+      dispatch(fetchFilterYears());
     }
   };
 
@@ -79,6 +76,9 @@ const Animes: FC<AnimesProps> = ({ fullUrl }) => {
     if (filterType === ECollection.manga) {
       dispatch(setFilterType(ECollection.anime));
     }
+    return () => {
+      dispatch(cleanFilterValues());
+    };
   }, []);
 
   useEffect(() => {
@@ -150,7 +150,7 @@ export const getServerSideProps: GetServerSideProps<AnimesProps> = async ({ reso
   //     'code',
   //     'names',
   //   ],
-  //   params: { ...params, items_per_page: `${API_ITEMS_LIMIT}` },
+  //   params: { ...params, items_per_page: API_FILTER_ITEMS_LIMIT },
   // });
 
   // if i use store.dispatch(fetchFilteredData) doesn't work all the time, i dont know why ( maybe HYDRATE
