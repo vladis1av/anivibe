@@ -15,8 +15,9 @@ import NativeSelect from '@mui/material/NativeSelect';
 import Typography from '@mui/material/Typography';
 import clsx from 'clsx';
 
-import { MangaChapterList, MangaWithPages } from '@interfaces/manga';
-import { MangaChapterQuery, QueryType } from '@interfaces/query';
+import { MangaChapterList, MangaWithPages } from '@interfaces/manga/manga';
+import { MangaPageChapterQuery } from '@interfaces/manga/pageQuery';
+import { QueryType } from '@interfaces/query';
 
 import { EPlaceholder, ETheme } from '@enums/enums';
 
@@ -67,7 +68,7 @@ const Chapter: FC<ChapterProps> = ({
   const classes = useChapterPageStyles();
   const [drawerIsOpen, setDrawerIsOpen] = useState<boolean>(false);
   const route = useRouter();
-  const { query } = route as unknown as QueryType<MangaChapterQuery>;
+  const { query } = route as unknown as QueryType<MangaPageChapterQuery>;
   const error = !manga || !manga.pages;
 
   const changeChapter = (chapterId: number) => {
@@ -273,7 +274,7 @@ const Chapter: FC<ChapterProps> = ({
 };
 
 export const getServerSideProps: GetServerSideProps<ChapterProps> = async ({ query, res, resolvedUrl }) => {
-  const { mangaId, chapterId, page = '1' } = query as MangaChapterQuery;
+  const { mangaId, chapterId, page = '1' } = query as MangaPageChapterQuery;
   const currentMangaId = getIdFromString(mangaId) || mangaId;
   const mangaWithPages = await getMangaChapterById(currentMangaId, chapterId);
   const fullUrl = getFullUrlFromServerSide(resolvedUrl);

@@ -6,31 +6,33 @@ import {
   ELinkPath,
   ELoadingStatus,
   ELocale,
-  EMangaReliase,
+  EMangaRelease,
   EMediaInfo,
   EPlaceholder,
-  EReliase,
-  EReliaseKey,
+  ERelease,
+  EMangaReleaseKind,
   EScrollSide,
   ESkeleton,
   EVideoPlayerMenu,
   EVideoPlayerStatus,
+  EFilterLoading,
 } from '@enums/enums';
 
-import { MangaGenres } from './manga';
+import { MangaGenres } from './manga/manga';
 import { EThemeType } from './theme';
 
 export type ELocaleType = `${ELocale}`;
-export type EReliaseType = keyof typeof EReliase;
+export type EReleaseType = keyof typeof ERelease;
 export type EMediaInfoValueType = `${EMediaInfo}`;
 export type ESkeletonType = keyof typeof ESkeleton;
-export type EReliaseKeyType = keyof typeof EReliaseKey;
 export type EScrollSideType = keyof typeof EScrollSide;
 export type EButtonPlayType = keyof typeof EButtonPlay;
 export type EPlaceholderType = keyof typeof EPlaceholder;
-export type EMangaReliaseType = keyof typeof EMangaReliase;
+export type EMangaReleaseType = keyof typeof EMangaRelease;
+export type EFilterLoadingType = keyof typeof EFilterLoading;
 export type ELoadingStatusType = keyof typeof ELoadingStatus;
 export type EVideoPlayerMenuType = keyof typeof EVideoPlayerMenu;
+export type EMangaReleaseKindType = keyof typeof EMangaReleaseKind;
 export type VideoPlayerRef = BaseReactPlayer<BaseReactPlayerProps>;
 export type EVideoPlayerStatusType = keyof typeof EVideoPlayerStatus;
 export type ButtonSideType = EButtonSide.prev | EButtonSide.next | null;
@@ -38,6 +40,7 @@ export type EMainRouteType = Extract<keyof typeof ELinkPath, 'home' | 'animes' |
 export type PlaceholdersType = {
   [placeholderKey in EPlaceholderType]: { [themeKey in EThemeType]?: string }
 };
+
 export type Values<T> = {
   [K in keyof T]: T[K]
 }[keyof T];
@@ -58,7 +61,7 @@ export type GetMangaSeoProps = {
   title: string;
   page: number;
   isReading?: boolean;
-  mangaType: EMangaReliaseType;
+  mangaType: EMangaReleaseType;
   chapter: number | null;
   vol: number | null;
   hideTitleKeys?: Array<number>;
@@ -71,7 +74,7 @@ export type VideoPlayerProgressType = {
   playedSeconds: number;
 };
 
-export type FilterGenreType = {
+export type FilterKindType = {
   kind: string;
   label: string;
 };
@@ -87,7 +90,7 @@ export type SkeletonProps = {
 };
 
 export type Media = {
-  reliaseType?: string;
+  releaseType?: string;
   duration?: number;
   volumes?: number;
   chapters?: number;

@@ -1,9 +1,9 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 
+import { SearchAnimeType } from '@interfaces/anime/service';
 import { ECollectionType } from '@interfaces/collection';
 import { ELoadingStatusType } from '@interfaces/common';
-import { MangaBase } from '@interfaces/manga';
-import { SearchAnimeType } from '@interfaces/services';
+import { MangaBase } from '@interfaces/manga/manga';
 
 import { EAnimeMethod, ECollection, ELoadingStatus } from '@enums/enums';
 

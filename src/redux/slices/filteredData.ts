@@ -1,10 +1,11 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import { Anime } from '@interfaces/anime';
+import { Anime } from '@interfaces/anime/anime';
+import { AnimeServiceParams } from '@interfaces/anime/service';
 import { ECollectionType } from '@interfaces/collection';
 import { ELoadingStatusType } from '@interfaces/common';
-import { MangaBase } from '@interfaces/manga';
-import { Params } from '@interfaces/services';
+import { MangaBase } from '@interfaces/manga/manga';
+import { MangaServiceParams } from '@interfaces/manga/service';
 
 import {
   EAnimeMethod, ECollection, ELoadingStatus, EMangaOrderBy,
@@ -30,7 +31,7 @@ export type FilteredDataSliceState = {
 
 type FetchFilteredData = {
   filteredDataType: ECollectionType;
-  params: Params;
+  params: AnimeServiceParams | MangaServiceParams;
   loadMore?: boolean;
 };
 

@@ -1,4 +1,4 @@
-import { HlsQuality } from './hls';
+import { HlsQuality } from '../hls';
 
 export type BannerImage = {
   bannerImageHightQuality: string | null;
@@ -132,12 +132,3 @@ export type AnimeInfoTypes = {
 };
 
 export type AnimeKeys = keyof Anime;
-
-export type AnimeResponseError = {
-  error: {
-    code: string;
-    message: string;
-  }
-};
-
-export type AnimeResponse = Anime | AnimeResponseError;

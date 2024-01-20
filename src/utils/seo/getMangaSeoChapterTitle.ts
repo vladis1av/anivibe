@@ -1,22 +1,10 @@
-import { EMangaReliaseType, GetMangaSeoProps } from '@interfaces/common';
+import { EMangaReleaseType, GetMangaSeoProps } from '@interfaces/common';
 
-import { EReliaseKey } from '@enums/enums';
+import { MANGA_RELEASE_READING_WORDS, MANGA_RELEASE_READ_WORDS } from '@constants/common';
 
-const readWords = {
-  [EReliaseKey.manga]: 'мангу',
-  [EReliaseKey.manhua]: 'маньхуа',
-  [EReliaseKey.manhwa]: 'манхву',
-};
-
-const readingWords = {
-  [EReliaseKey.manga]: 'манги',
-  [EReliaseKey.manhua]: 'маньхуа',
-  [EReliaseKey.manhwa]: 'манхвы',
-};
-
-const getTitles = (mangaType: EMangaReliaseType, pageNumber: number, isReading?: boolean): string[] => {
+const getTitles = (mangaType: EMangaReleaseType, pageNumber: number, isReading?: boolean): string[] => {
   const readTitle = isReading ? 'Чтение' : 'Читать';
-  const mangaTitle = isReading ? readingWords[mangaType] : readWords[mangaType];
+  const mangaTitle = isReading ? MANGA_RELEASE_READING_WORDS[mangaType] : MANGA_RELEASE_READ_WORDS[mangaType];
 
   return [`${readTitle} ${mangaTitle}`, 'Том', 'Глава', `[Страница ${pageNumber}]`];
 };

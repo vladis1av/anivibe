@@ -1,8 +1,8 @@
+import { SearchAnimeType } from '@interfaces/anime/service';
 import { CollectionDataType } from '@interfaces/collection';
-import { MangaBase } from '@interfaces/manga';
-import { SearchAnimeType } from '@interfaces/services';
+import { MangaBase } from '@interfaces/manga/manga';
 
-import { ECollection, EReliase } from '@enums/enums';
+import { ECollection, ERelease } from '@enums/enums';
 
 import { SearchCardProps } from '@ui/SearchCard/SearchCard';
 
@@ -38,7 +38,7 @@ const getSearchProps = (data: SearchPropsData): SearchCardProps | null => {
         id,
         title: russian,
         genres,
-        mediaType: EReliase[kind],
+        mediaType: ERelease[kind],
         imageUrl: image.preview,
         pathTo: formatMangaPath(id, name) || `${id}`,
       };

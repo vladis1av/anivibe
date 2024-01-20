@@ -49,21 +49,27 @@ export enum EFilter {
   years = 'Год',
   seasons = 'Сезон',
   voices = 'Озвучка',
+  order = 'Упорядочить',
+  kinds = 'Тип',
 }
 
-export enum EMangaReliase {
+export enum EMangaRelease {
   manga = 'Манга',
   manhwa = 'Манхва',
   manhua = 'Маньхуа',
+  one_shot = 'Ваншот',
+  comics = 'Комикс',
 }
 
-export enum EReliaseKey {
+export enum EMangaReleaseKind {
   manga = 'manga',
   manhwa = 'manhwa',
   manhua = 'manhua',
+  one_shot = 'one_shot',
+  comics = 'comics',
 }
 
-export enum EAnimeReliase {
+export enum EAnimeRelease {
   special = 'Спешл',
   tv = 'TV',
   movie = 'Фильм',
@@ -96,6 +102,11 @@ export enum ELoadingStatus {
   idle = 'idle',
   pending = 'pending',
   success = 'success',
+  error = 'error',
+}
+
+export enum EFilterLoading {
+  pending = 'pending',
   error = 'error',
 }
 
@@ -133,7 +144,7 @@ export enum ESkeleton {
 }
 
 export enum EMediaInfo {
-  reliaseType = 'Тип',
+  releaseType = 'Тип',
   episodes = 'Эпизоды',
   duration = 'Длительность эпизода',
   volumes = 'Тома',
@@ -163,9 +174,9 @@ export enum EColor {
   almostTransparentWhite = 'rgba(255, 255, 255, 0.2)',
 }
 
-export const EReliase = {
-  ...EAnimeReliase,
-  ...EMangaReliase,
+export const ERelease = {
+  ...EAnimeRelease,
+  ...EMangaRelease,
 };
 
 export enum EAnimeMethod {
@@ -175,5 +186,7 @@ export enum EAnimeMethod {
 }
 
 export enum EMangaOrderBy {
+  name = 'name',
   popular = 'popular',
+  updated = 'updated',
 }

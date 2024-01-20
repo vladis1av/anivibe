@@ -9,16 +9,19 @@ import clsx from 'clsx';
 import { ECollection, EFilter, ELinkPath } from '@enums/enums';
 
 import {
-  cleanFilterValues, getFilters, setFilterValue,
+  FiltersKeyses,
+  cleanFilterValues,
+  getFilters,
+  setFilterValue,
 } from '@redux/slices/filters';
 
 import Link from '@ui/Link';
+import TextSkeleton from '@ui/Skeletons/Text';
 
 import useAppDispatch from '@hooks/useAppDispatch';
 import useAppSelector from '@hooks/useAppSelector';
 
 import generateQuery from '@utils/api/generateQuery';
-import entries from '@utils/object/entries';
 
 import useFiltersStyles from './Filters.styles';
 
@@ -30,13 +33,25 @@ type FiltersProps = {
 const Filters: FC<FiltersProps> = ({ className, onFiltersAcceptCallback }) => {
   const classes = useFiltersStyles();
   const dispatch = useAppDispatch();
-  const { filterType, filterItems, filterValues } = useAppSelector(getFilters);
-  const currentLinkPath = filterType === ECollection.anime ? ELinkPath.animes : ELinkPath.mangas;
+  const {
+    filterType,
+    mangaFilters,
+    animeFilters,
+    filtersQueryValues,
+    filtersLoading,
+  } = useAppSelector(getFilters);
+
+  const isAnimeFiltersType = filterType === ECollection.anime;
+  const filterItems = isAnimeFiltersType ? animeFilters : mangaFilters;
+  const currentLinkPath = isAnimeFiltersType ? ELinkPath.animes : ELinkPath.mangas;
+
   const generatedQuery = generateQuery(
-    filterValues,
+    filtersQueryValues,
     {
       seasons: 'kind',
       genres: filterType === 'anime' ? 'label' : 'kind',
+      order: 'kind',
+      kinds: 'kind',
     },
   );
 
@@ -53,31 +68,44 @@ const Filters: FC<FiltersProps> = ({ className, onFiltersAcceptCallback }) => {
   return (
     <div className={clsx(classes.filters, className)}>
       {
-        entries(filterItems).map(([key, value]) => {
-          if (filterType === ECollection.manga && (key === 'years' || key === 'seasons')) return null;
+        Object.entries(filterItems).map(([key, value]) => {
+          const currentKey = key as FiltersKeyses;
+          const isOrderByKey = currentKey === 'order';
+          const currentValue = isOrderByKey
+            ? filtersQueryValues[currentKey][0]
+            : filtersQueryValues[currentKey] || [];
 
-          return (value.length
+          if (filtersLoading[currentKey] && filtersLoading[currentKey] === 'pending') {
+            return <TextSkeleton width={300} height={56} />;
+          }
+
+          return (value && value.length
             ? <FormControl key={key} sx={{ m: 1, width: 300 }}>
               <Autocomplete
-                multiple
+                multiple={!isOrderByKey}
                 fullWidth
                 id="tags-outlined"
                 sx={{ width: 300 }}
-                value={filterValues[key]}
+                value={currentValue}
                 classes={{ root: classes.label, inputRoot: classes.inputRoot, paper: classes.paper }}
                 onChange={(_, filterValue, reason) => {
-                  if (reason === 'removeOption') {
-                    dispatch(setFilterValue({ [key]: filterValue }));
-                    return;
+                  if (filterValue) {
+                    if (reason === 'removeOption') {
+                      dispatch(setFilterValue({ [currentKey]: filterValue }));
+                      return;
+                    }
+                    if (!Array.isArray(filterValue)) {
+                      dispatch(setFilterValue({ [currentKey]: [filterValue] }));
+                      return;
+                    }
+                    dispatch(setFilterValue({ [currentKey]: filterValue }));
                   }
-
-                  dispatch(setFilterValue({ [key]: filterValue }));
                 }}
                 options={value.map((option) => (
                   typeof option === 'number' ? `${option}` : option))
                 }
                 renderInput={
-                  (params) => <TextField {...params} label={EFilter[key]} variant="outlined" />
+                  (params) => <TextField {...params} label={EFilter[currentKey]} variant="outlined" />
                 }
               />
             </FormControl>

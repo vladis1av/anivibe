@@ -167,6 +167,8 @@ const useMediaInfoStyles = makeStyles((theme: Theme) => ({
     fontSize: 15,
     display: 'flex',
     flexWrap: 'wrap',
+  },
+  typeListItemAlignItems: {
     alignItems: 'center',
   },
 }));

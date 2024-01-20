@@ -4,14 +4,15 @@ import { GetServerSideProps } from 'next';
 
 import { useRouter } from 'next/router';
 
-import { AnimeQuery, QueryType } from '@interfaces/query';
+import { AnimePageQuery } from '@interfaces/anime/pageQuery';
+import { QueryType } from '@interfaces/query';
 
 import { ECollection } from '@enums/enums';
 
 import {
   ANIME_DESCRIPTION,
   ANIME_TITLE,
-  API_ITEMS_LIMIT,
+  API_FILTER_ITEMS_LIMIT,
 } from '@constants/common';
 import { ANIME_FILTERS_PAGE_DESCRIPTION, ANIME_FILTERS_PAGE_KEYWORDS, ANIME_FILTERS_PAGE_TITLE } from '@constants/seo';
 
@@ -20,7 +21,7 @@ import {
   getFilterDataState,
 } from '@redux/slices/filteredData';
 import {
-  setYears, getFilters, setFilterValuesFromQuery, FilterQuery, setFilterType,
+  getFilters, setFilterType, cleanFilterValues, fetchFilterYears,
 } from '@redux/slices/filters';
 
 import FilterPageContent from '@components/FilterPageContent';
@@ -28,12 +29,11 @@ import SeoHead from '@components/SeoHead';
 
 import MainLayout from '@layouts/MainLayout';
 
-import { getYears } from '@services/api/anime';
-
 import useAppDispatch from '@hooks/useAppDispatch';
 import useAppSelector from '@hooks/useAppSelector';
 
 import getFullUrlFromServerSide from '@utils/getFullUrlFromServerSide';
+import setFiltersFromQuery from '@utils/store/setFiltersFromQuery';
 
 type AnimesProps = {
   fullUrl: string;
@@ -42,13 +42,13 @@ type AnimesProps = {
 const Animes: FC<AnimesProps> = ({ fullUrl }) => {
 // временное решение пока не разберусь почему апишка стала возвращать 403 forbiden в getServerSide
   const { filteredData } = useAppSelector(getFilterDataState);
-  const { filterItems, filterType } = useAppSelector(getFilters);
+  const { animeFilters, filterType } = useAppSelector(getFilters);
 
   const dispatch = useAppDispatch();
   const route = useRouter();
-  const { query } = route as unknown as QueryType<AnimeQuery>;
+  const { query } = route as unknown as QueryType<AnimePageQuery>;
 
-  const getFilteredAnimes = async (currentQuery: AnimeQuery, isLoadMore: boolean = false) => {
+  const getFilteredAnimes = (currentQuery: AnimePageQuery, isLoadMore: boolean = false) => {
     const totalItemsLength = filteredData.length;
     const {
       years, genres, seasons, voices,
@@ -61,16 +61,15 @@ const Animes: FC<AnimesProps> = ({ fullUrl }) => {
         season_code: seasons,
         genres,
         voice: voices,
-        after: totalItemsLength && isLoadMore ? `${totalItemsLength}` : undefined,
-        items_per_page: `${API_ITEMS_LIMIT}`,
+        after: totalItemsLength && isLoadMore ? totalItemsLength : undefined,
+        items_per_page: API_FILTER_ITEMS_LIMIT,
       },
     }));
   };
 
-  const getFilterYears = async () => {
-    if (!filterItems.years.length) {
-      const yearsRes = await getYears();
-      dispatch(setYears(yearsRes));
+  const getFilterYears = () => {
+    if (!animeFilters.years.length) {
+      dispatch(fetchFilterYears());
     }
   };
 
@@ -78,22 +77,18 @@ const Animes: FC<AnimesProps> = ({ fullUrl }) => {
     if (filterType === ECollection.manga) {
       dispatch(setFilterType(ECollection.anime));
     }
+    return () => {
+      dispatch(cleanFilterValues());
+    };
   }, []);
 
   useEffect(() => {
     getFilterYears();
-  }, [filterItems.years]);
+  }, [animeFilters.years]);
 
   useEffect(() => {
-    Object.entries(query).forEach(([key, value]) => {
-      if (value) {
-        const currentKey = key as keyof FilterQuery;
-        const currentValue = value as string;
-        const itemsFromQuery = currentValue.split(',');
-        dispatch(setFilterValuesFromQuery({ key: currentKey, keyItems: itemsFromQuery }));
-      }
-    });
-  }, [query, filterItems.years]);
+    setFiltersFromQuery(dispatch, [ECollection.anime, query]);
+  }, [query, animeFilters.years]);
 
   useEffect(() => {
     getFilteredAnimes(query, false);
@@ -146,7 +141,7 @@ export const getServerSideProps: GetServerSideProps<AnimesProps> = async ({ reso
   //     'code',
   //     'names',
   //   ],
-  //   params: { ...params, items_per_page: `${API_ITEMS_LIMIT}` },
+  //   params: { ...params, items_per_page: API_FILTER_ITEMS_LIMIT },
   // });
 
   // if i use store.dispatch(fetchFilteredData) doesn't work all the time, i dont know why ( maybe HYDRATE

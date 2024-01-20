@@ -1,9 +1,9 @@
 import axios from 'redaxios';
 
 import {
-  Anime, AnimeKeys, AnimeResponse,
-} from '@interfaces/anime';
-import { AnimesResponse, FilteredDataProps } from '@interfaces/services';
+  Anime, AnimeKeys,
+} from '@interfaces/anime/anime';
+import { AnimeResponse, AnimesResponse, AnimeFilteredDataProps } from '@interfaces/anime/service';
 
 import isAnimeResponseError from '@typeGuards/isAnimeResponseError';
 
@@ -19,7 +19,7 @@ export const getFilteredData = async <
   method, //  api method
   filters, // what values will be in the response
   params, //  query params
-}: FilteredDataProps<T>): Promise<R | null> => {
+}: AnimeFilteredDataProps<T>): Promise<R | null> => {
   try {
     const generatedQuery = generateQuery({ filter: filters, ...params });
 

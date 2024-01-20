@@ -21,6 +21,9 @@ const useFilterCardListStyles = makeStyles(() => ({
       display: 'grid',
     },
   },
+  cardListItem: {
+    minHeight: 178,
+  },
 }));
 
 export default useFilterCardListStyles;

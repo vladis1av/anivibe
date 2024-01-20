@@ -1,7 +1,7 @@
 import { ECollection } from '@enums/enums';
 
-import { MangaBase } from './manga';
-import { FetchedLastAnimeUpdatedResult } from './services';
+import { FetchedLastAnimeUpdatedResult } from './anime/service';
+import { MangaBase } from './manga/manga';
 
 export type ECollectionType = keyof typeof ECollection;
 

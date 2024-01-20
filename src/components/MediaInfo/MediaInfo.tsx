@@ -5,10 +5,10 @@ import dynamic from 'next/dynamic';
 import Typography from '@mui/material/Typography';
 import clsx from 'clsx';
 
-import { Player, Torrent as TorrentType } from '@interfaces/anime';
+import { Player, Torrent as TorrentType } from '@interfaces/anime/anime';
 import { ECollectionType } from '@interfaces/collection';
 import { Media, MediaKey } from '@interfaces/common';
-import { MangaChapterList } from '@interfaces/manga';
+import { MangaChapterList } from '@interfaces/manga/manga';
 
 import {
   ECollection,
@@ -114,7 +114,13 @@ const MediaInfo: FC<MediaInfoProps> = ({
                 const currentKey = key as MediaKey;
                 const mediaName = EMediaInfo[currentKey];
                 if (mediaName && value) {
-                  return <li key={key} className={classes.typeListItem}>
+                  return <li
+                    key={key}
+                    className={clsx(
+                      classes.typeListItem,
+                      { [classes.typeListItemAlignItems]: currentKey !== 'description' },
+                    )}
+                  >
                     {`${mediaName}:`}
                     <MediaListInfo type={type} media={media} mediaKey={currentKey} mediaType={mediaName} />
                   </li>;

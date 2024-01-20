@@ -1,6 +1,46 @@
-import { FilterGenreType } from '@interfaces/common';
+import { FilterKindType } from '@interfaces/common';
 
-export const filterSeasons: FilterGenreType[] = [
+import { EMangaOrderBy, EMangaRelease, EMangaReleaseKind } from '@enums/enums';
+
+export const MANGA_FILTER_KINDS: FilterKindType[] = [
+  {
+    kind: EMangaReleaseKind.manga,
+    label: EMangaRelease.manga,
+  },
+  {
+    kind: EMangaReleaseKind.manhwa,
+    label: EMangaRelease.manhwa,
+  },
+  {
+    kind: EMangaReleaseKind.manhua,
+    label: EMangaRelease.manhua,
+  },
+  {
+    kind: EMangaReleaseKind.one_shot,
+    label: EMangaRelease.one_shot,
+  },
+  {
+    kind: EMangaReleaseKind.comics,
+    label: EMangaRelease.comics,
+  },
+];
+
+export const FILTER_ORDERS_BY: FilterKindType[] = [
+  {
+    kind: EMangaOrderBy.name,
+    label: 'По добавлению',
+  },
+  {
+    kind: EMangaOrderBy.updated,
+    label: 'По обновлению',
+  },
+  {
+    kind: EMangaOrderBy.popular,
+    label: 'По популярности',
+  },
+];
+
+export const FILTER_SEASONS: FilterKindType[] = [
   {
     kind: '1',
     label: 'Зима',
@@ -19,7 +59,7 @@ export const filterSeasons: FilterGenreType[] = [
   },
 ];
 
-export const filterGenres: FilterGenreType[] = [
+export const FILTER_GENRES: FilterKindType[] = [
   {
     kind: 'Police',
     label: 'Полиция',

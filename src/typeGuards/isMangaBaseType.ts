@@ -1,4 +1,4 @@
-import { MangaBase } from '@interfaces/manga';
+import { MangaBase } from '@interfaces/manga/manga';
 
 import { FilteredData } from '@redux/slices/filteredData';
 

@@ -1,7 +1,7 @@
 import axios from 'redaxios';
 
-import { MangaBase, MangaDetail, MangaWithPages } from '@interfaces/manga';
-import { MangaParams, MangaResponse } from '@interfaces/services';
+import { MangaBase, MangaDetail, MangaWithPages } from '@interfaces/manga/manga';
+import { MangaResponse, MangaServiceParams } from '@interfaces/manga/service';
 
 import generateQuery from '@utils/api/generateQuery';
 import getApiByNumber from '@utils/api/getApiByNumber';
@@ -51,7 +51,7 @@ export const getMangaChapterById = async (
 };
 
 export const getMangas = async (
-  params: MangaParams,
+  params: MangaServiceParams,
   cors?: boolean,
 ): Promise<MangaResponse<MangaBase[]> | null> => {
   try {

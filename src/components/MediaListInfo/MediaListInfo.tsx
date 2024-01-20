@@ -2,11 +2,11 @@ import { FC } from 'react';
 
 import { ECollectionType } from '@interfaces/collection';
 import {
-  EMediaInfoValueType, EReliaseType, Media, MediaKey,
+  EMediaInfoValueType, EReleaseType, Media, MediaKey,
 } from '@interfaces/common';
-import { MangaGenres } from '@interfaces/manga';
+import { MangaGenres } from '@interfaces/manga/manga';
 
-import { ELinkPath, EMediaInfo, EReliase } from '@enums/enums';
+import { ELinkPath, EMediaInfo, ERelease } from '@enums/enums';
 
 import Chip from '@ui/Chip';
 import ReadMore from '@ui/ReadMore';
@@ -56,7 +56,7 @@ const MediaListInfo: FC<MediaListInfoProps> = ({
   mediaType,
 }) => {
   const {
-    reliaseType,
+    releaseType,
     chapters,
     volumes,
     duration,
@@ -69,8 +69,8 @@ const MediaListInfo: FC<MediaListInfoProps> = ({
   } = media;
 
   switch (mediaType) {
-    case EMediaInfo.reliaseType:
-      return <MediaListInfoItem value={reliaseType && EReliase[reliaseType as EReliaseType]} />;
+    case EMediaInfo.releaseType:
+      return <MediaListInfoItem value={releaseType && ERelease[releaseType as EReleaseType]} />;
 
     case EMediaInfo.chapters:
       return <MediaListInfoItem value={chapters} />;

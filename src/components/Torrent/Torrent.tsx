@@ -9,7 +9,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 
-import { TorrentList } from '@interfaces/anime';
+import { TorrentList } from '@interfaces/anime/anime';
 
 import { EFile, ELocale } from '@enums/enums';
 

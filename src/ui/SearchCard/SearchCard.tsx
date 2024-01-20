@@ -37,7 +37,7 @@ const SearchCard: FC<SearchCardProps> = ({
   const classes = useSearchCardStyles();
   const currentImage = useCheckWebpSupport(imageUrl || id);
   const currentGenres = Array.isArray(genres) ? genres.join(', ') : genres;
-  const mediaData = entries({ reliaseType: mediaType, years: year, genres: currentGenres });
+  const mediaData = entries({ releaseType: mediaType, years: year, genres: currentGenres });
 
   return (
     <Link

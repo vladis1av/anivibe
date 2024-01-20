@@ -2,8 +2,8 @@ import { FC } from 'react';
 
 import { GetServerSideProps } from 'next';
 
-import { BannerImage } from '@interfaces/anime';
-import { MangaDetail } from '@interfaces/manga';
+import { BannerImage } from '@interfaces/anime/anime';
+import { MangaDetail } from '@interfaces/manga/manga';
 
 import { ECollection } from '@enums/enums';
 
@@ -70,7 +70,7 @@ const Manga: FC<MangaPageProps> = ({ fullUrl, manga, bookTags }) => {
         image={image.original}
         bannerImageHightQuality={bannerImageHightQuality}
         media={{
-          reliaseType: kind,
+          releaseType: kind,
           volumes,
           chapters,
           genres,
