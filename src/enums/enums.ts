@@ -50,6 +50,7 @@ export enum EFilter {
   seasons = 'Сезон',
   voices = 'Озвучка',
   order = 'Упорядочить',
+  kinds = 'Тип',
 }
 
 export enum EMangaRelease {
@@ -101,6 +102,11 @@ export enum ELoadingStatus {
   idle = 'idle',
   pending = 'pending',
   success = 'success',
+  error = 'error',
+}
+
+export enum EFilterLoading {
+  pending = 'pending',
   error = 'error',
 }
 
