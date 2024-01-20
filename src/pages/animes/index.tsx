@@ -21,7 +21,7 @@ import {
   getFilterDataState,
 } from '@redux/slices/filteredData';
 import {
-  getFilters, setFilterValuesFromQuery, AnimeFilterQuery, setFilterType, cleanFilterValues, fetchFilterYears,
+  getFilters, setFilterType, cleanFilterValues, fetchFilterYears,
 } from '@redux/slices/filters';
 
 import FilterPageContent from '@components/FilterPageContent';
@@ -33,6 +33,7 @@ import useAppDispatch from '@hooks/useAppDispatch';
 import useAppSelector from '@hooks/useAppSelector';
 
 import getFullUrlFromServerSide from '@utils/getFullUrlFromServerSide';
+import setFiltersFromQuery from '@utils/store/setFiltersFromQuery';
 
 type AnimesProps = {
   fullUrl: string;
@@ -86,17 +87,7 @@ const Animes: FC<AnimesProps> = ({ fullUrl }) => {
   }, [animeFilters.years]);
 
   useEffect(() => {
-    Object.entries(query).forEach(([key, value]) => {
-      if (value) {
-        const currentKey = key as keyof AnimeFilterQuery;
-        const currentValue = value as string;
-        const itemsFromQuery = currentValue.split(',');
-        dispatch(setFilterValuesFromQuery({
-          filterTypeWithKey: [ECollection.anime, currentKey],
-          filterQueryValues: itemsFromQuery,
-        }));
-      }
-    });
+    setFiltersFromQuery(dispatch, [ECollection.anime, query]);
   }, [query, animeFilters.years]);
 
   useEffect(() => {
