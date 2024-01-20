@@ -1,6 +1,29 @@
 import { FilterKindType } from '@interfaces/common';
 
-import { EMangaOrderBy } from '@enums/enums';
+import { EMangaOrderBy, EMangaRelease, EMangaReleaseKind } from '@enums/enums';
+
+export const MANGA_FILTER_KINDS: FilterKindType[] = [
+  {
+    kind: EMangaReleaseKind.manga,
+    label: EMangaRelease.manga,
+  },
+  {
+    kind: EMangaReleaseKind.manhwa,
+    label: EMangaRelease.manhwa,
+  },
+  {
+    kind: EMangaReleaseKind.manhua,
+    label: EMangaRelease.manhua,
+  },
+  {
+    kind: EMangaReleaseKind.one_shot,
+    label: EMangaRelease.one_shot,
+  },
+  {
+    kind: EMangaReleaseKind.comics,
+    label: EMangaRelease.comics,
+  },
+];
 
 export const FILTER_ORDERS_BY: FilterKindType[] = [
   {
