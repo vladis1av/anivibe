@@ -10,10 +10,13 @@ import { ECollection, EFilter, ELinkPath } from '@enums/enums';
 
 import {
   FiltersKeyses,
-  cleanFilterValues, getFilters, setFilterValue,
+  cleanFilterValues,
+  getFilters,
+  setFilterValue,
 } from '@redux/slices/filters';
 
 import Link from '@ui/Link';
+import TextSkeleton from '@ui/Skeletons/Text';
 
 import useAppDispatch from '@hooks/useAppDispatch';
 import useAppSelector from '@hooks/useAppSelector';
@@ -31,7 +34,11 @@ const Filters: FC<FiltersProps> = ({ className, onFiltersAcceptCallback }) => {
   const classes = useFiltersStyles();
   const dispatch = useAppDispatch();
   const {
-    filterType, mangaFilters, animeFilters, filtersQueryValues,
+    filterType,
+    mangaFilters,
+    animeFilters,
+    filtersQueryValues,
+    filtersLoading,
   } = useAppSelector(getFilters);
 
   const isAnimeFiltersType = filterType === ECollection.anime;
@@ -44,6 +51,7 @@ const Filters: FC<FiltersProps> = ({ className, onFiltersAcceptCallback }) => {
       seasons: 'kind',
       genres: filterType === 'anime' ? 'label' : 'kind',
       order: 'kind',
+      kinds: 'kind',
     },
   );
 
@@ -66,6 +74,10 @@ const Filters: FC<FiltersProps> = ({ className, onFiltersAcceptCallback }) => {
           const currentValue = isOrderByKey
             ? filtersQueryValues[currentKey][0]
             : filtersQueryValues[currentKey] || [];
+
+          if (filtersLoading[currentKey] && filtersLoading[currentKey] === 'pending') {
+            return <TextSkeleton width={300} height={56} />;
+          }
 
           return (value && value.length
             ? <FormControl key={key} sx={{ m: 1, width: 300 }}>
