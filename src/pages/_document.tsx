@@ -3,6 +3,7 @@ import { Children } from 'react';
 import Document, {
   Html, Head, Main, NextScript,
 } from 'next/document';
+import Script from 'next/script';
 
 import createEmotionServer from '@emotion/server/create-instance';
 import { ServerStyleSheets as JSSServerStyleSheets } from '@mui/styles';
@@ -24,14 +25,18 @@ export default class MyDocument extends Document {
           <link rel="icon" type="image/png" href="/favicon.ico" />
           <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
           {(this.props as any).emotionStyleTags}
+          <Script
+            async
+            src="https://ad.mail.ru/static/ads-async.js"
+            strategy="lazyOnload"
+            crossOrigin="anonymous"
+          />
         </Head>
 
         <body>
           <Main />
 
           <NextScript />
-
-          <script async src="https://ad.mail.ru/static/ads-async.js"></script>
         </body>
       </Html>
     );

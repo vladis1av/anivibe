@@ -53,18 +53,6 @@ function MyApp({ Component, emotionCache = clientSideEmotionCache, pageProps }: 
     }
   }, []);
 
-  useEffect(() => {
-    const ads = document.getElementsByClassName('mrg-tag').length;
-    for (let i = 0; i < ads; i++) {
-      try {
-        // eslint-disable-next-line no-undef
-        (MRGtag = window.MRGtag || []).push({});
-      } catch (e) {
-        console.error(e);
-      }
-    }
-  }, []);
-
   return (
     <CacheProvider value={emotionCache}>
       <Head>
