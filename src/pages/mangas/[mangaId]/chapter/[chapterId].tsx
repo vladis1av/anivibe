@@ -175,6 +175,13 @@ const Chapter: FC<ChapterProps> = ({
         description={seoDescription}
         imageSource={image.preview}
       />
+      <ins
+        className="trg-b-banner floating"
+        style={{ display: 'inline-block', height: 50, width: '100%' }}
+        data-ad-client="ad-1490714"
+        data-ad-slot="1490714"
+      >
+      </ins>
 
       <Drawer open={drawerIsOpen} onClose={closeDrawer} className={classes.drawer}>
         <Button className={clsx(classes.closeDrawerButton)} onClick={closeDrawer} variant="text">
