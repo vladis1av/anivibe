@@ -31,10 +31,10 @@ export default class MyDocument extends Document {
 
           <NextScript />
 
-          <script async src="https://ad.mail.ru/static/ads-async.js" onLoad={(e) => { console.log('ad', e); }}></script>
+          <script async src="https://ad.mail.ru/static/ads-async.js"></script>
 
           <script>
-          (MRGtag = window.MRGtag || []).push({});
+            (MRGtag = window.MRGtag || []).push({});
           </script>
         </body>
       </Html>
