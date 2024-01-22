@@ -95,6 +95,13 @@ const FilterPageContent: FC<FilterPageContentProps> = ({
 
     <div className={clsx(classes.content, { [commonClasses.fullHeight]: filteredDataIsNotFound }) }>
       <div className={classes.filterCardListWrapper}>
+        <ins
+          className="mrg-tag"
+          style={{ display: 'inline-block', width: 'auto', height: 250 }}
+          data-ad-client="ad-1490501"
+          data-ad-slot="1490501">
+        </ins>
+
         {
           !filteredData.length && dataError && <Error errorText={NOT_FOUND_TITLES} />
         }

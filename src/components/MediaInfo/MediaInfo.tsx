@@ -131,6 +131,13 @@ const MediaInfo: FC<MediaInfoProps> = ({
           </div>
         </div>
 
+        <ins
+          className="mrg-tag"
+          style={{ display: 'inline-block', width: 'auto', height: 250 }}
+          data-ad-client="ad-1490589"
+          data-ad-slot="1490589">
+        </ins>
+
         {player && <VideoPlayer player={player} />}
 
         {torrent && <Torrent list={torrent.list} />}
