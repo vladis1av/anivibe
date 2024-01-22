@@ -17,6 +17,7 @@ import InfiniteLoadMore from '@ui/InfiniteLoadMore';
 import PageDescription from '@ui/PageDescription';
 import CardItemSkeleton from '@ui/Skeletons/CardItem/CardItem';
 
+import AdBanner from '@components/AdBanner';
 import FilterCardList from '@components/FilterCardList';
 import FilterMenu from '@components/FilterMenu';
 
@@ -95,12 +96,12 @@ const FilterPageContent: FC<FilterPageContentProps> = ({
 
     <div className={clsx(classes.content, { [commonClasses.fullHeight]: filteredDataIsNotFound }) }>
       <div className={classes.filterCardListWrapper}>
-        <ins
+        <AdBanner
           className="mrg-tag"
           style={{ display: 'inline-block', width: 'auto', height: 250 }}
-          data-ad-client="ad-1490501"
-          data-ad-slot="1490501">
-        </ins>
+          client="ad-2101381"
+          slot="1490501"
+        />
 
         {
           !filteredData.length && dataError && <Error errorText={NOT_FOUND_TITLES} />

@@ -22,6 +22,7 @@ import { BANNER_LIGHT, CHAPTER_TITLE } from '@constants/common';
 
 import ImageWithPlaceholder from '@ui/ImageWithPlaceholder';
 
+import AdBanner from '@components/AdBanner';
 import MediaListInfo from '@components/MediaListInfo';
 import MetaItemProp from '@components/MetaItemProp';
 
@@ -131,12 +132,12 @@ const MediaInfo: FC<MediaInfoProps> = ({
           </div>
         </div>
 
-        <ins
+        <AdBanner
           className="mrg-tag"
           style={{ display: 'inline-block', width: 'auto', height: 250 }}
-          data-ad-client="ad-1490589"
-          data-ad-slot="1490589">
-        </ins>
+          client="ad-1490589"
+          slot="1490589"
+        />
 
         {player && <VideoPlayer player={player} />}
 

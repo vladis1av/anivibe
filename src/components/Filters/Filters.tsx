@@ -18,6 +18,8 @@ import {
 import Link from '@ui/Link';
 import TextSkeleton from '@ui/Skeletons/Text';
 
+import AdBanner from '@components/AdBanner';
+
 import useAppDispatch from '@hooks/useAppDispatch';
 import useAppSelector from '@hooks/useAppSelector';
 
@@ -128,11 +130,12 @@ const Filters: FC<FiltersProps> = ({ className, onFiltersAcceptCallback }) => {
         </Link>
       </div>
 
-      <ins className="mrg-tag"
+      <AdBanner
+        className="mrg-tag"
         style={{ display: 'inline-block', width: 290, height: 600 }}
-        data-ad-client="ad-1490635"
-        data-ad-slot="1490635">
-      </ins>
+        client="ad-1490635"
+        slot="1490635"
+      />
     </div>
   );
 };

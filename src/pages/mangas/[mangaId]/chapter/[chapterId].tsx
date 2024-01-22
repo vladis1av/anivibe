@@ -26,6 +26,7 @@ import { NOT_FOUND_CHAPTER_ERROR } from '@constants/error';
 import Error from '@ui/Error';
 import ImageWithPlaceholder from '@ui/ImageWithPlaceholder';
 
+import AdBanner from '@components/AdBanner';
 import SeoHead from '@components/SeoHead';
 
 import MainLayout from '@layouts/MainLayout';
@@ -175,13 +176,13 @@ const Chapter: FC<ChapterProps> = ({
         description={seoDescription}
         imageSource={image.preview}
       />
-      <ins
+
+      <AdBanner
         className="trg-b-banner floating"
         style={{ display: 'inline-block', height: 50, width: '100%' }}
-        data-ad-client="ad-1490714"
-        data-ad-slot="1490714"
-      >
-      </ins>
+        client="ad-1490714"
+        slot="1490714"
+      />
 
       <Drawer open={drawerIsOpen} onClose={closeDrawer} className={classes.drawer}>
         <Button className={clsx(classes.closeDrawerButton)} onClick={closeDrawer} variant="text">
