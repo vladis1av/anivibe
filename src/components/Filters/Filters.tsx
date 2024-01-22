@@ -130,8 +130,8 @@ const Filters: FC<FiltersProps> = ({ className, onFiltersAcceptCallback }) => {
 
       <ins className="mrg-tag"
         style={{ display: 'inline-block', width: 290, height: 600 }}
-        data-ad-client="ad-1490589"
-        data-ad-slot="1490589">
+        data-ad-client="ad-1490635"
+        data-ad-slot="1490635">
       </ins>
     </div>
   );
