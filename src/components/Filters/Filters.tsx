@@ -127,6 +127,12 @@ const Filters: FC<FiltersProps> = ({ className, onFiltersAcceptCallback }) => {
           <Button variant="outlined" onClick={onFiltersAccept}>Применить</Button>
         </Link>
       </div>
+
+      <ins className="mrg-tag"
+        style={{ display: 'inline-block', width: 290, height: 600 }}
+        data-ad-client="ad-1490589"
+        data-ad-slot="1490589">
+      </ins>
     </div>
   );
 };
