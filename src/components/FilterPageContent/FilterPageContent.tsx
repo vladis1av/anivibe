@@ -99,7 +99,7 @@ const FilterPageContent: FC<FilterPageContentProps> = ({
         <AdBanner
           className="mrg-tag"
           style={{ display: 'inline-block', width: 'auto', height: 250 }}
-          client="ad-2101381"
+          client="ad-1490501"
           slot="1490501"
         />
 
