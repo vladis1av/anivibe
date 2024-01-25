@@ -28,7 +28,7 @@ const AdBanner: FC<AdBannerProps> = ({
       <Script
         async
         src="https://ad.mail.ru/static/ads-async.js"
-        strategy="afterInteractive"
+        strategy="lazyOnload"
         onError={(e) => {
           console.error('Ad script failed to load', e);
         }}
