@@ -31,6 +31,8 @@ export default class MyDocument extends Document {
           <Main />
 
           <NextScript />
+
+          <script async src="https://ad.mail.ru/static/ads-async.js"></script>
         </body>
       </Html>
     );
