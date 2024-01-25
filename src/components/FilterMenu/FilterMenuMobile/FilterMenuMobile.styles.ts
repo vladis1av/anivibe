@@ -31,6 +31,7 @@ const useFilterMenuMobileStyles = makeStyles((theme: Theme) => ({
   filterMenuWrapper: {
     maxWidth: 310,
     boxShadow: '0 2px 8px 2px rgb(0 0 0 / 24%)',
+    overflowY: 'auto',
 
     '@media (min-width: 0) and (max-width: 1025px)': {
       top: 60,
