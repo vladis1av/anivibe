@@ -1,5 +1,7 @@
 import { FC } from 'react';
 
+import dynamic from 'next/dynamic';
+
 import { MangaPageQuery } from '@interfaces/manga/pageQuery';
 
 import { ECollection, EMangaOrderBy } from '@enums/enums';
@@ -13,7 +15,6 @@ import { setFilteredData } from '@redux/slices/filteredData';
 import { setFilterType } from '@redux/slices/filters';
 import { nextReduxWrapper } from '@redux/store';
 
-import FilterPageContent from '@components/FilterPageContent';
 import SeoHead from '@components/SeoHead';
 
 import MainLayout from '@layouts/MainLayout';
@@ -22,6 +23,8 @@ import { getMangas } from '@services/api/manga';
 
 import getFullUrlFromServerSide from '@utils/getFullUrlFromServerSide';
 import setFiltersFromQuery from '@utils/store/setFiltersFromQuery';
+
+const FilterPageContent = dynamic(() => import('@components/FilterPageContent'), { ssr: false });
 
 type MangaPageProps = {
   pagesCount: number;

@@ -2,6 +2,8 @@ import { FC } from 'react';
 
 import { GetServerSideProps } from 'next';
 
+import dynamic from 'next/dynamic';
+
 import { BannerImage } from '@interfaces/anime/anime';
 import { MangaDetail } from '@interfaces/manga/manga';
 
@@ -12,7 +14,6 @@ import { SEO_MANGA_READ_ONLINE_TEXT } from '@constants/seo';
 
 import Error from '@ui/Error';
 
-import MediaInfo from '@components/MediaInfo';
 import SeoHead from '@components/SeoHead';
 
 import MainLayout from '@layouts/MainLayout';
@@ -23,6 +24,8 @@ import { getMangaById } from '@services/api/manga';
 import getFullUrlFromServerSide from '@utils/getFullUrlFromServerSide';
 import getIdFromString from '@utils/regexp/getIdFromString';
 import getMangaSeoTitle from '@utils/seo/getMangaSeoTitle';
+
+const MediaInfo = dynamic(() => import('@components/MediaInfo'), { ssr: false });
 
 type MangaPageProps = {
   fullUrl: string;

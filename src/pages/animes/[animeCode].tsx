@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react';
 
 import { GetServerSideProps } from 'next';
 
+import dynamic from 'next/dynamic';
+
 import { Anime as AnimeType, BannerImage } from '@interfaces/anime/anime';
 import { ECollectionType } from '@interfaces/collection';
 import { MangaGenres } from '@interfaces/manga/manga';
@@ -13,7 +15,6 @@ import { SEO_ANIME_DETAIL_PAGE_TITLE, SEO_ANIME_WATCH_ONLINE_TEXT } from '@const
 
 import Error from '@ui/Error';
 
-import MediaInfo from '@components/MediaInfo';
 import MediaInfoSkeleton from '@components/MediaInfo/MediaInfoSkeleton';
 import SeoHead from '@components/SeoHead';
 
@@ -27,6 +28,8 @@ import useIsLoading from '@hooks/useIsLoading';
 import getNextEnv from '@utils/config/getNextEnv';
 import getFullUrlFromServerSide from '@utils/getFullUrlFromServerSide';
 import getIdFromString from '@utils/regexp/getIdFromString';
+
+const MediaInfo = dynamic(() => import('@components/MediaInfo'), { ssr: false });
 
 const { publicRuntimeConfig: { ANIME_DOMEN } } = getNextEnv();
 
