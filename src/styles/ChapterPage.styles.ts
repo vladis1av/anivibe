@@ -168,6 +168,16 @@ const useChapterPageStyles = makeStyles((theme: Theme) => ({
       transition: 'opacity 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms',
     },
   },
+  adsWrapper: {
+    padding: '0 60px',
+
+    '@media (min-width: 0) and (max-width: 1370px)': {
+      padding: '10px 10px 0px 10px',
+    },
+    '@media (min-width: 0) and (max-width: 400px)': {
+      padding: '10px 5px 10px 5px',
+    },
+  },
 }));
 
 export default useChapterPageStyles;
