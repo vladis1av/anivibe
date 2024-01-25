@@ -9,7 +9,7 @@ import { ESkeleton } from '@enums/enums';
 import useSkeletonTheme from '@hooks/useSkeletonTheme';
 
 import useCardItemSkeletonStyles from './CardItem.styles';
-import TextSkeleton from '../Text/Text';
+import SkeletonBlock from '../Block';
 
 type CardItemSkeletonProps = SkeletonProps & {
   withTextSkeleton?: boolean;
@@ -23,7 +23,7 @@ const CardItemSkeleton: FC<CardItemSkeletonProps> = ({ skeletonType, withTextSke
     <div className={classes.cardItemSkeletonWrapper}>
       <div className={clsx(classes.cardItemSkeleton, skeleton, className)} />
 
-      {withTextSkeleton && <TextSkeleton width={130} className={classes.cardItemSkeletonText}/>}
+      {withTextSkeleton && <SkeletonBlock width={130} className={classes.cardItemSkeletonText}/>}
     </div>
   );
 };

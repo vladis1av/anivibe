@@ -18,7 +18,7 @@ import {
 } from '@redux/slices/filters';
 
 import Link from '@ui/Link';
-import TextSkeleton from '@ui/Skeletons/Text';
+import SkeletonBlock from '@ui/Skeletons/Block';
 
 import useAppDispatch from '@hooks/useAppDispatch';
 import useAppSelector from '@hooks/useAppSelector';
@@ -80,7 +80,7 @@ const Filters: FC<FiltersProps> = ({ className, onFiltersAcceptCallback }) => {
             : filtersQueryValues[currentKey] || [];
 
           if (filtersLoading[currentKey] && filtersLoading[currentKey] === 'pending') {
-            return <TextSkeleton width={300} height={56} />;
+            return <SkeletonBlock width={300} height={56} />;
           }
 
           return (value && value.length
