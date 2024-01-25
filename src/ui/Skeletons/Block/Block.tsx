@@ -8,25 +8,25 @@ import { ESkeleton } from '@enums/enums';
 
 import useSkeletonTheme from '@hooks/useSkeletonTheme';
 
-import useTextSkeletonStyles from './Text.styles';
+import useSkeletonBlockStyles from './Block.styles';
 
-type TextSkeletonProps = SkeletonProps & {
+type SkeletonBlockProps = SkeletonProps & {
   width?: number | string;
   height?: number | string;
 };
 
-const TextSkeleton: FC<TextSkeletonProps> = ({
+const SkeletonBlock: FC<SkeletonBlockProps> = ({
   width,
   height,
   skeletonType,
   className,
 }) => {
   const skeleton = useSkeletonTheme(skeletonType || ESkeleton.pulseAuto);
-  const classes = useTextSkeletonStyles();
+  const classes = useSkeletonBlockStyles();
 
   return (
-    <span className={clsx(classes.textSkeleton, skeleton, className)} style={{ width, height }} />
+    <div style={{ width, height }} className={clsx(classes.skeletonBlock, skeleton, className)} />
   );
 };
 
-export default TextSkeleton;
+export default SkeletonBlock;
