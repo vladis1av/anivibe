@@ -178,12 +178,16 @@ const Chapter: FC<ChapterProps> = ({
         imageSource={image.preview}
       />
 
-      <AdBanner
-        className="trg-b-banner floating"
-        style={{ display: 'inline-block', height: 50, width: '100%' }}
-        client="ad-1490714"
-        slot="1490714"
-      />
+      <div className={classes.adsWrapper}>
+        <AdBanner
+          className="mrg-tag"
+          style={{
+            display: 'inline-block', width: 'auto', height: 250, marginBottom: 10,
+          }}
+          client="ad-1493670"
+          slot="1493670"
+        />
+      </div>
 
       <Drawer open={drawerIsOpen} onClose={closeDrawer} className={classes.drawer}>
         <Button className={clsx(classes.closeDrawerButton)} onClick={closeDrawer} variant="text">
@@ -277,6 +281,24 @@ const Chapter: FC<ChapterProps> = ({
             <ArrowSVG width={20} height={20} />
           </Button>
         </div>
+      </div>
+
+      <div className={classes.adsWrapper}>
+        <AdBanner
+          className="mrg-tag"
+          style={{
+            display: 'inline-block', width: 'auto', height: 250, marginBottom: 10,
+          }}
+          client="ad-1493520"
+          slot="1493520"
+        />
+
+        <AdBanner
+          className="mrg-tag"
+          style={{ display: 'inline-block', width: 'auto', height: 250 }}
+          client="ad-1493668"
+          slot="1493668"
+        />
       </div>
     </MainLayout>
   );
