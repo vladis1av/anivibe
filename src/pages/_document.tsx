@@ -3,7 +3,6 @@ import { Children } from 'react';
 import Document, {
   Html, Head, Main, NextScript,
 } from 'next/document';
-import Script from 'next/script';
 
 import createEmotionServer from '@emotion/server/create-instance';
 import { ServerStyleSheets as JSSServerStyleSheets } from '@mui/styles';
@@ -26,12 +25,6 @@ export default class MyDocument extends Document {
           <meta name="google-site-verification" content="lYMieH2JA-N7C-7OngdZvjJlgUfL8EonOJolad0Os74" />
           <meta name="google-adsense-account" content="ca-pub-9863048209509930" />
           {(this.props as any).emotionStyleTags}
-          <Script
-            async
-            src="https://ad.mail.ru/static/ads-async.js"
-            strategy="lazyOnload"
-            crossOrigin="anonymous"
-          />
         </Head>
 
         <body>
