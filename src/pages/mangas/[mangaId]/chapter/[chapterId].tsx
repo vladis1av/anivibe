@@ -184,8 +184,8 @@ const Chapter: FC<ChapterProps> = ({
           style={{
             display: 'inline-block', width: 'auto', height: 250, marginBottom: 10,
           }}
-          client="ad-1493763"
-          slot="1493763"
+          client="ad-1493771"
+          slot="1493771"
         />
       </div>
 
