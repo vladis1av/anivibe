@@ -2,6 +2,9 @@ import {
   CSSProperties, FC, useEffect, useRef, useState,
 } from 'react';
 
+import { useRouter } from 'next/router';
+import Script from 'next/script';
+
 type AdBannerProps = {
   className?: string;
   style?: CSSProperties;
@@ -17,6 +20,7 @@ const AdBanner: FC<AdBannerProps> = ({
 }) => {
   const [isHidden, setIsHidden] = useState(true);
   const insRef = useRef<null | HTMLModElement>(null);
+  const router = useRouter();
 
   useEffect(() => {
     try {
@@ -24,7 +28,7 @@ const AdBanner: FC<AdBannerProps> = ({
     } catch (e) {
       console.error(e);
     }
-  }, []);
+  }, [router.query]);
 
   useEffect(() => {
     if (insRef.current && insRef.current.hasChildNodes()) {
@@ -33,13 +37,18 @@ const AdBanner: FC<AdBannerProps> = ({
   }, [insRef.current]);
 
   return (
-    <ins
-      ref={insRef}
-      className={className}
-      style={{ ...style, display: isHidden ? 'none' : 'inline-block' }}
-      data-ad-client={client}
-      data-ad-slot={slot}
-    />
+    <>
+      <Script async src="https://ad.mail.ru/static/ads-async.js" strategy="afterInteractive" />
+
+      <ins
+        ref={insRef}
+        className={className}
+        style={{ ...style, display: isHidden ? 'none' : 'block' }}
+        data-ad-client={client}
+        data-ad-slot={slot}
+      />
+    </>
+
   );
 };
 
