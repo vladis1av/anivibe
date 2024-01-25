@@ -134,9 +134,11 @@ const Filters: FC<FiltersProps> = ({ className, onFiltersAcceptCallback }) => {
 
       <AdBanner
         className="mrg-tag"
-        style={{ display: 'inline-block', width: 290, height: 600 }}
-        client="ad-1490635"
-        slot="1490635"
+        style={{
+          display: 'inline-block', width: 170, height: 600, marginTop: 10,
+        }}
+        client="ad-1493685"
+        slot="1493685"
       />
     </div>
   );

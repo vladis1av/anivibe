@@ -137,8 +137,8 @@ const MediaInfo: FC<MediaInfoProps> = ({
           style={{
             display: 'inline-block', width: 'auto', height: 250, marginBottom: 10,
           }}
-          client="ad-1490589"
-          slot="1490589"
+          client="ad-1493761"
+          slot="1493761"
         />
 
         {player && <VideoPlayer player={player} />}

@@ -94,16 +94,20 @@ const FilterPageContent: FC<FilterPageContentProps> = ({
 
   return <div className={classes.contentWrapper}>
     <PageDescription title={title} description={description} className={classes.pageDescription}/>
+
+    <AdBanner
+      className="mrg-tag"
+      style={{
+        display: 'inline-block', width: 'auto', height: 250, marginBottom: 10,
+      }}
+      client="ad-1493687"
+      slot="1493687"
+    />
+
     {getPagination(classes.paginationWrapperTop)}
 
     <div className={clsx(classes.content, { [commonClasses.fullHeight]: filteredDataIsNotFound }) }>
       <div className={classes.filterCardListWrapper}>
-        <AdBanner
-          className="mrg-tag"
-          style={{ display: 'inline-block', width: 'auto', height: 250 }}
-          client="ad-1490501"
-          slot="1490501"
-        />
 
         {
           !filteredData.length && dataError && <Error errorText={NOT_FOUND_TITLES} />

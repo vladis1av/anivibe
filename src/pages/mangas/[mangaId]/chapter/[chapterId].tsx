@@ -184,8 +184,8 @@ const Chapter: FC<ChapterProps> = ({
           style={{
             display: 'inline-block', width: 'auto', height: 250, marginBottom: 10,
           }}
-          client="ad-1493670"
-          slot="1493670"
+          client="ad-1493763"
+          slot="1493763"
         />
       </div>
 
@@ -287,17 +287,17 @@ const Chapter: FC<ChapterProps> = ({
         <AdBanner
           className="mrg-tag"
           style={{
-            display: 'inline-block', width: 'auto', height: 250, marginBottom: 10,
+            display: 'block', width: 'auto', height: 250, marginBottom: 10, marginTop: 10,
           }}
-          client="ad-1493520"
-          slot="1493520"
+          client="ad-1493765"
+          slot="1493765"
         />
 
         <AdBanner
           className="mrg-tag"
-          style={{ display: 'inline-block', width: 'auto', height: 250 }}
-          client="ad-1493668"
-          slot="1493668"
+          style={{ display: 'block', width: 'auto', height: 250 }}
+          client="ad-1493767"
+          slot="1493767"
         />
       </div>
     </MainLayout>
