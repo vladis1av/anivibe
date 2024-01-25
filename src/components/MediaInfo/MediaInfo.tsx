@@ -22,7 +22,6 @@ import { BANNER_LIGHT, CHAPTER_TITLE } from '@constants/common';
 
 import ImageWithPlaceholder from '@ui/ImageWithPlaceholder';
 
-import AdBanner from '@components/AdBanner';
 import MediaListInfo from '@components/MediaListInfo';
 import MetaItemProp from '@components/MetaItemProp';
 
@@ -34,8 +33,9 @@ const VideoPlayer = dynamic(() => import('@ui/VideoPlayer'), { ssr: false });
 // mui serverside error
 const Torrent = dynamic(() => import('@components/Torrent'), { ssr: false });
 const Chapters = dynamic(() => import('@ui/Chapters'));
-const ITEM_SIZE = 48;
+const AdBanner = dynamic(() => import('@components/AdBanner'), { ssr: false });
 
+const ITEM_SIZE = 48;
 type MediaInfoProps = {
   fullUrl: string;
   type: ECollectionType;

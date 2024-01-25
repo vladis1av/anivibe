@@ -1,5 +1,6 @@
 import { FC } from 'react';
 
+import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 
 import { Pagination } from '@mui/material';
@@ -17,7 +18,6 @@ import InfiniteLoadMore from '@ui/InfiniteLoadMore';
 import PageDescription from '@ui/PageDescription';
 import CardItemSkeleton from '@ui/Skeletons/CardItem/CardItem';
 
-import AdBanner from '@components/AdBanner';
 import FilterCardList from '@components/FilterCardList';
 import FilterMenu from '@components/FilterMenu';
 
@@ -29,6 +29,8 @@ import getEmptyArray from '@utils/array/getEmptyArray';
 import useCommonStyles from '@styles/Common.styles';
 
 import useFilterPageContentStyles from './FilterPageContent.styles';
+
+const AdBanner = dynamic(() => import('@components/AdBanner'), { ssr: false });
 
 type FilterPageContentProps = {
   title: string;

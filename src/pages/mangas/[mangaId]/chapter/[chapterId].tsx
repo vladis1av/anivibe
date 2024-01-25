@@ -26,7 +26,6 @@ import { NOT_FOUND_CHAPTER_ERROR } from '@constants/error';
 import Error from '@ui/Error';
 import ImageWithPlaceholder from '@ui/ImageWithPlaceholder';
 
-import AdBanner from '@components/AdBanner';
 import SeoHead from '@components/SeoHead';
 
 import MainLayout from '@layouts/MainLayout';
@@ -45,6 +44,8 @@ import getIdFromString from '@utils/regexp/getIdFromString';
 import getMangaSeoChapterTitle from '@utils/seo/getMangaSeoChapterTitle';
 
 import useChapterPageStyles from '@styles/ChapterPage.styles';
+
+const AdBanner = dynamic(() => import('@components/AdBanner'), { ssr: false });
 
 const Drawer = dynamic(() => import('@mui/material/Drawer'));
 const Chapters = dynamic(() => import('@ui/Chapters'));
