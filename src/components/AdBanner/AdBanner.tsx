@@ -1,6 +1,6 @@
-import { CSSProperties, FC, useEffect } from 'react';
-
-import Script from 'next/script';
+import {
+  CSSProperties, FC, useEffect, useRef, useState,
+} from 'react';
 
 type AdBannerProps = {
   className?: string;
@@ -15,6 +15,9 @@ const AdBanner: FC<AdBannerProps> = ({
   client,
   slot,
 }) => {
+  const [isHidden, setIsHidden] = useState(true);
+  const insRef = useRef<null | HTMLModElement>(null);
+
   useEffect(() => {
     try {
       (window.MRGtag = window.MRGtag || []).push({});
@@ -23,25 +26,20 @@ const AdBanner: FC<AdBannerProps> = ({
     }
   }, []);
 
+  useEffect(() => {
+    if (insRef.current && insRef.current.hasChildNodes()) {
+      setIsHidden(false);
+    }
+  }, [insRef.current]);
+
   return (
-    <>
-      <Script
-        async
-        src="https://ad.mail.ru/static/ads-async.js"
-        strategy="lazyOnload"
-        onError={(e) => {
-          console.error('Ad script failed to load', e);
-        }}
-      />
-
-      <ins
-        className={className}
-        style={style}
-        data-ad-client={client}
-        data-ad-slot={slot}
-      />
-    </>
-
+    <ins
+      ref={insRef}
+      className={className}
+      style={{ ...style, display: isHidden ? 'none' : 'inline-block' }}
+      data-ad-client={client}
+      data-ad-slot={slot}
+    />
   );
 };
 
