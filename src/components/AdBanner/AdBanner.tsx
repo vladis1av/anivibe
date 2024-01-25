@@ -1,5 +1,7 @@
 import { CSSProperties, FC, useEffect } from 'react';
 
+import Script from 'next/script';
+
 type AdBannerProps = {
   className?: string;
   style?: CSSProperties;
@@ -22,12 +24,24 @@ const AdBanner: FC<AdBannerProps> = ({
   }, []);
 
   return (
-    <ins
-      className={className}
-      style={style}
-      data-ad-client={client}
-      data-ad-slot={slot}
-    />
+    <>
+      <Script
+        async
+        src="https://ad.mail.ru/static/ads-async.js"
+        strategy="afterInteractive"
+        onError={(e) => {
+          console.error('Ad script failed to load', e);
+        }}
+      />
+
+      <ins
+        className={className}
+        style={style}
+        data-ad-client={client}
+        data-ad-slot={slot}
+      />
+    </>
+
   );
 };
 
