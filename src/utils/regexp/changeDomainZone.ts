@@ -2,6 +2,6 @@
 const changeDomainZone = (
   url: string,
   domainZone: string,
-) => url.replace(/(?<=\.).*?(?=\/)/g, domainZone);
+) => url.replace(/(?<=\.).*?(?=\/)/, domainZone);
 
 export default changeDomainZone;
