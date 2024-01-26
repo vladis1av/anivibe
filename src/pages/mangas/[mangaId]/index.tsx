@@ -47,7 +47,7 @@ const Manga: FC<MangaPageProps> = ({ fullUrl, manga, bookTags }) => {
     kind,
     image,
     genres,
-    chapters: { last: { vol: volumes, ch: chapters }, list },
+    chapters,
     bannerImageHightQuality,
   } = manga;
 
@@ -69,13 +69,13 @@ const Manga: FC<MangaPageProps> = ({ fullUrl, manga, bookTags }) => {
         fullUrl={fullUrl}
         type={ECollection.manga}
         title={{ ru: russian, en: name }}
-        chaptersList={list}
+        chaptersList={chapters?.list}
         image={image.original}
         bannerImageHightQuality={bannerImageHightQuality}
         media={{
           releaseType: kind,
-          volumes,
-          chapters,
+          volumes: chapters?.last.vol,
+          chapters: chapters?.count,
           genres,
           description,
         }}
