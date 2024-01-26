@@ -16,7 +16,10 @@ export type MangaChapterList = Omit<MangaChapter, 'name'> & {
 export type MangaImage = {
   original: string;
   preview: string;
+  x32: string;
+  x48: string;
   x120: string;
+  x225: string;
 };
 
 export type MangaGenres = {
@@ -54,6 +57,7 @@ export type MangaBase = {
   kind: EMangaReleaseType,
   image: MangaImage;
   url: string;
+  age_limit: string;
   reading: string;
   ongoing: number;
   anonse: number;
@@ -69,9 +73,12 @@ export type MangaBase = {
   genres: string;
   synonyms: string;
   thread_id: number;
+  released_on: number;
+  mangadex_id: string | null;
   shikimori_id: number | null;
   myanimelist_id: number | null;
-  chapters: {
+  trans_status: string;
+  chapters?: {
     first: MangaChapter;
     last: MangaChapter;
     updated: MangaChapter;
@@ -81,7 +88,7 @@ export type MangaBase = {
 export type MangaDetail = Omit<MangaBase, 'genres' | 'chapters'> & {
   genres: MangaGenres[];
   translators: MangaTranslators[];
-  chapters: {
+  chapters?: {
     count: number;
     list: MangaChapterList[];
     first: MangaChapter;
