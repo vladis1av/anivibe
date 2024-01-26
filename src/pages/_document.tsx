@@ -3,6 +3,7 @@ import { Children } from 'react';
 import Document, {
   Html, Head, Main, NextScript,
 } from 'next/document';
+import Script from 'next/script';
 
 import createEmotionServer from '@emotion/server/create-instance';
 import { ServerStyleSheets as JSSServerStyleSheets } from '@mui/styles';
@@ -31,6 +32,14 @@ export default class MyDocument extends Document {
           <Main />
 
           <NextScript />
+
+          <Script
+            async
+            src="https://ad.mail.ru/static/ads-async.js"
+            strategy="afterInteractive"
+            onLoad={(e) => {
+              console.error('e', e);
+            }}/>
         </body>
       </Html>
     );
