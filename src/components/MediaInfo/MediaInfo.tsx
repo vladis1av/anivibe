@@ -137,13 +137,13 @@ const MediaInfo: FC<MediaInfoProps> = ({
           styleAd={{
             display: 'inline-block', width: '100%', height: 250, marginBottom: 10,
           }}
-          client="ad-1493761"
-          slot="1493761"
+          client="ad-1494919"
+          slot="1494919"
         />
 
         {player && <VideoPlayer player={player} />}
 
-        {torrent && <Torrent list={torrent.list} />}
+        {torrent && torrent.list.length && <Torrent list={torrent.list} />}
 
         {chaptersList
          && <Chapters chapters={chaptersList} itemSize={ITEM_SIZE} title={CHAPTER_TITLE} border/>}

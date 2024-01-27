@@ -288,16 +288,16 @@ const Chapter: FC<ChapterProps> = ({
         styleAd={{
           display: 'block', width: '100%', height: 250, marginBottom: 10, marginTop: 10,
         }}
-        client="ad-1493765"
-        slot="1493765"
+        client="ad-1494909"
+        slot="1494909"
       />
 
       <AdBanner
         classNameAdWrapper={classes.adsWrapper}
         classNameAd="mrg-tag"
         styleAd={{ display: 'block', width: '100%', height: 250 }}
-        client="ad-1493767"
-        slot="1493767"
+        client="ad-1494917"
+        slot="1494917"
       />
     </MainLayout>
   );
