@@ -178,16 +178,15 @@ const Chapter: FC<ChapterProps> = ({
         imageSource={image.preview}
       />
 
-      <div className={classes.adsWrapper}>
-        <AdBanner
-          className="mrg-tag"
-          style={{
-            display: 'inline-block', width: 'auto', height: 250, marginBottom: 10,
-          }}
-          client="ad-1493771"
-          slot="1493771"
-        />
-      </div>
+      <AdBanner
+        classNameAdWrapper={classes.adsWrapper}
+        classNameAd="mrg-tag"
+        styleAd={{
+          display: 'inline-block', width: '100%', height: 250, marginBottom: 10,
+        }}
+        client="ad-1493771"
+        slot="1493771"
+      />
 
       <Drawer open={drawerIsOpen} onClose={closeDrawer} className={classes.drawer}>
         <Button className={clsx(classes.closeDrawerButton)} onClick={closeDrawer} variant="text">
@@ -283,23 +282,23 @@ const Chapter: FC<ChapterProps> = ({
         </div>
       </div>
 
-      <div className={classes.adsWrapper}>
-        <AdBanner
-          className="mrg-tag"
-          style={{
-            display: 'block', width: 'auto', height: 250, marginBottom: 10, marginTop: 10,
-          }}
-          client="ad-1493765"
-          slot="1493765"
-        />
+      <AdBanner
+        classNameAdWrapper={classes.adsWrapper}
+        classNameAd="mrg-tag"
+        styleAd={{
+          display: 'block', width: '100%', height: 250, marginBottom: 10, marginTop: 10,
+        }}
+        client="ad-1493765"
+        slot="1493765"
+      />
 
-        <AdBanner
-          className="mrg-tag"
-          style={{ display: 'block', width: 'auto', height: 250 }}
-          client="ad-1493767"
-          slot="1493767"
-        />
-      </div>
+      <AdBanner
+        classNameAdWrapper={classes.adsWrapper}
+        classNameAd="mrg-tag"
+        styleAd={{ display: 'block', width: '100%', height: 250 }}
+        client="ad-1493767"
+        slot="1493767"
+      />
     </MainLayout>
   );
 };

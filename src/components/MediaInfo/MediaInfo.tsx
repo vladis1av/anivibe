@@ -133,9 +133,9 @@ const MediaInfo: FC<MediaInfoProps> = ({
         </div>
 
         <AdBanner
-          className="mrg-tag"
-          style={{
-            display: 'inline-block', width: 'auto', height: 250, marginBottom: 10,
+          classNameAd="mrg-tag"
+          styleAd={{
+            display: 'inline-block', width: '100%', height: 250, marginBottom: 10,
           }}
           client="ad-1493761"
           slot="1493761"

@@ -96,9 +96,9 @@ const FilterPageContent: FC<FilterPageContentProps> = ({
     <PageDescription title={title} description={description} className={classes.pageDescription}/>
 
     <AdBanner
-      className="mrg-tag"
-      style={{
-        display: 'inline-block', width: 'auto', height: 250, marginBottom: 10,
+      classNameAd="mrg-tag"
+      styleAd={{
+        display: 'inline-block', maxWidth: 1420, width: '100%', height: 250, marginBottom: 10,
       }}
       client="ad-1494732"
       slot="1494732"
