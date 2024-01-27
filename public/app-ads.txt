@@ -1,3 +1,4 @@
+yandex.com, 105901381, DIRECT
 adcolony.com, 1efc6603710003ea, RESELLER
 adcolony.com, 29b7f4a14dc689eb, RESELLER
 adelement.com, 30273, RESELLER
@@ -13,6 +14,7 @@ appnexus.com, 1356, RESELLER
 appnexus.com, 13817, RESELLER
 appnexus.com, 8178, RESELLER
 axonix.com, 56222, RESELLER
+betweendigital.com, 43554, RESELLER
 betweendigital.com, 43092, RESELLER
 betweendigital.com, 43651, RESELLER
 betweendigital.com, 43871, RESELLER
@@ -23,6 +25,8 @@ bidmachine.io, 138, RESELLER
 bigo.sg, 19877482, DIRECT
 brightcom.com, 29559, RESELLER
 chocolateplatform.com, 14630, RESELLER
+uis.mobfox.com, 165, RESELLER
+Contextweb.com, 562899,RESELLER,89ff185a4c4e857c
 contextweb.com, 562499, RESELLER
 contextweb.com, 562827, RESELLER
 conversantmedia.com, 100246, RESELLER
@@ -33,8 +37,12 @@ emxdgt.com, 2047, RESELLER
 eskimi.com, eas-2020000005, RESELLER
 gamoshi.io, 267-b4800, RESELLER
 google.com, pub-2843405949989126, RESELLER
+google.com, pub-5533854580432370, RESELLER, f08c47fec0942fa0
 hybrid.ai, 19877482, DIRECT
 hyperad.tech, 41, RESELLER
+hyperad.tech, 150, RESELLER
+hyperad.tech, 215, RESELLER
+improvedigital.com, 2031, RESELLER
 improvedigital.com, 1532, RESELLER
 indexexchange.com, 191332, RESELLER
 indexexchange.com, 192806, RESELLER
