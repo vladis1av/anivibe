@@ -64,7 +64,7 @@ const AdBanner: FC<AdBannerProps> = ({
 
   const hidenStyles: CSSProperties = isHidden
     ? { position: 'absolute', top: '-999999px', width: '100%' }
-    : { position: 'static' };
+    : { position: 'static', width: '100%' };
 
   return (
     <div className={classNameAdWrapper} style={hidenStyles}>
