@@ -37,7 +37,6 @@ const AdBanner: FC<AdBannerProps> = ({
     const interval = setInterval(() => {
       // Check if Adsense script is loaded every 300ms
       if (window.MRGtag) {
-        // setIsHidden(false);
         pushAd();
         // clear the interval once the ad is pushed so that function isn't called indefinitely
         clearInterval(interval);
@@ -64,7 +63,7 @@ const AdBanner: FC<AdBannerProps> = ({
 
   const hidenStyles: CSSProperties = isHidden
     ? { position: 'absolute', top: '-999999px', width: '100%' }
-    : { position: 'static', width: '100%' };
+    : { position: 'static' };
 
   return (
     <div className={classNameAdWrapper} style={hidenStyles}>
