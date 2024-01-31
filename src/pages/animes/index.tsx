@@ -2,6 +2,7 @@ import { FC, useEffect } from 'react';
 
 import { GetServerSideProps } from 'next';
 
+import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 
 import { AnimePageQuery } from '@interfaces/anime/pageQuery';
@@ -24,7 +25,6 @@ import {
   getFilters, setFilterType, cleanFilterValues, fetchFilterYears,
 } from '@redux/slices/filters';
 
-import FilterPageContent from '@components/FilterPageContent';
 import SeoHead from '@components/SeoHead';
 
 import MainLayout from '@layouts/MainLayout';
@@ -34,6 +34,8 @@ import useAppSelector from '@hooks/useAppSelector';
 
 import getFullUrlFromServerSide from '@utils/getFullUrlFromServerSide';
 import setFiltersFromQuery from '@utils/store/setFiltersFromQuery';
+
+const FilterPageContent = dynamic(() => import('@components/FilterPageContent'), { ssr: false });
 
 type AnimesProps = {
   fullUrl: string;
