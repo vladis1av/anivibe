@@ -5,6 +5,7 @@ import { IS_DEV } from '@constants/common';
 
 import { filterDataReducer } from './slices/filteredData';
 import { filtersReducer } from './slices/filters';
+import { notificationsReducer } from './slices/notifications';
 import { overlayReducer } from './slices/overlay';
 import { searchByTypeReducer } from './slices/searchByType';
 import { themeReducer } from './slices/theme';
@@ -19,6 +20,7 @@ export function makeStore() {
       filters: filtersReducer,
       filteredData: filterDataReducer,
       videoPlayer: videoPlayerReducer,
+      notifications: notificationsReducer,
     },
     devTools: IS_DEV,
   });
