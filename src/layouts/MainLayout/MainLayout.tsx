@@ -1,8 +1,15 @@
-import { ReactNode, FC } from 'react';
+import {
+  ReactNode, FC,
+} from 'react';
+
+import Script from 'next/script';
 
 import clsx from 'clsx';
 import NextNProgress from 'nextjs-progressbar';
 
+import { ENotification, ENotificationKey } from '@enums/enums';
+
+import { ADBLOCK_NOTIFICATION_MESSAGE } from '@constants/common';
 import {
   NEXT_N_PROGGRESS_COLOR,
   NEXT_N_PROGGRESS_START_POSITION,
@@ -10,12 +17,14 @@ import {
   NEXT_N_PROGGRESS_HEIGHT,
 } from '@constants/nextNproggress';
 
+import { setNotification } from '@redux/slices/notifications';
 import { getOverlay } from '@redux/slices/overlay';
 
 import Overlay from '@ui/Overlay';
 
 import Header from '@components/Header';
 
+import useAppDispatch from '@hooks/useAppDispatch';
 import useAppSelector from '@hooks/useAppSelector';
 
 import useMainLayoutStyles from './MainLayout.styles';
@@ -39,12 +48,11 @@ const MainLayout: FC<MainLayoutProps> = ({
 }) => {
   const classes = useMainLayoutStyles();
   const overlayIsOpen = useAppSelector(getOverlay);
+  const dispatch = useAppDispatch();
 
   return (
     <>
       <Overlay overlayIsOpen={overlayIsOpen} />
-
-      <Header />
 
       <NextNProgress
         color={NEXT_N_PROGGRESS_COLOR}
@@ -54,14 +62,38 @@ const MainLayout: FC<MainLayoutProps> = ({
         options={{ showSpinner: false }}
       />
 
-      <main className={clsx(classes.wrapper, className, {
-        [classes.full]: full,
-        [classes.fullHeight]: fullHeight,
-        [classes.paddings]: paddings,
-        [classes.clearPaddingTop]: clearPaddingTop,
-      })}>
-        {children}
-      </main>
+      <Script
+        async
+        src="https://ad.mail.ru/static/ads-async.js"
+        strategy="afterInteractive"
+        onError={(e) => {
+          console.error('load ads-async.js error:', e);
+
+          dispatch(setNotification({
+            notification: { message: ADBLOCK_NOTIFICATION_MESSAGE, type: ENotification.adblock },
+            notificationKey: ENotificationKey.app,
+          }));
+        }}
+        onLoad={() => {
+          console.log('ads-async.js loaded');
+        }}
+      />
+
+      <div>
+        <Header />
+
+        <main
+          className={clsx(classes.wrapper, className, {
+            [classes.full]: full,
+            [classes.fullHeight]: fullHeight,
+            [classes.paddings]: paddings,
+            [classes.clearPaddingTop]: clearPaddingTop,
+          })}
+        >
+
+          {children}
+        </main>
+      </div>
     </>
   );
 };
