@@ -6,6 +6,7 @@ import { EColor, ETheme } from '@enums/enums';
 const useFilterMenuMobileStyles = makeStyles((theme: Theme) => ({
   filterMenuTabletAndBelow: {
     display: 'none',
+    zIndex: 230,
 
     '@media (min-width: 0) and (max-width: 1025px)': {
       display: 'block',
