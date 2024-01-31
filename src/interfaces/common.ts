@@ -16,6 +16,10 @@ import {
   EVideoPlayerMenu,
   EVideoPlayerStatus,
   EFilterLoading,
+  EHorizontalPos,
+  EVerticalPos,
+  ENotification,
+  ENotificationKey,
 } from '@enums/enums';
 
 import { MangaGenres } from './manga/manga';
@@ -25,12 +29,16 @@ export type ELocaleType = `${ELocale}`;
 export type EReleaseType = keyof typeof ERelease;
 export type EMediaInfoValueType = `${EMediaInfo}`;
 export type ESkeletonType = keyof typeof ESkeleton;
+export type EVerticalPosValueType = `${EVerticalPos}`;
 export type EScrollSideType = keyof typeof EScrollSide;
 export type EButtonPlayType = keyof typeof EButtonPlay;
+export type ENotificationValueType = `${ENotification}`;
 export type EPlaceholderType = keyof typeof EPlaceholder;
+export type EHorizontalPosValueType = `${EHorizontalPos}`;
 export type EMangaReleaseType = keyof typeof EMangaRelease;
 export type EFilterLoadingType = keyof typeof EFilterLoading;
 export type ELoadingStatusType = keyof typeof ELoadingStatus;
+export type ENotificationKeyValueType = `${ENotificationKey}`;
 export type EVideoPlayerMenuType = keyof typeof EVideoPlayerMenu;
 export type EMangaReleaseKindType = keyof typeof EMangaReleaseKind;
 export type VideoPlayerRef = BaseReactPlayer<BaseReactPlayerProps>;
