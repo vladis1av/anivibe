@@ -1,3 +1,5 @@
+import { FC, ForwardedRef } from 'react';
+
 import Button from '@mui/material/Button';
 import clsx from 'clsx';
 
@@ -25,11 +27,14 @@ import useAppSelector from '@hooks/useAppSelector';
 
 import useHeaderStyles from './Header.styles';
 
-const Header = () => {
+type HeaderProps = {
+  headerRef: ForwardedRef<HTMLElement>
+};
+
+const Header: FC<HeaderProps> = ({ headerRef }) => {
   const classes = useHeaderStyles();
   const dispatch = useAppDispatch();
   const themeIsLight = useAppSelector(getThemeIsLight);
-
   const toggleTheme = () => dispatch(setTheme({ themeIsLight, wantUpdateLocalStorage: true }));
 
   const onOpenOverlay = () => {
@@ -43,7 +48,7 @@ const Header = () => {
   };
 
   return (
-    <header className={classes.header}>
+    <header className={classes.header} ref={headerRef}>
       <TopHeaderNotification />
 
       <div className={classes.headerContainer}>
