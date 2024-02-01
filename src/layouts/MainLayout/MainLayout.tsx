@@ -77,7 +77,7 @@ const MainLayout: FC<MainLayoutProps> = ({
           }));
         }}
         onLoad={() => {
-          console.log('ads-async.js loaded');
+          console.info('ads-async.js loaded');
         }}
       />
 
