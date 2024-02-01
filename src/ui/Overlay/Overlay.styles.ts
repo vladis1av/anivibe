@@ -5,7 +5,7 @@ import { EColor } from '@enums/enums';
 const useOverlayStyles = makeStyles(() => ({
   overlay: {
     position: 'fixed',
-    zIndex: 25,
+    zIndex: 240,
     opacity: 0,
     top: 0,
     right: 0,

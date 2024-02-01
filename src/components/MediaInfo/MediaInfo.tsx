@@ -143,7 +143,7 @@ const MediaInfo: FC<MediaInfoProps> = ({
 
         {player && <VideoPlayer player={player} />}
 
-        {torrent && torrent.list.length && <Torrent list={torrent.list} />}
+        {torrent && torrent.list.length > 0 && <Torrent list={torrent.list} />}
 
         {chaptersList
          && <Chapters chapters={chaptersList} itemSize={ITEM_SIZE} title={CHAPTER_TITLE} border/>}

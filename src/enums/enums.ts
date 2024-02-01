@@ -31,6 +31,16 @@ export enum ELocale {
   us = 'en-US',
 }
 
+export enum ENotification {
+  adblock = 'adblock',
+  networkOnline = 'network-online',
+  networkOffline = 'network-offline',
+}
+
+export enum ENotificationKey {
+  app = 'app',
+}
+
 export enum EPlaceholder {
   poster = 'poster',
   banner = 'banner',
@@ -162,6 +172,9 @@ export enum EColor {
   defaultBlack = '#000',
   black = '#0f0f0f',
   blue = '#1976d2d9',
+  red = '#C3122F',
+  green = '#4AE88C',
+  yellow = '#FFD358',
   vividCyan = '#03dac5',
   lightBlue = '#70c1ff',
   transparent = 'transparent',
@@ -189,4 +202,15 @@ export enum EMangaOrderBy {
   name = 'name',
   popular = 'popular',
   updated = 'updated',
+}
+
+export enum EHorizontalPos {
+  left = 'left',
+  right = 'right',
+  center = 'center',
+}
+
+export enum EVerticalPos {
+  top = 'top',
+  bottom = 'bottom',
 }

@@ -4,7 +4,6 @@ const useMainLayoutStyles = makeStyles(() => ({
   wrapper: {
     width: '100%',
     margin: '0 auto',
-    paddingTop: 60,
     paddingBottom: 30,
   },
   paddings: {

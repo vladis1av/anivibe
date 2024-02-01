@@ -5,11 +5,11 @@ import { EColor, ETheme } from '@enums/enums';
 
 const useHeaderStyles = makeStyles((theme: Theme) => ({
   header: {
-    position: 'fixed',
+    position: 'sticky',
     width: '100%',
     backfaceVisibility: 'hidden',
     top: 0,
-    zIndex: 35,
+    zIndex: 250,
     backgroundColor: theme.palette.mode === ETheme.light
       ? EColor.halfTransparentLightGray
       : EColor.halfTransparentBlack,
@@ -67,46 +67,9 @@ const useHeaderStyles = makeStyles((theme: Theme) => ({
     padding: 5,
     minWidth: 30,
   },
-  routeIconLink: {
+  navWrapper: {
     display: 'flex',
     alignItems: 'center',
-    marginRight: 15,
-    position: 'relative',
-    transition: 'opacity 0.2s ease-out',
-
-    '&:before': {
-      transition: 'opacity 0.2s ease-out',
-      content: '""',
-      position: 'absolute',
-      bottom: -7,
-      width: 15,
-      borderRadius: 6,
-      display: 'inline-block',
-      backgroundColor: EColor.vividCyan,
-      height: 3,
-      opacity: 0,
-      marginLeft: 'auto',
-      marginRight: 'auto',
-      left: 0,
-      right: 0,
-      textAlign: 'center',
-    },
-
-    '&:hover::before': {
-      opacity: 0.4,
-    },
-  },
-  activeRoute: {
-    '&:before': {
-      opacity: 1,
-    },
-
-    '&:hover::before': {
-      opacity: 1,
-    },
-  },
-  iconsWrapper: {
-    display: 'flex',
   },
 }));
 

@@ -118,7 +118,8 @@ const FilterPageContent: FC<FilterPageContentProps> = ({
         }
 
         <div className={classes.loadMoreCardItemList}>
-          {loadMore && dataPending && !filteredData.length && emptyArray.map(() => <CardItemSkeleton
+          {loadMore && dataPending && !filteredData.length && emptyArray.map((_, i) => <CardItemSkeleton
+            key={i}
             withTextSkeleton={true}
             className={classes.cardItemSkeleton}
           />)}

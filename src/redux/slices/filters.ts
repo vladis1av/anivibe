@@ -210,6 +210,10 @@ export const fetchFilterYears = createAsyncThunk(
     dispatch(setOrDeleteFilterLoadingKey({ filterKey: 'years', loadingStatus: EFilterLoading.pending }));
     try {
       const years = await getYears();
+      if (!years.length) {
+        dispatch(setOrDeleteFilterLoadingKey({ filterKey: 'years', loadingStatus: EFilterLoading.error }));
+        return;
+      }
       dispatch(setYears(years));
       dispatch(setOrDeleteFilterLoadingKey({ filterKey: 'years', isDelete: true }));
     } catch (error) {
