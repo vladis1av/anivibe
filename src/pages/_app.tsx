@@ -52,6 +52,10 @@ function MyApp({ Component, emotionCache = clientSideEmotionCache, pageProps }: 
   };
 
   const onOffline = () => {
+    dispatch(removeNotification({
+      notificationKey: ENotificationKey.app,
+      notificationType: ENotification.networkOnline,
+    }));
     dispatch(setNotification({
       notificationKey: ENotificationKey.app,
       notification: { message: NETWORK_OFFLINE_MESSAGE, type: ENotification.networkOffline },
