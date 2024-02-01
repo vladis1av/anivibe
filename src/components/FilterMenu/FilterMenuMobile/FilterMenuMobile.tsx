@@ -8,6 +8,8 @@ import Filters from '@components/Filters';
 
 import FilterSVG from '@assets/svg/filter';
 
+import useHeaderContext from '@hooks/useHeaderContext';
+
 import useFilterMenuMobileStyles from './FilterMenuMobile.styles';
 
 type FilterMenuMobileProps = {
@@ -21,10 +23,15 @@ const FilterMenuMobile: FC<FilterMenuMobileProps> = ({
   onCloseDrawer,
   onClickMenuButton,
 }) => {
-  const classes = useFilterMenuMobileStyles();
+  const headerHeight = useHeaderContext();
+  const classes = useFilterMenuMobileStyles(headerHeight);
 
-  return <div className={classes.filterMenuTabletAndBelow}>
-    <Button onClick={onClickMenuButton} className={classes.filterMenuButton} variant="text">
+  return <aside className={classes.filterMenuTabletAndBelow}>
+    <Button
+      onClick={onClickMenuButton}
+      className={classes.filterMenuButton}
+      variant="text"
+    >
       <FilterSVG />
     </Button>
 
@@ -35,7 +42,7 @@ const FilterMenuMobile: FC<FilterMenuMobileProps> = ({
     >
       <Filters onFiltersAcceptCallback={onCloseDrawer} />
     </Drawer>
-  </div>;
+  </aside>;
 };
 
 export default FilterMenuMobile;
