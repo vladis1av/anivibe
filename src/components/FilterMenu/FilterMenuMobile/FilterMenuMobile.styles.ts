@@ -13,10 +13,8 @@ const useFilterMenuMobileStyles = (headerHeight: number) => {
         display: 'block',
       },
     },
-    filterMenuButtonTop: {
-      top: headerHeight + 20,
-    },
     filterMenuButton: {
+      top: headerHeight + 20,
       color: EColor.white,
       position: 'fixed',
       fontWeight: 600,
@@ -32,10 +30,8 @@ const useFilterMenuMobileStyles = (headerHeight: number) => {
         opacity: 0.9,
       },
     },
-    filterMenuWrapperTop: {
-      top: headerHeight,
-    },
     filterMenuWrapper: {
+      top: headerHeight,
       maxWidth: 310,
       boxShadow: '0 2px 8px 2px rgb(0 0 0 / 24%)',
       overflowY: 'auto',
