@@ -80,7 +80,7 @@ const Filters: FC<FiltersProps> = ({ className, onFiltersAcceptCallback }) => {
             : filtersQueryValues[currentKey] || [];
 
           if (filtersLoading[currentKey] && filtersLoading[currentKey] === 'pending') {
-            return <SkeletonBlock width={300} height={56} />;
+            return <SkeletonBlock key={key} width={300} height={56} />;
           }
 
           return (value && value.length
