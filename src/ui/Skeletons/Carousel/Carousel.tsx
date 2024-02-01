@@ -23,7 +23,7 @@ const CarouselSkeleton: FC<Omit<SkeletonProps, 'className'>> = ({ skeletonType }
 
       <ul className={classes.cardList}>
         {
-          emptyArray.map(() => <li className={classes.cardListItem}>
+          emptyArray.map((_, i) => <li className={classes.cardListItem} key={i}>
             <CardItemSkeleton skeletonType={skeletonType} />
           </li>)
         }

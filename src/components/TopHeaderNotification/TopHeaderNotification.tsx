@@ -27,7 +27,8 @@ const TopHeaderNotification: FC = () => {
   return (
     <>
       {
-        app.length > 0 && app.map(({ type, autoHideMs, message }) => <Snackbar
+        app.length > 0 && app.map(({ type, autoHideMs, message }, i) => <Snackbar
+          key={i + type}
           isOpen={Boolean(type)}
           onClose={
             () => dispatch(removeNotification({ notificationKey: ENotificationKey.app, notificationType: type }))
