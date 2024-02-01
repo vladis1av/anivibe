@@ -1,5 +1,5 @@
 import {
-  ReactNode, FC,
+  ReactNode, FC, useRef,
 } from 'react';
 
 import Script from 'next/script';
@@ -23,6 +23,7 @@ import { getOverlay } from '@redux/slices/overlay';
 import Overlay from '@ui/Overlay';
 
 import Header from '@components/Header';
+import HeaderContextProvider from '@components/Header/HeaderContext';
 
 import useAppDispatch from '@hooks/useAppDispatch';
 import useAppSelector from '@hooks/useAppSelector';
@@ -49,6 +50,7 @@ const MainLayout: FC<MainLayoutProps> = ({
   const classes = useMainLayoutStyles();
   const overlayIsOpen = useAppSelector(getOverlay);
   const dispatch = useAppDispatch();
+  const headerRef = useRef<HTMLElement>(null);
 
   return (
     <>
@@ -80,7 +82,7 @@ const MainLayout: FC<MainLayoutProps> = ({
       />
 
       <div>
-        <Header />
+        <Header headerRef={headerRef} />
 
         <main
           className={clsx(classes.wrapper, className, {
@@ -90,8 +92,15 @@ const MainLayout: FC<MainLayoutProps> = ({
             [classes.clearPaddingTop]: clearPaddingTop,
           })}
         >
-
-          {children}
+          {
+            /*
+              My header has dynamic height
+              Getting header height for absolute, fixed or sticky position elements and calculate their position
+            */
+          }
+          <HeaderContextProvider headerRef={headerRef}>
+            {children}
+          </HeaderContextProvider>
         </main>
       </div>
     </>
