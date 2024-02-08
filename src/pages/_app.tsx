@@ -1,25 +1,39 @@
 import { useEffect } from 'react';
 
+import { NextPageContext } from 'next';
+
 import { AppProps } from 'next/app';
 import Head from 'next/head';
 
 import { CacheProvider, EmotionCache } from '@emotion/react';
 import CssBaseline from '@mui/material/CssBaseline';
 import { ThemeProvider } from '@mui/material/styles';
+import { getCookie } from 'cookies-next';
+import { DefaultOptions } from 'cookies-next/lib/types';
 
 import { EThemeType } from '@interfaces/theme';
 
 import {
-  EColor, ENotification, ENotificationKey, ETheme,
+  EColor,
+  ENotification,
+  ENotificationKey,
 } from '@enums/enums';
 
-import { NETWORK_OFFLINE_MESSAGE, NETWORK_ONLINE_MESSAGE, THEME_FROM_LOCAL_STORAGE } from '@constants/common';
 import {
-  APP_NAME_UPPER_CASE,
-} from '@constants/seo';
+  COOKIE_MESSAGE_NOTIFICATION,
+  NETWORK_OFFLINE_MESSAGE,
+  NETWORK_ONLINE_MESSAGE,
+  THEME_FROM_STORAGE,
+} from '@constants/common';
+import { APP_NAME_UPPER_CASE } from '@constants/seo';
 
 import { removeNotification, setNotification } from '@redux/slices/notifications';
-import { getCurrentThemeStyle, getThemeIsLight, setTheme } from '@redux/slices/theme';
+import {
+  getCurrentThemeStyle,
+  getThemeIsLight,
+  setTheme,
+  toggleTheme,
+} from '@redux/slices/theme';
 import { nextReduxWrapper } from '@redux/store';
 
 import useAppDispatch from '@hooks/useAppDispatch';
@@ -28,16 +42,31 @@ import useNetworkStatus from '@hooks/useNetworkStatus';
 
 import createEmotionCache from '@utils/createEmotionCache';
 
-type MyAppProps = AppProps & {
+type ThemeCookieType = EThemeType | undefined;
+
+type InitialProps = {
+  cookieTheme: ThemeCookieType
+};
+
+type MyAppProps = AppProps & InitialProps & {
   emotionCache?: EmotionCache;
+};
+
+type MyPageContext = NextPageContext & {
+  ctx: DefaultOptions; // I don't know what type it is.
 };
 
 const clientSideEmotionCache = createEmotionCache();
 
-function MyApp({ Component, emotionCache = clientSideEmotionCache, pageProps }: MyAppProps) {
+function MyApp({
+  Component,
+  emotionCache = clientSideEmotionCache,
+  pageProps,
+  cookieTheme,
+}: MyAppProps) {
   const dispatch = useAppDispatch();
+  const currentTheme = useAppSelector(getCurrentThemeStyle);
   const themeIsLight = useAppSelector(getThemeIsLight);
-  const selectedTheme = useAppSelector(getCurrentThemeStyle);
   const themeForMeta = themeIsLight ? EColor.white : EColor.black;
 
   const onOnline = () => {
@@ -63,19 +92,26 @@ function MyApp({ Component, emotionCache = clientSideEmotionCache, pageProps }: 
   };
 
   useEffect(() => {
-    const localTheme = (window.localStorage.getItem(THEME_FROM_LOCAL_STORAGE)) as EThemeType | null;
     const jssStyles = document.querySelector('#jss-server-side');
 
     if (jssStyles) {
       jssStyles?.parentElement?.removeChild(jssStyles);
     }
 
-    if (!localTheme) {
+    if (!cookieTheme) {
+      const cookieIsEnable = window.navigator.cookieEnabled;
       const darkThemeMq = window.matchMedia('(prefers-color-scheme: dark)');
 
-      dispatch(setTheme({ themeIsLight: darkThemeMq.matches, wantUpdateLocalStorage: true }));
-    } else {
-      dispatch(setTheme({ themeIsLight: localTheme !== ETheme.light }));
+      if (cookieIsEnable) {
+        dispatch(toggleTheme({ themeIsLight: darkThemeMq.matches, updateCookie: true }));
+        return;
+      }
+
+      dispatch(toggleTheme({ themeIsLight: darkThemeMq.matches, updateLocalStorage: true }));
+      dispatch(setNotification({
+        notificationKey: ENotificationKey.app,
+        notification: { message: COOKIE_MESSAGE_NOTIFICATION, type: ENotification.cookie, autoHideMs: 6000 },
+      }));
     }
   }, []);
 
@@ -91,7 +127,7 @@ function MyApp({ Component, emotionCache = clientSideEmotionCache, pageProps }: 
         <meta name="viewport" content="initial-scale=1, width=device-width" />
       </Head>
 
-      <ThemeProvider theme={selectedTheme}>
+      <ThemeProvider theme={currentTheme}>
         <CssBaseline />
 
         <Component {...pageProps} />
@@ -99,5 +135,20 @@ function MyApp({ Component, emotionCache = clientSideEmotionCache, pageProps }: 
     </CacheProvider>
   );
 }
+
+MyApp.getInitialProps = nextReduxWrapper.getInitialPageProps(
+  (store) => async ({ ctx }: MyPageContext): Promise<InitialProps> => {
+    const cookieTheme: ThemeCookieType = getCookie(
+      THEME_FROM_STORAGE,
+      ctx,
+    ) as ThemeCookieType;
+
+    if (cookieTheme) {
+      store.dispatch(setTheme(cookieTheme));
+    }
+
+    return ({ cookieTheme });
+  },
+);
 
 export default nextReduxWrapper.withRedux(MyApp);
