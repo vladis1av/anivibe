@@ -252,4 +252,12 @@ export const FILTER_GENRES: FilterKindType[] = [
     kind: 'Seinen',
     label: 'Сэйнэн',
   },
+  {
+    kind: 'Mystic',
+    label: 'Мистика',
+  },
+  {
+    kind: 'Isekai',
+    label: 'Исекай',
+  },
 ];
