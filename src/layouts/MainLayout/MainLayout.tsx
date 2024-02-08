@@ -72,7 +72,7 @@ const MainLayout: FC<MainLayoutProps> = ({
           console.error('load ads-async.js error:', e);
 
           dispatch(setNotification({
-            notification: { message: ADBLOCK_NOTIFICATION_MESSAGE, type: ENotification.adblock },
+            notification: { message: ADBLOCK_NOTIFICATION_MESSAGE, type: ENotification.adblock, autoHideMs: 30000 },
             notificationKey: ENotificationKey.app,
           }));
         }}
