@@ -32,9 +32,10 @@ export enum ELocale {
 }
 
 export enum ENotification {
+  cookie = 'cookie',
   adblock = 'adblock',
-  networkOnline = 'network-online',
-  networkOffline = 'network-offline',
+  networkOnline = 'networkOnline',
+  networkOffline = 'networkOffline',
 }
 
 export enum ENotificationKey {
