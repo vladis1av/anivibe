@@ -22,7 +22,7 @@ const useFiltersStyles = makeStyles((theme: Theme) => ({
     },
   },
   inputRoot: {
-    color: 'white',
+    color: theme.palette.text.primary,
     transition: 'opacity 0.2s ease-out',
 
     '& .MuiOutlinedInput-notchedOutline': {
