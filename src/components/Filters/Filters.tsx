@@ -127,7 +127,7 @@ const Filters: FC<FiltersProps> = ({ className, onFiltersAcceptCallback }) => {
           Очистить
         </Button>
 
-        <Link path={currentLinkPath} query={ generatedQuery }>
+        <Link path={currentLinkPath} query={ generatedQuery.toLocaleLowerCase() }>
           <Button variant="outlined" onClick={onFiltersAccept}>Применить</Button>
         </Link>
       </div>
