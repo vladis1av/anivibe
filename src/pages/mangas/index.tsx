@@ -17,7 +17,7 @@ import { nextReduxWrapper } from '@redux/store';
 
 import SeoHead from '@components/SeoHead';
 
-import MainLayout from '@layouts/MainLayout';
+import ContentLayout from '@layouts/ContentLayout';
 
 import { getMangas } from '@services/api/manga';
 
@@ -33,7 +33,7 @@ type MangaPageProps = {
 };
 
 const Mangas: FC<MangaPageProps> = ({ pagesCount, page, fullUrl }) => (
-  <MainLayout full paddings fullHeight>
+  <ContentLayout full paddings>
     <SeoHead
       canonical={fullUrl}
       ogUrl={fullUrl}
@@ -49,7 +49,7 @@ const Mangas: FC<MangaPageProps> = ({ pagesCount, page, fullUrl }) => (
       currentPage={Number(page)}
       totalPages={pagesCount}
     />
-  </MainLayout>
+  </ContentLayout>
 );
 
 export const getServerSideProps = nextReduxWrapper

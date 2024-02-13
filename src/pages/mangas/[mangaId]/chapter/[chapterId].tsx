@@ -28,7 +28,7 @@ import ImageWithPlaceholder from '@ui/ImageWithPlaceholder';
 
 import SeoHead from '@components/SeoHead';
 
-import MainLayout from '@layouts/MainLayout';
+import ContentLayout from '@layouts/ContentLayout';
 
 import ArrowSVG from '@assets/svg/arrow';
 import CloseSVG from '@assets/svg/close';
@@ -91,9 +91,9 @@ const Chapter: FC<ChapterProps> = ({
   }, [query]);
 
   if (error) {
-    return <MainLayout fullHeight>
+    return <ContentLayout fullHeight>
       <Error errorText={NOT_FOUND_CHAPTER_ERROR} goHome />;
-    </MainLayout>;
+    </ContentLayout>;
   }
 
   const {
@@ -168,7 +168,7 @@ const Chapter: FC<ChapterProps> = ({
   const currentMangaChapterImage = MANGA_IMAGE_DOMAIN ? changeDomainZone(img, MANGA_IMAGE_DOMAIN) : img;
 
   return (
-    <MainLayout full>
+    <ContentLayout full>
       <SeoHead
         canonical={fullUrl}
         ogUrl={fullUrl}
@@ -299,7 +299,7 @@ const Chapter: FC<ChapterProps> = ({
         client="ad-1494917"
         slot="1494917"
       />
-    </MainLayout>
+    </ContentLayout>
   );
 };
 

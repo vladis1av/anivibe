@@ -4,7 +4,7 @@ import { COMMON_ERROR, NOT_FOUND_ERROR } from '@constants/error';
 
 import ErrorComponent from '@ui/Error';
 
-import MainLayout from '@layouts/MainLayout';
+import ContentLayout from '@layouts/ContentLayout';
 
 const Error = ({ statusCode }: { statusCode: number }) => {
   const errorText = statusCode === 404
@@ -12,9 +12,9 @@ const Error = ({ statusCode }: { statusCode: number }) => {
     : COMMON_ERROR;
 
   return (
-    <MainLayout fullHeight>
+    <ContentLayout fullHeight>
       <ErrorComponent statusCode={statusCode} errorText={errorText} goHome />
-    </MainLayout>
+    </ContentLayout>
   );
 };
 

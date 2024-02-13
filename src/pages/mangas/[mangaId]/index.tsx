@@ -16,7 +16,7 @@ import Error from '@ui/Error';
 
 import SeoHead from '@components/SeoHead';
 
-import MainLayout from '@layouts/MainLayout';
+import ContentLayout from '@layouts/ContentLayout';
 
 import { getHightQualityBanner } from '@services/api/common';
 import { getMangaById } from '@services/api/manga';
@@ -35,9 +35,9 @@ type MangaPageProps = {
 
 const Manga: FC<MangaPageProps> = ({ fullUrl, manga, bookTags }) => {
   if (!manga) {
-    return <MainLayout fullHeight>
+    return <ContentLayout fullHeight>
       <Error errorText={NOT_FOUND_MANGA_ERROR} goHome />
-    </MainLayout>;
+    </ContentLayout>;
   }
 
   const {
@@ -54,7 +54,7 @@ const Manga: FC<MangaPageProps> = ({ fullUrl, manga, bookTags }) => {
   const seoTitle = `${russian} - ${getMangaSeoTitle(kind)}`;
 
   return (
-    <MainLayout clearPaddingTop>
+    <ContentLayout clearPaddingTop>
       <SeoHead
         canonical={fullUrl}
         ogUrl={fullUrl}
@@ -80,7 +80,7 @@ const Manga: FC<MangaPageProps> = ({ fullUrl, manga, bookTags }) => {
           description,
         }}
       />
-    </MainLayout>
+    </ContentLayout>
   );
 };
 

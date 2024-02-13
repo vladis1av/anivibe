@@ -18,7 +18,7 @@ import Error from '@ui/Error';
 import MediaInfoSkeleton from '@components/MediaInfo/MediaInfoSkeleton';
 import SeoHead from '@components/SeoHead';
 
-import MainLayout from '@layouts/MainLayout';
+import ContentLayout from '@layouts/ContentLayout';
 
 import { getAnimeById } from '@services/api/anime';
 import { getHightQualityBanner } from '@services/api/common';
@@ -79,15 +79,15 @@ export default function Anime({ animeId, fullUrl }: AnimePageProps) {
   }, [animeId]);
 
   if (isLoading) {
-    return <MainLayout clearPaddingTop>
+    return <ContentLayout clearPaddingTop>
       <MediaInfoSkeleton />;
-    </MainLayout>;
+    </ContentLayout>;
   }
 
   if (!anime && !isLoading) {
-    return <MainLayout fullHeight>
+    return <ContentLayout fullHeight>
       <Error errorText={NOT_FOUND_ANIME_ERROR} goHome />;
-    </MainLayout>;
+    </ContentLayout>;
   }
 
   if (anime) {
@@ -109,7 +109,7 @@ export default function Anime({ animeId, fullUrl }: AnimePageProps) {
     const currentVoices = generateUnifiedList(ECollection.anime, voice);
 
     return (
-      <MainLayout clearPaddingTop>
+      <ContentLayout clearPaddingTop>
         <SeoHead
           canonical={fullUrl}
           ogUrl={fullUrl}
@@ -141,7 +141,7 @@ export default function Anime({ animeId, fullUrl }: AnimePageProps) {
             }
           }
         />
-      </MainLayout>
+      </ContentLayout>
     );
   }
 }
