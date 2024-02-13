@@ -47,13 +47,16 @@ export const themeSlice = createSlice({
       const currentTheme = themeIsLight ? ETheme.dark : ETheme.light;
 
       state.theme = currentTheme;
+      try {
+        if (updateCookie) {
+          setCookie(THEME_FROM_STORAGE, currentTheme, { maxAge: 31536000 });
+        }
 
-      if (updateCookie) {
-        setCookie(THEME_FROM_STORAGE, currentTheme, { maxAge: 31536000 });
-      }
-
-      if (updateLocalStorage) {
-        window.localStorage.setItem(THEME_FROM_STORAGE, currentTheme);
+        if (updateLocalStorage) {
+          window.localStorage.setItem(THEME_FROM_STORAGE, currentTheme);
+        }
+      } catch (e) {
+        console.error('switch theme error', e);
       }
     },
   },
