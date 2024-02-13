@@ -45,14 +45,13 @@ export const themeSlice = createSlice({
       { payload: { themeIsLight, updateCookie, updateLocalStorage } }: PayloadAction<SetThemeActionType>,
     ) => {
       const currentTheme = themeIsLight ? ETheme.dark : ETheme.light;
-
       state.theme = currentTheme;
       try {
         if (updateCookie) {
-          // nookies.set(null,'from', currentTheme, { path: '/', maxAge: 31536000 });
           setCookie(null, THEME_FROM_STORAGE, currentTheme, {
-            maxAge: 31536000,
             path: '/',
+            maxAge: 31536000,
+            domain: '.vercel.app',
           });
         }
 
