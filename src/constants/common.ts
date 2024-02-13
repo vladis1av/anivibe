@@ -31,7 +31,7 @@ export const STORAGE_MESSAGE_NOTIFICATION: string = 'Сохранение дан
 export const IS_SERVER: boolean = typeof window === 'undefined';
 export const SEARCH_ANIME_PLACEHOLDER: string = 'Поиск аниме...';
 export const SEARCH_MANGA_PLACEHOLDER: string = 'Поиск манги...';
-export const THEME_FROM_STORAGE: string = 'anime-APP-theme';
+export const THEME_FROM_STORAGE: string = 'anivibe-APP-theme';
 export const IS_DEV: boolean = process.env.NODE_ENV === 'development';
 export const POSTER_ERROR_LIGHT: string = '/images/poster-failed-to-load.svg';
 export const POSTER_SEO_DARK: string = '/images/poster-placeholder-dark.png';
