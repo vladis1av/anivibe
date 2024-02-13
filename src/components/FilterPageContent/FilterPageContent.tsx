@@ -110,11 +110,11 @@ const FilterPageContent: FC<FilterPageContentProps> = ({
       <div className={classes.filterCardListWrapper}>
 
         {
-          !filteredData.length && dataError && <Error errorText={NOT_FOUND_TITLES} />
+          filteredDataIsNotFound && dataError && <Error errorText={NOT_FOUND_TITLES} />
         }
 
         {
-          filteredData.length > 0 && <FilterCardList filteredList={filteredData} />
+          !filteredDataIsNotFound && <FilterCardList filteredList={filteredData} />
         }
 
         <div className={classes.loadMoreCardItemList}>
