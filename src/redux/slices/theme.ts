@@ -1,6 +1,6 @@
 import { Theme } from '@mui/material';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { setCookie } from 'cookies-next';
+import { setCookie } from 'nookies';
 
 import { EThemeType } from '@interfaces/theme';
 
@@ -49,7 +49,11 @@ export const themeSlice = createSlice({
       state.theme = currentTheme;
       try {
         if (updateCookie) {
-          setCookie(THEME_FROM_STORAGE, currentTheme, { path: '/', maxAge: 31536000 });
+          // nookies.set(null,'from', currentTheme, { path: '/', maxAge: 31536000 });
+          setCookie(null, THEME_FROM_STORAGE, currentTheme, {
+            maxAge: 31536000,
+            path: '/',
+          });
         }
 
         if (updateLocalStorage) {

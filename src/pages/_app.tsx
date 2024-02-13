@@ -8,8 +8,7 @@ import Head from 'next/head';
 import { CacheProvider, EmotionCache } from '@emotion/react';
 import CssBaseline from '@mui/material/CssBaseline';
 import { ThemeProvider } from '@mui/material/styles';
-import { getCookie } from 'cookies-next';
-import { DefaultOptions } from 'cookies-next/lib/types';
+import { parseCookies } from 'nookies';
 
 import { EThemeType } from '@interfaces/theme';
 
@@ -57,7 +56,7 @@ type MyAppProps = AppProps & InitialProps & {
 };
 
 type MyPageContext = NextPageContext & {
-  ctx: DefaultOptions; // I don't know what type it is.
+  ctx: any; // I don't know what type it is.
 };
 
 const clientSideEmotionCache = createEmotionCache();
@@ -157,10 +156,8 @@ function MyApp({
 
 MyApp.getInitialProps = nextReduxWrapper.getInitialPageProps(
   (store) => async ({ ctx }: MyPageContext): Promise<InitialProps> => {
-    const cookieTheme: ThemeCookieType = getCookie(
-      THEME_FROM_STORAGE,
-      ctx,
-    ) as ThemeCookieType;
+    const parsedCookie = parseCookies(ctx);
+    const cookieTheme = parsedCookie[THEME_FROM_STORAGE] as ThemeCookieType;
 
     if (cookieTheme) {
       store.dispatch(setTheme(cookieTheme));
