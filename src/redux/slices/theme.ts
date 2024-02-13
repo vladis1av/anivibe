@@ -49,7 +49,7 @@ export const themeSlice = createSlice({
       state.theme = currentTheme;
       try {
         if (updateCookie) {
-          setCookie(THEME_FROM_STORAGE, currentTheme, { maxAge: 31536000 });
+          setCookie(THEME_FROM_STORAGE, currentTheme, { path: '/', maxAge: 31536000 });
         }
 
         if (updateLocalStorage) {
