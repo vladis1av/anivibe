@@ -2,7 +2,7 @@ import { FC } from 'react';
 
 import clsx from 'clsx';
 
-import { ENotification, ENotificationKey } from '@enums/enums';
+import { ENotification, ENotificationKey, EPosition } from '@enums/enums';
 
 import { getNotifications, removeNotification } from '@redux/slices/notifications';
 
@@ -18,29 +18,30 @@ const TopHeaderNotification: FC = () => {
   const { app } = useAppSelector(getNotifications);
   const dispatch = useAppDispatch();
 
-  const currentClasses = {
-    [ENotification.adblock]: classes.adblock,
-    [ENotification.networkOnline]: classes.networkOnline,
-    [ENotification.networkOffline]: classes.networkOffline,
-  };
-
   return (
     <>
       {
-        app.length > 0 && app.map(({ type, autoHideMs, message }, i) => <Snackbar
-          key={i + type}
-          isOpen={Boolean(type)}
-          onClose={
-            () => dispatch(removeNotification({ notificationKey: ENotificationKey.app, notificationType: type }))
-          }
-          autoHideDurationMs={autoHideMs}
-          message={message}
-          className={clsx(
-            classes.topHeaderNotification,
-            currentClasses[type],
-            { [classes.topHeaderNotificationStatic]: type },
-          )}
-        />)
+        app.length > 0
+        && app.map(({
+          type,
+          autoHideMs,
+          message,
+        }) => (type === ENotification.adblock
+          || type === ENotification.networkOffline
+          || type === ENotification.networkOnline ? (
+            <Snackbar
+              isStatic
+              key={type}
+              message={message}
+              position={EPosition.topCenter}
+              autoHideDurationMs={autoHideMs}
+              className={clsx(classes.topHeaderNotification, classes[type])}
+              showCloseButton={type !== ENotification.networkOnline && type !== ENotification.networkOffline}
+              onClose={
+                () => dispatch(removeNotification({ notificationKey: ENotificationKey.app, notificationType: type }))
+              }
+            />
+          ) : null))
       }
     </>
   );

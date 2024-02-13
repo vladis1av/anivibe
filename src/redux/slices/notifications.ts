@@ -4,6 +4,8 @@ import { ENotificationValueType, ENotificationKeyValueType } from '@interfaces/c
 
 import { AppState } from '@redux/store';
 
+import getAppHydrate from '@utils/store/getAppHydrate';
+
 type Notification = {
   type: ENotificationValueType;
   message: string;
@@ -25,6 +27,7 @@ const initialState: NotificationsState = {
     app: [],
   },
 };
+const HYDRATE = getAppHydrate();
 
 export const notificationsSlice = createSlice({
   name: 'notifications',
@@ -39,7 +42,10 @@ export const notificationsSlice = createSlice({
         },
       }: PayloadAction<{ notificationKey: ENotificationKeyValueType, notification: Notification }>,
     ) => {
-      state.notifications[notificationKey].push(notification);
+      if (state.notifications[notificationKey].some((item) => item.type === notification.type)) {
+        return;
+      }
+      state.notifications[notificationKey] = [...state.notifications[notificationKey], notification];
     },
     removeNotification: (
       state,
@@ -50,10 +56,16 @@ export const notificationsSlice = createSlice({
         },
       }: PayloadAction<{ notificationKey: ENotificationKeyValueType, notificationType: ENotificationValueType }>,
     ) => {
-      const currentNotifications = state.notifications[notificationKey];
-
-      state.notifications[notificationKey] = currentNotifications.filter(({ type }) => type !== notificationType);
+      state.notifications[notificationKey] = state.notifications[notificationKey]
+        .filter(({ type }) => type !== notificationType);
     },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(HYDRATE, (state, action) => ({
+        ...state,
+        ...action.payload.notifications.notifications,
+      }));
   },
 });
 

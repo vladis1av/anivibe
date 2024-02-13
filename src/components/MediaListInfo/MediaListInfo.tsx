@@ -2,7 +2,10 @@ import { FC } from 'react';
 
 import { ECollectionType } from '@interfaces/collection';
 import {
-  EMediaInfoValueType, EReleaseType, Media, MediaKey,
+  Media,
+  MediaKey,
+  EReleaseType,
+  EMediaInfoValueType,
 } from '@interfaces/common';
 import { MangaGenres } from '@interfaces/manga/manga';
 
@@ -26,6 +29,8 @@ type MediaListInfoProps = {
   mediaType: EMediaInfoValueType;
 };
 
+const getQuery = (key: string, value: string | number) => encodeURI(`${key}=${value}`).toLocaleLowerCase();
+
 const CurrentChip: FC<GetLinkProps> = ({
   items,
   pathType,
@@ -37,11 +42,11 @@ const CurrentChip: FC<GetLinkProps> = ({
       Array.isArray(items) ? items.map(({ id, text, russian }) => (<Chip
         key={id}
         linkPath={linkPath}
-        query={encodeURI(`${queryType}=${text}`)}
+        query={getQuery(queryType, text)}
         title={russian}
       />)) : <Chip
         linkPath={linkPath}
-        query={encodeURI(`${queryType}=${items}`)}
+        query={getQuery(queryType, items)}
         title={`${items}`}
       />
     }</>;

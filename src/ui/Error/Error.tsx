@@ -25,14 +25,10 @@ const Error: FC<ErrorProps> = ({ statusCode, errorText, goHome }) => {
         </Typography>
       )}
 
-      <br />
-
-      <Typography align="center" variant="h6">
-        {statusCode
-          && `Ошибка ${statusCode}`}
+      { statusCode && <Typography className={classes.statusCodeText} align="center" variant="h6">
+        {statusCode && `Ошибка ${statusCode}`}
       </Typography>
-
-      <br />
+      }
 
       {
         goHome ? <Link path={ELinkPath.home} className={classes.link}>Вернуться на главную?</Link> : <></>

@@ -32,9 +32,11 @@ export enum ELocale {
 }
 
 export enum ENotification {
+  cookie = 'cookie',
   adblock = 'adblock',
-  networkOnline = 'network-online',
-  networkOffline = 'network-offline',
+  storage = 'storage',
+  networkOnline = 'networkOnline',
+  networkOffline = 'networkOffline',
 }
 
 export enum ENotificationKey {
@@ -204,13 +206,11 @@ export enum EMangaOrderBy {
   updated = 'updated',
 }
 
-export enum EHorizontalPos {
-  left = 'left',
-  right = 'right',
-  center = 'center',
-}
-
-export enum EVerticalPos {
-  top = 'top',
-  bottom = 'bottom',
+export enum EPosition {
+  topRight = 'topRight',
+  topCenter = 'topCenter',
+  topLeft = 'topLeft',
+  bottomLeft = 'bottomLeft',
+  bottomCenter = 'bottomCenter',
+  bottomRight = 'bottomRight',
 }

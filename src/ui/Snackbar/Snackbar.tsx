@@ -1,69 +1,87 @@
-import { CSSProperties, FC } from 'react';
+import {
+  FC,
+  useRef,
+  ReactNode,
+  CSSProperties,
+} from 'react';
 
 import { Button } from '@mui/material';
 import clsx from 'clsx';
 
-import { EHorizontalPosValueType, EVerticalPosValueType } from '@interfaces/common';
+import { EPositionKeyType, EPositionValueType } from '@interfaces/common';
 
-import { EHorizontalPos, EVerticalPos } from '@enums/enums';
+import { EPosition } from '@enums/enums';
 
 import CloseSVG from '@assets/svg/close';
 
 import useTimeout from '@hooks/useTimeout';
 
+import useCommonStyles from '@styles/Common.styles';
+
 import useSnackbarStyles from './Snackbar.styles';
 
 type SnackbarProps = {
-  isOpen: boolean;
-  message: string;
-  anchorOrigin?: {
-    horizontal: EHorizontalPosValueType;
-    vertical: EVerticalPosValueType;
-  };
-  autoHideDurationMs?: number;
+  message: ReactNode;
+  isStatic?: boolean;
   showCloseButton?: boolean;
+  autoHideDurationMs?: number;
+  position?: EPositionValueType;
   className?: string;
   onClose: () => void;
 };
 
+const transformPosition: Record<EPositionKeyType, string> = {
+  topRight: 'translateX(2000px)',
+  topCenter: 'translateY(-1300px)',
+  topLeft: 'translateX(-2000px)',
+  bottomLeft: 'translateX(-2000px)',
+  bottomCenter: 'translateY(1300px)',
+  bottomRight: 'translateX(2000px)',
+};
+
 const Snackbar: FC<SnackbarProps> = ({
-  isOpen,
   message,
-  anchorOrigin = { vertical: EVerticalPos.top, horizontal: EHorizontalPos.left },
-  autoHideDurationMs,
-  showCloseButton,
+  isStatic,
+  position = EPosition.topLeft,
   className,
+  showCloseButton,
+  autoHideDurationMs,
   onClose,
 }) => {
   const classes = useSnackbarStyles();
+  const commonClasses = useCommonStyles();
+  const snackbarRef = useRef<null | HTMLDivElement>(null);
 
-  useTimeout(onClose, autoHideDurationMs);
-
-  const style: CSSProperties = isOpen
-    ? {
-      opacity: 1,
-      transform: 'none',
-      transition: 'opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms, transform 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms',
+  const onRemove = () => {
+    if (snackbarRef.current) {
+      snackbarRef.current.style.animation = 'toast-out .8s both';
+      snackbarRef.current.addEventListener('animationend', () => {
+        onClose();
+      });
     }
-    : {
-      opacity: 0,
-      transform: 'scale(0.75,0.5625)',
-      transition: 'opacity 195ms cubic-bezier(0.4, 0, 0.2, 1) 0ms, transform 130ms cubic-bezier(0.4, 0, 0.2, 1) 65ms',
-    };
+  };
+  useTimeout(onRemove, autoHideDurationMs);
+
+  const style: CSSProperties = {
+    ['--elm-translate' as string]: transformPosition[position],
+    animation: 'toast-in .8s both',
+  };
 
   return (
-    <div className={clsx(
-      classes.snackbar,
-      classes[anchorOrigin.horizontal],
-      classes[anchorOrigin.vertical],
-      className,
-    )}
-    style={style}
+    <div
+      ref={snackbarRef}
+      style={style}
+      className={clsx(
+        classes.snackbar,
+        commonClasses[position],
+        { [classes.snackbarStatic]: isStatic },
+        className,
+      )}
     >
-      <span className={classes.snackbarMessage}>{message}</span>
+      <div className={classes.snackbarMessage}>{message}</div>
 
       {
-        showCloseButton && <Button className={classes.button} onClick={onClose}>
+        showCloseButton && <Button className={classes.button} onClick={onRemove}>
           <CloseSVG className={classes.closeIcon} />
         </Button>
       }

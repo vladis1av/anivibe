@@ -1,9 +1,7 @@
 import { useEffect, useState } from 'react';
 
-import { IS_SERVER } from '@constants/common';
-
 const useNetworkStatus = (onOnline: () => void, onOffline: () => void) => {
-  const [isOnline, setIsOnline] = useState(!IS_SERVER && window.navigator.onLine);
+  const [isOnline, setIsOnline] = useState(true);
 
   const onChangeOnline = () => {
     setIsOnline(true);
@@ -16,16 +14,12 @@ const useNetworkStatus = (onOnline: () => void, onOffline: () => void) => {
   };
 
   useEffect(() => {
-    if (!IS_SERVER) {
-      window.addEventListener('online', onChangeOnline);
-      window.addEventListener('offline', onChangeOffline);
-    }
+    window.addEventListener('online', onChangeOnline);
+    window.addEventListener('offline', onChangeOffline);
 
     return () => {
-      if (!IS_SERVER) {
-        window.removeEventListener('online', onChangeOnline);
-        window.removeEventListener('offline', onChangeOffline);
-      }
+      window.removeEventListener('online', onChangeOnline);
+      window.removeEventListener('offline', onChangeOffline);
     };
   }, [onOnline, onOffline]);
 

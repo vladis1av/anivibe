@@ -27,7 +27,7 @@ import {
 
 import SeoHead from '@components/SeoHead';
 
-import MainLayout from '@layouts/MainLayout';
+import ContentLayout from '@layouts/ContentLayout';
 
 import useAppDispatch from '@hooks/useAppDispatch';
 import useAppSelector from '@hooks/useAppSelector';
@@ -97,7 +97,7 @@ const Animes: FC<AnimesProps> = ({ fullUrl }) => {
   }, [query]);
 
   return (
-    <MainLayout full paddings fullHeight>
+    <ContentLayout full paddings>
       <SeoHead
         canonical={fullUrl}
         ogUrl={fullUrl}
@@ -112,7 +112,7 @@ const Animes: FC<AnimesProps> = ({ fullUrl }) => {
         description={ANIME_DESCRIPTION}
         loadMore={() => getFilteredAnimes(query, true)}
       />
-    </MainLayout>
+    </ContentLayout>
   );
 };
 

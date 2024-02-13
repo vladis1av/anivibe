@@ -1,6 +1,6 @@
 import { makeStyles } from '@mui/styles';
 
-const useMainLayoutStyles = makeStyles(() => ({
+const useContentLayoutStyles = makeStyles(() => ({
   wrapper: {
     width: '100%',
     margin: '0 auto',
@@ -25,8 +25,8 @@ const useMainLayoutStyles = makeStyles(() => ({
     maxWidth: 1920,
   },
   fullHeight: {
-    height: '100%',
+    height: '85vh',
   },
 }));
 
-export default useMainLayoutStyles;
+export default useContentLayoutStyles;

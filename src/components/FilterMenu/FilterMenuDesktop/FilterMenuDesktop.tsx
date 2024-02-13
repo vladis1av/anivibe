@@ -8,7 +8,7 @@ import useFilterMenuDesktopStyles from './FilterMenuDesktop.styles';
 
 const FilterMenuDesktop: FC = () => {
   const headerHeight = useHeaderContext();
-  const classes = useFilterMenuDesktopStyles(headerHeight);
+  const classes = useFilterMenuDesktopStyles(headerHeight)();
 
   return (
     <aside className={classes.filterMenuDesktop}>

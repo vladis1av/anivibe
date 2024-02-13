@@ -15,6 +15,7 @@ const useErrorStyles = makeStyles((theme: Theme) => ({
     boxSizing: 'border-box',
     padding: '0 10px',
     flexDirection: 'column',
+
     '@media (min-width: 0) and (max-width: 400px)': {
       padding: '0 5px',
     },
@@ -25,10 +26,18 @@ const useErrorStyles = makeStyles((theme: Theme) => ({
       color: theme.palette.text.primary,
     },
   },
+  statusCodeText: {
+    [theme.breakpoints.down('sm')]: {
+      color: theme.palette.text.primary,
+    },
+    marginTop: 19,
+  },
   link: {
     color: theme.palette.text.secondary,
     fontSize: 16,
     transition: 'opacity 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms',
+    marginTop: 19,
+
     '&:hover': {
       opacity: 0.7,
       transition: 'opacity 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms',

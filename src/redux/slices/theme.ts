@@ -1,13 +1,16 @@
 import { Theme } from '@mui/material';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { setCookie } from 'cookies-next';
 
 import { EThemeType } from '@interfaces/theme';
 
 import { ETheme } from '@enums/enums';
 
-import { THEME_FROM_LOCAL_STORAGE } from '@constants/common';
+import { THEME_FROM_STORAGE } from '@constants/common';
 
 import { AppState } from '@redux/store';
+
+import getAppHydrate from '@utils/store/getAppHydrate';
 
 import { themes } from '@styles/Theme';
 
@@ -18,12 +21,14 @@ export type ThemeState = {
 
 export type SetThemeActionType = {
   themeIsLight: boolean;
-  wantUpdateLocalStorage?: boolean;
+  updateCookie?: boolean;
+  updateLocalStorage?: boolean;
 };
 
 const initialState: ThemeState = {
   theme: ETheme.light,
 };
+const HYDRATE = getAppHydrate();
 
 export const themeSlice = createSlice({
   name: 'theme',
@@ -31,22 +36,40 @@ export const themeSlice = createSlice({
   reducers: {
     setTheme: (
       state,
-      { payload: { themeIsLight, wantUpdateLocalStorage } }: PayloadAction<SetThemeActionType>,
+      { payload }: PayloadAction<EThemeType>,
     ) => {
-      if (themeIsLight) {
-        state.theme = ETheme.dark;
-      } else {
-        state.theme = ETheme.light;
-      }
+      state.theme = payload;
+    },
+    toggleTheme: (
+      state,
+      { payload: { themeIsLight, updateCookie, updateLocalStorage } }: PayloadAction<SetThemeActionType>,
+    ) => {
+      const currentTheme = themeIsLight ? ETheme.dark : ETheme.light;
 
-      if (wantUpdateLocalStorage) {
-        window.localStorage.setItem(THEME_FROM_LOCAL_STORAGE, state.theme);
+      state.theme = currentTheme;
+      try {
+        if (updateCookie) {
+          setCookie(THEME_FROM_STORAGE, currentTheme, { maxAge: 31536000 });
+        }
+
+        if (updateLocalStorage) {
+          window.localStorage.setItem(THEME_FROM_STORAGE, currentTheme);
+        }
+      } catch (e) {
+        console.error('switch theme error', e);
       }
     },
   },
+  extraReducers: (builder) => {
+    builder
+      .addCase(HYDRATE, (state, action) => ({
+        ...state,
+        ...action.payload.theme,
+      }));
+  },
 });
 
-export const { setTheme } = themeSlice.actions;
+export const { toggleTheme, setTheme } = themeSlice.actions;
 
 export const getThemeState = ({ theme: { theme } }: AppState) => theme;
 

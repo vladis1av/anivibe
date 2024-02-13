@@ -15,7 +15,7 @@ import CarouselSkeleton from '@ui/Skeletons/Carousel';
 
 import SeoHead from '@components/SeoHead';
 
-import MainLayout from '@layouts/MainLayout';
+import ContentLayout from '@layouts/ContentLayout';
 
 import { getFilteredData } from '@services/api/anime';
 import { getMangas } from '@services/api/manga';
@@ -60,7 +60,7 @@ const Main: FC<MainPageProps> = ({ collections, fullUrl }) => {
   }, []);
 
   return (
-    <MainLayout full>
+    <ContentLayout full>
       <SeoHead
         canonical={fullUrl}
         ogUrl={fullUrl}
@@ -82,7 +82,7 @@ const Main: FC<MainPageProps> = ({ collections, fullUrl }) => {
       {
         isLoading && <CarouselSkeleton />
       }
-    </MainLayout>
+    </ContentLayout>
   );
 };
 

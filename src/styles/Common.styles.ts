@@ -30,6 +30,38 @@ const useCommonStyles = makeStyles(() => ({
   fullHeight: {
     height: '100%',
   },
+  topRight: {
+    top: 24,
+    left: 'auto',
+    right: 24,
+  },
+  topCenter: {
+    top: 24,
+    left: '50%',
+    right: 'auto',
+    transform: 'translateX(-50%)',
+  },
+  topLeft: {
+    top: 24,
+    left: 24,
+    right: 'auto',
+  },
+  bottomLeft: {
+    bottom: 24,
+    left: 24,
+    right: 'auto',
+  },
+  bottomCenter: {
+    left: '50%',
+    right: 'auto',
+    transform: 'translateX(-50%)',
+    bottom: 24,
+  },
+  bottomRight: {
+    bottom: 24,
+    left: 'auto',
+    right: 24,
+  },
 }));
 
 export default useCommonStyles;

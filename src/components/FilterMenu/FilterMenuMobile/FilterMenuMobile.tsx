@@ -24,7 +24,7 @@ const FilterMenuMobile: FC<FilterMenuMobileProps> = ({
   onClickMenuButton,
 }) => {
   const headerHeight = useHeaderContext();
-  const classes = useFilterMenuMobileStyles(headerHeight);
+  const classes = useFilterMenuMobileStyles(headerHeight)();
 
   return <aside className={classes.filterMenuTabletAndBelow}>
     <Button

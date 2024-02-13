@@ -1,33 +1,40 @@
 import {
-  FC, ReactNode, RefObject, createContext, useEffect, useState,
+  FC,
+  useRef,
+  useState,
+  ReactNode,
+  useEffect,
+  createContext,
 } from 'react';
 
 import { getNotifications } from '@redux/slices/notifications';
 
 import useAppSelector from '@hooks/useAppSelector';
 
-type HeaderContextType = number;
+import Header from './Header';
 
 type HeaderContextProviderProps = {
-  headerRef: RefObject<HTMLElement>;
   children: ReactNode;
 };
 
 const DEFAULT_HEADER_HEIGHT: number = 60;
 
-export const HeaderContext = createContext<HeaderContextType>(DEFAULT_HEADER_HEIGHT);
+export const HeaderContext = createContext<number>(DEFAULT_HEADER_HEIGHT);
 
-const HeaderContextProvider: FC<HeaderContextProviderProps> = ({ headerRef, children }) => {
+const HeaderContextProvider: FC<HeaderContextProviderProps> = ({ children }) => {
   const { app } = useAppSelector(getNotifications);
   const [headerHeight, setHeaderHeight] = useState<number>(DEFAULT_HEADER_HEIGHT);
+  const headerRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
     if (headerRef && headerRef.current) {
       setHeaderHeight(headerRef.current.clientHeight);
     }
-  }, [headerRef.current, app]);
+  }, [headerRef.current, app.length]);
 
   return <HeaderContext.Provider value={headerHeight}>
+    <Header headerRef={headerRef} />
+
     {children}
   </HeaderContext.Provider>;
 };

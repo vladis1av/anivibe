@@ -18,14 +18,12 @@ const useMediaInfoStyles = makeStyles((theme: Theme) => ({
   poster: {
     width: 240,
     height: 360,
-
     borderRadius: 16,
     boxShadow: '0px 0px 35px 0px rgba(0, 0, 0, 0.3)',
 
     '@media (min-width: 0) and (max-width: 600px)': {
       marginLeft: 'auto',
       marginRight: 'auto',
-      top: -230,
       textAlign: 'center',
       width: 210,
       height: 310,
@@ -34,7 +32,7 @@ const useMediaInfoStyles = makeStyles((theme: Theme) => ({
   posterPosition: {
     overflow: 'hidden',
     position: 'absolute',
-    top: -130,
+    top: -230,
     left: 0,
     right: 0,
   },
@@ -45,7 +43,7 @@ const useMediaInfoStyles = makeStyles((theme: Theme) => ({
 
     '@media (min-width: 0) and (max-width: 600px)': {
       width: '100%',
-      marginTop: 185,
+      marginTop: 90,
     },
   },
   bannerWrapper: {
