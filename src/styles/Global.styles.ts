@@ -18,8 +18,36 @@ const globalMuiStyles = createTheme({
     },
     MuiCssBaseline: {
       styleOverrides: {
-        html: {
-          height: '100%',
+        '@keyframes toast-in': {
+          '0%': {
+            transform: 'var(--elm-translate) scale(0.7)',
+            opacity: 0.7,
+          },
+          '80%': {
+            transform: 'translate(0px) scale(0.7)',
+            opacity: 0.7,
+          },
+          '100%': {
+            transform: 'scale(1)',
+            opacity: 1,
+          },
+        },
+        '@keyframes toast-out': {
+          '0%': {
+            transform: 'scale(1)',
+            opacity: 1,
+          },
+          '20%': {
+            transform: 'translate(0px) scale(0.7)',
+            opacity: 0.7,
+          },
+          '100%': {
+            transform: 'var(--elm-translate) scale(0.7)',
+            opacity: 0.7,
+            // for correct animation hide if style changed position on static
+            position: 'fixed',
+            display: 'none',
+          },
         },
         body: {
           height: '100%',
