@@ -23,6 +23,7 @@ import {
   COOKIE_MESSAGE_NOTIFICATION,
   NETWORK_OFFLINE_MESSAGE,
   NETWORK_ONLINE_MESSAGE,
+  STORAGE_MESSAGE_NOTIFICATION,
   THEME_FROM_STORAGE,
 } from '@constants/common';
 import { APP_NAME_UPPER_CASE } from '@constants/seo';
@@ -36,11 +37,14 @@ import {
 } from '@redux/slices/theme';
 import { nextReduxWrapper } from '@redux/store';
 
+import RootLayout from '@layouts/RootLayout';
+
 import useAppDispatch from '@hooks/useAppDispatch';
 import useAppSelector from '@hooks/useAppSelector';
 import useNetworkStatus from '@hooks/useNetworkStatus';
 
 import createEmotionCache from '@utils/createEmotionCache';
+import localStorageIsAvailable from '@utils/localStorage/localStorageIsAvailable';
 
 type ThemeCookieType = EThemeType | undefined;
 
@@ -99,19 +103,32 @@ function MyApp({
     }
 
     if (!cookieTheme) {
-      const cookieIsEnable = window.navigator.cookieEnabled;
+      const cookieIsAvailable = window.navigator.cookieEnabled;
       const darkThemeMq = window.matchMedia('(prefers-color-scheme: dark)');
+      const { storageIsAvailable } = localStorageIsAvailable();
 
-      if (cookieIsEnable) {
+      if (!cookieIsAvailable) {
+        dispatch(setNotification({
+          notificationKey: ENotificationKey.app,
+          notification: { message: COOKIE_MESSAGE_NOTIFICATION, type: ENotification.cookie },
+        }));
+      }
+
+      if (!storageIsAvailable) {
+        dispatch(setNotification({
+          notificationKey: ENotificationKey.app,
+          notification: { message: STORAGE_MESSAGE_NOTIFICATION, type: ENotification.storage },
+        }));
+      }
+
+      if (cookieIsAvailable) {
         dispatch(toggleTheme({ themeIsLight: darkThemeMq.matches, updateCookie: true }));
         return;
       }
 
-      dispatch(toggleTheme({ themeIsLight: darkThemeMq.matches, updateLocalStorage: true }));
-      dispatch(setNotification({
-        notificationKey: ENotificationKey.app,
-        notification: { message: COOKIE_MESSAGE_NOTIFICATION, type: ENotification.cookie, autoHideMs: 6000 },
-      }));
+      if (!cookieIsAvailable && storageIsAvailable) {
+        dispatch(toggleTheme({ themeIsLight: darkThemeMq.matches, updateLocalStorage: true }));
+      }
     }
   }, []);
 
@@ -130,7 +147,9 @@ function MyApp({
       <ThemeProvider theme={currentTheme}>
         <CssBaseline />
 
-        <Component {...pageProps} />
+        <RootLayout>
+          <Component {...pageProps} />
+        </RootLayout>
       </ThemeProvider>
     </CacheProvider>
   );
