@@ -17,10 +17,14 @@ const useOverlayStyles = makeStyles(() => ({
     backgroundColor: EColor.halfTransparentBlack,
     '-webkit-tap-highlight-color': EColor.transparent,
     backdropFilter: 'blur(35px)',
+    transitionProperty: 'opacity,visibility',
   },
   showOverlay: {
     opacity: 1,
     visibility: 'visible',
+    transition: `opacity 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,
+     background-filter 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms`,
+    transitionProperty: 'opacity,visibility',
   },
 }));
 
