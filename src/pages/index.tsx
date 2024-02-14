@@ -86,11 +86,7 @@ const Main: FC<MainPageProps> = ({ collections, fullUrl }) => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps<MainPageProps> = async ({ res, resolvedUrl }) => {
-  res.setHeader(
-    'Cache-Control',
-    'public, s-maxage=1000, stale-while-revalidate=1200',
-  );
+export const getServerSideProps: GetServerSideProps<MainPageProps> = async ({ resolvedUrl }) => {
   // временное решение пока не разберусь почему апишка стала возвращать 403 forbiden в getServerSide
   // api перестало отвечать в getServerSideProps и посылает 403 forbiden но в useEffect работает
   // const updatedAnimes = await getFilteredData({
