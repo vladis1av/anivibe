@@ -136,10 +136,11 @@ function MyApp({
   return (
     <CacheProvider value={emotionCache}>
       <Head>
+        <meta charSet="UTF-8" />
         <meta content="website" property="og:type" />
-        <meta content={APP_NAME_UPPER_CASE} property="og:site_name" />
-        <meta content={APP_NAME_UPPER_CASE} name="twitter:site" />
         <meta name="theme-color" content={themeForMeta} />
+        <meta content={APP_NAME_UPPER_CASE} name="twitter:site" />
+        <meta content={APP_NAME_UPPER_CASE} property="og:site_name" />
         <meta name="viewport" content="initial-scale=1, width=device-width" />
       </Head>
 
