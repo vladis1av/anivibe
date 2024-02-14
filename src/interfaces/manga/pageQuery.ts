@@ -1,8 +1,10 @@
+import { EMangaOrderByValueType, EMangaReleaseKindValueType } from './service';
+
 export type MangaPageQuery = {
   page?: string;
-  order?: string;
   genres?: string;
-  kinds?: string;
+  order?: EMangaOrderByValueType;
+  kinds?: EMangaReleaseKindValueType;
 };
 
 export type MangaPageChapterQuery = {
