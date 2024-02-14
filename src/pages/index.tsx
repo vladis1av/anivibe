@@ -4,7 +4,9 @@ import { GetServerSideProps } from 'next';
 
 import { CollectionType } from '@interfaces/collection';
 
-import { EAnimeMethod, ECollection, ELinkPath } from '@enums/enums';
+import {
+  EAnimeMethod, ECollection, ELinkPath, EMangaOrderBy,
+} from '@enums/enums';
 
 import { ANIME_COLLECTION_TITLE, MANGA_COLLECTION_TITLE } from '@constants/collection';
 import { COLLECTION_ITEMS_LIMIT, POSTER_SEO_DARK } from '@constants/common';
@@ -94,7 +96,7 @@ export const getServerSideProps: GetServerSideProps<MainPageProps> = async ({ re
   //   filters: ['id', 'code', 'names'],
   //   params: { limit: COLLECTION_ITEMS_LIMIT },
   // });
-  const mangas = await getMangas({ limit: COLLECTION_ITEMS_LIMIT });
+  const updatedMangas = await getMangas({ order: EMangaOrderBy.updated, limit: COLLECTION_ITEMS_LIMIT });
   const fullUrl = getFullUrlFromServerSide(resolvedUrl);
 
   return {
@@ -110,7 +112,7 @@ export const getServerSideProps: GetServerSideProps<MainPageProps> = async ({ re
         {
           type: ECollection.manga,
           title: MANGA_COLLECTION_TITLE,
-          collection: mangas?.response || [],
+          collection: updatedMangas?.response || [],
           link: ELinkPath.mangas,
         },
       ],
