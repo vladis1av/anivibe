@@ -113,16 +113,16 @@ function MyApp({
         }));
       }
 
+      if (cookieIsAvailable) {
+        dispatch(toggleTheme({ themeIsLight: darkThemeMq.matches, updateCookie: true }));
+        return;
+      }
+
       if (!storageIsAvailable) {
         dispatch(setNotification({
           notificationKey: ENotificationKey.app,
           notification: { message: STORAGE_MESSAGE_NOTIFICATION, type: ENotification.storage },
         }));
-      }
-
-      if (cookieIsAvailable) {
-        dispatch(toggleTheme({ themeIsLight: darkThemeMq.matches, updateCookie: true }));
-        return;
       }
 
       if (!cookieIsAvailable && storageIsAvailable) {

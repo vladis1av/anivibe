@@ -1,6 +1,5 @@
 import { Theme } from '@mui/material';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { setCookie } from 'nookies';
 
 import { EThemeType } from '@interfaces/theme';
 
@@ -48,11 +47,12 @@ export const themeSlice = createSlice({
       state.theme = currentTheme;
       try {
         if (updateCookie) {
-          setCookie(null, THEME_FROM_STORAGE, currentTheme, {
-            path: '/',
-            maxAge: 31536000,
-            domain: '.vercel.app',
-          });
+          document.cookie = `${THEME_FROM_STORAGE}=${currentTheme}; path=/; max-age=31536000`;
+          // setCookie(null, THEME_FROM_STORAGE, currentTheme, {
+          //   path: '/',
+          //   maxAge: 31536000,
+          //   domain: '.vercel.app',
+          // });
         }
 
         if (updateLocalStorage) {
