@@ -1,3 +1,8 @@
+import { EMangaOrderBy, EMangaReleaseKind } from '@enums/enums';
+
+export type EMangaOrderByValueType = `${EMangaOrderBy}`;
+export type EMangaReleaseKindValueType = `${EMangaReleaseKind}`;
+
 export type MangaPageNavParams = {
   count: number;
   page: number;
@@ -13,8 +18,8 @@ export type MangaResponse<T> = {
 export type MangaServiceParams = {
   search?: string;
   page?: number;
-  order?: string;
+  order?: EMangaOrderByValueType;
   limit?: number;
-  kinds?: string;
+  kinds?: EMangaReleaseKindValueType;
   genres?: string;
 };
