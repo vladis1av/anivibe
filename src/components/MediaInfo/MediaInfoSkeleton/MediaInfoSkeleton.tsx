@@ -25,7 +25,7 @@ const MediaInfoSkeleton: FC = () => {
             <SkeletonBlock className={classes.posterWrapper} />
           </div>
 
-          <div className={classes.postInfoLoader}>
+          <div className={classes.posterInfo}>
             <SkeletonBlock className={classes.title} height={20} width={340}/>
             <SkeletonBlock className={classes.secondTitle} height={17} width={200}/>
 

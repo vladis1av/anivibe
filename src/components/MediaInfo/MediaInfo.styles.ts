@@ -17,10 +17,21 @@ const useMediaInfoStyles = makeStyles((theme: Theme) => ({
   },
   posterWrapper: {
     width: 240,
-    height: 425,
+    height: 360,
     boxShadow: '0px 0px 35px 0px rgba(0, 0, 0, 0.4)',
     borderRadius: 14,
+
+    '@media (min-width: 0) and (max-width: 600px)': {
+      marginLeft: 'auto',
+      marginRight: 'auto',
+      textAlign: 'center',
+      width: 210,
+      height: 320,
+    },
+  },
+  posterWrapperPaddingBottom: {
     paddingBottom: 65,
+    height: 425,
 
     '@media (min-width: 0) and (max-width: 600px)': {
       marginLeft: 'auto',
@@ -78,6 +89,11 @@ const useMediaInfoStyles = makeStyles((theme: Theme) => ({
 
     '@media (min-width: 0) and (max-width: 600px)': {
       width: '100%',
+      marginTop: 105,
+    },
+  },
+  posterInfoMarginTop: {
+    '@media (min-width: 0) and (max-width: 600px)': {
       marginTop: 155,
     },
   },
@@ -181,16 +197,6 @@ const useMediaInfoStyles = makeStyles((theme: Theme) => ({
     padding: '25.25%',
     width: '100%',
     height: 350,
-  },
-  postInfoLoader: {
-    width: 'calc(100% - 260px)',
-    display: 'flex',
-    flexDirection: 'column',
-
-    '@media (min-width: 0) and (max-width: 600px)': {
-      width: '100%',
-      marginTop: 185,
-    },
   },
   bannerLoader: {
     position: 'absolute',

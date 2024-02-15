@@ -95,7 +95,13 @@ const MediaInfo: FC<MediaInfoProps> = ({
         itemType={`${type === ECollection.anime ? 'http://schema.org/Movie' : 'http://schema.org/CreativeWork'}`}
       >
         <div className={classes.mediaWrapper}>
-          <div className={clsx(classes.posterWrapper, classes.posterWrapperPosition)}>
+          <div
+            className={clsx(
+              classes.posterWrapper,
+              classes.posterWrapperPosition,
+              { [classes.posterWrapperPaddingBottom]: chaptersListIsReady },
+            )}
+          >
             <ImageWithPlaceholder
               alt={title.ru}
               src={imagePoster}
@@ -126,7 +132,7 @@ const MediaInfo: FC<MediaInfoProps> = ({
             }
           </div>
 
-          <div className={classes.posterInfo}>
+          <div className={clsx(classes.posterInfo, { [classes.posterInfoMarginTop]: chaptersListIsReady })}>
             <MetaItemProp fullPathUrl={fullUrl} headline={title.en} alternativeHeadline={title.ru} />
 
             <header>
