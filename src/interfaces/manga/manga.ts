@@ -85,25 +85,21 @@ export type MangaBase = {
   }
 };
 
+export type MangaChapters = {
+  count: number;
+  last: MangaChapter;
+  first: MangaChapter;
+  updated: MangaChapter;
+  list: MangaChapterList[];
+};
+
 export type MangaDetail = Omit<MangaBase, 'genres' | 'chapters'> & {
   genres: MangaGenres[];
+  chapters?: MangaChapters;
   translators: MangaTranslators[];
-  chapters?: {
-    count: number;
-    list: MangaChapterList[];
-    first: MangaChapter;
-    last: MangaChapter;
-    updated: MangaChapter;
-  }
 };
 
 export type MangaWithPages = Omit<MangaDetail, 'chapters' | 'count'> & {
-  chapters: {
-    first: MangaChapter;
-    last: MangaChapter;
-    updated: MangaChapter;
-    count: number;
-    list: MangaChapterList[];
-  };
   pages: MangaPage;
+  chapters: MangaChapters;
 };
