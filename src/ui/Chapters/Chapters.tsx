@@ -95,7 +95,6 @@ const Chapters: FC<ChaptersProps> = ({
 
   return (
     <div className={clsx(classes.chapterWrapper, { [classes.chapterWrapperBorder]: border })}>
-
       <header className={classes.chapterHeader}>
         {title && <Typography className={classes.chapterHeaderTitle} variant="h3" component="h3">
           {title}
