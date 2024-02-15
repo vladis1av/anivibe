@@ -1,4 +1,8 @@
+import { EAnimeRelease } from '@enums/enums';
+
 import { HlsQuality } from '../hls';
+
+export type EAnimeReleaseKeyType = keyof typeof EAnimeRelease;
 
 export type BannerImage = {
   bannerImageHightQuality: string | null;
@@ -26,7 +30,7 @@ type TorrentQuality = {
 type Type = {
   full_string: string;
   code: number;
-  string: string;
+  string: EAnimeReleaseKeyType;
   series: number;
   length: number;
 };
