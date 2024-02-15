@@ -15,7 +15,7 @@ import {
   COOKIE_MESSAGE_NOTIFICATION,
   STORAGE_MESSAGE_NOTIFICATION,
 } from '@constants/common';
-import { APP_NAME_UPPER_CASE } from '@constants/seo';
+import { APP_NAME } from '@constants/seo';
 
 import { setNotification } from '@redux/slices/notifications';
 import { setOverlayVisible } from '@redux/slices/overlay';
@@ -89,7 +89,7 @@ const Header: FC<HeaderProps> = ({ headerRef }) => {
       <TopHeaderNotification />
 
       <div className={classes.headerContainer}>
-        <Link path={ELinkPath.home} className={classes.headerLogo} attributeTitle={APP_NAME_UPPER_CASE}>
+        <Link path={ELinkPath.home} className={classes.headerLogo} attributeTitle={APP_NAME}>
           {APP_LOGO}
         </Link>
 
