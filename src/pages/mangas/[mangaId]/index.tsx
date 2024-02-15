@@ -71,7 +71,7 @@ const Manga: FC<MangaPageProps> = ({ fullUrl, manga, bookTags }) => {
         fullUrl={fullUrl}
         type={ECollection.manga}
         title={{ ru: russian, en: name }}
-        chaptersList={chapters?.list}
+        chapters={chapters}
         image={image.original}
         bannerImageHightQuality={bannerImageHightQuality}
         media={{
