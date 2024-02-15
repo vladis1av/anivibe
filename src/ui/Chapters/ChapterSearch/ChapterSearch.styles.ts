@@ -3,12 +3,14 @@ import { makeStyles } from '@mui/styles';
 
 const useChapterSearchStyles = makeStyles((theme: Theme) => ({
   searchChaptersInput: {
-    padding: 0,
+    padding: '2px 5px 2px 8px',
     backgroundColor: 'transparent',
     color: theme.palette.text.primary,
     transition: 'all 0.2s ease-out',
     borderBottom: `1px solid ${theme.palette.text.secondary}`,
     minWidth: 120,
+    borderBottomLeftRadius: 5,
+    borderBottomRightRadius: 5,
 
     '&:hover': {
       borderBottom: `1px solid ${theme.palette.text.primary}`,
