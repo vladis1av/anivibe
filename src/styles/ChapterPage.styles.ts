@@ -6,8 +6,10 @@ import { EColor } from '@enums/enums';
 const useChapterPageStyles = makeStyles((theme: Theme) => ({
   drawer: {
     '& .MuiDrawer-paper': {
-      padding: '25px 10px 25px 10px',
+      padding: '10px 10px 25px 10px',
       minWidth: 360,
+      maxWidth: 530,
+      width: '100%',
       display: 'flex',
       alignItems: 'center',
       backgroundColor: theme.palette.background.default,
@@ -16,7 +18,7 @@ const useChapterPageStyles = makeStyles((theme: Theme) => ({
   },
   poster: {
     width: 150,
-    height: 220,
+    height: 243,
     overflow: 'hidden',
     borderRadius: 16,
   },
@@ -28,14 +30,8 @@ const useChapterPageStyles = makeStyles((theme: Theme) => ({
     width: '100%',
     border: 'none',
     padding: 0,
-    marginTop: 20,
-    marginBottom: 5,
-  },
-  title: {
-    fontSize: 16,
-    fontWeight: 500,
-    color: 'inherit',
     marginTop: 15,
+    marginBottom: 5,
   },
   mainImageWrapper: {
     top: 0,
@@ -72,16 +68,17 @@ const useChapterPageStyles = makeStyles((theme: Theme) => ({
     },
   },
   button: {
-    minWidth: 30,
     width: 45,
+    height: 30,
+    minWidth: 30,
+    padding: '3px 3px',
     borderColor: EColor.white,
-    transition: 'opacity 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms',
     backgroundColor: EColor.halfTransparentBlack,
-    height: 35,
+    transition: 'opacity 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms',
 
     '&:hover': {
-      borderColor: EColor.white,
       opacity: 0.7,
+      borderColor: EColor.white,
       backgroundColor: EColor.halfTransparentBlack,
       transition: 'opacity 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms',
     },
@@ -151,17 +148,28 @@ const useChapterPageStyles = makeStyles((theme: Theme) => ({
   closeDrawerButtonIcon: {
     fill: theme.palette.primary.dark,
   },
+  title: {
+    fontSize: 16,
+    fontWeight: 500,
+    color: 'inherit',
+    marginTop: 15,
+    overflow: 'hidden',
+    textAlign: 'center',
+    display: '-webkit-box',
+    '-webkit-line-clamp': 2,
+    '-webkit-box-orient': 'vertical',
+  },
   link: {
     color: 'inherit',
-    textOverflow: 'ellipsis',
-    whiteSpace: 'nowrap',
     overflow: 'hidden',
     transition: 'opacity 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms',
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    minHeight: 256,
+    minHeight: 300,
     marginBottom: 20,
+    maxWidth: 503,
+    width: '100%',
 
     '&:hover': {
       opacity: 0.7,
