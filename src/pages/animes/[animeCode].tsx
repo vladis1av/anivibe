@@ -28,6 +28,7 @@ import useIsLoading from '@hooks/useIsLoading';
 import getNextEnv from '@utils/config/getNextEnv';
 import getFullUrlFromServerSide from '@utils/getFullUrlFromServerSide';
 import getIdFromString from '@utils/regexp/getIdFromString';
+import getTitleKeywords from '@utils/seo/getTitleKeywords';
 
 const MediaInfo = dynamic(() => import('@components/MediaInfo'), { ssr: false });
 
@@ -118,6 +119,11 @@ export default function Anime({ animeId, fullUrl }: AnimePageProps) {
           description={[`${SEO_ANIME_WATCH_ONLINE_TEXT} ${ru}`, description].join(' — ')}
           imageSource={`${ANIME_DOMEN}${medium.url}`}
           videoTags={genres}
+          keywords={getTitleKeywords({
+            title: ru,
+            isAnime: true,
+            secondTitle: en,
+          })}
         />
 
         <MediaInfo

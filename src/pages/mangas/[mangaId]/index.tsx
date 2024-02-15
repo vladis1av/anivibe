@@ -24,6 +24,7 @@ import { getMangaById } from '@services/api/manga';
 import getFullUrlFromServerSide from '@utils/getFullUrlFromServerSide';
 import getIdFromString from '@utils/regexp/getIdFromString';
 import getMangaSeoTitle from '@utils/seo/getMangaSeoTitle';
+import getTitleKeywords from '@utils/seo/getTitleKeywords';
 
 const MediaInfo = dynamic(() => import('@components/MediaInfo'), { ssr: false });
 
@@ -63,6 +64,7 @@ const Manga: FC<MangaPageProps> = ({ fullUrl, manga, bookTags }) => {
         description={[`${SEO_MANGA_READ_ONLINE_TEXT} ${russian}`, description].join(' — ')}
         imageSource={image.original}
         bookTags={bookTags}
+        keywords={getTitleKeywords({ title: russian, secondTitle: name, kind })}
       />
 
       <MediaInfo
