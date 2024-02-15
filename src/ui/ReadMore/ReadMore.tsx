@@ -6,17 +6,17 @@ import useReadMoreStyles from './ReadMore.styles';
 
 type ReadMoreProps = {
   text: string;
-  itemPropTitle?: string;
+  itemProp?: string;
 };
 
-const ReadMore: FC<ReadMoreProps> = ({ text, itemPropTitle }) => {
+const ReadMore: FC<ReadMoreProps> = ({ text, itemProp }) => {
   const classes = useReadMoreStyles();
   const [showMore, setShowMore] = useState<boolean>(true);
   const toggleShowMore = () => setShowMore(!showMore);
 
   return (
     <div>
-      <p className={classes.text} itemProp={itemPropTitle}>
+      <p className={classes.text} itemProp={itemProp}>
         {showMore ? `${text.slice(0, 250)}...` : text}
       </p>
 
