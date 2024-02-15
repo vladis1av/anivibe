@@ -1,13 +1,12 @@
-import { Theme } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 
-const useChaptersStyles = makeStyles((theme: Theme) => ({
+const useChaptersStyles = makeStyles(() => ({
   chapterWrapper: {
     width: '100%',
     height: '100%',
   },
   chapterWrapperBorder: {
-    border: `1px solid ${theme.palette.text.secondary}`,
+    boxShadow: 'rgba(100, 100, 111, 0.3) 0px 7px 29px 0px',
     borderRadius: 6,
     padding: 10,
   },
