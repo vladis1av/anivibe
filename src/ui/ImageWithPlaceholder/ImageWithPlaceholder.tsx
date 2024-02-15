@@ -34,6 +34,7 @@ type ImageWithPlacefolderProps = ImgHTMLAttributes<HTMLImageElement> & {
   src: string;
   alt?: string;
   width?: number;
+  itemProp?: string;
   blure?: boolean;
   height?: number | 'auto';
   threshold?: number;
@@ -52,6 +53,7 @@ const ImageWithPlaceholder: FC<ImageWithPlacefolderProps> = ({
   src,
   alt,
   width,
+  itemProp,
   className,
   blure = false,
   height = 'auto',
@@ -119,6 +121,8 @@ const ImageWithPlaceholder: FC<ImageWithPlacefolderProps> = ({
 
   return (
     <div ref={ref} className={clsx(classes.imageWrapper, className)}>
+      {itemProp && imageSource && <meta content={imageSource} itemProp={itemProp}></meta>}
+
       <img
         alt={alt}
         width={width}
