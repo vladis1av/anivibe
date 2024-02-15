@@ -1,35 +1,70 @@
 import { Theme } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 
-import { ETheme } from '@enums/enums';
+import { EColor, ETheme } from '@enums/enums';
 
 const useMediaInfoStyles = makeStyles((theme: Theme) => ({
   content: {
     position: 'relative',
     height: '100%',
   },
-  posterWrapper: {
+  mediaWrapper: {
     position: 'relative',
     minHeight: 250,
     display: 'flex',
     justifyContent: 'flex-end',
     marginBottom: 20,
   },
-  poster: {
+  posterWrapper: {
     width: 240,
-    height: 360,
-    borderRadius: 16,
-    boxShadow: '0px 0px 35px 0px rgba(0, 0, 0, 0.3)',
+    height: 425,
+    boxShadow: '0px 0px 35px 0px rgba(0, 0, 0, 0.4)',
+    borderRadius: 14,
+    paddingBottom: 65,
 
     '@media (min-width: 0) and (max-width: 600px)': {
       marginLeft: 'auto',
       marginRight: 'auto',
       textAlign: 'center',
       width: 210,
-      height: 310,
+      height: 370,
     },
   },
-  posterPosition: {
+  readButtonsWrapper: {
+    display: 'flex',
+    flexDirection: 'column',
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    width: '100%',
+  },
+  readButton: {
+    height: 38,
+    fontSize: 17,
+    borderRadius: 0,
+    fontWeight: 600,
+    display: 'flex',
+    color: EColor.white,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: EColor.vividCyan,
+    transition: 'background 0.2s ease-out',
+
+    '&:hover': {
+      backgroundColor: EColor.green,
+      transition: 'background 0.2s ease-out',
+    },
+  },
+  startReadButton: {
+    borderTopLeftRadius: 12,
+    borderTopRightRadius: 12,
+  },
+  readButtonDivider: {
+    height: 2,
+    width: '100%',
+    backgroundColor: EColor.white,
+  },
+  posterWrapperPosition: {
     overflow: 'hidden',
     position: 'absolute',
     top: -230,
@@ -43,7 +78,7 @@ const useMediaInfoStyles = makeStyles((theme: Theme) => ({
 
     '@media (min-width: 0) and (max-width: 600px)': {
       width: '100%',
-      marginTop: 90,
+      marginTop: 155,
     },
   },
   bannerWrapper: {

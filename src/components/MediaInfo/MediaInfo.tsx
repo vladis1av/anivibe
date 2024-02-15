@@ -1,6 +1,7 @@
 import { FC } from 'react';
 
 import dynamic from 'next/dynamic';
+import { useRouter } from 'next/router';
 
 import Typography from '@mui/material/Typography';
 import clsx from 'clsx';
@@ -8,12 +9,13 @@ import clsx from 'clsx';
 import { Player, Torrent as TorrentType } from '@interfaces/anime/anime';
 import { ECollectionType } from '@interfaces/collection';
 import { Media, MediaKey } from '@interfaces/common';
-import { MangaChapterList } from '@interfaces/manga/manga';
+import { MangaChapters } from '@interfaces/manga/manga';
 
 import {
   ECollection,
   EMediaInfo,
   EPlaceholder,
+  ERouteName,
   ESkeleton,
   ETheme,
 } from '@enums/enums';
@@ -21,6 +23,7 @@ import {
 import { BANNER_LIGHT, CHAPTER_TITLE } from '@constants/common';
 
 import ImageWithPlaceholder from '@ui/ImageWithPlaceholder';
+import Link from '@ui/Link';
 
 import MediaListInfo from '@components/MediaListInfo';
 import MetaItemProp from '@components/MetaItemProp';
@@ -36,6 +39,7 @@ const Chapters = dynamic(() => import('@ui/Chapters'));
 const AdBanner = dynamic(() => import('@components/AdBanner'), { ssr: false });
 
 const ITEM_SIZE = 48;
+
 type MediaInfoProps = {
   fullUrl: string;
   type: ECollectionType;
@@ -47,7 +51,7 @@ type MediaInfoProps = {
   bannerImageHightQuality?: string | null;
   player?: Player;
   torrent?: TorrentType;
-  chaptersList?: MangaChapterList[];
+  chapters?: MangaChapters;
   media: Media;
 };
 
@@ -59,11 +63,13 @@ const MediaInfo: FC<MediaInfoProps> = ({
   bannerImageHightQuality,
   player,
   torrent,
-  chaptersList,
+  chapters,
   media,
 }) => {
   const classes = useMediaInfoStyles();
   const imagePoster = useCheckWebpSupport(image);
+  const { asPath } = useRouter();
+  const chaptersListIsReady = chapters && chapters.list;
   const imageHeaderBanner = (!bannerImageHightQuality
     ? imagePoster
     : bannerImageHightQuality);
@@ -88,27 +94,52 @@ const MediaInfo: FC<MediaInfoProps> = ({
         itemScope
         itemType={`${type === ECollection.anime ? 'http://schema.org/Movie' : 'http://schema.org/CreativeWork'}`}
       >
-        <div className={classes.posterWrapper}>
-          <div className={clsx(classes.poster, classes.posterPosition)}>
+        <div className={classes.mediaWrapper}>
+          <div className={clsx(classes.posterWrapper, classes.posterWrapperPosition)}>
             <ImageWithPlaceholder
               alt={title.ru}
               src={imagePoster}
               placeholderVariant={EPlaceholder.poster}
               placeholderTheme={ETheme.light}
               skeletonVariant={ESkeleton.waveAuto}
+              itemProp="image"
             />
+
+            {
+              chaptersListIsReady && <div className={classes.readButtonsWrapper}>
+                <Link
+                  path={`${asPath}/${ERouteName.chapter}/${chapters.list[chapters.list.length - 1].id}`}
+                  className={clsx(classes.readButton, classes.startReadButton)}
+                >
+                  <span>Начать читать</span>
+                </Link>
+
+                <div className={classes.readButtonDivider} />
+
+                <Link
+                  path={`${asPath}/${ERouteName.chapter}/${chapters.list[0].id}`}
+                  className={classes.readButton}
+                >
+                  <span>{`Том ${chapters.last.vol}. Глава ${chapters.last.ch}`}</span>
+                </Link>
+              </div>
+            }
           </div>
 
           <div className={classes.posterInfo}>
             <MetaItemProp fullPathUrl={fullUrl} headline={title.en} alternativeHeadline={title.ru} />
 
-            <Typography className={classes.title} variant="h1" itemProp="name">
-              {title.ru}
-            </Typography>
+            <header>
+              <meta content={title.ru} itemProp="name" />
 
-            <Typography className={classes.secondTitle} variant="h2" itemProp="name">
-              {title.en}
-            </Typography>
+              <Typography className={classes.title} variant="h1">
+                {title.ru}
+              </Typography>
+
+              <Typography className={classes.secondTitle} variant="h2">
+                {title.en}
+              </Typography>
+            </header>
 
             <ul className={classes.typeList}>
               {Object.entries(media).map(([key, value]) => {
@@ -145,8 +176,7 @@ const MediaInfo: FC<MediaInfoProps> = ({
 
         {torrent && torrent.list.length > 0 && <Torrent list={torrent.list} />}
 
-        {chaptersList
-         && <Chapters chapters={chaptersList} itemSize={ITEM_SIZE} title={CHAPTER_TITLE} border/>}
+        {chaptersListIsReady && <Chapters chapters={chapters.list} itemSize={ITEM_SIZE} title={CHAPTER_TITLE} border />}
       </section>
     </>
   );
