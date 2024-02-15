@@ -20,9 +20,9 @@ const MediaInfoSkeleton: FC = () => {
       <section
         className={classes.detailContent}
       >
-        <div className={classes.posterWrapper}>
-          <div className={clsx(classes.poster, classes.posterPosition) }>
-            <SkeletonBlock className={classes.poster} />
+        <div className={classes.mediaWrapper}>
+          <div className={clsx(classes.posterWrapper, classes.posterWrapperPosition) }>
+            <SkeletonBlock className={classes.posterWrapper} />
           </div>
 
           <div className={classes.postInfoLoader}>
