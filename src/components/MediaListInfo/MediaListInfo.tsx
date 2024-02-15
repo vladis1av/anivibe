@@ -100,7 +100,7 @@ const MediaListInfo: FC<MediaListInfoProps> = ({
       return <CurrentChip items={genres} pathType={type} queryType={mediaKey} />;
 
     case EMediaInfo.description:
-      return <ReadMore text={description} itemPropTitle="description" />;
+      return <ReadMore text={description} itemProp="description" />;
 
     default:
       return null;
