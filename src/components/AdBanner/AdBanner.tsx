@@ -1,33 +1,42 @@
 import {
+  CSSProperties,
   FC, useEffect,
 } from 'react';
 
 import { useRouter } from 'next/router';
 
 type AdBannerProps = {
+  statId?: number;
   blockId: string;
   renderTo: string;
+  darkTheme?: boolean;
   className?: string;
+  style?: CSSProperties;
 };
 
 const AdBanner: FC<AdBannerProps> = ({
+  statId,
   blockId,
   renderTo,
+  darkTheme,
   className,
+  style,
 }) => {
   const router = useRouter();
 
   useEffect(() => {
     window.yaContextCb.push(() => {
       window.Ya.Context.AdvManager.render({
+        statId,
         blockId,
         renderTo,
+        darkTheme,
       });
     });
   }, [router.query]);
 
   return (
-    <div id="yandex_rtb_R-A-6034750-1" className={className}></div>
+    <div id={renderTo} className={className} style={style}></div>
   );
 };
 
