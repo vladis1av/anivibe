@@ -3,7 +3,9 @@ import {
   FC, useEffect,
 } from 'react';
 
-import { useRouter } from 'next/router';
+import { getThemeIsLight } from '@redux/slices/theme';
+
+import useAppSelector from '@hooks/useAppSelector';
 
 type AdBannerProps = {
   statId?: number;
@@ -22,22 +24,26 @@ const AdBanner: FC<AdBannerProps> = ({
   className,
   style,
 }) => {
-  const router = useRouter();
+  const themeIsLight = useAppSelector(getThemeIsLight);
 
   useEffect(() => {
-    window.yaContextCb.push(() => {
-      window.Ya.Context.AdvManager.render({
-        statId,
-        blockId,
-        renderTo,
-        darkTheme,
-      });
-    });
-  }, [router.query]);
+    try {
+      window.yaContextCb = window.yaContextCb || [];
 
-  return (
-    <div id={renderTo} className={className} style={style}></div>
-  );
+      window.yaContextCb.push(() => {
+        window.Ya.Context.AdvManager.render({
+          statId,
+          blockId,
+          renderTo,
+          darkTheme: darkTheme || themeIsLight,
+        });
+      });
+    } catch (error) {
+      console.error('window.yaContextCb', error);
+    }
+  }, []);
+
+  return (<div id={renderTo} className={className} style={style} />);
 };
 
 export default AdBanner;
