@@ -64,12 +64,11 @@ const RootLayout: FC<MainLayout> = ({ children }) => {
 
       <Script
         async
-        src="https://ad.mail.ru/static/ads-async.js"
+        src="https://yandex.ru/ads/system/context.js"
         strategy="afterInteractive"
         onError={onError}
         onLoad={onLoad}
       />
-
       {
         /*
           My header has dynamic height

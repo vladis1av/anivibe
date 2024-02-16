@@ -1,6 +1,6 @@
 import { FC } from 'react';
 
-import dynamic from 'next/dynamic';
+// import dynamic from 'next/dynamic';
 
 import Autocomplete from '@mui/material/Autocomplete';
 import Button from '@mui/material/Button';
@@ -27,7 +27,7 @@ import generateQuery from '@utils/api/generateQuery';
 
 import useFiltersStyles from './Filters.styles';
 
-const AdBanner = dynamic(() => import('@components/AdBanner'), { ssr: false });
+// const AdBanner = dynamic(() => import('@components/AdBanner'), { ssr: false });
 
 type FiltersProps = {
   className?: string;
@@ -132,7 +132,7 @@ const Filters: FC<FiltersProps> = ({ className, onFiltersAcceptCallback }) => {
         </Link>
       </div>
 
-      <AdBanner
+      {/* <AdBanner
         classNameAd="mrg-tag"
         styleAd={{
           display: 'inline-block',
@@ -144,7 +144,7 @@ const Filters: FC<FiltersProps> = ({ className, onFiltersAcceptCallback }) => {
         }}
         client="ad-1493685"
         slot="1493685"
-      />
+      /> */}
     </div>
   );
 };

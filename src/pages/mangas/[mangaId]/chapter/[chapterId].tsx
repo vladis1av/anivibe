@@ -45,7 +45,7 @@ import getMangaSeoChapterTitle from '@utils/seo/getMangaSeoChapterTitle';
 
 import useChapterPageStyles from '@styles/ChapterPage.styles';
 
-const AdBanner = dynamic(() => import('@components/AdBanner'), { ssr: false });
+// const AdBanner = dynamic(() => import('@components/AdBanner'), { ssr: false });
 
 const Drawer = dynamic(() => import('@mui/material/Drawer'));
 const Chapters = dynamic(() => import('@ui/Chapters'));
@@ -178,7 +178,7 @@ const Chapter: FC<ChapterProps> = ({
         imageSource={image.preview}
       />
 
-      <AdBanner
+      {/* <AdBanner
         classNameAdWrapper={classes.adsWrapper}
         classNameAd="mrg-tag"
         styleAd={{
@@ -186,7 +186,7 @@ const Chapter: FC<ChapterProps> = ({
         }}
         client="ad-1493771"
         slot="1493771"
-      />
+      /> */}
 
       <Drawer open={drawerIsOpen} onClose={closeDrawer} className={classes.drawer}>
         <Button className={clsx(classes.closeDrawerButton)} onClick={closeDrawer} variant="text">
@@ -282,7 +282,7 @@ const Chapter: FC<ChapterProps> = ({
         </div>
       </div>
 
-      <AdBanner
+      {/* <AdBanner
         classNameAdWrapper={classes.adsWrapper}
         classNameAd="mrg-tag"
         styleAd={{
@@ -298,7 +298,7 @@ const Chapter: FC<ChapterProps> = ({
         styleAd={{ display: 'block', width: '100%', height: 250 }}
         client="ad-1494917"
         slot="1494917"
-      />
+      /> */}
     </ContentLayout>
   );
 };

@@ -1,6 +1,6 @@
 import { FC } from 'react';
 
-import dynamic from 'next/dynamic';
+// import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 
 import { Pagination } from '@mui/material';
@@ -30,7 +30,7 @@ import useCommonStyles from '@styles/Common.styles';
 
 import useFilterPageContentStyles from './FilterPageContent.styles';
 
-const AdBanner = dynamic(() => import('@components/AdBanner'), { ssr: false });
+// const AdBanner = dynamic(() => import('@components/AdBanner'), { ssr: false });
 
 type FilterPageContentProps = {
   title: string;
@@ -95,14 +95,14 @@ const FilterPageContent: FC<FilterPageContentProps> = ({
   return <div className={classes.contentWrapper}>
     <PageDescription title={title} description={description} className={classes.pageDescription}/>
 
-    <AdBanner
-      classNameAd="mrg-tag"
+    {/* <AdBanner
+      // classNameAd="mrg-tag"
       styleAd={{
         display: 'inline-block', maxWidth: 1420, width: '100%', height: 250, marginBottom: 10,
       }}
-      client="ad-1494732"
-      slot="1494732"
-    />
+      blockId="R-A-6034750-1"
+      renderTo="yandex_rtb_R-A-6034750-1"
+    /> */}
 
     {getPagination(classes.paginationWrapperTop)}
 

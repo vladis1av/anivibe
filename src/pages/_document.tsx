@@ -25,9 +25,12 @@ export default class MyDocument extends Document {
           <meta name="yandex-verification" content="c348945bfd78b269" />
           <meta name="google-site-verification" content="lYMieH2JA-N7C-7OngdZvjJlgUfL8EonOJolad0Os74" />
           <meta name="google-adsense-account" content="ca-pub-9863048209509930" />
+          <Script strategy="afterInteractive">
+            {'window.yaContextCb=window.yaContextCb||[]'}
+          </Script>
           {(this.props as any).emotionStyleTags}
         </Head>
-
+        <script></script>
         <body>
           <Main />
 
