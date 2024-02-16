@@ -183,6 +183,7 @@ const Chapter: FC<ChapterProps> = ({
           blockId="R-A-6034750-1"
           renderTo="yandex_rtb_R-A-6034750-1"
           style={{ maxHeight: 300 }}
+          statId={342672}
         />
       </div>
 
