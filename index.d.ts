@@ -6,7 +6,12 @@ declare global {
     Ya: {
       Context: {
         AdvManager: {
-          render: (obj: { blockId: string;renderTo: string }) => void
+          render: (obj: {
+            statId?: number;
+            blockId: string;
+            renderTo: string;
+            darkTheme?: boolean;
+          }) => void
         }
       }
     }
