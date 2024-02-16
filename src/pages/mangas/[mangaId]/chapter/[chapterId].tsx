@@ -182,6 +182,7 @@ const Chapter: FC<ChapterProps> = ({
         <AdBanner
           blockId="R-A-6034750-1"
           renderTo="yandex_rtb_R-A-6034750-1"
+          style={{ maxHeight: 300 }}
         />
       </div>
 
@@ -281,13 +282,8 @@ const Chapter: FC<ChapterProps> = ({
 
       <div className={classes.adsWrapper}>
         <AdBanner
-          blockId="R-A-6034750-1"
-          renderTo="yandex_rtb_R-A-6034750-1"
-        />
-
-        <AdBanner
-          blockId="R-A-6034750-1"
-          renderTo="yandex_rtb_R-A-6034750-1"
+          blockId="R-A-6034750-2"
+          renderTo="yandex_rtb_R-A-6034750-2"
         />
       </div>
     </ContentLayout>

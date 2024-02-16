@@ -133,9 +133,9 @@ const Filters: FC<FiltersProps> = ({ className, onFiltersAcceptCallback }) => {
       </div>
 
       <AdBanner
-        blockId="R-A-6034750-1"
+        blockId="R-A-6034750-2"
         className={classes.adBanner}
-        renderTo="yandex_rtb_R-A-6034750-1"
+        renderTo="yandex_rtb_R-A-6034750-2"
       />
     </div>
   );

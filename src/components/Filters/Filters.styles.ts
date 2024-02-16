@@ -59,7 +59,7 @@ const useFiltersStyles = makeStyles((theme: Theme) => ({
     marginRight: 15,
   },
   adBanner: {
-    marginBottom: 15,
+    marginTop: 15,
   },
 }));
 

@@ -173,6 +173,7 @@ const MediaInfo: FC<MediaInfoProps> = ({
           blockId="R-A-6034750-1"
           className={classes.adBanner}
           renderTo="yandex_rtb_R-A-6034750-1"
+          style={{ maxHeight: 300 }}
         />
 
         {player && <VideoPlayer player={player} />}
