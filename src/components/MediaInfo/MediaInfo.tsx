@@ -170,11 +170,8 @@ const MediaInfo: FC<MediaInfoProps> = ({
         </div>
 
         <AdBanner
-          // classNameAd="mrg-tag"
-          // styleAd={{
-          //   display: 'inline-block', width: '100%', height: 250, marginBottom: 10,
-          // }}
           blockId="R-A-6034750-1"
+          className={classes.adBanner}
           renderTo="yandex_rtb_R-A-6034750-1"
         />
 

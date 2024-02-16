@@ -45,7 +45,7 @@ import getMangaSeoChapterTitle from '@utils/seo/getMangaSeoChapterTitle';
 
 import useChapterPageStyles from '@styles/ChapterPage.styles';
 
-// const AdBanner = dynamic(() => import('@components/AdBanner'), { ssr: false });
+const AdBanner = dynamic(() => import('@components/AdBanner'), { ssr: false });
 
 const Drawer = dynamic(() => import('@mui/material/Drawer'));
 const Chapters = dynamic(() => import('@ui/Chapters'));
@@ -178,15 +178,12 @@ const Chapter: FC<ChapterProps> = ({
         imageSource={image.preview}
       />
 
-      {/* <AdBanner
-        classNameAdWrapper={classes.adsWrapper}
-        classNameAd="mrg-tag"
-        styleAd={{
-          display: 'inline-block', width: '100%', height: 250, marginBottom: 10,
-        }}
-        client="ad-1493771"
-        slot="1493771"
-      /> */}
+      <div className={classes.adsWrapper}>
+        <AdBanner
+          blockId="R-A-6034750-1"
+          renderTo="yandex_rtb_R-A-6034750-1"
+        />
+      </div>
 
       <Drawer open={drawerIsOpen} onClose={closeDrawer} className={classes.drawer}>
         <Button className={clsx(classes.closeDrawerButton)} onClick={closeDrawer} variant="text">
@@ -282,23 +279,17 @@ const Chapter: FC<ChapterProps> = ({
         </div>
       </div>
 
-      {/* <AdBanner
-        classNameAdWrapper={classes.adsWrapper}
-        classNameAd="mrg-tag"
-        styleAd={{
-          display: 'block', width: '100%', height: 250, marginBottom: 10, marginTop: 10,
-        }}
-        client="ad-1494909"
-        slot="1494909"
-      />
+      <div className={classes.adsWrapper}>
+        <AdBanner
+          blockId="R-A-6034750-1"
+          renderTo="yandex_rtb_R-A-6034750-1"
+        />
 
-      <AdBanner
-        classNameAdWrapper={classes.adsWrapper}
-        classNameAd="mrg-tag"
-        styleAd={{ display: 'block', width: '100%', height: 250 }}
-        client="ad-1494917"
-        slot="1494917"
-      /> */}
+        <AdBanner
+          blockId="R-A-6034750-1"
+          renderTo="yandex_rtb_R-A-6034750-1"
+        />
+      </div>
     </ContentLayout>
   );
 };

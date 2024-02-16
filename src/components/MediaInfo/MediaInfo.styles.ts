@@ -193,6 +193,9 @@ const useMediaInfoStyles = makeStyles((theme: Theme) => ({
     display: 'flex',
     flexDirection: 'column',
   },
+  adBanner: {
+    marginBottom: 50,
+  },
   playerLoader: {
     padding: '25.25%',
     width: '100%',

@@ -58,6 +58,9 @@ const useFiltersStyles = makeStyles((theme: Theme) => ({
   filterButtonClean: {
     marginRight: 15,
   },
+  adBanner: {
+    marginBottom: 15,
+  },
 }));
 
 export default useFiltersStyles;
