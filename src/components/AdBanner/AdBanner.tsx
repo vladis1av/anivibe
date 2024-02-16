@@ -35,7 +35,7 @@ const AdBanner: FC<AdBannerProps> = ({
           statId,
           blockId,
           renderTo,
-          darkTheme: darkTheme || themeIsLight,
+          darkTheme: darkTheme || !themeIsLight,
         });
       });
     } catch (error) {
