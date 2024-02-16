@@ -41,7 +41,7 @@ const AdBanner: FC<AdBannerProps> = ({
     } catch (error) {
       console.error('window.yaContextCb', error);
     }
-  }, [themeIsLight]);
+  }, []);
 
   return (<div id={renderTo} className={className} style={style} />);
 };
