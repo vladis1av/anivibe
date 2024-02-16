@@ -180,11 +180,17 @@ const useChapterPageStyles = makeStyles((theme: Theme) => ({
     padding: '0 60px',
 
     '@media (min-width: 0) and (max-width: 1370px)': {
-      padding: '10px 10px 0px 10px',
+      padding: '0px 10px',
     },
     '@media (min-width: 0) and (max-width: 400px)': {
-      padding: '10px 5px 10px 5px',
+      padding: '0px 5px',
     },
+  },
+  adsMarginTop: {
+    marginTop: 15,
+  },
+  adsMarginBottom: {
+    marginBottom: 15,
   },
 }));
 

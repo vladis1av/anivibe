@@ -178,7 +178,7 @@ const Chapter: FC<ChapterProps> = ({
         imageSource={image.preview}
       />
 
-      <div className={classes.adsWrapper}>
+      <div className={clsx(classes.adsWrapper, classes.adsMarginBottom)}>
         <AdBanner
           blockId="R-A-6034750-4"
           renderTo="yandex_rtb_R-A-6034750-4"
@@ -280,7 +280,7 @@ const Chapter: FC<ChapterProps> = ({
         </div>
       </div>
 
-      <div className={classes.adsWrapper}>
+      <div className={clsx(classes.adsWrapper, classes.adsMarginTop)}>
         <AdBanner
           blockId="R-A-6034750-5"
           renderTo="yandex_rtb_R-A-6034750-5"
