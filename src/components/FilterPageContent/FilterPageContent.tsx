@@ -96,11 +96,10 @@ const FilterPageContent: FC<FilterPageContentProps> = ({
     <PageDescription title={title} description={description} className={classes.pageDescription}/>
 
     <AdBanner
-      blockId="R-A-6034750-1"
+      blockId="R-A-6034750-2"
       className={classes.adBanner}
-      renderTo="yandex_rtb_R-A-6034750-1"
+      renderTo="yandex_rtb_R-A-6034750-2"
       style={{ maxHeight: 300, maxWidth: 1468 }}
-      statId={345671}
     />
 
     {getPagination(classes.paginationWrapperTop)}
