@@ -19,6 +19,10 @@ export enum ETheme {
 export enum ECollection {
   anime = 'anime',
   manga = 'manga',
+  manhwa = 'manhwa',
+  manhua = 'manhua',
+  comics = 'comics',
+  one_shot = 'one_shot',
 }
 
 export enum EScrollSide {
@@ -82,6 +86,7 @@ export enum EMangaReleaseKind {
 }
 
 export enum EAnimeRelease {
+  anime = 'Аниме',
   special = 'Спешл',
   tv = 'TV',
   movie = 'Фильм',
