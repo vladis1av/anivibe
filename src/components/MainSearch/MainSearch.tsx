@@ -6,13 +6,18 @@ import clsx from 'clsx';
 
 import { ECollectionType } from '@interfaces/collection';
 
-import { ECollection, ELoadingStatus } from '@enums/enums';
+import { ELoadingStatus } from '@enums/enums';
 
-import { SEARCH_ANIME_PLACEHOLDER, SEARCH_MANGA_PLACEHOLDER, SELECT_SEARCH_TYPES } from '@constants/common';
+import {
+  MAIN_SEARCH_INPUT_PLACEHOLDER, SELECT_SEARCH_TYPES,
+} from '@constants/common';
 
 import { getOverlay, setOverlayVisible } from '@redux/slices/overlay';
 import {
-  fetchTitles, getSearchByTypeState, setSearchByTypeDefaultState, setSearchByTypeState,
+  fetchTitles,
+  getSearchByTypeState,
+  setSearchByTypeState,
+  setSearchByTypeDefaultState,
 } from '@redux/slices/searchByType';
 
 import InputWithSelect from '@ui/InputWithSelect';
@@ -47,7 +52,7 @@ const MainSearch: FC<MainSearchProps> = ({ onFocus }) => {
   const overlayIsVisible = useAppSelector(getOverlay);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const inputPlaceholderTitle = searchType === ECollection.anime ? SEARCH_ANIME_PLACEHOLDER : SEARCH_MANGA_PLACEHOLDER;
+  const inputPlaceholder = searchType ? `Поиск ${MAIN_SEARCH_INPUT_PLACEHOLDER[searchType]}...` : 'Поиск...';
 
   const onChangeInput = (currentValue: string) => {
     dispatch(setSearchByTypeState({ searchValue: currentValue }));
@@ -85,8 +90,8 @@ const MainSearch: FC<MainSearchProps> = ({ onFocus }) => {
         onSelect={onChangeSelectedType}
         onClose={onCloseOverlay}
         isFocused={loadingState === ELoadingStatus.idle && selectSearchTypeIsOpen}
-        placeholder={inputPlaceholderTitle}
-        currentSearchSelectType={searchType}
+        placeholder={inputPlaceholder}
+        currentSearchSelectType={searchType || ''}
       />
 
       <LoadingStatus
