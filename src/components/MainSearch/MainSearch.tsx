@@ -52,7 +52,9 @@ const MainSearch: FC<MainSearchProps> = ({ onFocus }) => {
   const overlayIsVisible = useAppSelector(getOverlay);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const inputPlaceholder = searchType ? `Поиск ${MAIN_SEARCH_INPUT_PLACEHOLDER[searchType]}...` : 'Поиск...';
+  const inputPlaceholder = selectSearchTypeIsOpen
+    ? `Поиск ${MAIN_SEARCH_INPUT_PLACEHOLDER[searchType]}...`
+    : 'Поиск...';
 
   const onChangeInput = (currentValue: string) => {
     dispatch(setSearchByTypeState({ searchValue: currentValue }));
