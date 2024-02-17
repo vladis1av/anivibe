@@ -7,6 +7,8 @@ import { ELoadingStatusType } from '@interfaces/common';
 import { MangaBase } from '@interfaces/manga/manga';
 import { MangaServiceParams } from '@interfaces/manga/service';
 
+import isAnimeServiceParamsTypeGuard from '@typeGuards/isAnimeServiceParams';
+
 import {
   EAnimeMethod, ECollection, ELoadingStatus, EMangaOrderBy,
 } from '@enums/enums';
@@ -89,7 +91,8 @@ export const fetchFilteredData = createAsyncThunk<unknown, FetchFilteredData>(
     try {
       let result: FilteredData = [];
       const typeIsAnime = filteredDataType === ECollection.anime;
-      if (typeIsAnime) {
+
+      if (isAnimeServiceParamsTypeGuard(params)) {
         const currentParams = checkObjectValueAndExcludeKey(params, ['after', 'items_per_page'])
           ? params
           : { ...params, year: DEFAULT_CURRENT_YEAR };
