@@ -1,47 +1,38 @@
 import { FetchedLastAnimeUpdatedResult } from '@interfaces/anime/service';
-import { CollectionDataType } from '@interfaces/collection';
 import { MangaBase } from '@interfaces/manga/manga';
 
-import { ECollection } from '@enums/enums';
+import isMangaCollectionTypeGuard from '@typeGuards/isMangaCollection';
 
 import { CardItemProps } from '@ui/CardItem/CardItem';
 
 import formatAnimePath from '@utils/formatting/formatAnimePath';
 import formatMangaPath from '@utils/formatting/formatMangaPath';
 
-export type CollectionData = CollectionDataType<MangaBase, FetchedLastAnimeUpdatedResult>;
-
-const getCollectionProps = (data: CollectionData): CardItemProps | null => {
-  const [type, item] = data;
+const getCollectionProps = (item: MangaBase | FetchedLastAnimeUpdatedResult): CardItemProps => {
   const hideTitle = true;
 
-  switch (type) {
-    case ECollection.anime: {
-      const { id, code, names } = item;
+  if (isMangaCollectionTypeGuard(item)) {
+    const {
+      id, image, name, russian,
+    } = item;
 
-      return {
-        id,
-        pathTo: formatAnimePath(id, code),
-        title: names.ru,
-        hideTitle,
-      };
-    }
-    case ECollection.manga: {
-      const {
-        id, image, name, russian,
-      } = item;
-
-      return {
-        id,
-        imageSource: image.original,
-        pathTo: formatMangaPath(id, name),
-        title: russian,
-        hideTitle,
-      };
-    }
-    default:
-      return null;
+    return {
+      id,
+      hideTitle,
+      title: russian,
+      imageSource: image.original,
+      pathTo: formatMangaPath(id, name),
+    };
   }
+
+  const { id, code, names } = item;
+
+  return {
+    id,
+    hideTitle,
+    title: names.ru,
+    pathTo: formatAnimePath(id, code),
+  };
 };
 
 export default getCollectionProps;

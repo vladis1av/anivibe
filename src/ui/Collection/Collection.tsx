@@ -10,7 +10,7 @@ import Link from '@ui/Link';
 
 import ArrowSVG from '@assets/svg/arrow';
 
-import getCollectionProps, { CollectionData } from '@utils/getCollectionProps';
+import getCollectionProps from '@utils/getCollectionProps';
 
 import useCollectionStyles from './Collection.styles';
 
@@ -18,7 +18,6 @@ const CHILD_MAX_WIDTH = 220;
 
 const Collection: FC<CollectionType> = ({
   title,
-  type,
   collection,
   link,
 }) => {
@@ -48,12 +47,11 @@ const Collection: FC<CollectionType> = ({
 
       <div className={classes.slider}>
         <Carousel showMoreLink={link} childMaxWidth={CHILD_MAX_WIDTH}>
-          {collection.length > 0 && collection.map((item) => {
-            const collectionData = [type, item] as CollectionData;
-            const props = getCollectionProps(collectionData);
-
-            return props ? <CardItem {...props} big key={props.id} /> : props;
-          })}
+          {
+            collection.length > 0 && collection.map((item) => (
+              <CardItem {...getCollectionProps(item)} big key={item.id} />
+            ))
+          }
         </Carousel>
       </div>
     </section>

@@ -1,51 +1,43 @@
 import { SearchAnimeType } from '@interfaces/anime/service';
-import { CollectionDataType } from '@interfaces/collection';
 import { MangaBase } from '@interfaces/manga/manga';
 
-import { ECollection, ERelease } from '@enums/enums';
+import isMangaSearchTypeGuard from '@typeGuards/isMangaSearch';
+
+import { ERelease } from '@enums/enums';
 
 import { SearchCardProps } from '@ui/SearchCard/SearchCard';
 
 import formatAnimePath from '@utils/formatting/formatAnimePath';
 import formatMangaPath from '@utils/formatting/formatMangaPath';
 
-export type SearchPropsData = CollectionDataType<MangaBase, SearchAnimeType>;
+const getSearchProps = (item: MangaBase | SearchAnimeType): SearchCardProps => {
+  if (isMangaSearchTypeGuard(item)) {
+    const {
+      id, genres, russian, kind, image, name,
+    } = item;
 
-const getSearchProps = (data: SearchPropsData): SearchCardProps | null => {
-  const [dataType, item] = data;
-
-  switch (dataType) {
-    case ECollection.anime: {
-      const {
-        id, names, code, genres, type, season,
-      } = item;
-
-      return {
-        id,
-        title: names.ru,
-        genres,
-        mediaType: type.full_string,
-        year: season.year,
-        pathTo: formatAnimePath(id, code) || code,
-      };
-    }
-    case ECollection.manga: {
-      const {
-        id, genres, russian, kind, image, name,
-      } = item;
-
-      return {
-        id,
-        title: russian,
-        genres,
-        mediaType: ERelease[kind],
-        imageUrl: image.preview,
-        pathTo: formatMangaPath(id, name) || `${id}`,
-      };
-    }
-    default:
-      return null;
+    return {
+      id,
+      title: russian,
+      genres,
+      mediaType: ERelease[kind],
+      imageUrl: image.preview,
+      pathTo: formatMangaPath(id, name) || `${id}`,
+    };
   }
+
+  const {
+    id, names, code, genres, type, season,
+  } = item;
+
+  return {
+    id,
+    title: names.ru,
+    genres,
+    mediaType: type.full_string,
+    year: season.year,
+    pathTo: formatAnimePath(id, code) || code,
+  };
 };
 
 export default getSearchProps;

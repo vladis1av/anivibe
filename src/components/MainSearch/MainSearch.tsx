@@ -22,7 +22,7 @@ import useAppSelector from '@hooks/useAppSelector';
 import useDebounce from '@hooks/useDebounce';
 import useOnClickOutside from '@hooks/useOnClickOutside';
 
-import getSearchProps, { SearchPropsData } from '@utils/getSearchProps';
+import getSearchProps from '@utils/getSearchProps';
 
 import useMainSearchStyles from './MainSearch.styles';
 
@@ -98,15 +98,11 @@ const MainSearch: FC<MainSearchProps> = ({ onFocus }) => {
       {
         foundTitles.length > 0
            && <div className={classes.searchList}>
-             {foundTitles.map((data) => {
-               const searchProps = getSearchProps([searchType, data] as SearchPropsData);
-
-               return searchProps ? <SearchCard
-                 {...searchProps}
-                 key={searchProps.id}
-                 onClick={onCloseOverlay}
-               /> : searchProps;
-             })}
+             {
+               foundTitles.map((data) => (
+                 <SearchCard {...getSearchProps(data)} key={data.id} onClick={onCloseOverlay} />
+               ))
+             }
            </div>
       }
     </div>
