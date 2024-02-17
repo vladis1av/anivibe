@@ -1,11 +1,20 @@
-import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import {
+  createSlice,
+  PayloadAction,
+  createAsyncThunk,
+} from '@reduxjs/toolkit';
 
 import { SearchAnimeType } from '@interfaces/anime/service';
 import { ECollectionType } from '@interfaces/collection';
 import { ELoadingStatusType } from '@interfaces/common';
 import { MangaBase } from '@interfaces/manga/manga';
 
-import { EAnimeMethod, ECollection, ELoadingStatus } from '@enums/enums';
+import {
+  ECollection,
+  EAnimeMethod,
+  ELoadingStatus,
+  EMangaReleaseKind,
+} from '@enums/enums';
 
 import { SEARCH_BY_TYPE_FETCH_TITLES } from '@redux/actionType/searchByType.actionType';
 import { AppState } from '@redux/store';
@@ -49,7 +58,14 @@ export const fetchTitles = createAsyncThunk<FoundTitles, FetchTitlesType>(
       });
       result = animes ? animes.list : [];
     } else {
-      const mangasResult = await getMangas({ limit: 50, search: searchValue }, true);
+      const kinds = type !== ECollection.manga && type !== ECollection.manhwa
+        ? [
+          EMangaReleaseKind.manhua,
+          EMangaReleaseKind.comics,
+          EMangaReleaseKind.one_shot,
+        ]
+        : [type];
+      const mangasResult = await getMangas({ limit: 50, search: searchValue, kinds }, true);
       result = mangasResult?.response || [];
     }
 
