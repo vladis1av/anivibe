@@ -25,14 +25,14 @@ import { getMangas } from '@services/api/manga';
 export type FoundTitles = SearchAnimeType[] | MangaBase[] | [];
 
 type FetchTitlesType = {
-  type: ECollectionType;
+  type: ECollectionType | null;
   searchValue: string;
 };
 
 export type SearchByTypeState = {
   searchValue: string;
   loadingState: ELoadingStatusType;
-  searchType: ECollectionType;
+  searchType: ECollectionType | null;
   foundTitles: FoundTitles;
   mobileInputIsVisible: boolean;
   selectSearchTypeIsOpen: boolean;
@@ -76,7 +76,7 @@ export const fetchTitles = createAsyncThunk<FoundTitles, FetchTitlesType>(
 const initialState: SearchByTypeState = {
   searchValue: '',
   loadingState: ELoadingStatus.idle,
-  searchType: ECollection.anime,
+  searchType: null,
   foundTitles: [],
   mobileInputIsVisible: false,
   selectSearchTypeIsOpen: false,
