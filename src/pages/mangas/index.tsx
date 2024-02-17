@@ -3,6 +3,7 @@ import { FC } from 'react';
 import dynamic from 'next/dynamic';
 
 import { MangaPageQuery } from '@interfaces/manga/pageQuery';
+import { EMangaReleaseKinds } from '@interfaces/manga/service';
 
 import { ECollection, EMangaOrderBy } from '@enums/enums';
 
@@ -11,7 +12,7 @@ import {
 } from '@constants/common';
 import { MANGA_FILTERS_PAGE_DESCRIPTION, MANGA_FILTERS_PAGE_KEYWORDS, MANGA_FILTERS_PAGE_TITLE } from '@constants/seo';
 
-import { setFilteredData } from '@redux/slices/filteredData';
+import { setFilteredData, setLoadingState } from '@redux/slices/filteredData';
 import { setFilterType } from '@redux/slices/filters';
 import { nextReduxWrapper } from '@redux/store';
 
@@ -27,12 +28,12 @@ import setFiltersFromQuery from '@utils/store/setFiltersFromQuery';
 const FilterPageContent = dynamic(() => import('@components/FilterPageContent'), { ssr: false });
 
 type MangaPageProps = {
-  pagesCount: number;
   page: number;
+  pagesCount: number;
   fullUrl: string;
 };
 
-const Mangas: FC<MangaPageProps> = ({ pagesCount, page, fullUrl }) => (
+const Mangas: FC<MangaPageProps> = ({ page, pagesCount, fullUrl }) => (
   <ContentLayout full paddings>
     <SeoHead
       canonical={fullUrl}
@@ -53,9 +54,7 @@ const Mangas: FC<MangaPageProps> = ({ pagesCount, page, fullUrl }) => (
 );
 
 export const getServerSideProps = nextReduxWrapper
-  .getServerSideProps<MangaPageProps>((store) => async (
-  { query, resolvedUrl },
-) => {
+  .getServerSideProps<MangaPageProps>((store) => async ({ query, resolvedUrl }) => {
   const {
     page = '1', genres, kinds, order,
   } = query as unknown as MangaPageQuery;
@@ -69,11 +68,11 @@ export const getServerSideProps = nextReduxWrapper
 
   const mangas = await getMangas(
     {
-      kinds,
-      genres,
       page: currentPage,
+      genres: genres?.split(','),
       limit: API_FILTER_ITEMS_LIMIT,
       order: order || EMangaOrderBy.updated,
+      kinds: kinds?.split(',') as EMangaReleaseKinds,
     },
   );
 
@@ -82,12 +81,14 @@ export const getServerSideProps = nextReduxWrapper
 
   if (mangas && mangas.response?.length) {
     store.dispatch(setFilteredData({ data: mangas.response }));
+  } else {
+    store.dispatch(setLoadingState('error'));
   }
 
   setFiltersFromQuery(store.dispatch, [ECollection.manga, { genres, order, kinds }]);
 
   return {
-    props: { pagesCount, page: currentPage, fullUrl },
+    props: { page: currentPage, pagesCount, fullUrl },
   };
 });
 
