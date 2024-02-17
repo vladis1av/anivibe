@@ -1,11 +1,20 @@
 /* eslint-disable max-len */
+import { ECollectionType } from '@interfaces/collection';
 import {
-  EVideoPlayerMenuType, MainRouteType, PlaceholdersType, SelectType,
+  SelectType,
+  MainRouteType,
+  PlaceholdersType,
+  EVideoPlayerMenuType,
 } from '@interfaces/common';
 import { SvgIconProps } from '@interfaces/svg';
 
 import {
-  ECollection, EMangaOrderBy, EPlaceholder, EMangaReleaseKind, EVideoPlayerMenu,
+  ERelease,
+  ECollection,
+  EPlaceholder,
+  EMangaOrderBy,
+  EVideoPlayerMenu,
+  EMangaReleaseKind,
 } from '@enums/enums';
 
 export const HOUR: number = 3600;
@@ -29,8 +38,6 @@ export const LOADED_ALL_TITLES: string = 'Вы все просмотрели';
 export const COOKIE_MESSAGE_NOTIFICATION: string = 'В вашем браузере отключены файлы cookie';
 export const STORAGE_MESSAGE_NOTIFICATION: string = 'Сохранение данных сайта на устройстве запрещено';
 export const IS_SERVER: boolean = typeof window === 'undefined';
-export const SEARCH_ANIME_PLACEHOLDER: string = 'Поиск аниме...';
-export const SEARCH_MANGA_PLACEHOLDER: string = 'Поиск манги...';
 export const THEME_FROM_STORAGE: string = 'anivibe-APP-theme';
 export const IS_DEV: boolean = process.env.NODE_ENV === 'development';
 export const POSTER_ERROR_LIGHT: string = '/images/poster-failed-to-load.svg';
@@ -73,9 +80,20 @@ export const SETTINGS_MENU_ITEMS: Array<EVideoPlayerMenuType> = [
 ];
 
 export const SELECT_SEARCH_TYPES: Array<SelectType> = [
-  { name: 'Аниме', type: ECollection.anime },
-  { name: 'Манга', type: ECollection.manga },
+  { name: ERelease.anime, type: ECollection.anime },
+  { name: ERelease.manga, type: ECollection.manga },
+  { name: ERelease.manhwa, type: ECollection.manhwa },
+  { name: ERelease.manhua, type: ECollection.manhua },
 ];
+
+export const MAIN_SEARCH_INPUT_PLACEHOLDER: Record<ECollectionType, string> = {
+  [ECollection.anime]: 'аниме',
+  [ECollection.manga]: 'манги',
+  [ECollection.manhwa]: 'манхвы',
+  [ECollection.manhua]: 'маньхуа',
+  [ECollection.comics]: 'комиксов',
+  [ECollection.one_shot]: 'ваншотов',
+};
 
 export const MAIN_ROUTES_MENU: MainRouteType = {
   home: { title: 'Главная' },
