@@ -3,9 +3,9 @@ import { EMangaReleaseKindType } from '@interfaces/common';
 import { EMangaReleaseKind } from '@enums/enums';
 
 import { MANGA_RELEASE_READ_WORDS } from '@constants/common';
-import { APP_NAME_UPPER_CASE } from '@constants/seo';
+import { APP_NAME } from '@constants/seo';
 
-const getTitle = (type: string) => `Легко и удобно читать ${type} онлайн на ${APP_NAME_UPPER_CASE}`;
+const getTitle = (type: string) => `читать ${type} онлайн - ${APP_NAME}`;
 
 const getMangaSeoTitle = (mangaType: EMangaReleaseKindType) => {
   const mangaRelease = MANGA_RELEASE_READ_WORDS[mangaType]

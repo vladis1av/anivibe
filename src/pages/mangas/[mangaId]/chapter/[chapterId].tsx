@@ -154,11 +154,11 @@ const Chapter: FC<ChapterProps> = ({
   };
 
   const seoTitle = getMangaSeoChapterTitle({
-    title: russian, page, mangaType: kind, chapter: ch, vol, isReading: true,
+    title: russian, page, mangaType: kind, chapter: ch, vol, isReading: false,
   });
 
   const seoDescription = getMangaSeoChapterTitle({
-    title: russian, page, mangaType: kind, chapter: ch, vol, isReading: false,
+    title: russian, page, mangaType: kind, chapter: ch, vol, isReading: true,
   });
 
   const altTitleImg = getMangaSeoChapterTitle({

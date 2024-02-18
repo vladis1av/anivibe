@@ -6,7 +6,7 @@ const getTitles = (mangaType: EMangaReleaseType, pageNumber: number, isReading?:
   const readTitle = isReading ? 'Чтение' : 'Читать';
   const mangaTitle = isReading ? MANGA_RELEASE_READING_WORDS[mangaType] : MANGA_RELEASE_READ_WORDS[mangaType];
 
-  return [`${readTitle} ${mangaTitle}`, 'Том', 'Глава', `[Страница ${pageNumber}]`];
+  return [`${readTitle} ${mangaTitle}`, ' - Том', 'Глава', ` | Страница ${pageNumber}`];
 };
 
 const getMangaSeoChapterTitle = ({

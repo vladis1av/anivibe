@@ -25,7 +25,7 @@ import {
   STORAGE_MESSAGE_NOTIFICATION,
   THEME_FROM_STORAGE,
 } from '@constants/common';
-import { APP_NAME_UPPER_CASE } from '@constants/seo';
+import { APP_NAME } from '@constants/seo';
 
 import { removeNotification, setNotification } from '@redux/slices/notifications';
 import {
@@ -139,8 +139,8 @@ function MyApp({
         <meta charSet="UTF-8" />
         <meta content="website" property="og:type" />
         <meta name="theme-color" content={themeForMeta} />
-        <meta content={APP_NAME_UPPER_CASE} name="twitter:site" />
-        <meta content={APP_NAME_UPPER_CASE} property="og:site_name" />
+        <meta content={APP_NAME} name="twitter:site" />
+        <meta content={APP_NAME} property="og:site_name" />
         <meta name="viewport" content="initial-scale=1, width=device-width" />
       </Head>
 
