@@ -21,6 +21,7 @@ type ChaptersMenuProps = {
   poster: string;
   isOpen: boolean;
   onClose: () => void;
+  onChangeChapter: () => void;
   activeChapter: string;
   chapters: MangaChapterList[];
 };
@@ -32,6 +33,7 @@ const ChaptersMenu: FC<ChaptersMenuProps> = ({
   poster,
   isOpen,
   onClose,
+  onChangeChapter,
   activeChapter,
   chapters,
 }) => {
@@ -60,7 +62,7 @@ const ChaptersMenu: FC<ChaptersMenuProps> = ({
       fullWidthInput
       contentFullHeight
       chapters={chapters}
-      onClickChapter={onClose}
+      onClickChapter={onChangeChapter}
       activeChapterId={activeChapter}
       containerStyles={classes.chapterWrapper}
     />

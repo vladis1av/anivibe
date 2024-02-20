@@ -151,8 +151,12 @@ const Chapter: FC<ChapterProps> = ({
   };
 
   const onCloseMenu = () => {
-    setCurrentPage(1);
     setMenuIsOpen(false);
+  };
+
+  const onChangeChapter = () => {
+    setCurrentPage(1);
+    onCloseMenu();
   };
 
   const seoTitle = getMangaSeoChapterTitle({
@@ -195,6 +199,7 @@ const Chapter: FC<ChapterProps> = ({
         poster={image.original}
         chapters={chapters.list}
         activeChapter={activeChapter}
+        onChangeChapter={onChangeChapter}
       />
 
       <ReadImages
