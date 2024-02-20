@@ -1,8 +1,8 @@
 import {
   FC,
-  ChangeEvent,
-  useEffect,
   useState,
+  useEffect,
+  ChangeEvent,
 } from 'react';
 
 import { GetServerSideProps } from 'next';
@@ -11,45 +11,38 @@ import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 
 import Button from '@mui/material/Button';
-import NativeSelect from '@mui/material/NativeSelect';
-import Typography from '@mui/material/Typography';
 import clsx from 'clsx';
 
 import { MangaChapterList, MangaWithPages } from '@interfaces/manga/manga';
 import { MangaPageChapterQuery } from '@interfaces/manga/pageQuery';
 import { QueryType } from '@interfaces/query';
 
-import { EPlaceholder, ETheme } from '@enums/enums';
-
 import { NOT_FOUND_CHAPTER_ERROR } from '@constants/error';
 
 import Error from '@ui/Error';
-import ImageWithPlaceholder from '@ui/ImageWithPlaceholder';
 
+import ReadImages from '@components/Reader/ReadImages';
 import SeoHead from '@components/SeoHead';
 
 import ContentLayout from '@layouts/ContentLayout';
 
 import ArrowSVG from '@assets/svg/arrow';
-import CloseSVG from '@assets/svg/close';
 import MenuSVG from '@assets/svg/menu';
 
 import { getMangaChapterById } from '@services/api/manga';
 
 import getNextEnv from '@utils/config/getNextEnv';
-import formatMangaPath from '@utils/formatting/formatMangaPath';
 import getFullUrlFromServerSide from '@utils/getFullUrlFromServerSide';
-import changeDomainZone from '@utils/regexp/changeDomainZone';
 import getIdFromString from '@utils/regexp/getIdFromString';
 import getMangaSeoChapterTitle from '@utils/seo/getMangaSeoChapterTitle';
 
 import useChapterPageStyles from '@styles/ChapterPage.styles';
 
 const AdBanner = dynamic(() => import('@components/AdBanner'), { ssr: false });
+const ChaptersMenu = dynamic(() => import('@components/Reader/ChaptersMenu'), { ssr: false });
+const ChapterSelect = dynamic(() => import('@components/Reader/ChapterSelect'), { ssr: false });
 
-const Drawer = dynamic(() => import('@mui/material/Drawer'));
-const Chapters = dynamic(() => import('@ui/Chapters'));
-const Link = dynamic(() => import('@ui/Link'));
+const { publicRuntimeConfig: { MANGA_IMAGE_DOMAIN } } = getNextEnv();
 
 type ChapterProps = {
   fullUrl: string;
@@ -66,9 +59,10 @@ const Chapter: FC<ChapterProps> = ({
   activeChapter,
   pageLimitNotExceeded,
 }) => {
-  const { publicRuntimeConfig: { MANGA_IMAGE_DOMAIN } } = getNextEnv();
   const classes = useChapterPageStyles();
-  const [drawerIsOpen, setDrawerIsOpen] = useState<boolean>(false);
+  const [menuIsOpen, setMenuIsOpen] = useState<boolean>(false);
+  const [currentPage, setCurrentPage] = useState<number>(page);
+
   const route = useRouter();
   const { query } = route as unknown as QueryType<MangaPageChapterQuery>;
   const error = !manga || !manga.pages;
@@ -80,15 +74,16 @@ const Chapter: FC<ChapterProps> = ({
   };
 
   const setPageQuery = (pageNumber: number) => {
+    setCurrentPage(pageNumber);
     query.page = `${pageNumber}`;
-    route.push({ ...route });
+    route.push({ ...route }, undefined, { shallow: true });
   };
 
   useEffect(() => {
     if (!error && !pageLimitNotExceeded) {
       setPageQuery(1);
     }
-  }, [query]);
+  }, [query.page]);
 
   if (error) {
     return <ContentLayout fullHeight>
@@ -106,7 +101,6 @@ const Chapter: FC<ChapterProps> = ({
     kind,
   } = manga;
   const { ch_prev: chapterPrev, ch_next: chapterNext } = pages;
-  const { img, width } = pages.list[page - 1];
   const { ch, vol } = chapters.list.find((elem) => elem.id === pages.ch_curr.id) ?? { ch: null, vol: null };
 
   const canPageIsChange = (
@@ -114,29 +108,30 @@ const Chapter: FC<ChapterProps> = ({
   ): chapter is MangaChapterList => typeof chapter !== 'number';
 
   const pagesListLength = pages.list.length;
-  const startPage = Number(page) === 1;
-  const lastPage = pagesListLength === Number(page);
+  const startPage = currentPage === 1;
+  const lastPage = pagesListLength === currentPage;
   const cantChangePrev = !canPageIsChange(chapterPrev) && startPage;
   const cantChangeNext = !canPageIsChange(chapterNext) && lastPage;
 
-  const prevPage = () => {
+  const onPrevPage = () => {
     if (cantChangePrev) return;
     if (startPage && canPageIsChange(chapterPrev)) {
       const { id: chapterPrevId } = chapterPrev;
       changeChapter(chapterPrevId);
       return;
     }
-    setPageQuery(page - 1);
+    setPageQuery(currentPage - 1);
   };
 
-  const nextPage = () => {
+  const onNextPage = () => {
     if (cantChangeNext) return;
     if (lastPage && canPageIsChange(chapterNext)) {
       const { id: chapterNextId } = chapterNext;
+      setCurrentPage(1);
       changeChapter(chapterNextId);
       return;
     }
-    setPageQuery(page + 1);
+    setPageQuery(currentPage + 1);
   };
 
   const onChangePage = (event: ChangeEvent<HTMLSelectElement>) => {
@@ -145,37 +140,36 @@ const Chapter: FC<ChapterProps> = ({
     setPageQuery(currentValue);
   };
 
-  const drawerToggle = () => {
-    setDrawerIsOpen(!drawerIsOpen);
+  const menuToggle = () => {
+    setMenuIsOpen(!menuIsOpen);
   };
 
-  const closeDrawer = () => {
-    setDrawerIsOpen(false);
+  const onCloseMenu = () => {
+    setCurrentPage(1);
+    setMenuIsOpen(false);
   };
 
   const seoTitle = getMangaSeoChapterTitle({
-    title: russian, page, mangaType: kind, chapter: ch, vol, isReading: false,
+    title: russian, page: currentPage, mangaType: kind, chapter: ch, vol, isReading: false,
   });
 
   const seoDescription = getMangaSeoChapterTitle({
-    title: russian, page, mangaType: kind, chapter: ch, vol, isReading: true,
+    title: russian, page: currentPage, mangaType: kind, chapter: ch, vol, isReading: true,
   });
 
-  const altTitleImg = getMangaSeoChapterTitle({
-    title: russian, page, mangaType: kind, chapter: ch, vol, hideTitleKeys: [0],
+  const imgAltTitle = getMangaSeoChapterTitle({
+    title: russian, page: currentPage, mangaType: kind, chapter: ch, vol, hideTitleKeys: [0],
   });
-
-  const currentMangaChapterImage = MANGA_IMAGE_DOMAIN ? changeDomainZone(img, MANGA_IMAGE_DOMAIN) : img;
 
   return (
     <ContentLayout full>
       <SeoHead
-        canonical={fullUrl}
         ogUrl={fullUrl}
         title={seoTitle}
+        canonical={fullUrl}
         tabTitle={seoTitle}
-        description={seoDescription}
         imageSource={image.preview}
+        description={seoDescription}
       />
 
       <div className={clsx(classes.adsWrapper, classes.adsMarginBottom)}>
@@ -186,84 +180,45 @@ const Chapter: FC<ChapterProps> = ({
         />
       </div>
 
-      <Drawer open={drawerIsOpen} onClose={closeDrawer} className={classes.drawer}>
-        <Button className={clsx(classes.closeDrawerButton)} onClick={closeDrawer} variant="text">
-          <CloseSVG className={classes.closeDrawerButtonIcon} />
-        </Button>
+      <ChaptersMenu
+        id={id}
+        code={name}
+        title={russian}
+        isOpen={menuIsOpen}
+        onClose={onCloseMenu}
+        poster={image.original}
+        chapters={chapters.list}
+        activeChapter={activeChapter}
+      />
 
-        <Link
-          path={formatMangaPath(id, name)}
-          className={classes.link}
-        >
-          <div className={classes.poster}>
-            <ImageWithPlaceholder src={image.original} alt={russian} />
-          </div>
-
-          <Typography className={classes.title} align="center" variant="h5" component="h1">
-            {russian}
-          </Typography>
-        </Link>
-
-        <Chapters
-          itemSize={50}
-          fullWidthInput
-          contentFullHeight
-          chapters={chapters.list}
-          onClickChapter={closeDrawer}
-          activeChapterId={activeChapter}
-          containerStyles={classes.chapterWrapper}
-        />
-      </Drawer>
-
-      <div
-        className={classes.mainImageWrapper}
-        style={{ maxWidth: width, minHeight: '87vh' }}
-      >
-        <ImageWithPlaceholder
-          src={currentMangaChapterImage}
-          threshold={0.1}
-          spinerSize={55}
-          showLoaderSpiner
-          alt={altTitleImg}
-          spinnerHeight={'85vh'}
-          placeholderTheme={ETheme.light}
-          placeholderVariant={EPlaceholder.poster}
-        />
-
-        <div className={classes.mainImageControlerWrapper}>
-          <div className={classes.mainImageController} onClick={prevPage} />
-          <div className={classes.mainImageController} onClick={nextPage} />
-        </div>
-      </div>
+      <ReadImages
+        list={pages.list}
+        page={currentPage}
+        imagesCacheStep={1}
+        imgAlt={imgAltTitle}
+        onPrevPage={onPrevPage}
+        onNextPage={onNextPage}
+        domain={MANGA_IMAGE_DOMAIN}
+      />
 
       <div className={classes.bottomControls}>
         <div className={classes.miniPaginateControls}>
-          <Button className={clsx(classes.button, classes.buttonMenu)} onClick={drawerToggle} variant="outlined">
+          <Button className={clsx(classes.button, classes.buttonMenu)} onClick={menuToggle} variant="outlined">
             <MenuSVG className={classes.menuSvg} />
           </Button>
         </div>
 
-        <NativeSelect
-          variant="filled"
-          onChange={onChangePage}
-          value={page}
-          className={classes.pageSelect}
-        >
-          {pages.list.map(({ id: chapterId, page: pageNumber }) => (
-            <option
-              key={chapterId}
-              value={pageNumber}
-            >
-              {`${pageNumber} / ${pagesListLength}`}
-            </option>
-          ))}
-        </NativeSelect>
+        <ChapterSelect
+          selectValue={currentPage}
+          chapters={pages.list}
+          onSelect={onChangePage}
+        />
 
         <div className={classes.buttonsWrapper}>
           <Button
             className={clsx(classes.button, classes.buttonPrev)}
             variant="outlined"
-            onClick={prevPage}
+            onClick={onPrevPage}
             disabled={cantChangePrev}
           >
             <ArrowSVG width={20} height={20} />
@@ -272,7 +227,7 @@ const Chapter: FC<ChapterProps> = ({
           <Button
             className={clsx(classes.button, classes.buttonNext)}
             variant="outlined"
-            onClick={nextPage}
+            onClick={onNextPage}
             disabled={cantChangeNext}
           >
             <ArrowSVG width={20} height={20} />
