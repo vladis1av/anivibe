@@ -52,10 +52,10 @@ const ReadImages: FC<ReadImagesProps> = ({
           >
             <ImageWithPlaceholder
               src={src}
+              alt={imgAlt}
               threshold={0}
               spinerSize={55}
               showLoaderSpiner
-              alt={imgAlt}
               spinnerHeight={'85vh'}
               placeholderTheme={ETheme.light}
               placeholderVariant={EPlaceholder.poster}
