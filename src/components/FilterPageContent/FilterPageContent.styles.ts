@@ -16,7 +16,7 @@ const useFilterPageContentStyles = makeStyles(() => ({
     fontSize: 24,
   },
   adBanner: {
-    marginBottom: 15,
+    marginBottom: 30,
   },
   filterCardListWrapper: {
     width: '100%',
