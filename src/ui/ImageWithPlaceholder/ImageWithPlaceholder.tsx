@@ -103,7 +103,7 @@ const ImageWithPlaceholder: FC<ImageWithPlacefolderProps> = ({
   useEffect(() => {
     const img = new Image();
 
-    if (inView) {
+    if (threshold === 0 || inView) {
       if (loadingStatusIsReset) {
         setLoadingStatus(ELoadingStatus.pending);
       }
