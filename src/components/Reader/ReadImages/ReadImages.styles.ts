@@ -20,6 +20,7 @@ const useReadImagesStyles = makeStyles(() => ({
   readImagesController: {
     width: '50%',
     cursor: 'pointer',
+    '-webkit-tap-highlight-color': 'transparent',
   },
 }));
 
