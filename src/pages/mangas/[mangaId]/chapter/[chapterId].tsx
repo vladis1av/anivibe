@@ -67,6 +67,10 @@ const Chapter: FC<ChapterProps> = ({
   const { query } = route as unknown as QueryType<MangaPageChapterQuery>;
   const error = !manga || !manga.pages;
 
+  const onScrollTop = () => {
+    window.scrollTo({ top: 0 });
+  };
+
   const changeChapter = (chapterId: number) => {
     query.page = `${1}`;
     query.chapterId = `${chapterId}`;
@@ -121,6 +125,7 @@ const Chapter: FC<ChapterProps> = ({
       return;
     }
     setPageQuery(currentPage - 1);
+    onScrollTop();
   };
 
   const onNextPage = () => {
@@ -132,6 +137,7 @@ const Chapter: FC<ChapterProps> = ({
       return;
     }
     setPageQuery(currentPage + 1);
+    onScrollTop();
   };
 
   const onChangePage = (event: ChangeEvent<HTMLSelectElement>) => {
