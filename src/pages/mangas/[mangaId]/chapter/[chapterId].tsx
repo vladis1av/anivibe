@@ -104,6 +104,7 @@ const Chapter: FC<ChapterProps> = ({
     chapters,
     kind,
   } = manga;
+
   const { ch_prev: chapterPrev, ch_next: chapterNext } = pages;
   const { ch, vol } = chapters.list.find((elem) => elem.id === pages.ch_curr.id) ?? { ch: null, vol: null };
 
