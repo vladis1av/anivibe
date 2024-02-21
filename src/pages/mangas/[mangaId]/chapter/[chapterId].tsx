@@ -145,6 +145,7 @@ const Chapter: FC<ChapterProps> = ({
     const { value } = event.target;
     const currentValue = Number(value);
     setPageQuery(currentValue);
+    onScrollTop();
   };
 
   const menuToggle = () => {
@@ -158,6 +159,7 @@ const Chapter: FC<ChapterProps> = ({
   const onChangeChapter = () => {
     setCurrentPage(1);
     onCloseMenu();
+    onScrollTop();
   };
 
   const seoTitle = getMangaSeoChapterTitle({
