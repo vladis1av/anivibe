@@ -211,6 +211,11 @@ export enum EMangaOrderBy {
   updated = 'updated',
 }
 
+export enum EPageSwitchingArea {
+  page = 'page',
+  image = 'image',
+}
+
 export enum EPosition {
   topRight = 'topRight',
   topCenter = 'topCenter',
