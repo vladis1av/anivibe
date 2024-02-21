@@ -100,23 +100,23 @@ const ImageWithPlaceholder: FC<ImageWithPlacefolderProps> = ({
     triggerOnce: true,
   });
 
-  useEffect(() => {
-    const img = new Image();
+  const loadImage = (source: string) => {
+    const imagePromse = new Promise((resolve, reject) => {
+      const img = new Image();
+      img.onload = () => resolve(img);
+      img.onerror = reject;
+      img.src = source;
+    });
+    imagePromse.then(() => onLoad()).catch((e) => { console.error(e); onError(); });
+  };
 
+  useEffect(() => {
     if (threshold === 0 || inView) {
       if (loadingStatusIsReset) {
         setLoadingStatus(ELoadingStatus.pending);
       }
-
-      img.src = src;
-      img.addEventListener('load', onLoad);
-      img.addEventListener('error', onError);
+      loadImage(src);
     }
-
-    return () => {
-      img.removeEventListener('load', onLoad);
-      img.removeEventListener('error', onError);
-    };
   }, [src, inView]);
 
   return (
