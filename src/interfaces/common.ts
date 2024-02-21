@@ -18,12 +18,14 @@ import {
   EFilterLoading,
   ENotification,
   ENotificationKey,
+  EPageSwitchingArea,
 } from '@enums/enums';
 
 import { MangaGenres } from './manga/manga';
 import { EThemeType } from './theme';
 import { EPosition } from '../enums/enums';
 
+export type EPageSwitchingAreaValueType = `${EPageSwitchingArea}`;
 export type ELocaleType = `${ELocale}`;
 export type EPositionValueType = `${EPosition}`;
 export type EReleaseType = keyof typeof ERelease;
