@@ -19,19 +19,20 @@ import {
   ENotification,
   ENotificationKey,
   EPageSwitchingArea,
+  EReadingMode,
 } from '@enums/enums';
 
 import { MangaGenres } from './manga/manga';
 import { EThemeType } from './theme';
 import { EPosition } from '../enums/enums';
 
-export type EPageSwitchingAreaValueType = `${EPageSwitchingArea}`;
 export type ELocaleType = `${ELocale}`;
 export type EPositionValueType = `${EPosition}`;
 export type EReleaseType = keyof typeof ERelease;
 export type EMediaInfoValueType = `${EMediaInfo}`;
 export type ESkeletonType = keyof typeof ESkeleton;
 export type EPositionKeyType = keyof typeof EPosition;
+export type EReadingModeValueType = `${EReadingMode}`;
 export type EScrollSideType = keyof typeof EScrollSide;
 export type EButtonPlayType = keyof typeof EButtonPlay;
 export type ENotificationValueType = `${ENotification}`;
@@ -41,6 +42,7 @@ export type EFilterLoadingType = keyof typeof EFilterLoading;
 export type ELoadingStatusType = keyof typeof ELoadingStatus;
 export type ENotificationKeyValueType = `${ENotificationKey}`;
 export type EVideoPlayerMenuType = keyof typeof EVideoPlayerMenu;
+export type EPageSwitchingAreaValueType = `${EPageSwitchingArea}`;
 export type EMangaReleaseKindType = keyof typeof EMangaReleaseKind;
 export type VideoPlayerRef = BaseReactPlayer<BaseReactPlayerProps>;
 export type EVideoPlayerStatusType = keyof typeof EVideoPlayerStatus;
