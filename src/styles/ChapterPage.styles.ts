@@ -37,6 +37,14 @@ const useChapterPageStyles = makeStyles(() => ({
   menuSvg: {
     fill: EColor.white,
   },
+  settingsSvg: {
+    fill: EColor.white,
+    width: 22,
+    height: 22,
+  },
+  settingsControls: {
+    marginLeft: 15,
+  },
   miniPaginateControls: {
     display: 'inline-block',
     marginRight: 15,
