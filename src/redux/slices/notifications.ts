@@ -27,6 +27,7 @@ const initialState: NotificationsState = {
     app: [],
   },
 };
+
 const HYDRATE = getAppHydrate();
 
 export const notificationsSlice = createSlice({
@@ -64,7 +65,7 @@ export const notificationsSlice = createSlice({
     builder
       .addCase(HYDRATE, (state, action) => ({
         ...state,
-        ...action.payload.notifications.notifications,
+        ...action.payload.notifications,
       }));
   },
 });
