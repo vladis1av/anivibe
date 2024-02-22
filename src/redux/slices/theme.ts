@@ -27,6 +27,7 @@ export type SetThemeActionType = {
 const initialState: ThemeState = {
   theme: ETheme.light,
 };
+
 const HYDRATE = getAppHydrate();
 
 export const themeSlice = createSlice({
@@ -48,11 +49,6 @@ export const themeSlice = createSlice({
       try {
         if (updateCookie) {
           document.cookie = `${THEME_FROM_STORAGE}=${currentTheme}; path=/; max-age=31536000`;
-          // setCookie(null, THEME_FROM_STORAGE, currentTheme, {
-          //   path: '/',
-          //   maxAge: 31536000,
-          //   domain: '.vercel.app',
-          // });
         }
 
         if (updateLocalStorage) {
