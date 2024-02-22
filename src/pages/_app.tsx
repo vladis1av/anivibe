@@ -43,7 +43,8 @@ import useAppSelector from '@hooks/useAppSelector';
 import useNetworkStatus from '@hooks/useNetworkStatus';
 
 import createEmotionCache from '@utils/createEmotionCache';
-import localStorageIsAvailable from '@utils/localStorage/localStorageIsAvailable';
+import cookieIsAvailable from '@utils/window/cookieIsAvailable';
+import localStorageIsAvailable from '@utils/window/localStorageIsAvailable';
 
 type ThemeCookieType = EThemeType | undefined;
 
@@ -102,18 +103,18 @@ function MyApp({
     }
 
     if (!cookieTheme) {
-      const cookieIsAvailable = window.navigator.cookieEnabled;
+      const cookieAvailable = cookieIsAvailable();
       const darkThemeMq = window.matchMedia('(prefers-color-scheme: dark)');
       const { storageIsAvailable } = localStorageIsAvailable();
 
-      if (!cookieIsAvailable) {
+      if (!cookieAvailable) {
         dispatch(setNotification({
           notificationKey: ENotificationKey.app,
           notification: { message: COOKIE_MESSAGE_NOTIFICATION, type: ENotification.cookie },
         }));
       }
 
-      if (cookieIsAvailable) {
+      if (cookieAvailable) {
         dispatch(toggleTheme({ themeIsLight: darkThemeMq.matches, updateCookie: true }));
         return;
       }
@@ -125,7 +126,7 @@ function MyApp({
         }));
       }
 
-      if (!cookieIsAvailable && storageIsAvailable) {
+      if (!cookieAvailable && storageIsAvailable) {
         dispatch(toggleTheme({ themeIsLight: darkThemeMq.matches, updateLocalStorage: true }));
       }
     }
