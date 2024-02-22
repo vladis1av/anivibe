@@ -1,23 +1,35 @@
 import {
   FC,
-  useState,
   useEffect,
   ChangeEvent,
 } from 'react';
-
-import { GetServerSideProps } from 'next';
 
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 
 import Button from '@mui/material/Button';
 import clsx from 'clsx';
+import { parseCookies } from 'nookies';
 
-import { MangaChapterList, MangaWithPages } from '@interfaces/manga/manga';
+import { MangaChapterList } from '@interfaces/manga/manga';
 import { MangaPageChapterQuery } from '@interfaces/manga/pageQuery';
 import { QueryType } from '@interfaces/query';
 
+import { ENotification, ENotificationKey, EReadingMode } from '@enums/enums';
+
+import { COOKIE_MESSAGE_NOTIFICATION, READER_FROM_STORAGE } from '@constants/common';
 import { NOT_FOUND_CHAPTER_ERROR } from '@constants/error';
+
+import { setNotification } from '@redux/slices/notifications';
+import {
+  getReaderState,
+  setReaderState,
+  setReaderSettings,
+  ReaderSettingsType,
+  PartialReaderStateType,
+  PartialReaderSettingsType,
+} from '@redux/slices/reader';
+import { nextReduxWrapper } from '@redux/store';
 
 import Error from '@ui/Error';
 
@@ -28,44 +40,58 @@ import ContentLayout from '@layouts/ContentLayout';
 
 import ArrowSVG from '@assets/svg/arrow';
 import MenuSVG from '@assets/svg/menu';
+import SettingsSVG from '@assets/svg/settings';
 
 import { getMangaChapterById } from '@services/api/manga';
 
-import getNextEnv from '@utils/config/getNextEnv';
+import useAppDispatch from '@hooks/useAppDispatch';
+import useAppSelector from '@hooks/useAppSelector';
+
 import getFullUrlFromServerSide from '@utils/getFullUrlFromServerSide';
 import getIdFromString from '@utils/regexp/getIdFromString';
 import getMangaSeoChapterTitle from '@utils/seo/getMangaSeoChapterTitle';
+import cookieIsAvailable from '@utils/window/cookieIsAvailable';
 
 import useChapterPageStyles from '@styles/ChapterPage.styles';
 
 const AdBanner = dynamic(() => import('@components/AdBanner'), { ssr: false });
 const ChaptersMenu = dynamic(() => import('@components/Reader/ChaptersMenu'), { ssr: false });
 const ChapterSelect = dynamic(() => import('@components/Reader/ChapterSelect'), { ssr: false });
-
-const { publicRuntimeConfig: { MANGA_IMAGE_DOMAIN } } = getNextEnv();
+const ReaderSettings = dynamic(() => import('@components/Reader/ReaderSettings'), { ssr: false });
 
 type ChapterProps = {
   fullUrl: string;
-  manga: MangaWithPages | null;
-  page: number;
   activeChapter: string;
   pageLimitNotExceeded: boolean;
 };
 
 const Chapter: FC<ChapterProps> = ({
   fullUrl,
-  manga,
-  page,
   activeChapter,
   pageLimitNotExceeded,
 }) => {
   const classes = useChapterPageStyles();
-  const [menuIsOpen, setMenuIsOpen] = useState<boolean>(false);
-  const [currentPage, setCurrentPage] = useState<number>(page);
-
+  const {
+    page,
+    manga,
+    menuIsOpen,
+    settingsIsOpen,
+    imagesCacheStep,
+    settings,
+  } = useAppSelector(getReaderState);
+  const dispatch = useAppDispatch();
   const route = useRouter();
   const { query } = route as unknown as QueryType<MangaPageChapterQuery>;
   const error = !manga || !manga.pages;
+
+  const {
+    server,
+    readingMode,
+    preLoadImages,
+    pageSwitchingArea,
+  } = settings;
+
+  const isHorizontalReadingMode = readingMode === EReadingMode.horizontal;
 
   const onScrollTop = () => {
     window.scrollTo({ top: 0 });
@@ -77,10 +103,38 @@ const Chapter: FC<ChapterProps> = ({
     route.push({ ...route });
   };
 
+  const setPage = (currentPage: number) => dispatch(setReaderState({ page: currentPage }));
+  const setMenuIsOpen = (isOpen: boolean) => dispatch(setReaderState({ menuIsOpen: isOpen }));
+  const setSettingsIsOpen = (isOpen: boolean) => dispatch(setReaderState({ settingsIsOpen: isOpen }));
+  const onChangeSettings = (
+    currentSettings: PartialReaderSettingsType,
+  ) => {
+    const cookieAvailable = cookieIsAvailable();
+
+    if (!cookieAvailable) {
+      dispatch(setNotification({
+        notificationKey: ENotificationKey.app,
+        notification: { message: COOKIE_MESSAGE_NOTIFICATION, type: ENotification.cookie },
+      }));
+    }
+
+    dispatch(setReaderSettings({ settings: currentSettings, updateCookie: cookieAvailable }));
+  };
+
+  const onCloseMenu = () => setMenuIsOpen(false);
+  const menuToggle = () => setMenuIsOpen(!menuIsOpen);
+  const onCloseSettings = () => setSettingsIsOpen(false);
+  const settingsToggle = () => setSettingsIsOpen(!settingsIsOpen);
+
   const setPageQuery = (pageNumber: number) => {
-    setCurrentPage(pageNumber);
+    setPage(pageNumber);
     query.page = `${pageNumber}`;
     route.push({ ...route }, undefined, { shallow: true });
+  };
+
+  const onChangeChapter = () => {
+    onCloseMenu();
+    onScrollTop();
   };
 
   useEffect(() => {
@@ -105,16 +159,16 @@ const Chapter: FC<ChapterProps> = ({
     kind,
   } = manga;
 
-  const { ch_prev: chapterPrev, ch_next: chapterNext } = pages;
+  const { ch_prev: chapterPrev, ch_next: chapterNext } = manga.pages;
   const { ch, vol } = chapters.list.find((elem) => elem.id === pages.ch_curr.id) ?? { ch: null, vol: null };
 
   const canPageIsChange = (
     chapter: number | MangaChapterList,
   ): chapter is MangaChapterList => typeof chapter !== 'number';
 
-  const pagesListLength = pages.list.length;
-  const startPage = currentPage === 1;
-  const lastPage = pagesListLength === currentPage;
+  const pagesListLength = manga.pages.list.length;
+  const startPage = page === 1;
+  const lastPage = pagesListLength === page;
   const cantChangePrev = !canPageIsChange(chapterPrev) && startPage;
   const cantChangeNext = !canPageIsChange(chapterNext) && lastPage;
 
@@ -125,7 +179,7 @@ const Chapter: FC<ChapterProps> = ({
       changeChapter(chapterPrevId);
       return;
     }
-    setPageQuery(currentPage - 1);
+    setPageQuery(page - 1);
     onScrollTop();
   };
 
@@ -133,45 +187,30 @@ const Chapter: FC<ChapterProps> = ({
     if (cantChangeNext) return;
     if (lastPage && canPageIsChange(chapterNext)) {
       const { id: chapterNextId } = chapterNext;
-      setCurrentPage(1);
       changeChapter(chapterNextId);
       return;
     }
-    setPageQuery(currentPage + 1);
+    setPageQuery(page + 1);
     onScrollTop();
   };
 
-  const onChangePage = (event: ChangeEvent<HTMLSelectElement>) => {
+  const onSelectPage = (event: ChangeEvent<HTMLSelectElement>) => {
     const { value } = event.target;
     const currentValue = Number(value);
     setPageQuery(currentValue);
     onScrollTop();
   };
 
-  const menuToggle = () => {
-    setMenuIsOpen(!menuIsOpen);
-  };
-
-  const onCloseMenu = () => {
-    setMenuIsOpen(false);
-  };
-
-  const onChangeChapter = () => {
-    setCurrentPage(1);
-    onCloseMenu();
-    onScrollTop();
-  };
-
   const seoTitle = getMangaSeoChapterTitle({
-    title: russian, page: currentPage, mangaType: kind, chapter: ch, vol, isReading: false,
+    title: russian, page, mangaType: kind, chapter: ch, vol, isReading: false,
   });
 
   const seoDescription = getMangaSeoChapterTitle({
-    title: russian, page: currentPage, mangaType: kind, chapter: ch, vol, isReading: true,
+    title: russian, page, mangaType: kind, chapter: ch, vol, isReading: true,
   });
 
   const imgAltTitle = getMangaSeoChapterTitle({
-    title: russian, page: currentPage, mangaType: kind, chapter: ch, vol, hideTitleKeys: [0],
+    title: russian, page, mangaType: kind, chapter: ch, vol, hideTitleKeys: [0],
   });
 
   return (
@@ -206,13 +245,23 @@ const Chapter: FC<ChapterProps> = ({
       />
 
       <ReadImages
+        page={page}
+        server={server}
         list={pages.list}
-        page={currentPage}
-        imagesCacheStep={1}
         imgAlt={imgAltTitle}
         onPrevPage={onPrevPage}
         onNextPage={onNextPage}
-        domain={MANGA_IMAGE_DOMAIN}
+        readingMode={readingMode}
+        preLoadImages={preLoadImages}
+        imagesCacheStep={imagesCacheStep}
+        pageSwitchingArea={pageSwitchingArea}
+      />
+
+      <ReaderSettings
+        settings={settings}
+        isOpen={settingsIsOpen}
+        onClose={onCloseSettings}
+        onChangeSettings={onChangeSettings}
       />
 
       <div className={classes.bottomControls}>
@@ -222,31 +271,41 @@ const Chapter: FC<ChapterProps> = ({
           </Button>
         </div>
 
-        <ChapterSelect
-          selectValue={currentPage}
-          chapters={pages.list}
-          onSelect={onChangePage}
-        />
+        {
+          isHorizontalReadingMode && <ChapterSelect
+            selectValue={page}
+            chapters={pages.list}
+            onSelect={onSelectPage}
+          />
+        }
 
-        <div className={classes.buttonsWrapper}>
-          <Button
-            className={clsx(classes.button, classes.buttonPrev)}
-            variant="outlined"
-            onClick={onPrevPage}
-            disabled={cantChangePrev}
-          >
-            <ArrowSVG width={20} height={20} />
-          </Button>
-
-          <Button
-            className={clsx(classes.button, classes.buttonNext)}
-            variant="outlined"
-            onClick={onNextPage}
-            disabled={cantChangeNext}
-          >
-            <ArrowSVG width={20} height={20} />
+        <div className={classes.settingsControls}>
+          <Button className={clsx(classes.button, classes.buttonMenu)} onClick={settingsToggle} variant="outlined">
+            <SettingsSVG className={classes.settingsSvg} />
           </Button>
         </div>
+
+        {
+          isHorizontalReadingMode && <div className={classes.buttonsWrapper}>
+            <Button
+              className={clsx(classes.button, classes.buttonPrev)}
+              variant="outlined"
+              onClick={onPrevPage}
+              disabled={cantChangePrev}
+            >
+              <ArrowSVG width={20} height={20} />
+            </Button>
+
+            <Button
+              className={clsx(classes.button, classes.buttonNext)}
+              variant="outlined"
+              onClick={onNextPage}
+              disabled={cantChangeNext}
+            >
+              <ArrowSVG width={20} height={20} />
+            </Button>
+          </div>
+        }
       </div>
 
       <div className={clsx(classes.adsWrapper, classes.adsMarginTop)}>
@@ -259,7 +318,9 @@ const Chapter: FC<ChapterProps> = ({
   );
 };
 
-export const getServerSideProps: GetServerSideProps<ChapterProps> = async ({ query, res, resolvedUrl }) => {
+export const getServerSideProps = nextReduxWrapper
+  .getServerSideProps<ChapterProps>((store) => async (ctx) => {
+  const { query, res, resolvedUrl } = ctx;
   const { mangaId, chapterId, page = '1' } = query as MangaPageChapterQuery;
   const currentMangaId = getIdFromString(mangaId) || mangaId;
   const mangaWithPages = await getMangaChapterById(currentMangaId, chapterId);
@@ -276,16 +337,28 @@ export const getServerSideProps: GetServerSideProps<ChapterProps> = async ({ que
     const { pages: { list } } = mangaWithPages;
     pageLimitNotExceeded = currentPage > 0 && currentPage <= list.length;
   }
+  const parsedCookie = parseCookies(ctx);
+  const readerSettingsString = parsedCookie[READER_FROM_STORAGE] as string | undefined;
+  const readerSettings = readerSettingsString ? JSON.parse(readerSettingsString) as ReaderSettingsType : null;
+
+  let reader: PartialReaderStateType = {
+    page: pageLimitNotExceeded ? currentPage : 1,
+    manga: mangaWithPages,
+  };
+
+  if (readerSettings) {
+    reader = { ...reader, settings: readerSettings };
+  }
+
+  store.dispatch(setReaderState(reader));
 
   return {
     props: {
       fullUrl,
-      manga: mangaWithPages,
       activeChapter: chapterId,
-      page: pageLimitNotExceeded ? currentPage : 1,
       pageLimitNotExceeded,
     },
   };
-};
+});
 
 export default Chapter;
