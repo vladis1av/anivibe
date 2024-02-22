@@ -211,6 +211,11 @@ export enum EMangaOrderBy {
   updated = 'updated',
 }
 
+export enum EReadingMode {
+  vertical = 'vertical',
+  horizontal = 'horizontal',
+}
+
 export enum EPageSwitchingArea {
   page = 'page',
   image = 'image',
