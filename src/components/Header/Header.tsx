@@ -35,7 +35,7 @@ import SunSVG from '@assets/svg/sun';
 import useAppDispatch from '@hooks/useAppDispatch';
 import useAppSelector from '@hooks/useAppSelector';
 
-import localStorageIsAvailable from '@utils/localStorage/localStorageIsAvailable';
+import localStorageIsAvailable from '@utils/window/localStorageIsAvailable';
 
 import useHeaderStyles from './Header.styles';
 
