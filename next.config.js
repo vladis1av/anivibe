@@ -15,7 +15,7 @@ const env = {
   ANILIST_API_KEY: process.env.ANILIST_API_KEY,
   MANGA_API_NUMBER: process.env.MANGA_API_NUMBER || 0,
   MANGAS_API: process.env.MANGAS_API?.split(',') || [""],
-  MANGA_IMAGE_DOMAIN: process.env.MANGA_IMAGE_DOMAIN
+  MANGA_IMAGES_DOMAIN: process.env.MANGA_IMAGES_DOMAIN?.split(',') || [""]
 }
 
 const getRewrite = (source, destination) => {
