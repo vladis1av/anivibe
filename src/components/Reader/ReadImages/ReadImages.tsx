@@ -1,29 +1,39 @@
 import {
-  FC, MouseEvent, memo, useRef,
+  FC,
+  memo,
+  useRef,
+  MouseEvent,
 } from 'react';
 
 import clsx from 'clsx';
 
-import { EPageSwitchingAreaValueType } from '@interfaces/common';
+import { EPageSwitchingAreaValueType, EReadingModeValueType } from '@interfaces/common';
 import { MangaPageSource } from '@interfaces/manga/manga';
 
-import { EPageSwitchingArea, EPlaceholder, ETheme } from '@enums/enums';
+import {
+  EPageSwitchingArea, EPlaceholder, EReadingMode, ETheme,
+} from '@enums/enums';
 
 import { POSTER_LIGHT } from '@constants/common';
 
 import ImageWithPlaceholder from '@ui/ImageWithPlaceholder';
 
+import getNextEnv from '@utils/config/getNextEnv';
 import leftSideElementClick from '@utils/leftSideElementClick';
 import changeDomainZone from '@utils/regexp/changeDomainZone';
 
 import useReadImagesStyles from './ReadImages.styles';
 
+const { publicRuntimeConfig: { MANGA_IMAGES_DOMAIN } } = getNextEnv();
+
 type ReadImagesProps = {
   page: number;
-  domain?: string;
   imgAlt?: string;
+  server: number;
   list: MangaPageSource[];
   imagesCacheStep?: number;
+  preLoadImages: boolean;
+  readingMode: EReadingModeValueType;
   pageSwitchingArea?: EPageSwitchingAreaValueType;
   onNextPage: () => void;
   onPrevPage: () => void;
@@ -31,10 +41,12 @@ type ReadImagesProps = {
 
 const ReadImages: FC<ReadImagesProps> = ({
   page,
-  domain,
   imgAlt,
+  server,
   list,
   imagesCacheStep = 1,
+  preLoadImages,
+  readingMode,
   pageSwitchingArea = EPageSwitchingArea.image,
   onNextPage,
   onPrevPage,
@@ -69,27 +81,36 @@ const ReadImages: FC<ReadImagesProps> = ({
   >
     {
       list.map(({ id: imgId, img, width }, i) => {
-        const currentImage = domain ? changeDomainZone(img, domain) : img;
+        const currentImage = MANGA_IMAGES_DOMAIN.length ? changeDomainZone(img, MANGA_IMAGES_DOMAIN[server]) : img;
         const index = i + 1;
         const nextCacheImage = page + imagesCacheStep;
         const src = index === page || index === nextCacheImage
           ? currentImage
           : POSTER_LIGHT;
+        const isVerticalReadingMode = readingMode === EReadingMode.vertical;
+        const preloadedOrCurrentImage = preLoadImages && !isVerticalReadingMode ? src : currentImage;
+        const threshold = isVerticalReadingMode ? 0.1 : 0;
 
         return (
           <div
             ref={divRef}
-            key={imgId}
+            key={`${imgId}-${server}-${readingMode}`}
+            style={
+              {
+                maxWidth: width,
+                minHeight: '87vh',
+                display: isVerticalReadingMode || i === page - 1 ? 'block' : 'none',
+              }
+            }
             className={getControllerStyle(classes.readImageItem, pageSwitchingAreaIsImage)}
-            style={{ maxWidth: width, minHeight: '87vh', display: i === page - 1 ? 'block' : 'none' }}
           >
             <ImageWithPlaceholder
-              src={src}
               alt={imgAlt}
-              threshold={0}
               spinerSize={55}
               showLoaderSpiner
+              threshold={threshold}
               spinnerHeight={'85vh'}
+              src={preloadedOrCurrentImage}
               placeholderTheme={ETheme.light}
               placeholderVariant={EPlaceholder.poster}
             />
