@@ -7,6 +7,7 @@ import { filterDataReducer } from './slices/filteredData';
 import { filtersReducer } from './slices/filters';
 import { notificationsReducer } from './slices/notifications';
 import { overlayReducer } from './slices/overlay';
+import { readerReducer } from './slices/reader';
 import { searchByTypeReducer } from './slices/searchByType';
 import { themeReducer } from './slices/theme';
 import { videoPlayerReducer } from './slices/videoPlayer';
@@ -15,11 +16,12 @@ export function makeStore() {
   return configureStore({
     reducer: {
       theme: themeReducer,
-      searchByType: searchByTypeReducer,
+      reader: readerReducer,
       overlay: overlayReducer,
       filters: filtersReducer,
       filteredData: filterDataReducer,
       videoPlayer: videoPlayerReducer,
+      searchByType: searchByTypeReducer,
       notifications: notificationsReducer,
     },
     devTools: IS_DEV,
