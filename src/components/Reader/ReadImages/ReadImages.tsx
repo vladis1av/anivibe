@@ -54,6 +54,8 @@ const ReadImages: FC<ReadImagesProps> = ({
   const classes = useReadImagesStyles();
   const divRef = useRef<HTMLDivElement | null>(null);
   const pageSwitchingAreaIsImage = pageSwitchingArea === EPageSwitchingArea.image;
+  const isVerticalReadingMode = readingMode === EReadingMode.vertical;
+  const threshold = !preLoadImages || isVerticalReadingMode ? 0.1 : 0;
 
   const getControllerStyle = (
     style: string,
@@ -61,6 +63,10 @@ const ReadImages: FC<ReadImagesProps> = ({
   ): string => clsx(style, { [classes.readImagesController]: showCursorPointer });
 
   const onChangePage = (e: MouseEvent<HTMLElement>) => {
+    if (isVerticalReadingMode) {
+      return;
+    }
+
     const target = e.target as HTMLDivElement;
 
     // click on fullwidth contaner
@@ -87,9 +93,8 @@ const ReadImages: FC<ReadImagesProps> = ({
         const src = index === page || index === nextCacheImage
           ? currentImage
           : POSTER_LIGHT;
-        const isVerticalReadingMode = readingMode === EReadingMode.vertical;
         const preloadedOrCurrentImage = preLoadImages && !isVerticalReadingMode ? src : currentImage;
-        const threshold = !preLoadImages || isVerticalReadingMode ? 0.1 : 0;
+        const showImage = isVerticalReadingMode || i === page - 1;
 
         return (
           <div
@@ -99,8 +104,8 @@ const ReadImages: FC<ReadImagesProps> = ({
               {
                 maxWidth: width,
                 minHeight: '87vh',
-                display: isVerticalReadingMode || i === page - 1 ? 'block' : 'none',
-                visibility: isVerticalReadingMode || i === page - 1 ? 'visible' : 'hidden',
+                display: showImage ? 'block' : 'none',
+                visibility: showImage ? 'visible' : 'hidden',
               }
             }
             className={getControllerStyle(classes.readImageItem, pageSwitchingAreaIsImage)}
