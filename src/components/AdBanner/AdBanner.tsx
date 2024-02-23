@@ -36,6 +36,12 @@ const AdBanner: FC<AdBannerProps> = ({
           blockId,
           renderTo,
           darkTheme: darkTheme || !themeIsLight,
+          onError: (data) => {
+            console.log('type', data.type); // Тип ошибки: error или warning
+            console.log('code', data.code); // Код ошибки (см. значение выше)
+            console.log('text', data.text); // Текстовое описание ошибки
+            // Обработка ошибки со стороны сайта
+          },
         });
       });
     } catch (error) {
