@@ -11,6 +11,7 @@ declare global {
             blockId: string;
             renderTo: string;
             darkTheme?: boolean;
+            onError: (data: { type: string; code: string; text: string }) => void
           }) => void
         }
       }
