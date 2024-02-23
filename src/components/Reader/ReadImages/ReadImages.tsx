@@ -89,17 +89,18 @@ const ReadImages: FC<ReadImagesProps> = ({
           : POSTER_LIGHT;
         const isVerticalReadingMode = readingMode === EReadingMode.vertical;
         const preloadedOrCurrentImage = preLoadImages && !isVerticalReadingMode ? src : currentImage;
-        const threshold = isVerticalReadingMode ? 0.1 : 0;
+        const threshold = !preLoadImages || isVerticalReadingMode ? 0.1 : 0;
 
         return (
           <div
             ref={divRef}
-            key={`${imgId}-${server}-${readingMode}`}
+            key={`${imgId}-${server}-${readingMode}-${preLoadImages}`}
             style={
               {
                 maxWidth: width,
                 minHeight: '87vh',
                 display: isVerticalReadingMode || i === page - 1 ? 'block' : 'none',
+                visibility: isVerticalReadingMode || i === page - 1 ? 'visible' : 'hidden',
               }
             }
             className={getControllerStyle(classes.readImageItem, pageSwitchingAreaIsImage)}
