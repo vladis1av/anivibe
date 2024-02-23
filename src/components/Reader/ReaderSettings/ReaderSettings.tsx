@@ -59,7 +59,7 @@ const ReaderSettings: FC<ReaderSettingsProps> = ({
             <span className={classes.toggleButtonGroupTitle}>{READER_SETTINGS[key].title}</span>
             {
               key === 'preLoadImages' && <span className={classes.toggleButtonGroupNote}>
-                Попробуйте отключить если изображение долго переключается
+                Попробуйте отключить если изображение долго переключается и не видно состояния загрузки
               </span>
             }
 
