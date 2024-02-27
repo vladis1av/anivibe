@@ -76,7 +76,7 @@ const Animes: FC<AnimesProps> = ({ fullUrl }) => {
   };
 
   useEffect(() => {
-    if (filterType === ECollection.manga) {
+    if (filterType !== ECollection.anime) {
       dispatch(setFilterType(ECollection.anime));
     }
     return () => {
