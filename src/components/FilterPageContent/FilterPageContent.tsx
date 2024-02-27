@@ -6,12 +6,15 @@ import { useRouter } from 'next/router';
 import { Pagination } from '@mui/material';
 import clsx from 'clsx';
 
-import { ELoadingStatus } from '@enums/enums';
+import {
+  ECollection, ELinkPath, ELoadingStatus,
+} from '@enums/enums';
 
 import { LOADED_ALL_TITLES, LOAD_MORE, NOT_FOUND_TITLES } from '@constants/common';
 import { FILTER_MENU_MATCH_MEDIA, PAGINATION_MATCH_MEDIA } from '@constants/matchMedia';
 
 import { getFilterDataState } from '@redux/slices/filteredData';
+import { getFilters } from '@redux/slices/filters';
 
 import Error from '@ui/Error';
 import InfiniteLoadMore from '@ui/InfiniteLoadMore';
@@ -35,9 +38,10 @@ const AdBanner = dynamic(() => import('@components/AdBanner'), { ssr: false });
 type FilterPageContentProps = {
   title: string;
   description: string;
-  currentPage?: number;
+  page?: number;
   totalPages?: number;
   loadMore?: () => void;
+  onFiltersAccept?: (page?: number, cleanParams?: boolean) => void;
 };
 
 const emptyArray = getEmptyArray(12);
@@ -45,18 +49,22 @@ const emptyArray = getEmptyArray(12);
 const FilterPageContent: FC<FilterPageContentProps> = ({
   title,
   description,
-  currentPage,
+  page,
   totalPages,
   loadMore,
+  onFiltersAccept,
 }) => {
   const classes = useFilterPageContentStyles();
   const commonClasses = useCommonStyles();
-
   const {
+    page: currentPage,
+    pages,
     filteredData,
     loadingState,
   } = useAppSelector(getFilterDataState);
+  const { filterType } = useAppSelector(getFilters);
 
+  const currentPagesTotal = pages || totalPages;
   const filteredDataIsNotFound = !filteredData.length;
   const dataError = loadingState === ELoadingStatus.error;
   const dataPending = loadingState === ELoadingStatus.pending;
@@ -64,10 +72,14 @@ const FilterPageContent: FC<FilterPageContentProps> = ({
   const route = useRouter();
   const { query } = route;
 
-  const setPage = (page: number) => {
-    if (totalPages && page <= totalPages) {
-      query.page = `${page}`;
-      route.push({ ...route });
+  const setPage = (queryPage: number) => {
+    if (currentPagesTotal && queryPage <= currentPagesTotal) {
+      const path = filterType === ECollection.anime ? ELinkPath.animes : ELinkPath.mangas;
+      route.push({ pathname: path, query: { ...query, page: queryPage } });
+
+      if (onFiltersAccept) {
+        onFiltersAccept(queryPage);
+      }
     }
   };
 
@@ -75,17 +87,16 @@ const FilterPageContent: FC<FilterPageContentProps> = ({
   const [isMobilePagination] = useMatchMedia(PAGINATION_MATCH_MEDIA);
 
   const getPagination = (className: string) => {
-    if (!totalPages) {
+    if (!currentPagesTotal) {
       return null;
     }
-
     return (
       <div className={className}>
         <Pagination
-          page={currentPage}
+          page={currentPage || page }
           size={isMobilePagination ? 'small' : 'large'}
           shape="rounded"
-          count={totalPages}
+          count={currentPagesTotal}
           onChange={(_, muiPage) => setPage(muiPage)}
         />
       </div>
@@ -136,7 +147,7 @@ const FilterPageContent: FC<FilterPageContentProps> = ({
         {getPagination(classes.paginationWrapperBottom)}
       </div>
 
-      <FilterMenu isDesktopOrBelow={isMobileFilterMenu} />
+      <FilterMenu isDesktopOrBelow={isMobileFilterMenu} onFiltersAccept={onFiltersAccept} />
     </div>
   </div>;
 };
