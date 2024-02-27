@@ -6,21 +6,13 @@ import { EMangaReleaseKind, ERelease } from '@enums/enums';
 
 import { MANGA_RELEASE_READ_WORDS } from '@constants/common';
 
+import normalizeText from '@utils/regexp/normalizeText';
+
 type GetTitleKeywordsProps = {
   title: string;
   isAnime?: boolean;
   secondTitle?: string;
   kind?: EMangaReleaseType;
-};
-
-const formatTitle = (value: string, normalize?: boolean) => {
-  let currentName = value.toLowerCase();
-
-  if (normalize) {
-    currentName = currentName.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
-  }
-
-  return currentName.replace(/['’"]/g, '').replace(/[^\А-яЁёa-zA-Z0-9\%]/g, ' ').replace(/\s{2,}/g, ' ').replace(/^\s{1,}|\s{1,}$/g, '');
 };
 
 const getTitleKeywords = ({
@@ -29,8 +21,8 @@ const getTitleKeywords = ({
   secondTitle,
   isAnime,
 }: GetTitleKeywordsProps) => {
-  const currentTitle = formatTitle(title);
-  const currentAlternativeTitle = secondTitle ? `, ${formatTitle(secondTitle, true)}` : '';
+  const currentTitle = normalizeText(title, false, true);
+  const currentAlternativeTitle = secondTitle ? `, ${normalizeText(secondTitle, true, true)}` : '';
   const currentkind = kind ? `, ${ERelease[kind].toLocaleLowerCase()}` : '';
   const currentMangaKind = kind && (kind !== EMangaReleaseKind.manga && MANGA_RELEASE_READ_WORDS[kind])
     ? `${MANGA_RELEASE_READ_WORDS[kind]} ` : '';
