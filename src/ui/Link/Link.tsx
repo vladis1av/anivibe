@@ -15,6 +15,7 @@ type LinkProps = {
   scroll?: boolean;
   draggable?: boolean;
   attributeTitle?: string;
+  shallow?: boolean;
   style?: CSSProperties;
 };
 
@@ -27,12 +28,13 @@ const Link: FC<LinkProps> = ({
   scroll = true,
   draggable = false,
   attributeTitle,
+  shallow,
   style,
 }) => {
   const classes = useCardListStyles();
   const currentStyles = clsx(classes.link, className);
 
-  return <NextLink href={{ pathname: path, query }} scroll={scroll}>
+  return <NextLink href={{ pathname: path, query }} scroll={scroll} shallow={shallow}>
     <a className={currentStyles} onClick={onClick} draggable={draggable} title={attributeTitle} style={style}>
       {children}
     </a>
