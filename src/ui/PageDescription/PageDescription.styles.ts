@@ -8,7 +8,7 @@ const usePageDescriptionStyles = makeStyles((theme: Theme) => ({
   title: {
     color: `${theme.palette.text.primary}`,
     fontSize: 24,
-    marginBottom: 5,
+    marginBottom: 7,
     fontWeight: 400,
   },
   description: {
