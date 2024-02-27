@@ -23,6 +23,7 @@ import { getMangaById } from '@services/api/manga';
 
 import getFullUrlFromServerSide from '@utils/getFullUrlFromServerSide';
 import getIdFromString from '@utils/regexp/getIdFromString';
+import normalizeText from '@utils/regexp/normalizeText';
 import getMangaSeoTitle from '@utils/seo/getMangaSeoTitle';
 import getTitleKeywords from '@utils/seo/getTitleKeywords';
 
@@ -52,7 +53,7 @@ const Manga: FC<MangaPageProps> = ({ fullUrl, manga, bookTags }) => {
     bannerImageHightQuality,
   } = manga;
 
-  const seoTitle = `${russian} - ${getMangaSeoTitle(kind)}`;
+  const seoTitle = `${normalizeText(russian)} - ${getMangaSeoTitle(kind)}`;
 
   return (
     <ContentLayout clearPaddingTop>
