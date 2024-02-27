@@ -2,11 +2,12 @@ import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import { ECollectionType } from '@interfaces/collection';
 import {
+  Values,
+  FilterKindType,
   EFilterLoadingType,
   EMangaReleaseKindType,
-  FilterKindType,
-  Values,
 } from '@interfaces/common';
+import { EMangaOrderByValueType, EMangaReleaseKindValueType } from '@interfaces/manga/service';
 
 import { ECollection, EFilterLoading, ELoadingStatus } from '@enums/enums';
 
@@ -25,6 +26,7 @@ import getAppHydrate from '@utils/store/getAppHydrate';
 export type MangaFilterKinds = Array<EMangaReleaseKindType>;
 
 export type AnimeFilterQuery = {
+  page?: string;
   years?: string;
   voices?: string;
   genres?: string;
@@ -32,6 +34,8 @@ export type AnimeFilterQuery = {
 };
 
 export type MangaFilterQuery = {
+  page?: string;
+  pageType?: string;
   genres?: string;
   order?: string;
   kinds?: string;
@@ -51,12 +55,24 @@ export type MangaFilters = {
 };
 
 type FilterValues = {
+  pageType?: EMangaReleaseKindValueType;
   years: string[] | [];
   voices: string[] | [];
   kinds: MangaFilterKinds | [];
   genres: FilterKindType[] | [];
   seasons: FilterKindType[] | [];
-  order: FilterKindType[] | [];
+  order: FilterKindType[];
+};
+
+type FilterServiceValues = {
+  page?: number,
+  pageType?: EMangaReleaseKindValueType;
+  years: string[] | [];
+  voices: string[] | [];
+  kinds: MangaFilterKinds | [];
+  genres: string[] | [];
+  seasons: string[] | [];
+  order?: EMangaOrderByValueType;
 };
 
 type AnimeFilterKeys = keyof AnimeFilters;
@@ -77,12 +93,13 @@ export type FiltersState = {
   animeFilters: AnimeFilters;
   mangaFilters: MangaFilters;
   filtersQueryValues: FilterValues;
+  serviceQueryValues: FilterServiceValues;
 };
 
 const intersect = (
   filterItems: Values<AnimeFilters> | Values<MangaFilters>,
-  queryKeys: string[],
-): (FilterKindType)[] | number[] | MangaFilterKinds | [] => {
+  queryKeys: string | string[],
+): Partial<(FilterKindType)[] | number[] | MangaFilterKinds | []> => {
   if (filterItems && filterItems.length && queryKeys.length) {
     const strArr = new Set(queryKeys);
 
@@ -112,6 +129,15 @@ const defaultFiltersQueryValues: FilterValues = {
   kinds: [],
 };
 
+const defaultFiltersServiceQueryValues: FilterServiceValues = {
+  page: 1,
+  years: [],
+  voices: [],
+  genres: [],
+  seasons: [],
+  kinds: [],
+};
+
 const initialState: FiltersState = {
   filterType: ECollection.anime,
   filtersLoading: { years: ELoadingStatus.pending },
@@ -128,9 +154,24 @@ const initialState: FiltersState = {
   },
   // filter values from query
   filtersQueryValues: defaultFiltersQueryValues,
+  serviceQueryValues: defaultFiltersServiceQueryValues,
 };
 
 const HYDRATE = getAppHydrate();
+
+const getServiceQuery = (
+  filterKey: keyof FilterValues,
+  filterQueryValue: Partial<FilterValues>,
+) => {
+  const filterQuery = filterQueryValue[filterKey] ? filterQueryValue[filterKey] : null;
+  const serviceQueryValue = {
+    [filterKey]: Array.isArray(filterQuery)
+      ? filterQuery.map((value) => (typeof value === 'string' ? value : value.kind))
+      : filterQuery,
+  };
+
+  return serviceQueryValue;
+};
 
 export const filtersSlice = createSlice({
   name: 'filters',
@@ -143,30 +184,48 @@ export const filtersSlice = createSlice({
     setFilterType: (
       state,
       { payload }: PayloadAction<ECollectionType>,
-    ) => ({ ...state, filterType: payload, filtersQueryValues: defaultFiltersQueryValues }),
+    ) => ({
+      ...state,
+      filterType: payload,
+      // ...state.filtersQueryValues need save type query, defaultFiltersQueryValues exlude type query
+      filtersQueryValues: { ...state.filtersQueryValues, ...defaultFiltersQueryValues },
+    }),
     setFilterValue: (
       state,
-      { payload }: PayloadAction<Partial<FilterValues>>,
+      { payload }: PayloadAction<{
+        filterKey: keyof FilterValues;
+        filterQueryValue: Partial<FilterValues>
+      }>,
     ) => {
-      state.filtersQueryValues = { ...state.filtersQueryValues, ...payload };
+      const { filterKey, filterQueryValue } = payload;
+      const serviceQueryValue = getServiceQuery(filterKey, filterQueryValue);
+
+      state.filtersQueryValues = { ...state.filtersQueryValues, ...filterQueryValue };
+      state.serviceQueryValues = { ...state.serviceQueryValues, ...serviceQueryValue };
     },
     cleanFilterValues: (state) => {
-      state.filtersQueryValues = defaultFiltersQueryValues;
+      // ...state.filtersQueryValues need save type query, defaultFiltersQueryValues exlude type query
+      state.filtersQueryValues = { ...state.filtersQueryValues, ...defaultFiltersQueryValues };
+      state.serviceQueryValues = { ...state.serviceQueryValues, ...defaultFiltersServiceQueryValues };
     },
     setFilterValuesFromQuery: (
       state,
       {
         payload: { filterTypeWithKey, filterQueryValues },
-      }: PayloadAction<{ filterTypeWithKey: FilterTypeWithKey, filterQueryValues: string[] }>,
+      }: PayloadAction<{ filterTypeWithKey: FilterTypeWithKey, filterQueryValues: string | string[] }>,
     ) => {
       const { animeFilters, mangaFilters } = state;
       const [type, filterKey] = filterTypeWithKey;
       const currentFilters = type === ECollection.anime ? animeFilters[filterKey] : mangaFilters[filterKey];
+      const queryValue = intersect(currentFilters, filterQueryValues);
+      const filtersQueryValues = { [filterKey]: queryValue };
+      const serviceQueryValues = getServiceQuery(filterKey, filtersQueryValues);
 
       state.filtersQueryValues = {
         ...state.filtersQueryValues,
-        [filterKey]: intersect(currentFilters, filterQueryValues),
+        ...filtersQueryValues,
       };
+      state.serviceQueryValues = { ...state.serviceQueryValues, ...serviceQueryValues };
     },
     setOrDeleteFilterLoadingKey: (
       state,
