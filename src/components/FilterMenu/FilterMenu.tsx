@@ -4,6 +4,7 @@ import dynamic from 'next/dynamic';
 
 type FilterMenuProps = {
   isDesktopOrBelow: boolean;
+  onFiltersAccept?: (page?: number, cleanParams?: boolean) => void;
 };
 
 const FilterMenuDesktop = dynamic(() => import('@components/FilterMenu/FilterMenuDesktop'));
@@ -11,6 +12,7 @@ const FilterMenuMobile = dynamic(() => import('@components/FilterMenu/FilterMenu
 
 const FilterMenu: FC<FilterMenuProps> = ({
   isDesktopOrBelow,
+  onFiltersAccept,
 }) => {
   const [drawerIsOpen, setDrawerIsOpen] = useState<boolean>(false);
 
@@ -25,9 +27,11 @@ const FilterMenu: FC<FilterMenuProps> = ({
       return <FilterMenuMobile
         drawerIsOpen={drawerIsOpen}
         onCloseDrawer={onCloseDrawer}
-        onClickMenuButton={onToggleDrawer} />;
+        onFiltersAccept={onFiltersAccept}
+        onOpenDrawer={onToggleDrawer}
+      />;
     }
-    return <FilterMenuDesktop />;
+    return <FilterMenuDesktop onFiltersAccept={onFiltersAccept} />;
   };
 
   return getFilterMenu(isDesktopOrBelow);

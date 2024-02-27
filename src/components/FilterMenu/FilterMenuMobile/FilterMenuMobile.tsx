@@ -14,21 +14,30 @@ import useFilterMenuMobileStyles from './FilterMenuMobile.styles';
 
 type FilterMenuMobileProps = {
   drawerIsOpen: boolean;
+  onOpenDrawer: () => void;
   onCloseDrawer: () => void;
-  onClickMenuButton: () => void;
+  onFiltersAccept?: (page?: number, cleanParams?: boolean) => void;
 };
 
 const FilterMenuMobile: FC<FilterMenuMobileProps> = ({
   drawerIsOpen,
+  onOpenDrawer,
   onCloseDrawer,
-  onClickMenuButton,
+  onFiltersAccept,
 }) => {
   const headerHeight = useHeaderContext();
   const classes = useFilterMenuMobileStyles(headerHeight)();
 
+  const onFilterAccept = () => {
+    if (onFiltersAccept) {
+      onFiltersAccept();
+    }
+    onCloseDrawer();
+  };
+
   return <aside className={classes.filterMenuTabletAndBelow}>
     <Button
-      onClick={onClickMenuButton}
+      onClick={onOpenDrawer}
       className={classes.filterMenuButton}
       variant="text"
     >
@@ -40,7 +49,7 @@ const FilterMenuMobile: FC<FilterMenuMobileProps> = ({
       onClose={onCloseDrawer}
       className={classes.filterMenuWrapper}
     >
-      <Filters onFiltersAcceptCallback={onCloseDrawer} />
+      <Filters onFiltersAccept={onFilterAccept} />
     </Drawer>
   </aside>;
 };
