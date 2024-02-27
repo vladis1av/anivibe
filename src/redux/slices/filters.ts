@@ -9,7 +9,9 @@ import {
 } from '@interfaces/common';
 import { EMangaOrderByValueType, EMangaReleaseKindValueType } from '@interfaces/manga/service';
 
-import { ECollection, EFilterLoading, ELoadingStatus } from '@enums/enums';
+import {
+  ECollection, EFilterLoading, ELoadingStatus, EMangaOrderBy,
+} from '@enums/enums';
 
 import {
   FILTER_ORDERS_BY, FILTER_SEASONS, FILTER_GENRES, MANGA_FILTER_KINDS,
@@ -135,6 +137,7 @@ const defaultFiltersServiceQueryValues: FilterServiceValues = {
   voices: [],
   genres: [],
   seasons: [],
+  order: EMangaOrderBy.updated,
   kinds: [],
 };
 
