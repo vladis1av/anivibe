@@ -19,11 +19,10 @@ import {
 
 export const HOUR: number = 3600;
 export const MINUTE: number = 60;
-export const ANIME_TITLE: string = 'Аниме';
-export const MANGA_TITLE: string = 'Манга';
+export const ANIME_TITLE: string = 'Каталог Аниме';
+export const CATALOG_TITLE: string = 'Каталог';
 export const DEFAULT_CURRENT_YEAR: string = `${new Date().getFullYear()}`;
 export const ANIME_DESCRIPTION: string = 'На данной странице отображены аниме, отсортированные по годам';
-export const MANGA_DESCRIPTION: string = 'На данной странице отображена манга, манхва, маньхуа и другие комиксы отсортированная по популярности';
 export const ADBLOCK_NOTIFICATION_MESSAGE: string = 'Мы заметили, что вы используете блокировщик рекламы. Отключив adblock или добавив сайт в белый список, вы помогаете поддерживать проект!';
 export const SKIP_OST_TITLE: string = 'Пропустить';
 export const NEXT_EPIDSODE_TITLE: string = 'Следующая серия';
@@ -110,16 +109,40 @@ export const MANGA_ORDER_BY_SELECT = {
 
 export const MANGA_RELEASE_READ_WORDS = {
   [EMangaReleaseKind.manga]: 'Мангу',
-  [EMangaReleaseKind.manhua]: 'Маньхуа',
   [EMangaReleaseKind.manhwa]: 'Манхву',
-  [EMangaReleaseKind.one_shot]: 'Ваншот',
   [EMangaReleaseKind.comics]: 'Комикс',
+  [EMangaReleaseKind.manhua]: 'Маньхуа',
+  [EMangaReleaseKind.one_shot]: 'Ваншот',
+};
+
+export const MANGA_RELEASE_READ_FILTER_WORDS = {
+  [EMangaReleaseKind.manga]: MANGA_RELEASE_READ_WORDS[EMangaReleaseKind.manga],
+  [EMangaReleaseKind.manhwa]: MANGA_RELEASE_READ_WORDS[EMangaReleaseKind.manhwa],
+  [EMangaReleaseKind.manhua]: MANGA_RELEASE_READ_WORDS[EMangaReleaseKind.manhua],
+  [EMangaReleaseKind.comics]: 'Комиксы',
+  [EMangaReleaseKind.one_shot]: 'Ваншоты',
 };
 
 export const MANGA_RELEASE_READING_WORDS = {
   [EMangaReleaseKind.manga]: 'Манги',
-  [EMangaReleaseKind.manhua]: 'Маньхуа',
   [EMangaReleaseKind.manhwa]: 'Манхвы',
-  [EMangaReleaseKind.one_shot]: 'Ваншота',
+  [EMangaReleaseKind.manhua]: 'Маньхуа',
   [EMangaReleaseKind.comics]: 'Комикса',
+  [EMangaReleaseKind.one_shot]: 'Ваншота',
+};
+
+export const MANGA_CATALOG_TITLE_WORDS = {
+  [EMangaReleaseKind.manga]: 'Каталог манги',
+  [EMangaReleaseKind.manhwa]: 'Каталог манхвы',
+  [EMangaReleaseKind.manhua]: 'Каталог маньхуа',
+  [EMangaReleaseKind.comics]: 'Каталог комиксов',
+  [EMangaReleaseKind.one_shot]: 'Каталог ваншотов',
+};
+
+export const MANGA_CATALOG_DESCRIPTION_TITLE_WORDS = {
+  [EMangaReleaseKind.manga]: 'Манга',
+  [EMangaReleaseKind.manhwa]: 'Манхва',
+  [EMangaReleaseKind.manhua]: 'Маньхуа',
+  [EMangaReleaseKind.comics]: 'комиксы',
+  [EMangaReleaseKind.one_shot]: 'Ваншоты',
 };
