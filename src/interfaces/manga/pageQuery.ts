@@ -4,6 +4,7 @@ export type MangaPageQuery = {
   page?: string;
   genres?: string;
   order?: EMangaOrderByValueType;
+  pageType?: EMangaReleaseKindValueType;
   kinds?: EMangaReleaseKindValueType;
 };
 
