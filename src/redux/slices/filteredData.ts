@@ -13,7 +13,7 @@ import {
   EAnimeMethod, ECollection, ELoadingStatus, EMangaOrderBy,
 } from '@enums/enums';
 
-import { DEFAULT_CURRENT_YEAR } from '@constants/common';
+import { API_FILTER_ITEMS_LIMIT, DEFAULT_CURRENT_YEAR } from '@constants/common';
 
 import { FETCH_FILTERED_DATA } from '@redux/actionType/filteredData.actionType';
 import { AppState } from '@redux/store';
@@ -27,6 +27,8 @@ import getAppHydrate from '@utils/store/getAppHydrate';
 export type FilteredData = Pick<Anime, 'id' | 'code' | 'names'>[] | MangaBase[] | [];
 
 export type FilteredDataSliceState = {
+  page: number | null;
+  pages: number | null;
   filteredData: FilteredData;
   loadingState: ELoadingStatusType;
 };
@@ -38,6 +40,8 @@ type FetchFilteredData = {
 };
 
 const initialState: FilteredDataSliceState = {
+  page: null,
+  pages: null,
   filteredData: [],
   loadingState: ELoadingStatus.idle,
 };
@@ -50,9 +54,11 @@ export const filteredDataSlice = createSlice({
   reducers: {
     setFilteredData: (
       state,
-      { payload }: PayloadAction<{ data: FilteredData, loadMore?: boolean }>,
+      { payload }: PayloadAction<{ page: number | null; pages: number | null; data: FilteredData; loadMore?: boolean }>,
     ) => {
-      const { data, loadMore = false } = payload;
+      const {
+        page, pages, data, loadMore = false,
+      } = payload;
 
       if (loadMore) {
         state.filteredData = [...state.filteredData, ...data] as FilteredData;
@@ -60,6 +66,8 @@ export const filteredDataSlice = createSlice({
       }
 
       state.filteredData = data;
+      state.page = page;
+      state.pages = pages;
     },
     setLoadingState: (
       state,
@@ -89,7 +97,10 @@ export const fetchFilteredData = createAsyncThunk<unknown, FetchFilteredData>(
   }, { dispatch }) => {
     dispatch(setLoadingState(ELoadingStatus.pending));
     try {
+      let page: number | null = null;
       let result: FilteredData = [];
+      let pages: number | null = null;
+
       const typeIsAnime = filteredDataType === ECollection.anime;
 
       if (isAnimeServiceParamsTypeGuard(params)) {
@@ -107,24 +118,30 @@ export const fetchFilteredData = createAsyncThunk<unknown, FetchFilteredData>(
         });
         result = animes?.list || [];
       } else {
-        const mangasResult = await getMangas({ order: EMangaOrderBy.popular, ...params });
+        const mangasResult = await getMangas({ order: EMangaOrderBy.updated, ...params }, true);
+        const currentCount = mangasResult?.pageNavParams?.count || 0;
+
         result = mangasResult?.response || [];
+        pages = Math.ceil(currentCount / API_FILTER_ITEMS_LIMIT);
+        page = mangasResult?.pageNavParams?.page || null;
       }
 
       if (!result.length) {
         if (!loadMore) {
-          dispatch(setFilteredData({ data: [] }));
+          dispatch(setFilteredData({ page, pages, data: [] }));
         }
         throw new Error('Titles Not found : 404');
       }
 
       if (typeIsAnime && loadMore) {
-        dispatch(setFilteredData({ data: result, loadMore }));
+        dispatch(setFilteredData({
+          page, pages, data: result, loadMore,
+        }));
         dispatch(setLoadingState(ELoadingStatus.success));
         return;
       }
 
-      dispatch(setFilteredData({ data: result }));
+      dispatch(setFilteredData({ page, pages, data: result }));
       dispatch(setLoadingState(ELoadingStatus.success));
     } catch (error) {
       dispatch(setLoadingState(ELoadingStatus.error));
