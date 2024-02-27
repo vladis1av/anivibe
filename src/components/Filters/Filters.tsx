@@ -1,6 +1,7 @@
 import { FC } from 'react';
 
 import dynamic from 'next/dynamic';
+import { useRouter } from 'next/router';
 
 import Autocomplete from '@mui/material/Autocomplete';
 import Button from '@mui/material/Button';
@@ -31,10 +32,10 @@ const AdBanner = dynamic(() => import('@components/AdBanner'), { ssr: false });
 
 type FiltersProps = {
   className?: string;
-  onFiltersAcceptCallback?: () => void;
+  onFiltersAccept?: (page?: number, cleanParams?: boolean) => void;
 };
 
-const Filters: FC<FiltersProps> = ({ className, onFiltersAcceptCallback }) => {
+const Filters: FC<FiltersProps> = ({ className, onFiltersAccept }) => {
   const classes = useFiltersStyles();
   const dispatch = useAppDispatch();
   const {
@@ -44,11 +45,11 @@ const Filters: FC<FiltersProps> = ({ className, onFiltersAcceptCallback }) => {
     filtersQueryValues,
     filtersLoading,
   } = useAppSelector(getFilters);
+  const route = useRouter();
 
   const isAnimeFiltersType = filterType === ECollection.anime;
   const filterItems = isAnimeFiltersType ? animeFilters : mangaFilters;
   const currentLinkPath = isAnimeFiltersType ? ELinkPath.animes : ELinkPath.mangas;
-
   const generatedQuery = generateQuery(
     filtersQueryValues,
     {
@@ -59,14 +60,20 @@ const Filters: FC<FiltersProps> = ({ className, onFiltersAcceptCallback }) => {
     },
   );
 
-  const onFiltersAccept = () => {
-    if (onFiltersAcceptCallback) {
-      onFiltersAcceptCallback();
-    }
-  };
-
   const cleanFilters = () => {
     dispatch(cleanFilterValues());
+
+    if (onFiltersAccept) {
+      onFiltersAccept(1, true);
+    }
+
+    route.push({ pathname: currentLinkPath });
+  };
+
+  const onFilterAccept = () => {
+    if (onFiltersAccept) {
+      onFiltersAccept(1);
+    }
   };
 
   return (
@@ -86,23 +93,39 @@ const Filters: FC<FiltersProps> = ({ className, onFiltersAcceptCallback }) => {
           return (value && value.length
             ? <FormControl key={key} sx={{ m: 1, width: 300 }}>
               <Autocomplete
-                multiple={!isOrderByKey}
                 fullWidth
                 id="tags-outlined"
                 sx={{ width: 300 }}
                 value={currentValue}
-                classes={{ root: classes.label, inputRoot: classes.inputRoot, paper: classes.paper }}
+                multiple={!isOrderByKey}
+                isOptionEqualToValue={
+                  (option, equalToValue) => {
+                    if (typeof option === 'string' || typeof equalToValue === 'string') {
+                      return option === equalToValue;
+                    }
+                    return option.kind === equalToValue?.kind;
+                  }
+                }
                 onChange={(_, filterValue, reason) => {
                   if (filterValue) {
                     if (reason === 'removeOption') {
-                      dispatch(setFilterValue({ [currentKey]: filterValue }));
+                      dispatch(setFilterValue({
+                        filterKey: currentKey,
+                        filterQueryValue: { [currentKey]: filterValue },
+                      }));
                       return;
                     }
-                    if (!Array.isArray(filterValue)) {
-                      dispatch(setFilterValue({ [currentKey]: [filterValue] }));
+                    if (Array.isArray(filterValue)) {
+                      dispatch(setFilterValue({
+                        filterKey: currentKey,
+                        filterQueryValue: { [currentKey]: filterValue },
+                      }));
                       return;
                     }
-                    dispatch(setFilterValue({ [currentKey]: filterValue }));
+                    dispatch(setFilterValue({
+                      filterKey: currentKey,
+                      filterQueryValue: { [currentKey]: [filterValue] },
+                    }));
                   }
                 }}
                 options={value.map((option) => (
@@ -111,6 +134,7 @@ const Filters: FC<FiltersProps> = ({ className, onFiltersAcceptCallback }) => {
                 renderInput={
                   (params) => <TextField {...params} label={EFilter[currentKey]} variant="outlined" />
                 }
+                classes={{ root: classes.label, inputRoot: classes.inputRoot, paper: classes.paper }}
               />
             </FormControl>
             : null
@@ -124,11 +148,11 @@ const Filters: FC<FiltersProps> = ({ className, onFiltersAcceptCallback }) => {
           variant="text"
           onClick={cleanFilters}
         >
-          Очистить
+            Сбросить
         </Button>
 
-        <Link path={currentLinkPath} query={ generatedQuery.toLocaleLowerCase() }>
-          <Button variant="outlined" onClick={onFiltersAccept}>Применить</Button>
+        <Link path={currentLinkPath} query={generatedQuery} shallow>
+          <Button variant="outlined" onClick={onFilterAccept}>Применить</Button>
         </Link>
       </div>
 
