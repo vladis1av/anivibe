@@ -11,18 +11,26 @@ import { QueryType } from '@interfaces/query';
 import { ECollection } from '@enums/enums';
 
 import {
-  ANIME_DESCRIPTION,
   ANIME_TITLE,
+  ANIME_DESCRIPTION,
   API_FILTER_ITEMS_LIMIT,
 } from '@constants/common';
-import { ANIME_FILTERS_PAGE_DESCRIPTION, ANIME_FILTERS_PAGE_KEYWORDS, ANIME_FILTERS_PAGE_TITLE } from '@constants/seo';
+import {
+  ANIME_FILTERS_PAGE_TITLE,
+  ANIME_FILTERS_PAGE_KEYWORDS,
+  ANIME_FILTERS_PAGE_DESCRIPTION,
+} from '@constants/seo';
 
 import {
+  setLoadMore,
   fetchFilteredData,
   getFilterDataState,
 } from '@redux/slices/filteredData';
 import {
-  getFilters, setFilterType, cleanFilterValues, fetchFilterYears,
+  getFilters,
+  setFilterType,
+  fetchFilterYears,
+  cleanFilterValues,
 } from '@redux/slices/filters';
 
 import SeoHead from '@components/SeoHead';
@@ -40,7 +48,6 @@ const FilterPageContent = dynamic(() => import('@components/FilterPageContent'),
 type AnimesProps = {
   fullUrl: string;
 };
-
 const Animes: FC<AnimesProps> = ({ fullUrl }) => {
 // временное решение пока не разберусь почему апишка стала возвращать 403 forbiden в getServerSide
   const { filteredData } = useAppSelector(getFilterDataState);
@@ -55,6 +62,7 @@ const Animes: FC<AnimesProps> = ({ fullUrl }) => {
     const {
       years, genres, seasons, voices,
     } = currentQuery;
+
     dispatch(fetchFilteredData({
       filteredDataType: ECollection.anime,
       loadMore: isLoadMore,
@@ -69,7 +77,7 @@ const Animes: FC<AnimesProps> = ({ fullUrl }) => {
     }));
   };
 
-  const loadMore = () => getFilteredAnimes(query, true);
+  const onLoadMore = () => { getFilteredAnimes(query, true); };
 
   const getFilterYears = () => {
     if (!animeFilters.years.length) {
@@ -81,8 +89,11 @@ const Animes: FC<AnimesProps> = ({ fullUrl }) => {
     if (filterType !== ECollection.anime) {
       dispatch(setFilterType(ECollection.anime));
     }
+    dispatch(setLoadMore(true));
+
     return () => {
       dispatch(cleanFilterValues());
+      dispatch(setLoadMore(false));
     };
   }, []);
 
@@ -92,7 +103,7 @@ const Animes: FC<AnimesProps> = ({ fullUrl }) => {
 
   useEffect(() => {
     setFiltersFromQuery(dispatch, [ECollection.anime, query]);
-  }, [query, animeFilters.years]);
+  }, [query]);
 
   useEffect(() => {
     getFilteredAnimes(query, false);
@@ -101,18 +112,18 @@ const Animes: FC<AnimesProps> = ({ fullUrl }) => {
   return (
     <ContentLayout full paddings>
       <SeoHead
-        canonical={fullUrl}
         ogUrl={fullUrl}
-        tabTitle={ANIME_FILTERS_PAGE_TITLE}
+        canonical={fullUrl}
         title={ANIME_FILTERS_PAGE_TITLE}
-        description={ANIME_FILTERS_PAGE_DESCRIPTION}
+        tabTitle={ANIME_FILTERS_PAGE_TITLE}
         keywords={ANIME_FILTERS_PAGE_KEYWORDS}
+        description={ANIME_FILTERS_PAGE_DESCRIPTION}
       />
 
       <FilterPageContent
         title={ANIME_TITLE}
+        onLoadMore={onLoadMore}
         description={ANIME_DESCRIPTION}
-        loadMore={loadMore}
       />
     </ContentLayout>
   );
