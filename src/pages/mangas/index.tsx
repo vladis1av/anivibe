@@ -134,16 +134,15 @@ export const getServerSideProps = nextReduxWrapper
   const mangasPage = mangas?.pageNavParams?.page || null;
 
   if (mangas && mangas.response?.length) {
-    store.dispatch(setFilteredData({ page: mangasPage, pages: pagesCount, data: mangas.response }));
+    store.dispatch(setFilteredData({
+      page: mangasPage, pages: pagesCount, data: mangas.response,
+    }));
   } else {
     store.dispatch(setLoadingState('error'));
   }
 
   if (pageType) {
     store.dispatch(setFilterValue({ filterKey: 'pageType', filterQueryValue: { pageType } }));
-    // if (filterType === ECollection.manga) {
-  //   store.dispatch(setFilterType(currentCollectionType));
-  // }
   }
 
   setFiltersFromQuery(store.dispatch, [ECollection.manga, {
