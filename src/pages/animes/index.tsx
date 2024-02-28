@@ -69,6 +69,8 @@ const Animes: FC<AnimesProps> = ({ fullUrl }) => {
     }));
   };
 
+  const loadMore = () => getFilteredAnimes(query, true);
+
   const getFilterYears = () => {
     if (!animeFilters.years.length) {
       dispatch(fetchFilterYears());
@@ -94,7 +96,7 @@ const Animes: FC<AnimesProps> = ({ fullUrl }) => {
 
   useEffect(() => {
     getFilteredAnimes(query, false);
-  }, [query]);
+  }, [query.years, query.genres, query.seasons]);
 
   return (
     <ContentLayout full paddings>
@@ -110,7 +112,7 @@ const Animes: FC<AnimesProps> = ({ fullUrl }) => {
       <FilterPageContent
         title={ANIME_TITLE}
         description={ANIME_DESCRIPTION}
-        loadMore={() => getFilteredAnimes(query, true)}
+        loadMore={loadMore}
       />
     </ContentLayout>
   );
