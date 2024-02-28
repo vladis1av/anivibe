@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
 
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
@@ -72,19 +72,27 @@ const FilterPageContent: FC<FilterPageContentProps> = ({
   const route = useRouter();
   const { query } = route;
 
-  const setPage = (queryPage: number) => {
-    if (currentPagesTotal && queryPage <= currentPagesTotal) {
-      const path = filterType === ECollection.anime ? ELinkPath.animes : ELinkPath.mangas;
-      route.push({ pathname: path, query: { ...query, page: queryPage } }, undefined, { shallow: true });
+  const onFilterAccept = (queryPage: number) => {
+    if (onFiltersAccept) {
+      onFiltersAccept(queryPage);
+    }
+  };
 
-      if (onFiltersAccept) {
-        onFiltersAccept(queryPage);
-      }
+  const setPage = (paginationPage: number) => {
+    if (currentPagesTotal && paginationPage <= currentPagesTotal) {
+      const path = filterType === ECollection.anime ? ELinkPath.animes : ELinkPath.mangas;
+      route.push({ pathname: path, query: { ...query, page: paginationPage } }, undefined, { shallow: true });
     }
   };
 
   const [isMobileFilterMenu] = useMatchMedia(FILTER_MENU_MATCH_MEDIA);
   const [isMobilePagination] = useMatchMedia(PAGINATION_MATCH_MEDIA);
+
+  useEffect(() => {
+    if (query.page) {
+      onFilterAccept(Number(query.page));
+    }
+  }, [query.page]);
 
   const getPagination = (className: string) => {
     if (!currentPagesTotal) {
