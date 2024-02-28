@@ -75,6 +75,7 @@ const Mangas: FC<MangaPageProps> = ({
       };
 
     dispatch(fetchFilteredData({
+      loadMore: false,
       filteredDataType: ECollection.manga,
       params,
     }));
