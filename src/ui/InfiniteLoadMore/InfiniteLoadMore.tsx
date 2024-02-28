@@ -9,7 +9,7 @@ import useInfiniteLoadMoreStyles from './InfiniteLoadMore.styles';
 type InfiniteLoadMoreProps = {
   isPending: boolean;
   isError: boolean;
-  loadMore: () => void;
+  onLoadMore: () => void;
   errorText: string;
   defaultText: string;
 };
@@ -17,7 +17,7 @@ type InfiniteLoadMoreProps = {
 const InfiniteLoadMore: FC<InfiniteLoadMoreProps> = ({
   isPending,
   isError,
-  loadMore,
+  onLoadMore,
   errorText,
   defaultText,
 }) => {
@@ -29,12 +29,12 @@ const InfiniteLoadMore: FC<InfiniteLoadMoreProps> = ({
 
   useEffect(() => {
     if (inView && !isError && !isPending) {
-      loadMore();
+      onLoadMore();
     }
   }, [inView]);
 
   return <div className={classes.buttonWrapper} ref={ref}>
-    <Button variant="outlined" onClick={loadMore} disabled={isPending || isError}>
+    <Button variant="outlined" onClick={onLoadMore} disabled={isPending || isError}>
       {
         isError ? errorText : defaultText
       }
