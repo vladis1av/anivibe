@@ -1,6 +1,5 @@
 import { FC, useEffect } from 'react';
 
-import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 
 import { Pagination } from '@mui/material';
@@ -21,6 +20,7 @@ import InfiniteLoadMore from '@ui/InfiniteLoadMore';
 import PageDescription from '@ui/PageDescription';
 import CardItemSkeleton from '@ui/Skeletons/CardItem/CardItem';
 
+import AdBanner from '@components/AdBanner';
 import FilterCardList from '@components/FilterCardList';
 import FilterMenu from '@components/FilterMenu';
 
@@ -33,14 +33,12 @@ import useCommonStyles from '@styles/Common.styles';
 
 import useFilterPageContentStyles from './FilterPageContent.styles';
 
-const AdBanner = dynamic(() => import('@components/AdBanner'), { ssr: false });
-
 type FilterPageContentProps = {
   title: string;
   description: string;
   page?: number;
   totalPages?: number;
-  loadMore?: () => void;
+  onLoadMore?: () => void;
   onFiltersAccept?: (page?: number, cleanParams?: boolean) => void;
 };
 
@@ -51,7 +49,7 @@ const FilterPageContent: FC<FilterPageContentProps> = ({
   description,
   page,
   totalPages,
-  loadMore,
+  onLoadMore,
   onFiltersAccept,
 }) => {
   const classes = useFilterPageContentStyles();
@@ -59,6 +57,7 @@ const FilterPageContent: FC<FilterPageContentProps> = ({
   const {
     page: currentPage,
     pages,
+    loadMore,
     filteredData,
     loadingState,
   } = useAppSelector(getFilterDataState);
@@ -111,6 +110,21 @@ const FilterPageContent: FC<FilterPageContentProps> = ({
     );
   };
 
+  const getInfiniteLoader = () => {
+    if (loadMore && onLoadMore) {
+      return (
+        <InfiniteLoadMore
+          isError={dataError}
+          isPending={dataPending}
+          onLoadMore={onLoadMore}
+          defaultText={LOAD_MORE}
+          errorText={LOADED_ALL_TITLES}
+        />
+      );
+    }
+    return null;
+  };
+
   return <div className={classes.contentWrapper}>
     <PageDescription title={title} description={description} className={classes.pageDescription}/>
 
@@ -142,15 +156,7 @@ const FilterPageContent: FC<FilterPageContentProps> = ({
           />)}
         </div>
 
-        {
-          loadMore && <InfiniteLoadMore
-            isPending={dataPending}
-            isError={dataError}
-            loadMore={loadMore}
-            errorText={LOADED_ALL_TITLES}
-            defaultText={LOAD_MORE}
-          />
-        }
+        {getInfiniteLoader()}
 
         {getPagination(classes.paginationWrapperBottom)}
       </div>
