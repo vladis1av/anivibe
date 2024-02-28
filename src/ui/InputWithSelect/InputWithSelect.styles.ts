@@ -12,6 +12,7 @@ const useInputWithSelectStyles = makeStyles((theme: Theme) => ({
     color: EColor.black,
     transition: 'all 0.2s ease-out',
     padding: '0 5px',
+
     '&.Mui-focused .MuiInputAdornment-root svg': {
       fill: EColor.black,
     },
@@ -49,7 +50,6 @@ const useInputWithSelectStyles = makeStyles((theme: Theme) => ({
     right: 0,
 
     '@media (min-width: 0) and (max-width: 850px)': {
-      margin: '0 5px',
       paddingTop: 30,
     },
   },
