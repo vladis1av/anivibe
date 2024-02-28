@@ -1,6 +1,5 @@
 import { FC } from 'react';
 
-import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 
 import Autocomplete from '@mui/material/Autocomplete';
@@ -21,14 +20,14 @@ import {
 import Link from '@ui/Link';
 import SkeletonBlock from '@ui/Skeletons/Block';
 
+import AdBanner from '@components/AdBanner';
+
 import useAppDispatch from '@hooks/useAppDispatch';
 import useAppSelector from '@hooks/useAppSelector';
 
 import generateQuery from '@utils/api/generateQuery';
 
 import useFiltersStyles from './Filters.styles';
-
-const AdBanner = dynamic(() => import('@components/AdBanner'), { ssr: false });
 
 type FiltersProps = {
   className?: string;
