@@ -27,7 +27,6 @@ export default class MyDocument extends Document {
           <meta name="google-adsense-account" content="ca-pub-9863048209509930" />
           {(this.props as any).emotionStyleTags}
         </Head>
-        <script></script>
         <body>
           <Main />
 
