@@ -3,7 +3,7 @@ import { makeStyles } from '@mui/styles';
 
 const useCollectionStyles = makeStyles((theme: Theme) => ({
   collectionWrapper: {
-    marginTop: 30,
+    marginTop: 20,
   },
   collectionHeader: {
     marginBottom: 5,
