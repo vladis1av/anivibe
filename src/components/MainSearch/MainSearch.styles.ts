@@ -1,29 +1,10 @@
-import { Theme } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 
-import { EColor, ETheme } from '@enums/enums';
-
-const useMainSearchStyles = makeStyles((theme: Theme) => ({
+const useMainSearchStyles = makeStyles(() => ({
   inputWrapper: {
     position: 'relative',
     maxWidth: 400,
     width: '100%',
-
-    '@media (min-width: 0) and (max-width: 850px)': {
-      display: 'none',
-      position: 'absolute',
-      maxWidth: '100%',
-      padding: '0 5px',
-      zIndex: 1,
-      left: 0,
-      right: 0,
-      height: '100%',
-      paddingTop: 10,
-      backgroundColor: theme.palette.mode === ETheme.light ? EColor.gray : EColor.black,
-    },
-  },
-  showInput: {
-    display: 'block',
   },
   searchListLoadInfo: {
     position: 'absolute',
