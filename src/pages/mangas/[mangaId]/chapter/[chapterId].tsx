@@ -15,7 +15,9 @@ import { MangaChapterList } from '@interfaces/manga/manga';
 import { MangaPageChapterQuery } from '@interfaces/manga/pageQuery';
 import { QueryType } from '@interfaces/query';
 
-import { ENotification, ENotificationKey, EReadingMode } from '@enums/enums';
+import {
+  ELinkPath, ENotification, ENotificationKey, EReadingMode,
+} from '@enums/enums';
 
 import { COOKIE_MESSAGE_NOTIFICATION, READER_FROM_STORAGE } from '@constants/common';
 import { NOT_FOUND_CHAPTER_ERROR } from '@constants/error';
@@ -81,6 +83,7 @@ const Chapter: FC<ChapterProps> = ({
   } = useAppSelector(getReaderState);
   const dispatch = useAppDispatch();
   const route = useRouter();
+
   const { query } = route as unknown as QueryType<MangaPageChapterQuery>;
   const error = !manga || !manga.pages;
 
@@ -98,9 +101,12 @@ const Chapter: FC<ChapterProps> = ({
   };
 
   const changeChapter = (chapterId: number) => {
-    query.page = `${1}`;
-    query.chapterId = `${chapterId}`;
-    route.push({ ...route });
+    route.push(
+      {
+        pathname: `${ELinkPath.mangas}/${query.mangaId}${ELinkPath.chapter}/${chapterId}`,
+        query: { page: 1 },
+      },
+    );
   };
 
   const setPage = (currentPage: number) => dispatch(setReaderState({ page: currentPage }));
@@ -129,7 +135,7 @@ const Chapter: FC<ChapterProps> = ({
   const setPageQuery = (pageNumber: number) => {
     setPage(pageNumber);
     query.page = `${pageNumber}`;
-    route.push({ ...route }, undefined, { shallow: true });
+    route.push({ pathname: route.asPath, query: { page: pageNumber } }, undefined, { shallow: true });
   };
 
   const onChangeChapter = () => {
