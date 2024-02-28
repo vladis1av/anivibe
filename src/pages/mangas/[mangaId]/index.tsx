@@ -14,6 +14,7 @@ import { SEO_MANGA_READ_ONLINE_TEXT } from '@constants/seo';
 
 import Error from '@ui/Error';
 
+import MediaInfoSkeleton from '@components/MediaInfo/MediaInfoSkeleton';
 import SeoHead from '@components/SeoHead';
 
 import ContentLayout from '@layouts/ContentLayout';
@@ -27,7 +28,10 @@ import normalizeText from '@utils/regexp/normalizeText';
 import getMangaSeoTitle from '@utils/seo/getMangaSeoTitle';
 import getTitleKeywords from '@utils/seo/getTitleKeywords';
 
-const MediaInfo = dynamic(() => import('@components/MediaInfo'), { ssr: false });
+const MediaInfo = dynamic(
+  () => import('@components/MediaInfo'),
+  { ssr: false, loading: () => (<MediaInfoSkeleton />) },
+);
 
 type MangaPageProps = {
   fullUrl: string;

@@ -34,6 +34,7 @@ import {
 import { nextReduxWrapper } from '@redux/store';
 
 import Error from '@ui/Error';
+import SkeletonBlock from '@ui/Skeletons/Block/Block';
 
 import ReadImages from '@components/Reader/ReadImages';
 import SeoHead from '@components/SeoHead';
@@ -58,8 +59,11 @@ import useChapterPageStyles from '@styles/ChapterPage.styles';
 
 const AdBanner = dynamic(() => import('@components/AdBanner'), { ssr: false });
 const ChaptersMenu = dynamic(() => import('@components/Reader/ChaptersMenu'), { ssr: false });
-const ChapterSelect = dynamic(() => import('@components/Reader/ChapterSelect'), { ssr: false });
 const ReaderSettings = dynamic(() => import('@components/Reader/ReaderSettings'), { ssr: false });
+const ChapterSelect = dynamic(
+  () => import('@components/Reader/ChapterSelect'),
+  { ssr: false, loading: () => (<SkeletonBlock width={78} height={35} />) },
+);
 
 type ChapterProps = {
   fullUrl: string;

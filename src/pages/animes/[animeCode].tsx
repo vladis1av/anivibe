@@ -30,7 +30,10 @@ import getFullUrlFromServerSide from '@utils/getFullUrlFromServerSide';
 import getIdFromString from '@utils/regexp/getIdFromString';
 import getTitleKeywords from '@utils/seo/getTitleKeywords';
 
-const MediaInfo = dynamic(() => import('@components/MediaInfo'), { ssr: false });
+const MediaInfo = dynamic(
+  () => import('@components/MediaInfo'),
+  { ssr: false, loading: () => (<MediaInfoSkeleton />) },
+);
 
 const { publicRuntimeConfig: { ANIME_DOMEN } } = getNextEnv();
 

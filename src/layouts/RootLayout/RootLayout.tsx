@@ -1,8 +1,7 @@
 import { FC, ReactNode } from 'react';
 
+import dynamic from 'next/dynamic';
 import Script from 'next/script';
-
-import NextNProgress from 'nextjs-progressbar';
 
 import {
   ENotification,
@@ -22,13 +21,15 @@ import {
 } from '@redux/slices/notifications';
 import { getOverlay } from '@redux/slices/overlay';
 
-import Overlay from '@ui/Overlay';
-
 import HeaderContextProvider from '@components/Header/HeaderContext';
-import Notification from '@components/Notification';
 
 import useAppDispatch from '@hooks/useAppDispatch';
 import useAppSelector from '@hooks/useAppSelector';
+
+const Overlay = dynamic(() => import('@ui/Overlay'), { ssr: false });
+const Footer = dynamic(() => import('@components/Footer'), { ssr: false });
+const Notification = dynamic(() => import('@components/Notification'), { ssr: false });
+const NextNProgress = dynamic(() => import('nextjs-progressbar'), { ssr: false });
 
 type MainLayout = {
   children: ReactNode;
@@ -79,6 +80,8 @@ const RootLayout: FC<MainLayout> = ({ children }) => {
         <Notification />
 
         {children}
+
+        <Footer />
       </HeaderContextProvider>
     </>
   );
