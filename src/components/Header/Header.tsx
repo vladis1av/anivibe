@@ -1,5 +1,7 @@
 import { FC, ForwardedRef } from 'react';
 
+import dynamic from 'next/dynamic';
+
 import Button from '@mui/material/Button';
 import clsx from 'clsx';
 
@@ -19,14 +21,13 @@ import { APP_NAME } from '@constants/seo';
 
 import { setNotification } from '@redux/slices/notifications';
 import { setOverlayVisible } from '@redux/slices/overlay';
-import { setSearchByTypeState } from '@redux/slices/searchByType';
+import { getSearchByTypeState, setSearchByTypeState } from '@redux/slices/searchByType';
 import { getThemeIsLight, toggleTheme } from '@redux/slices/theme';
 
 import Link from '@ui/Link';
+import SkeletonBlock from '@ui/Skeletons/Block/Block';
 
-import MainSearch from '@components/MainSearch';
 import Navigation from '@components/Navigation';
-import TopHeaderNotification from '@components/TopHeaderNotification';
 
 import MoonSVG from '@assets/svg/moon';
 import SearchSVG from '@assets/svg/search';
@@ -39,6 +40,12 @@ import localStorageIsAvailable from '@utils/window/localStorageIsAvailable';
 
 import useHeaderStyles from './Header.styles';
 
+const TopHeaderNotification = dynamic(() => import('@components/TopHeaderNotification'), { ssr: false });
+const MainSearch = dynamic(
+  () => import('@components/MainSearch'),
+  { ssr: false, loading: () => (<SkeletonBlock width={400} height={32} />) },
+);
+
 type HeaderProps = {
   headerRef: ForwardedRef<HTMLElement>
 };
@@ -47,6 +54,7 @@ const Header: FC<HeaderProps> = ({ headerRef }) => {
   const classes = useHeaderStyles();
   const dispatch = useAppDispatch();
   const themeIsLight = useAppSelector(getThemeIsLight);
+  const { mobileInputIsVisible } = useAppSelector(getSearchByTypeState);
 
   const toggleCurrentTheme = () => {
     const cookieIsAvailable = window.navigator.cookieEnabled;
@@ -93,7 +101,12 @@ const Header: FC<HeaderProps> = ({ headerRef }) => {
           {APP_LOGO}
         </Link>
 
-        <MainSearch onFocus={onOpenOverlay}/>
+        <div className={clsx(classes.searchWrapper, { [classes.showInput]: mobileInputIsVisible })}>
+          <MainSearch
+            onFocus={onOpenOverlay}
+            className={clsx({ [classes.searchInput]: mobileInputIsVisible })}
+          />
+        </div>
 
         <div className={classes.navWrapper}>
           <Navigation />
