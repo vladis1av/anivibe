@@ -36,9 +36,10 @@ const LoadingStatus = dynamic(() => import('@ui/LoadingStatus'));
 
 type MainSearchProps = {
   onFocus: () => void;
+  className?: string;
 };
 
-const MainSearch: FC<MainSearchProps> = ({ onFocus }) => {
+const MainSearch: FC<MainSearchProps> = ({ onFocus, className }) => {
   const classes = useMainSearchStyles();
   const dispatch = useAppDispatch();
   const {
@@ -46,7 +47,6 @@ const MainSearch: FC<MainSearchProps> = ({ onFocus }) => {
     loadingState,
     searchType,
     foundTitles,
-    mobileInputIsVisible,
     selectSearchTypeIsOpen,
   } = useAppSelector(getSearchByTypeState);
   const overlayIsVisible = useAppSelector(getOverlay);
@@ -83,7 +83,7 @@ const MainSearch: FC<MainSearchProps> = ({ onFocus }) => {
   useDebounce(300, searchValue, fetchItems);
 
   return (
-    <div className={clsx(classes.inputWrapper, { [classes.showInput]: mobileInputIsVisible })} ref={inputRef}>
+    <div className={clsx(classes.inputWrapper, className)} ref={inputRef}>
       <InputWithSelect
         value={searchValue}
         selects={SELECT_SEARCH_TYPES}
