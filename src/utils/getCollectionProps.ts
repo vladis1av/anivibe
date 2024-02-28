@@ -20,7 +20,7 @@ const getCollectionProps = (item: MangaBase | FetchedLastAnimeUpdatedResult): Ca
       id,
       hideTitle,
       title: russian,
-      imageSource: image.original,
+      imageSource: image.preview,
       pathTo: formatMangaPath(id, name),
     };
   }

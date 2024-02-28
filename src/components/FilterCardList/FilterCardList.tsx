@@ -42,7 +42,7 @@ const FilterCardList: FC<FilterCardListProps> = ({
           key={id}
           id={id}
           title={russian}
-          imageSource={image.original}
+          imageSource={image.preview}
           pathTo={formatMangaPath(id, name)}
           className={classes.cardListItem}
         />;

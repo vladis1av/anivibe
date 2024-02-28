@@ -67,7 +67,7 @@ const Manga: FC<MangaPageProps> = ({ fullUrl, manga, bookTags }) => {
         title={seoTitle}
         tabTitle={seoTitle}
         description={[`${SEO_MANGA_READ_ONLINE_TEXT} ${russian}`, description].join(' — ')}
-        imageSource={image.original}
+        imageSource={image.preview}
         bookTags={bookTags}
         keywords={getTitleKeywords({ title: russian, secondTitle: name, kind })}
       />
