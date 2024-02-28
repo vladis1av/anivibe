@@ -29,6 +29,7 @@ export type FilteredData = Pick<Anime, 'id' | 'code' | 'names'>[] | MangaBase[] 
 export type FilteredDataSliceState = {
   page: number | null;
   pages: number | null;
+  loadMore: boolean;
   filteredData: FilteredData;
   loadingState: ELoadingStatusType;
 };
@@ -42,6 +43,7 @@ type FetchFilteredData = {
 const initialState: FilteredDataSliceState = {
   page: null,
   pages: null,
+  loadMore: false,
   filteredData: [],
   loadingState: ELoadingStatus.idle,
 };
@@ -69,6 +71,12 @@ export const filteredDataSlice = createSlice({
       state.page = page;
       state.pages = pages;
     },
+    setLoadMore: (
+      state,
+      action: PayloadAction<boolean>,
+    ) => {
+      state.loadMore = action.payload;
+    },
     setLoadingState: (
       state,
       action: PayloadAction<ELoadingStatusType>,
@@ -88,7 +96,7 @@ export const filteredDataSlice = createSlice({
 export const getFilterDataState = ({ filteredData }: AppState) => filteredData;
 
 export const filterDataReducer = filteredDataSlice.reducer;
-export const { setFilteredData, setLoadingState } = filteredDataSlice.actions;
+export const { setFilteredData, setLoadingState, setLoadMore } = filteredDataSlice.actions;
 
 export const fetchFilteredData = createAsyncThunk<unknown, FetchFilteredData>(
   FETCH_FILTERED_DATA,
