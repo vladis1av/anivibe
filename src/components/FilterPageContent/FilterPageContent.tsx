@@ -75,7 +75,7 @@ const FilterPageContent: FC<FilterPageContentProps> = ({
   const setPage = (queryPage: number) => {
     if (currentPagesTotal && queryPage <= currentPagesTotal) {
       const path = filterType === ECollection.anime ? ELinkPath.animes : ELinkPath.mangas;
-      route.push({ pathname: path, query: { ...query, page: queryPage } });
+      route.push({ pathname: path, query: { ...query, page: queryPage } }, undefined, { shallow: true });
 
       if (onFiltersAccept) {
         onFiltersAccept(queryPage);
