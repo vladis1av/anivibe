@@ -37,6 +37,29 @@ const useHeaderStyles = makeStyles((theme: Theme) => ({
       padding: '10px 5px 10px 5px',
     },
   },
+  searchWrapper: {
+    maxWidth: 400,
+    width: '100%',
+
+    '@media (min-width: 0) and (max-width: 850px)': {
+      display: 'none',
+      position: 'absolute',
+      maxWidth: '100%',
+      padding: '0 5px',
+      zIndex: 1,
+      left: 0,
+      right: 0,
+      height: '100%',
+      paddingTop: 10,
+      backgroundColor: theme.palette.mode === ETheme.light ? EColor.gray : EColor.black,
+    },
+  },
+  showInput: {
+    display: 'block',
+  },
+  searchInput: {
+    maxWidth: '100%',
+  },
   headerLogo: {
     color: EColor.white,
     fontSize: 16,
