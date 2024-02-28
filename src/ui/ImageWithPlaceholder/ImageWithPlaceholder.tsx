@@ -103,11 +103,11 @@ const ImageWithPlaceholder: FC<ImageWithPlacefolderProps> = ({
   const loadImage = (source: string) => {
     const imagePromse = new Promise((resolve, reject) => {
       const img = new Image();
-      img.onload = () => resolve(img);
-      img.onerror = reject;
+      img.onload = () => { resolve(img); onLoad(); };
+      img.onerror = () => { reject(source); onError(); };
       img.src = source;
     });
-    imagePromse.then(() => onLoad()).catch((e) => { console.error(e); onError(); });
+    return imagePromse;
   };
 
   useEffect(() => {
