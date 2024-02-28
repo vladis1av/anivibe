@@ -4,7 +4,7 @@ const useContentLayoutStyles = makeStyles(() => ({
   wrapper: {
     width: '100%',
     margin: '0 auto',
-    paddingBottom: 30,
+    paddingBottom: 20,
   },
   paddings: {
     paddingLeft: 60,
