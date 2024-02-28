@@ -54,6 +54,7 @@ import getFullUrlFromServerSide from '@utils/getFullUrlFromServerSide';
 import getIdFromString from '@utils/regexp/getIdFromString';
 import getMangaSeoChapterTitle from '@utils/seo/getMangaSeoChapterTitle';
 import cookieIsAvailable from '@utils/window/cookieIsAvailable';
+import onScrollTop from '@utils/window/onScrollTop';
 
 import useChapterPageStyles from '@styles/ChapterPage.styles';
 
@@ -99,10 +100,6 @@ const Chapter: FC<ChapterProps> = ({
   } = settings;
 
   const isHorizontalReadingMode = readingMode === EReadingMode.horizontal;
-
-  const onScrollTop = () => {
-    window.scrollTo({ top: 0 });
-  };
 
   const changeChapter = (chapterId: number) => {
     route.push(

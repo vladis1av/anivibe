@@ -28,6 +28,7 @@ import useAppSelector from '@hooks/useAppSelector';
 import useMatchMedia from '@hooks/useMatchMedia';
 
 import getEmptyArray from '@utils/array/getEmptyArray';
+import onScrollTop from '@utils/window/onScrollTop';
 
 import useCommonStyles from '@styles/Common.styles';
 
@@ -81,6 +82,8 @@ const FilterPageContent: FC<FilterPageContentProps> = ({
     if (currentPagesTotal && paginationPage <= currentPagesTotal) {
       const path = filterType === ECollection.anime ? ELinkPath.animes : ELinkPath.mangas;
       route.push({ pathname: path, query: { ...query, page: paginationPage } }, undefined, { shallow: true });
+
+      onScrollTop();
     }
   };
 
@@ -90,6 +93,7 @@ const FilterPageContent: FC<FilterPageContentProps> = ({
   useEffect(() => {
     if (query.page) {
       onFilterAccept(Number(query.page));
+      onScrollTop();
     }
   }, [query.page]);
 
