@@ -72,9 +72,10 @@ const FilterPageContent: FC<FilterPageContentProps> = ({
   const route = useRouter();
   const { query } = route;
 
-  const onFilterAccept = (queryPage: number) => {
+  const onHistoryBack = (queryPage: number) => {
     if (onFiltersAccept) {
       onFiltersAccept(queryPage);
+      onScrollTop();
     }
   };
 
@@ -92,8 +93,7 @@ const FilterPageContent: FC<FilterPageContentProps> = ({
 
   useEffect(() => {
     if (query.page) {
-      onFilterAccept(Number(query.page));
-      onScrollTop();
+      onHistoryBack(Number(query.page));
     }
   }, [query.page]);
 
