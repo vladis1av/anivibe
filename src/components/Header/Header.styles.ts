@@ -62,7 +62,7 @@ const useHeaderStyles = makeStyles((theme: Theme) => ({
   },
   headerLogo: {
     color: EColor.white,
-    fontSize: 16,
+    fontSize: 19,
   },
   button: {
     minWidth: 27,
