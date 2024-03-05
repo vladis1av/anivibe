@@ -90,6 +90,7 @@ const Chapter: FC<ChapterProps> = ({
   const route = useRouter();
 
   const { query } = route as unknown as QueryType<MangaPageChapterQuery>;
+  const { mangaId, chapterId } = query;
   const error = !manga || !manga.pages;
 
   const {
@@ -101,10 +102,10 @@ const Chapter: FC<ChapterProps> = ({
 
   const isHorizontalReadingMode = readingMode === EReadingMode.horizontal;
 
-  const changeChapter = (chapterId: number) => {
+  const changeChapter = (currentChapterId: number) => {
     route.push(
       {
-        pathname: `${ELinkPath.mangas}/${query.mangaId}${ELinkPath.chapter}/${chapterId}`,
+        pathname: `${ELinkPath.mangas}/${query.mangaId}${ELinkPath.chapter}/${currentChapterId}`,
         query: { page: 1 },
       },
     );
@@ -134,9 +135,10 @@ const Chapter: FC<ChapterProps> = ({
   const settingsToggle = () => setSettingsIsOpen(!settingsIsOpen);
 
   const setPageQuery = (pageNumber: number) => {
+    const path = `${ELinkPath.mangas}/${mangaId}${ELinkPath.chapter}/${chapterId}`;
     setPage(pageNumber);
     query.page = `${pageNumber}`;
-    route.push({ pathname: route.asPath, query: { page: pageNumber } }, undefined, { shallow: true });
+    route.push({ pathname: path, query: { page: pageNumber } }, undefined, { shallow: true });
   };
 
   const onChangeChapter = () => {
