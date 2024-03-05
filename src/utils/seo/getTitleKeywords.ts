@@ -31,7 +31,7 @@ const getTitleKeywords = ({
     return `${currentTitle}, смотреть аниме ${currentTitle}, смотреть ${currentTitle}, аниме, онлайн${currentAlternativeTitle}`;
   }
 
-  return `${currentTitle}, читать ${currentMangaKind.toLocaleLowerCase()}${currentTitle}${currentkind}, читать мангу ${currentTitle}, манга, читать, онлайн${currentAlternativeTitle}`;
+  return `${currentTitle}, читать мангу ${currentTitle}, читать ${currentMangaKind.toLocaleLowerCase()}${currentTitle}${currentkind}, манга, читать, онлайн${currentAlternativeTitle}`;
 };
 
 export default getTitleKeywords;
