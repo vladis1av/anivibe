@@ -18,6 +18,7 @@ import { POSTER_LIGHT } from '@constants/common';
 
 import ImageWithPlaceholder from '@ui/ImageWithPlaceholder';
 
+import getProxedImage from '@utils/api/getProxedImage';
 import getNextEnv from '@utils/config/getNextEnv';
 import leftSideElementClick from '@utils/leftSideElementClick';
 import changeDomainZone from '@utils/regexp/changeDomainZone';
@@ -87,7 +88,9 @@ const ReadImages: FC<ReadImagesProps> = ({
   >
     {
       list.map(({ id: imgId, img, width }, i) => {
-        const currentImage = MANGA_IMAGES_DOMAIN.length ? changeDomainZone(img, MANGA_IMAGES_DOMAIN[server]) : img;
+        const currentImage = MANGA_IMAGES_DOMAIN.length
+          ? getProxedImage(changeDomainZone(img, MANGA_IMAGES_DOMAIN[server]))
+          : getProxedImage(img);
         const index = i + 1;
         const nextCacheImage = page + imagesCacheStep;
         const src = index === page || index === nextCacheImage
