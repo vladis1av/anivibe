@@ -35,6 +35,9 @@ const getMangaRewrites = () => {
 
 module.exports = {
   publicRuntimeConfig: env,
+  api: {
+    responseLimit: '20mb',
+  },
   async rewrites() {
     return getMangaRewrites()
   },
