@@ -31,6 +31,8 @@ const getApiByNumber = (apiArr, apiNumber, defaultApi) => (apiArr[Number(apiNumb
 const getMangaRewrites = () => {
   return ([
     getRewrite(REWRITE_MANGA_API_SOURCE, getApiByNumber(env.MANGAS_API, env.MANGAS_API_NUMBER, env.MANGAS_API[0])),
+    getRewrite('/api/manga/getMangas', getApiByNumber(env.MANGAS_API, env.MANGAS_API_NUMBER, env.MANGAS_API[0])),
+
   ])
 };
 
