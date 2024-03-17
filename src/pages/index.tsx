@@ -96,7 +96,7 @@ export const getServerSideProps: GetServerSideProps<MainPageProps> = async ({ re
   //   filters: ['id', 'code', 'names'],
   //   params: { limit: COLLECTION_ITEMS_LIMIT },
   // });
-  const updatedMangas = await getMangas({ order: EMangaOrderBy.updated, limit: COLLECTION_ITEMS_LIMIT }, true);
+  const updatedMangas = await getMangas({ order: EMangaOrderBy.updated, limit: COLLECTION_ITEMS_LIMIT });
   const fullUrl = getFullUrlFromServerSide(resolvedUrl);
 
   return {
