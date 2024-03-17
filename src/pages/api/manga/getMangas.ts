@@ -4,11 +4,6 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import generateQuery from '@utils/api/generateQuery';
 import getApiByNumber from '@utils/api/getApiByNumber';
 
-const MANGA_API_NUMBER = Number(process.env.MANGA_API_NUMBER);
-const MANGAS_API = process.env.MANGAS_API?.split(',') || [''];
-
-const CURRENT_MANGA_API = getApiByNumber(MANGAS_API, Number(MANGA_API_NUMBER), MANGAS_API[0]);
-
 export const config = {
   api: {
     responseLimit: false,
@@ -25,7 +20,10 @@ export default async function handler(
     });
     return;
   }
+  const MANGAS_API = process.env.MANGAS_API ? process.env.MANGAS_API.split(',') : [];
+  const MANGA_API_NUMBER = process.env.MANGA_API_NUMBER || '0';
 
+  const CURRENT_MANGA_API = getApiByNumber(MANGAS_API, Number(MANGA_API_NUMBER), MANGAS_API[0]);
   const {
     page = '1',
     limit = '18',
@@ -47,11 +45,13 @@ export default async function handler(
       method: 'GET',
       headers: { ...req.headers } as any,
     });
-
+    console.error('process.env.', process.env);
     const result = await data.json();
     res.status(200).json(result);
   } catch (error) {
     console.error(error);
+    console.error('catch process.env.', process.env);
+
     res.status(500).json({ data: null });
   }
 }
