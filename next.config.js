@@ -12,10 +12,11 @@ const env = {
   ANIME_DOMEN: process.env.ANIME_DOMEN,
   TORRENT_URL: process.env.TORRENT_URL,
   ANILIST_API: process.env.ANILIST_API,
+  HOST_MANGA_API: process.env.HOST_MANGA_API,
   ANILIST_API_KEY: process.env.ANILIST_API_KEY,
   MANGA_API_NUMBER: process.env.MANGA_API_NUMBER || 0,
   MANGAS_API: process.env.MANGAS_API?.split(',') || [""],
-  MANGA_IMAGES_DOMAIN: process.env.MANGA_IMAGES_DOMAIN?.split(',') || [""]
+  MANGA_IMAGES_DOMAIN: process.env.MANGA_IMAGES_DOMAIN?.split(',') || [""],
 }
 
 const getRewrite = (source, destination) => {
