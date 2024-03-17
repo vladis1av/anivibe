@@ -3,12 +3,9 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 
 import axios from 'redaxios';
 
-import getApiByNumber from '@utils/api/getApiByNumber';
 import getNextEnv from '@utils/config/getNextEnv';
 
-const { publicRuntimeConfig: { MANGAS_API, MANGA_API_NUMBER, MANGA_IMAGES_DOMAIN } } = getNextEnv();
-
-const CURRENT_MANGA_API = getApiByNumber(MANGAS_API, Number(MANGA_API_NUMBER), MANGAS_API[0]);
+const { publicRuntimeConfig: { MANGA_IMAGES_DOMAIN } } = getNextEnv();
 
 export const config = {
   api: {
@@ -34,7 +31,7 @@ export default async function handler(
 
   try {
     const { data } = await axios.get(
-      encodeURI(`${CURRENT_MANGA_API}${mangaId}/chapter/${chapterId}`),
+      encodeURI(`https://desu.me/manga/${mangaId}/chapter/${chapterId}`),
       {
         headers: {
           authority: MANGA_IMAGES_DOMAIN[0],
