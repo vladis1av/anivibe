@@ -37,10 +37,11 @@ export default async function handler(
       kinds,
       order,
     });
-    const data = await fetch(`https://desu.me/manga/api?${query}`, {
+    const data = await fetch(`https://desu.win/manga/api?${query}`, {
       method: 'GET',
       headers: req.headers as any,
     });
+
     const result = await data.json();
     res.status(200).json(result);
   } catch (error) {
