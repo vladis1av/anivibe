@@ -1,8 +1,6 @@
 /* eslint-disable max-len */
 import type { NextApiRequest, NextApiResponse } from 'next';
 
-import axios from 'redaxios';
-
 export const config = {
   api: {
     responseLimit: false,
@@ -25,12 +23,10 @@ export default async function handler(
   } = req.query;
 
   try {
-    const { data } = await axios.get(
-      encodeURI(`https://desu.me/manga/api/${id}`),
-      {
-        headers: req.headers as any,
-      },
-    );
+    const data = await fetch(`https://desu.me/manga/api/${id}`, {
+      method: 'GET',
+      headers: req.headers as any,
+    });
 
     res.status(200).json(data);
   } catch (error) {
