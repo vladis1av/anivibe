@@ -68,7 +68,7 @@ export default async function handler(
     res.status(200).json(result);
   } catch (error) {
     console.error(error);
-    console.log('CURRENT_MANGA_API', CURRENT_MANGA_API);
+    console.error('CURRENT_MANGA_API', CURRENT_MANGA_API);
     res.status(500).json({ data: null });
   }
 }
