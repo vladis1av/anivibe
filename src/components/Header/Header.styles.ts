@@ -44,9 +44,9 @@ const useHeaderStyles = makeStyles((theme: Theme) => ({
     '@media (min-width: 0) and (max-width: 850px)': {
       display: 'none',
       position: 'absolute',
-      maxWidth: '100%',
       padding: '0 5px',
       zIndex: 1,
+      justifyContent: 'center',
       left: 0,
       right: 0,
       height: '100%',
@@ -55,10 +55,12 @@ const useHeaderStyles = makeStyles((theme: Theme) => ({
     },
   },
   showInput: {
-    display: 'block',
+    display: 'flex',
+    width: '100%',
+    maxWidth: '100%',
   },
   searchInput: {
-    maxWidth: '100%',
+    maxWidth: '100%!important',
   },
   headerLogo: {
     color: EColor.white,
