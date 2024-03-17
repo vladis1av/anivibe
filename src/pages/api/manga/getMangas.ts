@@ -64,11 +64,14 @@ export default async function handler(
         'user-agent': 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Mobile Safari/537.36',
       },
     });
+    console.error('HOST', HOST);
+    console.error('CURRENT_MANGA_API', CURRENT_MANGA_API);
+
     const result = await data.json();
     res.status(200).json(result);
   } catch (error) {
     console.error(error);
-    console.error('CURRENT_MANGA_API', CURRENT_MANGA_API);
+    console.error('catch CURRENT_MANGA_API', CURRENT_MANGA_API);
     res.status(500).json({ data: null });
   }
 }
