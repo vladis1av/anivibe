@@ -24,7 +24,7 @@ export default async function handler(
   } = req.query;
 
   try {
-    const data = await fetch(`https://desu.me/manga/api/${mangaId}/chapter/${chapterId}`, {
+    const data = await fetch(`https://desu.win/manga/api/${mangaId}/chapter/${chapterId}`, {
       method: 'GET',
       headers: req.headers as any,
     });
