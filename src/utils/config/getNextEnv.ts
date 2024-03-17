@@ -39,6 +39,7 @@ const getNextEnv = () => {
 
   return {
     publicRuntimeConfig: getEnvObj(publicRuntimeConfig),
+    serverRuntimeConfig: getEnvObj(publicRuntimeConfig),
   };
 };
 

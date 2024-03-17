@@ -2,6 +2,12 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 
 import generateQuery from '@utils/api/generateQuery';
+import getApiByNumber from '@utils/api/getApiByNumber';
+import getNextEnv from '@utils/config/getNextEnv';
+
+const { serverRuntimeConfig: { MANGAS_API, MANGA_API_NUMBER } } = getNextEnv();
+
+const CURRENT_MANGA_API = getApiByNumber(MANGAS_API, Number(MANGA_API_NUMBER), MANGAS_API[0]);
 
 export const config = {
   api: {
@@ -37,7 +43,7 @@ export default async function handler(
       kinds,
       order,
     });
-    const data = await fetch(`https://desu.win/manga/api?${query}`, {
+    const data = await fetch(`${CURRENT_MANGA_API}?${query}`, {
       method: 'GET',
       headers: { ...req.headers } as any,
     });
