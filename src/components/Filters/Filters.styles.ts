@@ -60,6 +60,11 @@ const useFiltersStyles = makeStyles((theme: Theme) => ({
   },
   adBanner: {
     marginTop: 15,
+
+    '@media (min-width: 0) and (max-width: 635px)': {
+      display: 'none',
+      visibility: 'hidden',
+    },
   },
 }));
 
