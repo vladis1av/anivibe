@@ -48,6 +48,7 @@ export default async function handler(
     const data = await fetch(`${CURRENT_MANGA_API}?${query}`, {
       method: 'GET',
       headers: {
+        'User-Agent': 'https://anivibe.vercel.app/',
         authority: HOST,
         referer: `https:/${HOST}/`,
         accept: 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7',
