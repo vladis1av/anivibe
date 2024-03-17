@@ -3,9 +3,9 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 
 import generateQuery from '@utils/api/generateQuery';
 import getApiByNumber from '@utils/api/getApiByNumber';
-import getNextEnv from '@utils/config/getNextEnv';
 
-const { serverRuntimeConfig: { MANGAS_API, MANGA_API_NUMBER } } = getNextEnv();
+const MANGA_API_NUMBER = Number(process.env.MANGA_API_NUMBER);
+const MANGAS_API = process.env.MANGAS_API?.split(',') || [''];
 
 const CURRENT_MANGA_API = getApiByNumber(MANGAS_API, Number(MANGA_API_NUMBER), MANGAS_API[0]);
 
