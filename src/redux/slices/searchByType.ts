@@ -65,7 +65,7 @@ export const fetchTitles = createAsyncThunk<FoundTitles, FetchTitlesType>(
           EMangaReleaseKind.one_shot,
         ]
         : [type];
-      const mangasResult = await getMangas({ limit: 50, search: searchValue, kinds }, true);
+      const mangasResult = await getMangas({ limit: 50, search: searchValue, kinds });
       result = mangasResult?.response || [];
     }
 
