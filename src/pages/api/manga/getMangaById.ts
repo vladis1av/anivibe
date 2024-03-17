@@ -28,7 +28,8 @@ export default async function handler(
       headers: req.headers as any,
     });
 
-    res.status(200).json(data);
+    const result = await data.json();
+    res.status(200).json(result);
   } catch (error) {
     console.error(error);
     res.status(500).json({ data: null });
