@@ -126,7 +126,7 @@ export const fetchFilteredData = createAsyncThunk<unknown, FetchFilteredData>(
         });
         result = animes?.list || [];
       } else {
-        const mangasResult = await getMangas({ order: EMangaOrderBy.updated, ...params });
+        const mangasResult = await getMangas({ order: EMangaOrderBy.updated, ...params }, true);
         const currentCount = mangasResult?.pageNavParams?.count || 0;
 
         result = mangasResult?.response || [];

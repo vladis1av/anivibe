@@ -4,14 +4,18 @@ import { MangaBase, MangaDetail, MangaWithPages } from '@interfaces/manga/manga'
 import { MangaResponse, MangaServiceParams } from '@interfaces/manga/service';
 
 import generateQuery from '@utils/api/generateQuery';
+import getApiByNumber from '@utils/api/getApiByNumber';
 import getNextEnv from '@utils/config/getNextEnv';
 
-const { publicRuntimeConfig: { HOST_MANGA_API } } = getNextEnv();
+const { publicRuntimeConfig: { MANGAS_API, MANGA_API_NUMBER } } = getNextEnv();
+
+const MANGA_API_REWRITE_SOURCE = '/manga/api/';
+const CURRENT_MANGA_API = getApiByNumber(MANGAS_API, Number(MANGA_API_NUMBER), MANGAS_API[0]);
 
 export const getMangaById = async (id: string): Promise<MangaDetail | null> => {
   try {
     const { data } = await axios.get<MangaResponse<MangaDetail | MangaDetail[]>>(
-      encodeURI(`${HOST_MANGA_API}getMangaById?id=${id}`),
+      encodeURI(`${CURRENT_MANGA_API}${id}`),
     );
 
     // if id === 0 returns array with manga
@@ -32,7 +36,7 @@ export const getMangaChapterById = async (
 ): Promise<MangaWithPages | null> => {
   try {
     const { data } = await axios.get<MangaResponse<MangaWithPages>>(
-      encodeURI(`${HOST_MANGA_API}getMangaChapter?mangaId=${mangaId}&chapterId=${chapterId}`),
+      encodeURI(`${CURRENT_MANGA_API}${mangaId}/chapter/${chapterId}`),
     );
 
     if (data.error) {
@@ -46,12 +50,16 @@ export const getMangaChapterById = async (
   }
 };
 
-export const getMangas = async (params: MangaServiceParams): Promise<MangaResponse<MangaBase[]> | null> => {
+export const getMangas = async (
+  params: MangaServiceParams,
+  cors?: boolean,
+): Promise<MangaResponse<MangaBase[]> | null> => {
   try {
     const query = generateQuery(params);
+    const currentAPI = cors ? MANGA_API_REWRITE_SOURCE : CURRENT_MANGA_API;
 
     const { data } = await axios.get<MangaResponse<MangaBase[]>>(
-      encodeURI(`${HOST_MANGA_API}getMangas?${query}`),
+      encodeURI(`${currentAPI}?${query}`),
     );
 
     return data;
