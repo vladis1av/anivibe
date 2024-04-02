@@ -9,6 +9,7 @@ const env = {
   JPG_URL: process.env.JPG_URL,
   WEBP_URL: process.env.WEBP_URL,
   ANIME_API: process.env.ANIME_API,
+  IMAGE_PROXY: process.env.IMAGE_PROXY,
   ANIME_DOMEN: process.env.ANIME_DOMEN,
   TORRENT_URL: process.env.TORRENT_URL,
   ANILIST_API: process.env.ANILIST_API,
