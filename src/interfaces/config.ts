@@ -12,4 +12,5 @@ export type ConfigType = {
   MANGA_IMAGES_DOMAIN: string[];
   HOST_MANGA_API: string;
   IMAGE_PROXY: string;
+  // CURRENT_MANGA_API: string;
 };

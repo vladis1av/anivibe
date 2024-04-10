@@ -17,6 +17,7 @@ const getEnvObj = (config: ConfigType): ConfigType => {
     MANGA_IMAGES_DOMAIN,
     HOST_MANGA_API,
     IMAGE_PROXY,
+    // CURRENT_MANGA_API,
   } = config;
 
   return {
@@ -33,6 +34,7 @@ const getEnvObj = (config: ConfigType): ConfigType => {
     MANGA_IMAGES_DOMAIN,
     HOST_MANGA_API,
     IMAGE_PROXY,
+    // CURRENT_MANGA_API,
   };
 };
 
