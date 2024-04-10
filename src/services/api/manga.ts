@@ -6,7 +6,7 @@ import { MangaResponse, MangaServiceParams } from '@interfaces/manga/service';
 import generateQuery from '@utils/api/generateQuery';
 import getNextEnv from '@utils/config/getNextEnv';
 
-const { publicRuntimeConfig: { HOST_MANGA_API } } = getNextEnv();
+const { publicRuntimeConfig: { HOST_MANGA_API, HOST } } = getNextEnv();
 
 export const getMangaById = async (id: string): Promise<MangaDetail | null> => {
   try {
@@ -32,7 +32,7 @@ export const getMangaChapterById = async (
 ): Promise<MangaWithPages | null> => {
   try {
     const { data } = await axios.get<MangaResponse<MangaWithPages>>(
-      encodeURI(`${HOST_MANGA_API}getMangaChapter?mangaId=${mangaId}&chapterId=${chapterId}`),
+      encodeURI(`${HOST}/manga/api/${mangaId}/chapter/${chapterId}`),
     );
 
     if (data.error) {
