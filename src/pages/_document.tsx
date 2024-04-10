@@ -3,7 +3,7 @@ import { Children } from 'react';
 import Document, {
   Html, Head, Main, NextScript,
 } from 'next/document';
-import Script from 'next/script';
+// import Script from 'next/script';
 
 import createEmotionServer from '@emotion/server/create-instance';
 import { ServerStyleSheets as JSSServerStyleSheets } from '@mui/styles';
@@ -22,9 +22,10 @@ export default class MyDocument extends Document {
           <link rel="icon" href="/favicon.ico" sizes="any" />
           <link rel="icon" href="/icon.svg" type="image/svg+xml" />
           <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-          <meta name="yandex-verification" content="c348945bfd78b269" />
-          <meta name="google-site-verification" content="lYMieH2JA-N7C-7OngdZvjJlgUfL8EonOJolad0Os74" />
-          <meta name="google-adsense-account" content="ca-pub-9863048209509930" />
+          {/* <meta name="yandex-verification" content="c348945bfd78b269" /> */}
+          {/* <meta name="google-site-verification" content="lYMieH2JA-N7C-7OngdZvjJlgUfL8EonOJolad0Os74" /> */}
+          {/* <meta name="google-adsense-account" content="ca-pub-9863048209509930" /> */}
+          <meta name="robots" content="noindex, nofollow"/>
           {(this.props as any).emotionStyleTags}
         </Head>
         <body>
@@ -32,7 +33,7 @@ export default class MyDocument extends Document {
 
           <NextScript />
 
-          <Script id="metrika-counter" strategy="afterInteractive">
+          {/* <Script id="metrika-counter" strategy="afterInteractive">
             {`(function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
                 m[i].l=1*new Date();
                 for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
@@ -56,7 +57,7 @@ export default class MyDocument extends Document {
                 alt=""
               />
             </div>
-          </noscript>
+          </noscript> */}
         </body>
       </Html>
     );

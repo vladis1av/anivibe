@@ -1,8 +1,0 @@
-User-agent: *
-
-Allow:
-
-Allow: /*.css # стили
-Allow: /*.js # скрипты
-
-Clean-param: years&genres&seasons&kinds&order&page / # для всех
