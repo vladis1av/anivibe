@@ -1,9 +1,9 @@
 import getNextEnv from '@utils/config/getNextEnv';
 
-const { publicRuntimeConfig: { MANGA_IMAGES_DOMAIN, IMAGE_PROXY } } = getNextEnv();
+const { publicRuntimeConfig: { MANGA_IMAGES_DOMAIN, API } } = getNextEnv();
 
 const getProxedImage = (
   img: string,
-) => `${IMAGE_PROXY}?referer=https://${MANGA_IMAGES_DOMAIN[0]}/&url=${img}`;
+) => `${API}/image/proxy?referer=https://${MANGA_IMAGES_DOMAIN[0]}/&url=${img}`;
 
 export default getProxedImage;
