@@ -13,6 +13,7 @@ const env = {
   ANILIST_API: process.env.ANILIST_API,
   ANILIST_API_KEY: process.env.ANILIST_API_KEY,
   MANGA_IMAGES_DOMAIN: process.env.MANGA_IMAGES_DOMAIN?.split(',') || [""],
+  MANGA_IMAGE_POSTER_DOMAIN: process.env.MANGA_IMAGE_POSTER_DOMAIN,
 }
 
 module.exports = {
