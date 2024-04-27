@@ -30,6 +30,9 @@ import MetaItemProp from '@components/MetaItemProp';
 
 import useCheckWebpSupport from '@hooks/useCheckWebpSupport';
 
+import getNextEnv from '@utils/config/getNextEnv';
+import changeDomainZone from '@utils/regexp/changeDomainZone';
+
 import useMediaInfoStyles from './MediaInfo.styles';
 
 const VideoPlayer = dynamic(() => import('@ui/VideoPlayer'), { ssr: false });
@@ -37,6 +40,8 @@ const VideoPlayer = dynamic(() => import('@ui/VideoPlayer'), { ssr: false });
 const Torrent = dynamic(() => import('@components/Torrent'), { ssr: false });
 const Chapters = dynamic(() => import('@ui/Chapters'));
 const AdBanner = dynamic(() => import('@components/AdBanner'), { ssr: false });
+
+const { publicRuntimeConfig: { MANGA_IMAGE_POSTER_DOMAIN } } = getNextEnv();
 
 const ITEM_SIZE = 48;
 
@@ -74,11 +79,13 @@ const MediaInfo: FC<MediaInfoProps> = ({
     ? imagePoster
     : bannerImageHightQuality);
 
+  const isAnime = type === ECollection.anime;
+
   return (
     <>
       <div className={classes.bannerWrapper}>
         <ImageWithPlaceholder
-          src={imageHeaderBanner}
+          src={isAnime ? imageHeaderBanner : changeDomainZone(imageHeaderBanner, MANGA_IMAGE_POSTER_DOMAIN)}
           alt={title.ru}
           className={classes.bannerImage}
           placeholderImage={BANNER_LIGHT}
@@ -104,7 +111,7 @@ const MediaInfo: FC<MediaInfoProps> = ({
           >
             <ImageWithPlaceholder
               alt={title.ru}
-              src={imagePoster}
+              src={isAnime ? imagePoster : changeDomainZone(imagePoster, MANGA_IMAGE_POSTER_DOMAIN)}
               placeholderVariant={EPlaceholder.poster}
               placeholderTheme={ETheme.light}
               skeletonVariant={ESkeleton.waveAuto}

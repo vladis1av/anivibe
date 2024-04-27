@@ -14,6 +14,7 @@ const getEnvObj = (config: ConfigType): ConfigType => {
     ANIME_DOMEN,
     ANILIST_API_KEY,
     MANGA_IMAGES_DOMAIN,
+    MANGA_IMAGE_POSTER_DOMAIN,
   } = config;
 
   return {
@@ -27,6 +28,7 @@ const getEnvObj = (config: ConfigType): ConfigType => {
     ANIME_DOMEN,
     ANILIST_API_KEY,
     MANGA_IMAGES_DOMAIN,
+    MANGA_IMAGE_POSTER_DOMAIN,
   };
 };
 
