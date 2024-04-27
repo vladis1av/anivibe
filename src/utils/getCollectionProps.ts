@@ -8,6 +8,11 @@ import { CardItemProps } from '@ui/CardItem/CardItem';
 import formatAnimePath from '@utils/formatting/formatAnimePath';
 import formatMangaPath from '@utils/formatting/formatMangaPath';
 
+import getNextEnv from './config/getNextEnv';
+import changeDomainZone from './regexp/changeDomainZone';
+
+const { publicRuntimeConfig: { MANGA_IMAGE_POSTER_DOMAIN } } = getNextEnv();
+
 const getCollectionProps = (item: MangaBase | FetchedLastAnimeUpdatedResult): CardItemProps => {
   const hideTitle = true;
 
@@ -20,7 +25,7 @@ const getCollectionProps = (item: MangaBase | FetchedLastAnimeUpdatedResult): Ca
       id,
       hideTitle,
       title: russian,
-      imageSource: image.preview,
+      imageSource: changeDomainZone(image.preview, MANGA_IMAGE_POSTER_DOMAIN),
       pathTo: formatMangaPath(id, name),
     };
   }
