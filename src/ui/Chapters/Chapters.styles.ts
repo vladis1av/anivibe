@@ -5,15 +5,10 @@ const useChaptersStyles = makeStyles(() => ({
     width: '100%',
     height: '100%',
   },
-  chapterWrapperBorder: {
-    boxShadow: 'rgba(100, 100, 111, 0.3) 0px 7px 29px 0px',
-    borderRadius: 6,
-    padding: 10,
-  },
   chapterHeader: {
     display: 'flex',
     alignItems: 'center',
-    marginBottom: 10,
+    marginBottom: 5,
   },
   chapterHeaderTitle: {
     fontSize: 19,
