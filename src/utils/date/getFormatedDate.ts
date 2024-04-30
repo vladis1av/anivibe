@@ -33,14 +33,14 @@ const DAY_POINTERS: DayPointers = {
 
 const DEFAULT_DATE_OPTIONS: DateOptions = {
   day: 'numeric', // 2-digit
-  month: 'long', // numeric "2-digit", "narrow", "short" и "long"
+  month: '2-digit', // numeric "2-digit", "narrow", "short" и "long"
   year: 'numeric', // 2-digit
   // era: "long",
-  weekday: 'short', // "narrow", "short" и "long"
+  // weekday: 'short', // "narrow", "short" и "long"
   // timeZoneName: 'short',
-  hour: 'numeric',
+  // hour: 'numeric',
   // hour12: true,
-  minute: 'numeric',
+  // minute: 'numeric',
   // second: 'numeric'
 };
 
