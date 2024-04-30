@@ -24,7 +24,6 @@ import ChapterSearch from './ChapterSearch';
 
 type ChaptersProps = {
   title?: string;
-  border?: boolean;
   fullWidthInput?: boolean;
   contentFullHeight?: boolean;
   chapters: MangaChapterList[],
@@ -37,7 +36,6 @@ type ChaptersProps = {
 
 const Chapters: FC<ChaptersProps> = ({
   title,
-  border,
   contentFullHeight,
   fullWidthInput,
   chapters,
@@ -56,7 +54,11 @@ const Chapters: FC<ChaptersProps> = ({
   const getRow: FC<ListChildComponentProps<MangaChapterList[]>> = ({ data, index, style }) => <ChapterRow
     data={data}
     index={index}
-    style={style}
+    style={{
+      ...style,
+      top: Number(style.top) + 10,
+      height: itemSize - 10,
+    }}
     mangaId={mangaId}
     hideDate={hideDate}
     activeMangaChapterId={activeChapterId}
@@ -94,7 +96,7 @@ const Chapters: FC<ChaptersProps> = ({
   }, [chapters, activeChapterId, fixedSizeListRef.current, activeRow]);
 
   return (
-    <div className={clsx(classes.chapterWrapper, { [classes.chapterWrapperBorder]: border })}>
+    <div className={clsx(classes.chapterWrapper)}>
       <header className={classes.chapterHeader}>
         {title && <Typography className={classes.chapterHeaderTitle} variant="h3" component="h3">
           {title}
