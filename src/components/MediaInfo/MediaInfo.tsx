@@ -43,7 +43,7 @@ const AdBanner = dynamic(() => import('@components/AdBanner'), { ssr: false });
 
 const { publicRuntimeConfig: { MANGA_IMAGE_POSTER_DOMAIN } } = getNextEnv();
 
-const ITEM_SIZE = 48;
+const ITEM_SIZE = 58;
 
 type MediaInfoProps = {
   fullUrl: string;
@@ -194,7 +194,7 @@ const MediaInfo: FC<MediaInfoProps> = ({
 
         {torrent && torrent.list.length > 0 && <Torrent list={torrent.list} />}
 
-        {chaptersListIsReady && <Chapters chapters={chapters.list} itemSize={ITEM_SIZE} title={CHAPTER_TITLE} border />}
+        {chaptersListIsReady && <Chapters chapters={chapters.list} itemSize={ITEM_SIZE} title={CHAPTER_TITLE} />}
       </section>
     </>
   );
