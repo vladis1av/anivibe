@@ -1,22 +1,23 @@
 import { Theme } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 
+import { ETheme } from '@enums/enums';
+
 const useChapterSearchStyles = makeStyles((theme: Theme) => ({
   searchChaptersInput: {
     padding: '2px 5px 2px 8px',
-    backgroundColor: 'transparent',
+    backgroundColor: theme.palette.mode === ETheme.light ? '#f2f2f3' : '#1a1a1a',
     color: theme.palette.text.primary,
     transition: 'all 0.2s ease-out',
-    borderBottom: `1px solid ${theme.palette.text.secondary}`,
     minWidth: 120,
-    borderBottomLeftRadius: 5,
-    borderBottomRightRadius: 5,
+    height: 40,
+    borderRadius: 12,
 
     '&:hover': {
-      borderBottom: `1px solid ${theme.palette.text.primary}`,
+      opacity: 0.8,
     },
     '&.Mui-focused': {
-      borderBottom: `1px solid ${theme.palette.text.primary}`,
+      opacity: 0.8,
     },
     '& .MuiInputBase-input': {
       padding: 0,
