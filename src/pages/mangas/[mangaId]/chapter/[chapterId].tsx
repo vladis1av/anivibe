@@ -50,13 +50,17 @@ import { getMangaChapterById } from '@services/api/manga';
 import useAppDispatch from '@hooks/useAppDispatch';
 import useAppSelector from '@hooks/useAppSelector';
 
+import getNextEnv from '@utils/config/getNextEnv';
 import getFullUrlFromServerSide from '@utils/getFullUrlFromServerSide';
+import changeDomainZone from '@utils/regexp/changeDomainZone';
 import getIdFromString from '@utils/regexp/getIdFromString';
 import getMangaSeoChapterTitle from '@utils/seo/getMangaSeoChapterTitle';
 import cookieIsAvailable from '@utils/window/cookieIsAvailable';
 import onScrollTop from '@utils/window/onScrollTop';
 
 import useChapterPageStyles from '@styles/ChapterPage.styles';
+
+const { publicRuntimeConfig: { MANGA_IMAGE_POSTER_DOMAIN } } = getNextEnv();
 
 const AdBanner = dynamic(() => import('@components/AdBanner'), { ssr: false });
 const ChaptersMenu = dynamic(() => import('@components/Reader/ChaptersMenu'), { ssr: false });
@@ -247,7 +251,7 @@ const Chapter: FC<ChapterProps> = ({
         title={russian}
         isOpen={menuIsOpen}
         onClose={onCloseMenu}
-        poster={image.preview}
+        poster={changeDomainZone(image.preview, MANGA_IMAGE_POSTER_DOMAIN)}
         chapters={chapters.list}
         activeChapter={activeChapter}
         onChangeChapter={onChangeChapter}
