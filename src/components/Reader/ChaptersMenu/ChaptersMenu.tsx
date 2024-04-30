@@ -44,18 +44,20 @@ const ChaptersMenu: FC<ChaptersMenuProps> = ({
       <CloseSVG className={classes.closeMenuButtonIcon} />
     </Button>
 
-    <Link
-      path={formatMangaPath(id, code)}
-      className={classes.link}
-    >
-      <div className={classes.poster}>
-        <ImageWithPlaceholder src={poster} alt={title} />
-      </div>
+    <div>
+      <Link
+        path={formatMangaPath(id, code)}
+        className={classes.link}
+      >
+        <div className={classes.poster}>
+          <ImageWithPlaceholder src={poster} alt={title} />
+        </div>
 
-      <Typography className={classes.title} align="center" variant="h5" component="h1">
-        {title}
-      </Typography>
-    </Link>
+        <Typography className={classes.title} align="center" variant="h5" component="h1">
+          {title}
+        </Typography>
+      </Link>
+    </div>
 
     <Chapters
       itemSize={50}
