@@ -14,6 +14,7 @@ type SeoHeadProps = {
   imageSource?: string;
   videoTags?: Tags;
   bookTags?: Tags;
+  googleBotNoIndex?: boolean;
 };
 
 const getTags = (tagName: 'video' | 'book', tags?: Tags) => tags && tags.length && tags.map((tag, i) => <meta
@@ -32,6 +33,7 @@ const SeoHead: FC<SeoHeadProps> = ({
   imageSource,
   videoTags,
   bookTags,
+  googleBotNoIndex,
 }) => (<Head>
   <title>{tabTitle}</title>
   <meta content={title} property="og:title" />
@@ -46,6 +48,7 @@ const SeoHead: FC<SeoHeadProps> = ({
   {imageSource && <meta content={imageSource} property="og:image"/>}
   {imageSource && <meta content={imageSource} property="twitter:image"/>}
   {keywords && <meta content={keywords} name="Keywords" />}
+  {googleBotNoIndex && <meta name="googlebot" content="noindex"></meta>}
 </Head>);
 
 export default SeoHead;
