@@ -4,6 +4,8 @@ import { makeStyles } from '@mui/styles';
 const useHeaderStyles = makeStyles((theme: Theme) => ({
   footer: {
     width: '100%',
+    position: 'absolute',
+    bottom: 0,
     backgroundColor: 'transparent',
   },
   footerContainer: {
