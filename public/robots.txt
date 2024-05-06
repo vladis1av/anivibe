@@ -5,4 +5,6 @@ Allow:
 Allow: /*.css # стили
 Allow: /*.js # скрипты
 
+Disallow: /mangas/*/chapter/*
+
 Clean-param: years&genres&seasons&kinds&order&page / # для всех
