@@ -17,13 +17,14 @@ const useFiltersStyles = makeStyles((theme: Theme) => ({
     },
     '&:hover .MuiInputLabel-root': {
       transition: 'opacity 0.2s ease-out',
-
       opacity: 0.5,
     },
   },
+
   inputRoot: {
     color: theme.palette.text.primary,
     transition: 'opacity 0.2s ease-out',
+    borderRadius: 12,
 
     '& .MuiOutlinedInput-notchedOutline': {
       borderColor: theme.palette.primary.dark,
@@ -57,6 +58,10 @@ const useFiltersStyles = makeStyles((theme: Theme) => ({
   },
   filterButtonClean: {
     marginRight: 15,
+    borderRadius: 12,
+  },
+  acceptButton: {
+    borderRadius: 12,
   },
   adBanner: {
     marginTop: 15,

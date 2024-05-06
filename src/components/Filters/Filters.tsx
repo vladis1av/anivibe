@@ -5,6 +5,7 @@ import { useRouter } from 'next/router';
 import Autocomplete from '@mui/material/Autocomplete';
 import Button from '@mui/material/Button';
 import FormControl from '@mui/material/FormControl';
+import Paper, { PaperProps } from '@mui/material/Paper';
 import TextField from '@mui/material/TextField';
 import clsx from 'clsx';
 
@@ -28,6 +29,8 @@ import useAppSelector from '@hooks/useAppSelector';
 import generateQuery from '@utils/api/generateQuery';
 
 import useFiltersStyles from './Filters.styles';
+
+const CustomPaper = (props: PaperProps) => <Paper {...props} sx={{ borderRadius: 3, marginTop: 1 }}/>;
 
 type FiltersProps = {
   className?: string;
@@ -90,11 +93,25 @@ const Filters: FC<FiltersProps> = ({ className, onFiltersAccept }) => {
           }
 
           return (value && value.length
-            ? <FormControl key={key} sx={{ m: 1, width: 300 }}>
+            ? <FormControl key={key} sx={{
+              m: 1,
+              width: 300,
+              '& .MuiPopper-root': {
+                borderRadius: 12,
+              },
+
+            }}>
               <Autocomplete
                 fullWidth
+                disablePortal={true}
                 id="tags-outlined"
-                sx={{ width: 300 }}
+                PaperComponent={CustomPaper}
+                sx={{
+                  width: 300,
+                  '& .MuiPopper-root': {
+                    borderRadius: 12,
+                  },
+                }}
                 value={currentValue}
                 multiple={!isOrderByKey}
                 isOptionEqualToValue={
@@ -133,7 +150,9 @@ const Filters: FC<FiltersProps> = ({ className, onFiltersAccept }) => {
                 renderInput={
                   (params) => <TextField {...params} label={EFilter[currentKey]} variant="outlined" />
                 }
-                classes={{ root: classes.label, inputRoot: classes.inputRoot, paper: classes.paper }}
+                classes={{
+                  root: classes.label, inputRoot: classes.inputRoot, paper: classes.paper,
+                }}
               />
             </FormControl>
             : null
@@ -151,7 +170,7 @@ const Filters: FC<FiltersProps> = ({ className, onFiltersAccept }) => {
         </Button>
 
         <Link path={currentLinkPath} query={generatedQuery} shallow>
-          <Button variant="outlined" onClick={onFilterAccept}>Применить</Button>
+          <Button className={classes.acceptButton} variant="outlined" onClick={onFilterAccept}>Применить</Button>
         </Link>
       </div>
 
