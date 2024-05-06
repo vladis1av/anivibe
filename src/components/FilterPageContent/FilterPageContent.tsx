@@ -59,13 +59,15 @@ const FilterPageContent: FC<FilterPageContentProps> = ({
     page: currentPage,
     pages,
     loadMore,
-    filteredData,
+    manga,
+    anime,
     loadingState,
   } = useAppSelector(getFilterDataState);
   const { filterType } = useAppSelector(getFilters);
 
   const currentPagesTotal = pages || totalPages;
-  const filteredDataIsNotFound = !filteredData.length;
+  const filteredDataIsNotFound = filterType === ECollection.anime ? !anime.length : !manga.length;
+  const filteredData = filterType === ECollection.anime ? anime : manga;
   const dataError = loadingState === ELoadingStatus.error;
   const dataPending = loadingState === ELoadingStatus.pending;
 
