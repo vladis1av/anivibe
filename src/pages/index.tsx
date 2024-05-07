@@ -8,7 +8,9 @@ import {
   EAnimeMethod, ECollection, ELinkPath, EMangaOrderBy,
 } from '@enums/enums';
 
-import { ANIME_COLLECTION_TITLE, MANGA_COLLECTION_TITLE } from '@constants/collection';
+import {
+  ANIME_COLLECTION_TITLE, MANGA_POPULAR_COLLECTION_TITLE, MANGA_UPDATED_COLLECTION_TITLE,
+} from '@constants/collection';
 import { COLLECTION_ITEMS_LIMIT, POSTER_SEO_DARK } from '@constants/common';
 import { SEO_DESCRIPTION, SEO_KEYWORDS_APP, SEO_TITLE } from '@constants/seo';
 
@@ -64,20 +66,27 @@ const Main: FC<MainPageProps> = ({ collections, fullUrl }) => {
   return (
     <ContentLayout full>
       <SeoHead
-        canonical={fullUrl}
         ogUrl={fullUrl}
-        tabTitle={SEO_TITLE}
         title={SEO_TITLE}
-        description={SEO_DESCRIPTION}
+        canonical={fullUrl}
+        tabTitle={SEO_TITLE}
         keywords={SEO_KEYWORDS_APP}
+        description={SEO_DESCRIPTION}
         imageSource={POSTER_SEO_DARK}
       />
 
       {
         currentCollections.map(({
-          type, title, collection, link,
+          type, title, collection, link, query,
         }) => (
-          <Collection key={`${type}-${title}`} type={type} title={title} collection={collection} link={link} />
+          <Collection
+            type={type}
+            link={link}
+            title={title}
+            query={query}
+            key={`${type}-${title}`}
+            collection={collection}
+          />
         ))
       }
 
@@ -96,8 +105,16 @@ export const getServerSideProps: GetServerSideProps<MainPageProps> = async ({ re
   //   filters: ['id', 'code', 'names'],
   //   params: { limit: COLLECTION_ITEMS_LIMIT },
   // });
-  const updatedMangas = await getMangas({ order: EMangaOrderBy.updated, limit: COLLECTION_ITEMS_LIMIT });
+
   const fullUrl = getFullUrlFromServerSide(resolvedUrl);
+
+  const [popularMangasResult, updatedMangasResult] = await Promise.allSettled([
+    getMangas({ order: EMangaOrderBy.popular, limit: COLLECTION_ITEMS_LIMIT }),
+    getMangas({ order: EMangaOrderBy.updated, limit: COLLECTION_ITEMS_LIMIT }),
+  ]);
+
+  const popularMangas = popularMangasResult.status === 'fulfilled' ? popularMangasResult.value?.response || [] : [];
+  const updatedMangas = updatedMangasResult.status === 'fulfilled' ? updatedMangasResult.value?.response || [] : [];
 
   return {
     props: {
@@ -111,9 +128,17 @@ export const getServerSideProps: GetServerSideProps<MainPageProps> = async ({ re
         // },
         {
           type: ECollection.manga,
-          title: MANGA_COLLECTION_TITLE,
-          collection: updatedMangas?.response || [],
+          title: MANGA_POPULAR_COLLECTION_TITLE,
+          collection: popularMangas,
           link: ELinkPath.mangas,
+          query: `order=${EMangaOrderBy.popular}`,
+        },
+        {
+          type: ECollection.manga,
+          title: MANGA_UPDATED_COLLECTION_TITLE,
+          collection: updatedMangas,
+          link: ELinkPath.mangas,
+          query: `order=${EMangaOrderBy.updated}`,
         },
       ],
     },
