@@ -4,7 +4,8 @@ const useContentLayoutStyles = makeStyles(() => ({
   wrapper: {
     width: '100%',
     margin: '0 auto',
-    paddingBottom: 20,
+    paddingBottom: 60,
+    minHeight: 'calc(100vh - 60px)',
   },
   paddings: {
     paddingLeft: 60,
