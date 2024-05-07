@@ -24,13 +24,14 @@ import { getMangas } from '@services/api/manga';
 import checkObjectValueAndExcludeKey from '@utils/object/checkObjectValueAndExcludeKey';
 import getAppHydrate from '@utils/store/getAppHydrate';
 
-export type FilteredData = Pick<Anime, 'id' | 'code' | 'names'>[] | MangaBase[] | [];
+export type FilteredData = Pick<Anime, 'id' | 'code' | 'names'>[] | [] | MangaBase[] | [];
 
 export type FilteredDataSliceState = {
   page: number | null;
   pages: number | null;
   loadMore: boolean;
-  filteredData: FilteredData;
+  anime: Pick<Anime, 'id' | 'code' | 'names'>[] | [];
+  manga: MangaBase[] | [];
   loadingState: ELoadingStatusType;
 };
 
@@ -44,7 +45,8 @@ const initialState: FilteredDataSliceState = {
   page: null,
   pages: null,
   loadMore: false,
-  filteredData: [],
+  anime: [],
+  manga: [],
   loadingState: ELoadingStatus.idle,
 };
 
@@ -56,20 +58,36 @@ export const filteredDataSlice = createSlice({
   reducers: {
     setFilteredData: (
       state,
-      { payload }: PayloadAction<{ page: number | null; pages: number | null; data: FilteredData; loadMore?: boolean }>,
+      {
+        payload,
+      }: PayloadAction<{
+        type: ECollectionType
+        page: number | null;
+        pages: number | null;
+        data: FilteredData;
+        loadMore?: boolean
+      }>,
     ) => {
       const {
-        page, pages, data, loadMore = false,
+        type, page, pages, data, loadMore = false,
       } = payload;
 
       if (loadMore) {
-        state.filteredData = [...state.filteredData, ...data] as FilteredData;
-        return;
+        return {
+          ...state,
+          [type === ECollection.anime ? 'anime' : 'manga']: [
+            ...(state[type === ECollection.anime ? 'anime' : 'manga']),
+            ...data,
+          ],
+        };
       }
 
-      state.filteredData = data;
-      state.page = page;
-      state.pages = pages;
+      return {
+        ...state,
+        [type === ECollection.anime ? 'anime' : 'manga']: data,
+        page,
+        pages,
+      };
     },
     setLoadMore: (
       state,
@@ -136,20 +154,24 @@ export const fetchFilteredData = createAsyncThunk<unknown, FetchFilteredData>(
 
       if (!result.length) {
         if (!loadMore) {
-          dispatch(setFilteredData({ page, pages, data: [] }));
+          dispatch(setFilteredData({
+            type: filteredDataType, page, pages, data: [],
+          }));
         }
         throw new Error('Titles Not found : 404');
       }
 
       if (typeIsAnime && loadMore) {
         dispatch(setFilteredData({
-          page, pages, data: result, loadMore,
+          type: filteredDataType, page, pages, data: result, loadMore,
         }));
         dispatch(setLoadingState(ELoadingStatus.success));
         return;
       }
 
-      dispatch(setFilteredData({ page, pages, data: result }));
+      dispatch(setFilteredData({
+        type: filteredDataType, page, pages, data: result,
+      }));
       dispatch(setLoadingState(ELoadingStatus.success));
     } catch (error) {
       dispatch(setLoadingState(ELoadingStatus.error));
