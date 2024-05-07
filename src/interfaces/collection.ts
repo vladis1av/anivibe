@@ -10,4 +10,5 @@ export type CollectionType = {
   type: ECollectionType;
   collection: MangaBase[] | FetchedLastAnimeUpdatedResult[] | [];
   link?: string;
+  query?: string;
 };
