@@ -17,7 +17,6 @@ export type CardItemProps = {
   title?: string;
   hideTitle?: boolean;
   imageSource?: string;
-  big?: boolean;
   className?: string;
 };
 
@@ -27,7 +26,6 @@ const CardItem: FC<CardItemProps> = ({
   hideTitle,
   pathTo,
   imageSource,
-  big = false,
   className,
 }) => {
   const classes = useCardItemStyles();
@@ -35,13 +33,13 @@ const CardItem: FC<CardItemProps> = ({
   const currentImage = imageSource || image;
 
   return (
-    <article className={clsx(classes.cardItem, { [classes.big]: big, className })}>
-      <Link path={pathTo} className={clsx(classes.cardLink)}>
+    <article className={clsx(classes.cardItem, className)}>
+      <Link path={pathTo} className={clsx(classes.cardLink)} attributeTitle={title}>
 
         <ImageWithPlaceholder
+          alt={title}
           src={currentImage}
           className={classes.image}
-          alt={title}
           placeholderVariant={EPlaceholder.poster}
         />
 
