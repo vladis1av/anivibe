@@ -49,8 +49,12 @@ const globalMuiStyles = createTheme({
             display: 'none',
           },
         },
+        html: {
+          width: '100%',
+        },
         body: {
-          height: '100%',
+          width: '100%',
+          position: 'relative',
           '&::-webkit-scrollbar, & *::-webkit-scrollbar': {
             backgroundColor: EColor.transparent,
             width: 6,
@@ -90,9 +94,6 @@ const globalMuiStyles = createTheme({
         },
         p: {
           margin: 0,
-        },
-        '#__next': {
-          height: '100%',
         },
       },
     },
