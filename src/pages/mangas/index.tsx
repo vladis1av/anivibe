@@ -1,7 +1,5 @@
 import { FC } from 'react';
 
-import dynamic from 'next/dynamic';
-
 import { MangaPageQuery } from '@interfaces/manga/pageQuery';
 import { EMangaReleaseKinds } from '@interfaces/manga/service';
 
@@ -16,6 +14,7 @@ import {
 import { getFilters, setFilterType, setFilterValue } from '@redux/slices/filters';
 import { nextReduxWrapper } from '@redux/store';
 
+import FilterPageContent from '@components/FilterPageContent';
 import SeoHead from '@components/SeoHead';
 
 import ContentLayout from '@layouts/ContentLayout';
@@ -30,8 +29,6 @@ import getMangaFilterDescription from '@utils/seo/getMangaFilterDescription';
 import getMangaFilterDescriptionPage from '@utils/seo/getMangaFilterDescriptionPage';
 import getMangaFilterTitle from '@utils/seo/getMangaFilterTitle';
 import setFiltersFromQuery from '@utils/store/setFiltersFromQuery';
-
-const FilterPageContent = dynamic(() => import('@components/FilterPageContent'), { ssr: false });
 
 type MangaPageProps = {
   page: number;
@@ -112,6 +109,16 @@ export const getServerSideProps = nextReduxWrapper
   const { filters: { filterType } } = store.getState();
   const fullUrl = getFullUrlFromServerSide(resolvedUrl);
 
+  if (filterType === ECollection.anime) {
+    store.dispatch(setFilterType(ECollection.manga));
+    store.dispatch(setFilteredData({
+      type: ECollection.manga,
+      page: null,
+      pages: null,
+      data: [],
+    }));
+  }
+
   const currentPage = Number(page);
   const splittedKinds = kinds?.split(',') as EMangaReleaseKinds || [];
 
@@ -135,7 +142,10 @@ export const getServerSideProps = nextReduxWrapper
 
   if (mangas && mangas.response?.length) {
     store.dispatch(setFilteredData({
-      page: mangasPage, pages: pagesCount, data: mangas.response,
+      type: ECollection.manga,
+      page: mangasPage,
+      pages: pagesCount,
+      data: mangas.response,
     }));
   } else {
     store.dispatch(setLoadingState('error'));

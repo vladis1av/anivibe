@@ -2,7 +2,6 @@ import { FC, useEffect } from 'react';
 
 import { GetServerSideProps } from 'next';
 
-import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 
 import { AnimePageQuery } from '@interfaces/anime/pageQuery';
@@ -33,6 +32,7 @@ import {
   cleanFilterValues,
 } from '@redux/slices/filters';
 
+import FilterPageContent from '@components/FilterPageContent';
 import SeoHead from '@components/SeoHead';
 
 import ContentLayout from '@layouts/ContentLayout';
@@ -43,34 +43,30 @@ import useAppSelector from '@hooks/useAppSelector';
 import getFullUrlFromServerSide from '@utils/getFullUrlFromServerSide';
 import setFiltersFromQuery from '@utils/store/setFiltersFromQuery';
 
-const FilterPageContent = dynamic(() => import('@components/FilterPageContent'), { ssr: false });
-
 type AnimesProps = {
   fullUrl: string;
 };
+
 const Animes: FC<AnimesProps> = ({ fullUrl }) => {
 // временное решение пока не разберусь почему апишка стала возвращать 403 forbiden в getServerSide
-  const { filteredData } = useAppSelector(getFilterDataState);
+  const { anime } = useAppSelector(getFilterDataState);
   const { animeFilters, filterType } = useAppSelector(getFilters);
 
   const dispatch = useAppDispatch();
   const route = useRouter();
   const { query } = route as unknown as QueryType<AnimePageQuery>;
 
-  const getFilteredAnimes = (currentQuery: AnimePageQuery, isLoadMore: boolean = false) => {
-    const totalItemsLength = filteredData.length;
-    const {
-      years, genres, seasons, voices,
-    } = currentQuery;
+  const getFilteredAnimes = (currentQuery?: AnimePageQuery, isLoadMore: boolean = false) => {
+    const totalItemsLength = anime.length;
 
     dispatch(fetchFilteredData({
       filteredDataType: ECollection.anime,
       loadMore: isLoadMore,
       params: {
-        year: years,
-        season_code: seasons,
-        genres,
-        voice: voices,
+        year: currentQuery?.years,
+        season_code: currentQuery?.seasons,
+        genres: currentQuery?.genres,
+        voice: currentQuery?.voices,
         after: totalItemsLength && isLoadMore ? totalItemsLength : undefined,
         items_per_page: API_FILTER_ITEMS_LIMIT,
       },
@@ -103,7 +99,7 @@ const Animes: FC<AnimesProps> = ({ fullUrl }) => {
 
   useEffect(() => {
     setFiltersFromQuery(dispatch, [ECollection.anime, query]);
-  }, [query]);
+  }, [query, animeFilters.years]);
 
   useEffect(() => {
     getFilteredAnimes(query, false);
