@@ -30,7 +30,9 @@ import generateQuery from '@utils/api/generateQuery';
 
 import useFiltersStyles from './Filters.styles';
 
-const CustomPaper = (props: PaperProps) => <Paper {...props} sx={{ borderRadius: 3, marginTop: 1 }}/>;
+const CustomPaper = (props: PaperProps) => <Paper {...props} sx={
+  { borderRadius: 3, marginTop: 1 }
+}/>;
 
 type FiltersProps = {
   className?: string;
@@ -96,21 +98,13 @@ const Filters: FC<FiltersProps> = ({ className, onFiltersAccept }) => {
             ? <FormControl key={key} sx={{
               m: 1,
               width: 300,
-              '& .MuiPopper-root': {
-                borderRadius: 12,
-              },
-
             }}>
               <Autocomplete
                 fullWidth
-                disablePortal={true}
                 id="tags-outlined"
                 PaperComponent={CustomPaper}
                 sx={{
                   width: 300,
-                  '& .MuiPopper-root': {
-                    borderRadius: 12,
-                  },
                 }}
                 value={currentValue}
                 multiple={!isOrderByKey}
