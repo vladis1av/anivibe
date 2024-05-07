@@ -17,12 +17,12 @@ const useCarouselStyles = makeStyles(() => ({
       },
     },
   },
-  carouselListScrollSnap: {
-    scrollPaddingRight: '4rem',
-    scrollPaddingLeft: '4rem',
-    scrollSnapType: 'x mandatory',
-    scrollBehavior: 'smooth',
-  },
+  // carouselListScrollSnap: {
+  // scrollPaddingRight: '4rem',
+  // scrollPaddingLeft: '4rem',
+  // scrollSnapType: 'x mandatory',
+  // scrollBehavior: 'smooth',
+  // },
   carouselList: {
     scrollbarWidth: 'none',
     overscrollBehaviorX: 'contain',
@@ -49,6 +49,9 @@ const useCarouselStyles = makeStyles(() => ({
         flex: '0 0 5px',
       },
     },
+  },
+  showMoreItem: {
+    width: 250,
   },
 }));
 

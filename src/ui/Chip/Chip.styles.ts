@@ -5,7 +5,7 @@ const useChipStyles = makeStyles((theme: Theme) => ({
   link: {
     color: `${theme.palette.text.primary}`,
     marginRight: 2,
-    borderRadius: 5,
+    borderRadius: 6,
     marginTop: 4,
     padding: '1px 4px',
     backgroundColor: `${theme.palette.background.default}`,

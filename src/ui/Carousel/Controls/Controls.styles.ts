@@ -14,6 +14,9 @@ const ShowMoreLinkStyles = makeStyles(() => ({
     opacity: 0,
     transition: 'all 0.2s ease-out',
     borderRadius: 0,
+    '@media (min-width: 0) and (max-width: 767px)': {
+      display: 'none!important',
+    },
   },
   buttonPrev: {
     left: 0,

@@ -1,9 +1,6 @@
-import { Theme } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 
-import { ETheme } from '@enums/enums';
-
-const useCardItemStyles = makeStyles((theme: Theme) => ({
+const useCardItemStyles = makeStyles(() => ({
   cardItem: {
     maxWidth: 200,
     width: '100%',
@@ -39,19 +36,6 @@ const useCardItemStyles = makeStyles((theme: Theme) => ({
     overflow: 'hidden',
     display: 'block',
     textAlign: 'center',
-  },
-  big: {
-    maxWidth: 220,
-    width: '100%',
-    borderRadius: 22,
-    overflow: 'hidden',
-    height: 330,
-
-    '&:hover': {
-      boxShadow: theme.palette.mode === ETheme.light
-        ? '0px 0px 8px 2px rgba(0, 0, 0, 0.4)'
-        : '0px 0px 8px 2px rgba(255, 255, 255, 0.4)',
-    },
   },
 }));
 
