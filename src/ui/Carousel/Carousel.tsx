@@ -2,13 +2,10 @@ import React, {
   FC,
   MouseEvent,
   ReactNode,
-  WheelEvent,
   useEffect,
   useRef,
   useState,
 } from 'react';
-
-import clsx from 'clsx';
 
 import { ButtonSideType, EScrollSideType } from '@interfaces/common';
 
@@ -32,7 +29,7 @@ type CarouselProps = {
   children: ReactNode;
   showControls?: boolean;
   showMoreLink?: string;
-  childMaxWidth?: number;
+  showMoreLinkQuery?: string;
 };
 
 // carousel for any components
@@ -41,14 +38,13 @@ const Carousel: FC<CarouselProps> = ({
   children,
   showControls = true,
   showMoreLink,
-  childMaxWidth,
+  showMoreLinkQuery,
 }) => {
   const classes = useCarouselStyles();
-  const currentChildWidth = childMaxWidth ? `${childMaxWidth}px` : undefined;
 
   const [scrollWidth, setScrollWidth] = useState<number>(0);
   const [hiddenButtonSide, setHiddenButtonSide] = useState<ButtonSideType>(EButtonSide.prev);
-  const [childMaxWidthWithPx, setChildMaxWidthWithPx] = useState<string | undefined>(currentChildWidth);
+  const [childMaxWidthWithPx, setChildMaxWidthWithPx] = useState<string | undefined>(undefined);
   const carouselListRef = useRef<HTMLUListElement | null>(null);
 
   const [{
@@ -168,15 +164,15 @@ const Carousel: FC<CarouselProps> = ({
     }
   };
 
-  const onWheel = (e: WheelEvent<HTMLUListElement>) => {
-    if (carouselListRef.current) {
-      const { deltaY } = e;
-      const wheelValue = carouselListRef.current.scrollLeft + deltaY * 1.5;
-      const scrollXWidth = deltaY > 0 ? scrollX + wheelValue : scrollX - wheelValue;
+  // const onWheel = (e: WheelEvent<HTMLUListElement>) => {
+  //   if (carouselListRef.current) {
+  //     const { deltaY } = e;
+  //     const wheelValue = carouselListRef.current.scrollLeft + deltaY * 1.5;
+  //     const scrollXWidth = deltaY > 0 ? scrollX + wheelValue : scrollX - wheelValue;
 
-      onScrollX(wheelValue, scrollXWidth, e.clientX);
-    }
-  };
+  //     onScrollX(wheelValue, scrollXWidth, e.clientX);
+  //   }
+  // };
 
   const onMouseDown = (e: UListMouseEvent) => {
     e.preventDefault();
@@ -223,21 +219,21 @@ const Carousel: FC<CarouselProps> = ({
   return (
     <div className={classes.carousel}>
       <ul
-        onWheel={onWheel}
+        // onWheel={onWheel}
         onMouseUp={onMouseUp}
         ref={carouselListRef}
         onMouseLeave={onMouseUp}
         onMouseDown={onMouseDown}
         onMouseMove={onMouseMove}
-        className={clsx(classes.carouselList, classes.carouselListScrollSnap)}
+        className={classes.carouselList}
       >
-        {React.Children.map(children, (child) => <CarouselItem maxWidth={childMaxWidthWithPx} isDisabled={isScrolling}>
+        {React.Children.map(children, (child) => <CarouselItem isDisabled={isScrolling}>
           {child}
         </CarouselItem>)}
 
         {
-          showMoreLink && <CarouselItem maxWidth={childMaxWidthWithPx} isDisabled={isScrolling}>
-            <ShowMoreLink link={showMoreLink}/>
+          showMoreLink && <CarouselItem isDisabled={isScrolling} className={classes.showMoreItem}>
+            <ShowMoreLink link={showMoreLink} query={showMoreLinkQuery}/>
           </CarouselItem>
         }
       </ul>
