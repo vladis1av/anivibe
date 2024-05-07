@@ -8,12 +8,13 @@ import ShowMoreLinkStyles from './ShowMoreLink.styles';
 
 type ShowMoreLinkProps = {
   link: string;
+  query?: string;
 };
 
-const ShowMoreLink: FC<ShowMoreLinkProps> = ({ link }) => {
+const ShowMoreLink: FC<ShowMoreLinkProps> = ({ link, query }) => {
   const classes = ShowMoreLinkStyles();
 
-  return <Link path={link} className={classes.showMoreLink}>
+  return <Link path={link} className={classes.showMoreLink} query={query}>
     <span className={classes.showMoreLinkIconWrapper}>
       <LongArrowSVG />
     </span>

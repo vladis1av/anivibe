@@ -6,11 +6,11 @@ import useCarouselItemStyles from './CarouselItem.styles';
 
 type CarouselItemProps = {
   children: ReactNode;
-  maxWidth?: string;
   isDisabled?: boolean;
+  className?: string;
 };
 
-const CarouselItem: FC<CarouselItemProps> = ({ children, maxWidth, isDisabled }) => {
+const CarouselItem: FC<CarouselItemProps> = ({ children, isDisabled, className }) => {
   const classes = useCarouselItemStyles();
 
   return <li
@@ -18,9 +18,9 @@ const CarouselItem: FC<CarouselItemProps> = ({ children, maxWidth, isDisabled })
       clsx(
         classes.carouselListItem,
         { [classes.disable]: isDisabled },
+        className,
       )
     }
-    style={{ maxWidth }}
   >
     {children}
   </li>;

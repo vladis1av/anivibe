@@ -14,12 +14,11 @@ import getCollectionProps from '@utils/getCollectionProps';
 
 import useCollectionStyles from './Collection.styles';
 
-const CHILD_MAX_WIDTH = 220;
-
 const Collection: FC<CollectionType> = ({
   title,
   collection,
   link,
+  query,
 }) => {
   const classes = useCollectionStyles();
   const isTitle = title.length > 0;
@@ -33,7 +32,7 @@ const Collection: FC<CollectionType> = ({
       <header className={classes.collectionHeader}>
         {
           isTitle && link
-            ? <Link path={link} className={classes.collectionLink}>
+            ? <Link path={link} query={query} className={classes.collectionLink}>
               <Typography variant="h2" className={classes.collectionTitle}>
                 {title}
                 <ArrowSVG className={classes.collectionTitleSvg}/>
@@ -46,10 +45,10 @@ const Collection: FC<CollectionType> = ({
       </header>
 
       <div className={classes.slider}>
-        <Carousel showMoreLink={link} childMaxWidth={CHILD_MAX_WIDTH}>
+        <Carousel showMoreLink={link} showMoreLinkQuery={query}>
           {
             collection.length > 0 && collection.map((item) => (
-              <CardItem {...getCollectionProps(item)} big key={item.id} />
+              <CardItem {...getCollectionProps(item)} key={item.id} />
             ))
           }
         </Carousel>
