@@ -236,6 +236,7 @@ const Chapter: FC<ChapterProps> = ({
         imageSource={image.preview}
         description={seoDescription}
         googleBotNoIndex
+        robotsNoIndex
       />
 
       <div className={clsx(classes.adsWrapper, classes.adsMarginBottom)}>
