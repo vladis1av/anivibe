@@ -31,18 +31,18 @@ const DAY_POINTERS: DayPointers = {
   },
 };
 
-const DEFAULT_DATE_OPTIONS: DateOptions = {
-  day: 'numeric', // 2-digit
-  month: '2-digit', // numeric "2-digit", "narrow", "short" и "long"
-  year: 'numeric', // 2-digit
-  // era: "long",
-  // weekday: 'short', // "narrow", "short" и "long"
-  // timeZoneName: 'short',
-  // hour: 'numeric',
-  // hour12: true,
-  // minute: 'numeric',
-  // second: 'numeric'
-};
+// const DEFAULT_DATE_OPTIONS: DateOptions = {
+// day: 'numeric', // 2-digit
+// month: '2-digit', // numeric "2-digit", "narrow", "short" и "long"
+// year: 'numeric', // 2-digit
+// era: "long",
+// weekday: 'short', // "narrow", "short" и "long"
+// timeZoneName: 'short',
+// hour: 'numeric',
+// hour12: true,
+// minute: 'numeric',
+// second: 'numeric'
+// };
 
 const ONE_DAY_IN_MILLISECODS = 1000 * 60 * 60 * 24;
 
@@ -107,7 +107,7 @@ const getFormatedDate = (
     dateOptions = {},
   }: FormatedDateProps,
 ): string => {
-  const currentDateOptions: DateOptions = { ...DEFAULT_DATE_OPTIONS, ...dateOptions };
+  const currentDateOptions: DateOptions = dateOptions;
   switch (locale) {
     case ELocale.ru:
       return getIntlDateTimeFormat(date, locale, currentDateOptions, withCustomFormat);
