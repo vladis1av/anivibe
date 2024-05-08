@@ -5,7 +5,7 @@ import { EMangaReleaseKinds } from '@interfaces/manga/service';
 
 import { ECollection, EMangaOrderBy, EMangaReleaseKind } from '@enums/enums';
 
-import { API_FILTER_ITEMS_LIMIT } from '@constants/common';
+import { API_FILTER_ITEMS_LIMIT, DEFAULT_MANGA_KINDS } from '@constants/common';
 import { MANGA_FILTERS_PAGE_KEYWORDS } from '@constants/seo';
 
 import {
@@ -57,15 +57,18 @@ const Mangas: FC<MangaPageProps> = ({
     genres,
   } = serviceQueryValues;
 
+  const currentKinds = kinds.length ? kinds : DEFAULT_MANGA_KINDS;
+
   const getFilteredMangas = (currentPage?: number, cleanParams?: boolean) => {
     const params = cleanParams
       ? {
         page: 1,
         limit: API_FILTER_ITEMS_LIMIT,
+        kinds: currentKinds,
       }
       : {
         page: currentPage || queryPage,
-        kinds,
+        kinds: currentKinds,
         order,
         genres,
         limit: API_FILTER_ITEMS_LIMIT,
@@ -120,7 +123,8 @@ export const getServerSideProps = nextReduxWrapper
   }
 
   const currentPage = Number(page);
-  const splittedKinds = kinds?.split(',') as EMangaReleaseKinds || [];
+  const currentOrder = order || EMangaOrderBy.updated;
+  const currenKinds = kinds ? kinds?.split(',') as EMangaReleaseKinds : DEFAULT_MANGA_KINDS;
 
   if (filterType === ECollection.anime) {
     store.dispatch(setFilterType(ECollection.manga));
@@ -131,8 +135,8 @@ export const getServerSideProps = nextReduxWrapper
       page: currentPage,
       genres: genres?.split(','),
       limit: API_FILTER_ITEMS_LIMIT,
-      order: order || EMangaOrderBy.updated,
-      kinds: pageType ? [pageType, ...splittedKinds] : splittedKinds,
+      order: currentOrder,
+      kinds: currenKinds,
     },
   );
 
@@ -156,7 +160,7 @@ export const getServerSideProps = nextReduxWrapper
   }
 
   setFiltersFromQuery(store.dispatch, [ECollection.manga, {
-    genres, order, kinds: pageType ? `${pageType},${kinds}` : kinds,
+    genres, order: currentOrder, kinds: pageType ? `${pageType},${kinds}` : kinds,
   }]);
 
   return {
