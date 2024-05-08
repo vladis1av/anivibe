@@ -57,7 +57,12 @@ const ChapterRow: FC<ChapterRowProps<ListChildComponentProps<MangaChapterList[]>
 
       {
         !hideDate && <span className={classes.date}>
-          {getFormatedDate({ date: getDateFromUnix(date), locale: ELocale.ru, withCustomFormat: true })}
+          {getFormatedDate({
+            date: getDateFromUnix(date),
+            locale: ELocale.ru,
+            withCustomFormat: true,
+            dateOptions: { day: 'numeric', month: '2-digit', year: 'numeric' },
+          })}
         </span>
       }
     </Link>
