@@ -1,7 +1,7 @@
 import { Theme } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 
-import { ETheme } from '@enums/enums';
+import { EColor, ETheme } from '@enums/enums';
 
 const useChapterRowStyles = makeStyles((theme: Theme) => ({
   chapter: {
@@ -35,16 +35,26 @@ const useChapterRowStyles = makeStyles((theme: Theme) => ({
     color: theme.palette.primary.main,
     marginTop: 1,
     fontSize: 15,
-    paddingRight: 5,
+    paddingRight: 10,
     textOverflow: 'ellipsis',
     whiteSpace: 'nowrap',
     overflow: 'hidden',
+    position: 'relative',
   },
   date: {
     fontSize: 14,
     opacity: 0.7,
     color: theme.palette.primary.main,
     paddingLeft: 5,
+  },
+  isToday: {
+    width: 5,
+    height: 5,
+    borderRadius: 12,
+    backgroundColor: EColor.green,
+    position: 'absolute',
+    right: 0,
+    top: 9,
   },
 }));
 
