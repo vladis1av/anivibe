@@ -42,7 +42,7 @@ const Main: FC<MainPageProps> = ({ collections, fullUrl }) => {
     setIsLoading(true);
     const updatedAnimes = await getFilteredData({
       method: EAnimeMethod.getUpdatedTitles,
-      filters: ['id', 'code', 'names'],
+      filters: ['id', 'code', 'names', 'type'],
       params: { limit: COLLECTION_ITEMS_LIMIT },
     });
 
