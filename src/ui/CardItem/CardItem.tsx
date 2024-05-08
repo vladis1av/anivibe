@@ -15,7 +15,10 @@ export type CardItemProps = {
   id: number;
   pathTo: string;
   title?: string;
+  type?: string;
+  year?: number;
   hideTitle?: boolean;
+  hideType?: boolean;
   imageSource?: string;
   className?: string;
 };
@@ -23,7 +26,10 @@ export type CardItemProps = {
 const CardItem: FC<CardItemProps> = ({
   id,
   title,
+  type,
+  year,
   hideTitle,
+  hideType,
   pathTo,
   imageSource,
   className,
@@ -43,10 +49,15 @@ const CardItem: FC<CardItemProps> = ({
           placeholderVariant={EPlaceholder.poster}
         />
 
-        {title && !hideTitle && <div className={classes.cardItemContent}>
-          <span className={classes.title} itemProp="name">
+        {title && <div className={clsx(classes.cardItemContent, { [classes.hide]: hideTitle })}>
+          <h3 className={classes.title} itemProp="name">
             {title}
-          </span>
+          </h3>
+
+          <div className={classes.cardItemContentInfo}>
+            {type && <h4 className={clsx(classes.cardItemContentInfoType, { [classes.hide]: hideType })}>{type}</h4>}
+            {year && <span className={classes.cardItemContentInfoYear}>{year}</span>}
+          </div>
         </div>
         }
       </Link>

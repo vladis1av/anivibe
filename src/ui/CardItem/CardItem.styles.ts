@@ -20,9 +20,9 @@ const useCardItemStyles = makeStyles(() => ({
   cardItemContent: {
     width: '100%',
     padding: 0,
-    paddingTop: 15,
-    paddingLeft: 10,
-    paddingRight: 10,
+    paddingTop: 12,
+    paddingLeft: 7,
+    paddingRight: 7,
   },
   image: {
     overflow: 'hidden',
@@ -36,6 +36,24 @@ const useCardItemStyles = makeStyles(() => ({
     overflow: 'hidden',
     display: 'block',
     textAlign: 'center',
+    margin: 0,
+  },
+  hide: {
+    display: 'none',
+  },
+  cardItemContentInfo: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    marginTop: 3,
+  },
+  cardItemContentInfoType: {
+    fontSize: 12,
+    margin: 0,
+    fontWeight: 500,
+  },
+  cardItemContentInfoYear: {
+    fontSize: 12,
+    fontWeight: 500,
   },
 }));
 
