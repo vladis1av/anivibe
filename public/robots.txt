@@ -7,4 +7,4 @@ Allow: /*.js # скрипты
 
 Disallow: /mangas/*/chapter/*
 
-Clean-param: years&genres&seasons&kinds&order&page / # для всех
+Clean-param: years&genres&seasons&voices&kinds&order&page / # для всех
