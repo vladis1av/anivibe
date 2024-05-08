@@ -9,7 +9,9 @@ import {
 } from '@interfaces/common';
 import { MangaGenres } from '@interfaces/manga/manga';
 
-import { ELinkPath, EMediaInfo, ERelease } from '@enums/enums';
+import {
+  ECollection, ELinkPath, EMediaInfo, ERelease,
+} from '@enums/enums';
 
 import Chip from '@ui/Chip';
 import ReadMore from '@ui/ReadMore';
@@ -90,7 +92,9 @@ const MediaListInfo: FC<MediaListInfoProps> = ({
       return <MediaListInfoItem value={episodes} />;
 
     case EMediaInfo.years:
-      return <CurrentChip items={years} pathType={type} queryType={mediaKey} />;
+      return type === ECollection.anime
+        ? <CurrentChip items={years} pathType={type} queryType={mediaKey} />
+        : <MediaListInfoItem value={years} />;
     case EMediaInfo.seasons:
       return <CurrentChip items={seasons} pathType={type} queryType={mediaKey} />;
     case EMediaInfo.voices:
