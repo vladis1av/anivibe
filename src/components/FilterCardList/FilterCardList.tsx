@@ -12,8 +12,7 @@ import { FilteredData } from '@redux/slices/filteredData';
 import CardItem from '@ui/CardItem';
 
 import getNextEnv from '@utils/config/getNextEnv';
-import getDateFromUnix from '@utils/date/getDateFromUnix';
-import getFormatedDate from '@utils/date/getFormatedDate';
+import FormatedDate from '@utils/date/formatedDate';
 import formatAnimePath from '@utils/formatting/formatAnimePath';
 import formatMangaPath from '@utils/formatting/formatMangaPath';
 import changeDomainZone from '@utils/regexp/changeDomainZone';
@@ -56,12 +55,12 @@ const FilterCardList: FC<FilterCardListProps> = ({
         return <CardItem
           id={id}
           key={id}
-          year={Number(getFormatedDate({
-            date: getDateFromUnix(aired_on),
-            locale: ELocale.ru,
-            withCustomFormat: true,
-            dateOptions: { year: 'numeric' },
-          }))}
+          year={Number(FormatedDate.getFormatedDate(
+            aired_on,
+            ELocale.ru,
+            true,
+            { year: 'numeric' },
+          ))}
           title={russian}
           className={classes.cardListItem}
           pathTo={formatMangaPath(id, name)}

@@ -23,8 +23,7 @@ import ContentLayout from '@layouts/ContentLayout';
 import { getHightQualityBanner } from '@services/api/common';
 import { getMangaById } from '@services/api/manga';
 
-import getDateFromUnix from '@utils/date/getDateFromUnix';
-import getFormatedDate from '@utils/date/getFormatedDate';
+import FormatedDate from '@utils/date/formatedDate';
 import getFullUrlFromServerSide from '@utils/getFullUrlFromServerSide';
 import getIdFromString from '@utils/regexp/getIdFromString';
 import normalizeText from '@utils/regexp/normalizeText';
@@ -85,12 +84,12 @@ const Manga: FC<MangaPageProps> = ({ fullUrl, manga, bookTags }) => {
         bannerImageHightQuality={bannerImageHightQuality}
         media={{
           releaseType: kind,
-          years: Number(getFormatedDate({
-            date: getDateFromUnix(aired_on),
-            locale: ELocale.ru,
-            withCustomFormat: true,
-            dateOptions: { year: 'numeric' },
-          })),
+          years: Number(FormatedDate.getFormatedDate(
+            aired_on,
+            ELocale.ru,
+            true,
+            { year: 'numeric' },
+          )),
           volumes: chapters?.last.vol,
 
           chapters: chapters?.count,

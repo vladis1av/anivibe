@@ -18,8 +18,7 @@ import CheckSVG from '@assets/svg/check';
 import ArrowLongSVG from '@assets/svg/longArrow';
 import MagnetSVG from '@assets/svg/magnet';
 
-import getDateFromUnix from '@utils/date/getDateFromUnix';
-import getFormatedDate from '@utils/date/getFormatedDate';
+import FormatedDate from '@utils/date/formatedDate';
 import getFileLink from '@utils/file/getFileLink';
 import getFileSize from '@utils/file/getFileSize';
 
@@ -83,10 +82,9 @@ const Torrent: FC<TorrentList> = ({ list }) => {
                 </TableCell>
 
                 <TableCell align="center">
-                  {getFormatedDate({
-                    date: getDateFromUnix(uploadedTimestamp),
-                    locale: ELocale.ru,
-                  })}
+                  {
+                    FormatedDate.getFormatedDate(uploadedTimestamp, ELocale.ru)
+                  }
                 </TableCell>
 
                 <TableCell align="center">
