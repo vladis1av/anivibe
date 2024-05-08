@@ -24,13 +24,15 @@ import { getMangas } from '@services/api/manga';
 import checkObjectValueAndExcludeKey from '@utils/object/checkObjectValueAndExcludeKey';
 import getAppHydrate from '@utils/store/getAppHydrate';
 
-export type FilteredData = Pick<Anime, 'id' | 'code' | 'names'>[] | [] | MangaBase[] | [];
+export type FilteredAnime = Pick<Anime, 'id' | 'code' | 'names' | 'type' | 'season'>[];
+
+export type FilteredData = FilteredAnime | [] | MangaBase[] | [];
 
 export type FilteredDataSliceState = {
   page: number | null;
   pages: number | null;
   loadMore: boolean;
-  anime: Pick<Anime, 'id' | 'code' | 'names'>[] | [];
+  anime: FilteredAnime | [];
   manga: MangaBase[] | [];
   loadingState: ELoadingStatusType;
 };
@@ -139,6 +141,8 @@ export const fetchFilteredData = createAsyncThunk<unknown, FetchFilteredData>(
             'id',
             'code',
             'names',
+            'type',
+            'season',
           ],
           params: currentParams,
         });
