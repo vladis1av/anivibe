@@ -15,7 +15,7 @@ export type AnimeFilters<T> = T[];
 
 export type SearchAnimeType = Pick<Anime, 'id' | 'code' | 'genres' | 'names' | 'type' | 'season'>;
 
-export type FetchedLastAnimeUpdatedResult = Pick<Anime, 'id' | 'code' | 'names'>;
+export type FetchedLastAnimeUpdatedResult = Pick<Anime, 'id' | 'code' | 'names' | 'type'>;
 
 export type AnimeServiceParams = {
   filter?: AnimeKeys[];
