@@ -88,10 +88,11 @@ export enum EMangaReleaseKind {
 export enum EAnimeRelease {
   anime = 'Аниме',
   special = 'Спешл',
-  tv = 'TV',
+  tv = 'TV Сериал',
   movie = 'Фильм',
   ova = 'OVA',
   ona = 'ONA',
+  web = 'WEB',
 }
 
 export enum EFile {
