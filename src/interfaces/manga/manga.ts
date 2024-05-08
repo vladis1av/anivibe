@@ -63,7 +63,7 @@ export type MangaBase = {
   anonse: number;
   adult: number;
   status: string;
-  aired_on: Date;
+  aired_on: number;
   score: number;
   score_users: number;
   views: number;
