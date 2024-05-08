@@ -146,3 +146,11 @@ export const MANGA_CATALOG_DESCRIPTION_TITLE_WORDS = {
   [EMangaReleaseKind.comics]: 'комиксы',
   [EMangaReleaseKind.one_shot]: 'Ваншоты',
 };
+
+export const DEFAULT_MANGA_KINDS = [
+  EMangaReleaseKind.manga,
+  EMangaReleaseKind.manhua,
+  EMangaReleaseKind.manhwa,
+  EMangaReleaseKind.one_shot,
+  EMangaReleaseKind.comics,
+];
