@@ -23,6 +23,8 @@ import ContentLayout from '@layouts/ContentLayout';
 import { getHightQualityBanner } from '@services/api/common';
 import { getMangaById } from '@services/api/manga';
 
+import useIsAdultContent from '@hooks/useIsAdultContent';
+
 import FormatedDate from '@utils/date/formatedDate';
 import getFullUrlFromServerSide from '@utils/getFullUrlFromServerSide';
 import getIdFromString from '@utils/regexp/getIdFromString';
@@ -58,9 +60,12 @@ const Manga: FC<MangaPageProps> = ({ fullUrl, manga, bookTags }) => {
     chapters,
     bannerImageHightQuality,
     aired_on,
+    age_limit,
   } = manga;
 
   const seoTitle = `${normalizeText(russian)} - ${getMangaSeoTitle(kind)}`;
+
+  useIsAdultContent(age_limit, russian);
 
   return (
     <ContentLayout clearPaddingTop>

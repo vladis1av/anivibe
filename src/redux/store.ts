@@ -3,6 +3,7 @@ import { createWrapper } from 'next-redux-wrapper';
 
 import { IS_DEV } from '@constants/common';
 
+import { AppReducer } from './slices/app';
 import { filterDataReducer } from './slices/filteredData';
 import { filtersReducer } from './slices/filters';
 import { notificationsReducer } from './slices/notifications';
@@ -15,6 +16,7 @@ import { videoPlayerReducer } from './slices/videoPlayer';
 export function makeStore() {
   return configureStore({
     reducer: {
+      app: AppReducer,
       theme: themeReducer,
       reader: readerReducer,
       overlay: overlayReducer,

@@ -49,6 +49,7 @@ import { getMangaChapterById } from '@services/api/manga';
 
 import useAppDispatch from '@hooks/useAppDispatch';
 import useAppSelector from '@hooks/useAppSelector';
+import useIsAdultContent from '@hooks/useIsAdultContent';
 
 import getNextEnv from '@utils/config/getNextEnv';
 import getFullUrlFromServerSide from '@utils/getFullUrlFromServerSide';
@@ -170,6 +171,8 @@ const Chapter: FC<ChapterProps> = ({
     name,
     chapters,
     kind,
+    // eslint-disable-next-line @typescript-eslint/naming-convention
+    age_limit,
   } = manga;
 
   const { ch_prev: chapterPrev, ch_next: chapterNext } = manga.pages;
@@ -225,6 +228,8 @@ const Chapter: FC<ChapterProps> = ({
   const imgAltTitle = getMangaSeoChapterTitle({
     title: russian, page, mangaType: kind, chapter: ch, vol, hideTitleKeys: [0],
   });
+
+  useIsAdultContent(age_limit, russian);
 
   return (
     <ContentLayout full>
