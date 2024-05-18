@@ -108,18 +108,8 @@ const Manga: FC<MangaPageProps> = ({ fullUrl, manga, bookTags }) => {
 
 export const getServerSideProps: GetServerSideProps<MangaPageProps> = async ({ params, res, resolvedUrl }) => {
   const { mangaId } = params as { mangaId: string };
-
   const fullUrl = getFullUrlFromServerSide(resolvedUrl);
-  if (mangaId === '2705-roses-and-champagne') {
-    res.statusCode = 404;
-    return {
-      props: {
-        fullUrl,
-        manga: null,
-        bookTags: [],
-      },
-    };
-  }
+
   const currentMangaId = getIdFromString(mangaId) || mangaId;
   const manga = await getMangaById(currentMangaId);
   const error = !manga;
@@ -128,7 +118,6 @@ export const getServerSideProps: GetServerSideProps<MangaPageProps> = async ({ p
   if (error) {
     res.statusCode = 404;
   }
-  // test
 
   if (!error) {
     const { bannerImageHightQuality } = await getHightQualityBanner(manga.name, ECollection.manga);
