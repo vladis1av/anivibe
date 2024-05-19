@@ -22,9 +22,6 @@ export default class MyDocument extends Document {
           <link rel="icon" href="/favicon.ico" sizes="any" />
           <link rel="icon" href="/icon.svg" type="image/svg+xml" />
           <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-          <meta name="yandex-verification" content="d2cc24d15612c808" />
-          <meta name="google-site-verification" content="lYMieH2JA-N7C-7OngdZvjJlgUfL8EonOJolad0Os74" />
-          <meta name="google-adsense-account" content="ca-pub-9863048209509930" />
           {(this.props as any).emotionStyleTags}
         </Head>
         <body>
