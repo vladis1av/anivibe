@@ -135,9 +135,9 @@ const FilterPageContent: FC<FilterPageContentProps> = ({
     <PageDescription title={title} description={description} className={classes.pageDescription}/>
 
     <AdBanner
-      blockId="R-A-6034750-2"
+      blockId="R-A-8754174-4"
       className={classes.adBanner}
-      renderTo="yandex_rtb_R-A-6034750-2"
+      renderTo="yandex_rtb_R-A-8754174-4"
       style={{ maxHeight: 300, maxWidth: 1468 }}
     />
 

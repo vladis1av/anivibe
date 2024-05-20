@@ -246,8 +246,8 @@ const Chapter: FC<ChapterProps> = ({
 
       <div className={clsx(classes.adsWrapper, classes.adsMarginBottom)}>
         <AdBanner
-          blockId="R-A-6034750-4"
-          renderTo="yandex_rtb_R-A-6034750-4"
+          blockId="R-A-8754174-2"
+          renderTo="yandex_rtb_R-A-8754174-2"
           style={{ maxHeight: 300 }}
         />
       </div>
@@ -330,8 +330,8 @@ const Chapter: FC<ChapterProps> = ({
 
       <div className={clsx(classes.adsWrapper, classes.adsMarginTop)}>
         <AdBanner
-          blockId="R-A-6034750-5"
-          renderTo="yandex_rtb_R-A-6034750-5"
+          blockId="R-A-8754174-1"
+          renderTo="yandex_rtb_R-A-8754174-1"
         />
       </div>
     </ContentLayout>
