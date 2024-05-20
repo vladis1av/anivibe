@@ -1,5 +1,3 @@
-import { useEffect, useState } from 'react';
-
 import { GetServerSideProps } from 'next';
 
 import dynamic from 'next/dynamic';
@@ -24,11 +22,10 @@ import ContentLayout from '@layouts/ContentLayout';
 import { getAnimeById } from '@services/api/anime';
 import { getHightQualityBanner } from '@services/api/common';
 
-import useIsLoading from '@hooks/useIsLoading';
-
 import getNextEnv from '@utils/config/getNextEnv';
 import getFullUrlFromServerSide from '@utils/getFullUrlFromServerSide';
 import getIdFromString from '@utils/regexp/getIdFromString';
+import getNameFromString from '@utils/regexp/getNameFromString';
 // import getTitleKeywords from '@utils/seo/getTitleKeywords';
 
 const MediaInfo = dynamic(
@@ -38,12 +35,9 @@ const MediaInfo = dynamic(
 
 const { publicRuntimeConfig: { ANIME_DOMEN } } = getNextEnv();
 
-type AnimeWithBanner = (AnimeType & BannerImage) | null;
-
 type AnimePageProps = {
-  animeId: string;
   fullUrl: string;
-  // anime: (AnimeType & BannerImage) | null;
+  anime: (AnimeType & BannerImage) | null;
 };
 
 /* иза того что я использую разные апишки
@@ -58,38 +52,8 @@ const generateUnifiedList = (type: ECollectionType, data: string[]): MangaGenres
   russian: item,
 }));
 
-export default function Anime({ animeId, fullUrl }: AnimePageProps) {
-  // временное решение пока не разберусь почему апишка стала возвращать 403 forbiden в getServerSide
-  const { isLoading, setIsLoading } = useIsLoading();
-  const [anime, setAnime] = useState<AnimeWithBanner>(null);
-
-  const getAnime = async (id: string) => {
-    setIsLoading(true);
-    setAnime(null);
-    const animeResult = await getAnimeById(id);
-
-    if (animeResult) {
-      const {
-        bannerImageHightQuality,
-      } = await getHightQualityBanner(animeResult.names.en, ECollection.anime);
-
-      setAnime({ ...animeResult, bannerImageHightQuality });
-    }
-
-    setIsLoading(false);
-  };
-
-  useEffect(() => {
-    getAnime(animeId);
-  }, [animeId]);
-
-  if (isLoading) {
-    return <ContentLayout clearPaddingTop>
-      <MediaInfoSkeleton />;
-    </ContentLayout>;
-  }
-
-  if (!anime && !isLoading) {
+export default function Anime({ fullUrl, anime }: AnimePageProps) {
+  if (!anime) {
     return <ContentLayout fullHeight>
       <Error errorText={NOT_FOUND_ANIME_ERROR} goHome />;
     </ContentLayout>;
@@ -157,28 +121,27 @@ export default function Anime({ animeId, fullUrl }: AnimePageProps) {
     );
   }
 }
-export const getServerSideProps: GetServerSideProps<AnimePageProps> = async ({ params, resolvedUrl }) => {
+export const getServerSideProps: GetServerSideProps<AnimePageProps> = async ({ res, params, resolvedUrl }) => {
   const { animeCode } = params as { animeCode: string };
   const fullUrl = getFullUrlFromServerSide(resolvedUrl);
-  // const currentAnimeCode = getNameFromString(animeCode);
+  const currentAnimeCode = getNameFromString(animeCode);
   const currentAnimeId = getIdFromString(animeCode) || '';
 
-  // временное решение пока не разберусь почему апишка стала возвращать 403 forbiden в getServerSide
-  // const anime = await getAnimeById(currentAnimeId);
-  // let result = null;
+  const anime = await getAnimeById(currentAnimeId);
+  let result = null;
 
-  // if (!anime) {
-  //   res.statusCode = 404;
-  // }
+  if (!anime) {
+    res.statusCode = 404;
+  }
 
-  // if (anime) {
-  //   const {
-  //     bannerImageHightQuality,
-  //   } = await getHightQualityBanner(anime.names.en || currentAnimeCode, ECollection.anime);
-  //   result = { ...anime, bannerImageHightQuality };
-  // }
+  if (anime) {
+    const {
+      bannerImageHightQuality,
+    } = await getHightQualityBanner(anime.names.en || currentAnimeCode, ECollection.anime);
+    result = { ...anime, bannerImageHightQuality };
+  }
 
   return {
-    props: { animeId: currentAnimeId, fullUrl },
+    props: { animeId: currentAnimeId, fullUrl, anime: result },
   };
 };
