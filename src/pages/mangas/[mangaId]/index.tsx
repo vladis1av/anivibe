@@ -10,6 +10,7 @@ import { MangaDetail } from '@interfaces/manga/manga';
 
 import { ECollection, ELocale } from '@enums/enums';
 
+import { CHANGE_DOMAIN_TITLE } from '@constants/common';
 import { NOT_FOUND_MANGA_ERROR } from '@constants/error';
 import { SEO_MANGA_READ_ONLINE_TEXT } from '@constants/seo';
 
@@ -74,7 +75,9 @@ const Manga: FC<MangaPageProps> = ({ fullUrl, manga, bookTags }) => {
         ogUrl={fullUrl}
         title={seoTitle}
         tabTitle={seoTitle}
-        description={[`${SEO_MANGA_READ_ONLINE_TEXT} ${russian}`, description].join(' — ')}
+        description={[
+          `${CHANGE_DOMAIN_TITLE} ${SEO_MANGA_READ_ONLINE_TEXT} ${russian}`, description,
+        ].join(' — ')}
         imageSource={image.preview}
         bookTags={bookTags}
         // keywords={getTitleKeywords({ title: russian, secondTitle: name, kind })}
