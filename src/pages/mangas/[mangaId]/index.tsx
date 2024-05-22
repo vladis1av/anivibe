@@ -10,8 +10,9 @@ import { MangaDetail } from '@interfaces/manga/manga';
 
 import { ECollection, ELocale } from '@enums/enums';
 
+import { BLOCK_ID_LIST } from '@constants/block';
 import { CHANGE_DOMAIN_TITLE } from '@constants/common';
-import { NOT_FOUND_MANGA_ERROR } from '@constants/error';
+import { NOT_FOUND_MANGA_ERROR, RKN_BLOCK_ERROR } from '@constants/error';
 import { SEO_MANGA_READ_ONLINE_TEXT } from '@constants/seo';
 
 import Error from '@ui/Error';
@@ -42,12 +43,15 @@ type MangaPageProps = {
   fullUrl: string;
   manga: (MangaDetail & BannerImage) | null;
   bookTags: Array<string>;
+  errorText?: string;
 };
 
-const Manga: FC<MangaPageProps> = ({ fullUrl, manga, bookTags }) => {
+const Manga: FC<MangaPageProps> = ({
+  fullUrl, manga, bookTags, errorText,
+}) => {
   if (!manga) {
     return <ContentLayout fullHeight>
-      <Error errorText={NOT_FOUND_MANGA_ERROR} goHome />
+      <Error errorText={errorText || NOT_FOUND_MANGA_ERROR} goHome />
     </ContentLayout>;
   }
 
@@ -112,6 +116,19 @@ const Manga: FC<MangaPageProps> = ({ fullUrl, manga, bookTags }) => {
 export const getServerSideProps: GetServerSideProps<MangaPageProps> = async ({ params, res, resolvedUrl }) => {
   const { mangaId } = params as { mangaId: string };
   const fullUrl = getFullUrlFromServerSide(resolvedUrl);
+
+  if (BLOCK_ID_LIST.includes(mangaId)) {
+    res.statusCode = 404;
+
+    return {
+      props: {
+        fullUrl,
+        manga: null,
+        bookTags: [],
+        errorText: RKN_BLOCK_ERROR,
+      },
+    };
+  }
 
   const currentMangaId = getIdFromString(mangaId) || mangaId;
   const manga = await getMangaById(currentMangaId);
