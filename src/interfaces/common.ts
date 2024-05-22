@@ -114,3 +114,9 @@ export type Media = {
 };
 
 export type MediaKey = keyof Media;
+
+export type BlockType = {
+  id: string;
+  rkn?: string;
+  copyright?: string;
+};
