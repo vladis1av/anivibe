@@ -230,3 +230,7 @@ export enum EPosition {
   bottomCenter = 'bottomCenter',
   bottomRight = 'bottomRight',
 }
+
+export enum ERegion {
+  ru = 'RU',
+}
