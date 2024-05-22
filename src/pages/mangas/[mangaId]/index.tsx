@@ -8,11 +8,11 @@ import dynamic from 'next/dynamic';
 import { BannerImage } from '@interfaces/anime/anime';
 import { MangaDetail } from '@interfaces/manga/manga';
 
-import { ECollection, ELocale } from '@enums/enums';
+import { ECollection, ELocale, ERegion } from '@enums/enums';
 
 import { BLOCK_ID_LIST } from '@constants/block';
 import { CHANGE_DOMAIN_TITLE } from '@constants/common';
-import { NOT_FOUND_MANGA_ERROR, RKN_BLOCK_ERROR } from '@constants/error';
+import { NOT_FOUND_MANGA_ERROR } from '@constants/error';
 import { SEO_MANGA_READ_ONLINE_TEXT } from '@constants/seo';
 
 import Error from '@ui/Error';
@@ -28,9 +28,11 @@ import { getMangaById } from '@services/api/manga';
 import useIsAdultContent from '@hooks/useIsAdultContent';
 
 import FormatedDate from '@utils/date/formatedDate';
+import getBlockText from '@utils/getBlockText';
 import getFullUrlFromServerSide from '@utils/getFullUrlFromServerSide';
 import getIdFromString from '@utils/regexp/getIdFromString';
 import normalizeText from '@utils/regexp/normalizeText';
+import regionBlock from '@utils/regionBlock';
 import getMangaSeoTitle from '@utils/seo/getMangaSeoTitle';
 // import getTitleKeywords from '@utils/seo/getTitleKeywords';
 
@@ -113,11 +115,15 @@ const Manga: FC<MangaPageProps> = ({
   );
 };
 
-export const getServerSideProps: GetServerSideProps<MangaPageProps> = async ({ params, res, resolvedUrl }) => {
+export const getServerSideProps: GetServerSideProps<MangaPageProps> = async ({
+  params, res, req, resolvedUrl,
+}) => {
   const { mangaId } = params as { mangaId: string };
   const fullUrl = getFullUrlFromServerSide(resolvedUrl);
+  const blockedItem = BLOCK_ID_LIST.find((value) => value.id === mangaId);
+  const clientIp = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
 
-  if (BLOCK_ID_LIST.includes(mangaId)) {
+  if (regionBlock(clientIp, ERegion.ru) && blockedItem?.id === mangaId) {
     res.statusCode = 404;
 
     return {
@@ -125,7 +131,8 @@ export const getServerSideProps: GetServerSideProps<MangaPageProps> = async ({ p
         fullUrl,
         manga: null,
         bookTags: [],
-        errorText: RKN_BLOCK_ERROR,
+        geo: clientIp,
+        errorText: getBlockText(blockedItem),
       },
     };
   }
