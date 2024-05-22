@@ -20,7 +20,7 @@ import {
   ENotification,
   ENotificationKey,
   EReadingMode,
-  ERegion,
+  // ERegion,
 } from '@enums/enums';
 
 import { BLOCK_ID_LIST } from '@constants/block';
@@ -61,7 +61,7 @@ import getBlockText from '@utils/getBlockText';
 import getFullUrlFromServerSide from '@utils/getFullUrlFromServerSide';
 import changeDomainZone from '@utils/regexp/changeDomainZone';
 import getIdFromString from '@utils/regexp/getIdFromString';
-import regionBlock from '@utils/regionBlock';
+// import regionBlock from '@utils/regionBlock';
 import getMangaSeoChapterTitle from '@utils/seo/getMangaSeoChapterTitle';
 import cookieIsAvailable from '@utils/window/cookieIsAvailable';
 import onScrollTop from '@utils/window/onScrollTop';
@@ -350,11 +350,11 @@ const Chapter: FC<ChapterProps> = ({
 export const getServerSideProps = nextReduxWrapper
   .getServerSideProps<ChapterProps>((store) => async (ctx) => {
   const {
-    query, res, req, resolvedUrl,
+    query, res, resolvedUrl,
   } = ctx;
   const { mangaId, chapterId, page = '1' } = query as MangaPageChapterQuery;
   const currentMangaId = getIdFromString(mangaId) || mangaId;
-  const clientIp = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
+  // const clientIp = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
 
   const blockedItem = BLOCK_ID_LIST.find((value) => value.id === mangaId);
 
@@ -363,8 +363,8 @@ export const getServerSideProps = nextReduxWrapper
   const error = !mangaWithPages || !mangaWithPages.pages;
   const currentPage = Number(page);
   let pageLimitNotExceeded = false;
-
-  if (regionBlock(clientIp, ERegion.ru) && blockedItem?.id === mangaId) {
+  // regionBlock(clientIp, ERegion.ru)
+  if (blockedItem?.id === mangaId) {
     res.statusCode = 404;
 
     return {
