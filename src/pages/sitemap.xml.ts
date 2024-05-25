@@ -20,6 +20,7 @@ export const getServerSideProps: GetServerSideProps = async ({ res }) => {
 
   return {
     props: {},
+    revalidate: 8 * 60 * 60, // Обновлять страницу каждые 8 часов
   };
 };
 
