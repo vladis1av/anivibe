@@ -9,4 +9,4 @@ Disallow: /mangas/*/chapter/*
 
 Clean-param: years&genres&seasons&voices&kinds&order&page&episode / # для всех
 
-Sitemap: https://anivibe.su/sitemap.xml
+Sitemap: https://anivibe-service-vladis1av.amvera.io/api/v1/sitemap
