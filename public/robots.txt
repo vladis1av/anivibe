@@ -8,3 +8,5 @@ Allow: /*.js # скрипты
 Disallow: /mangas/*/chapter/*
 
 Clean-param: years&genres&seasons&voices&kinds&order&page / # для всех
+
+Sitemap: https://anivibe.vercel.app/sitemap.xml
