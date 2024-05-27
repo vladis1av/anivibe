@@ -9,27 +9,35 @@ export const BLOCK_ID_LIST: Array<BlockType> = [
     rkn: RKN_BLOCK_ERROR,
   },
   {
+    id: '406-sidonia-no-kishi',
+    copyright: COPYRIGHT_BLOCK_ERROR,
+  },
+  {
+    id: '2210-blue-lock',
+    copyright: COPYRIGHT_BLOCK_ERROR,
+  },
+  {
     id: '131-noragami',
-    rkn: COPYRIGHT_BLOCK_ERROR,
+    copyright: COPYRIGHT_BLOCK_ERROR,
   },
   {
     id: '395-nanatsu-no-taizai',
-    rkn: COPYRIGHT_BLOCK_ERROR,
+    copyright: COPYRIGHT_BLOCK_ERROR,
   },
   {
     id: '10-fairy-tail',
-    rkn: COPYRIGHT_BLOCK_ERROR,
+    copyright: COPYRIGHT_BLOCK_ERROR,
   },
   {
     id: '3106-gunnm-mars-chronicle',
-    rkn: COPYRIGHT_BLOCK_ERROR,
+    copyright: COPYRIGHT_BLOCK_ERROR,
   },
   {
     id: '118-blame',
-    rkn: COPYRIGHT_BLOCK_ERROR,
+    copyright: COPYRIGHT_BLOCK_ERROR,
   },
   {
     id: '1769-bakemonogatari',
-    rkn: COPYRIGHT_BLOCK_ERROR,
+    copyright: COPYRIGHT_BLOCK_ERROR,
   },
 ];
