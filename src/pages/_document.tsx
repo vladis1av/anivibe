@@ -36,19 +36,18 @@ export default class MyDocument extends Document {
                 k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
                 (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
 
-                ym(96331813, "init", {
-                  clickmap:true,
-                  trackLinks:true,
-                  accurateTrackBounce:true,
-                  webvisor:true
-               });`
+              ym(97400803, "init", {
+                clickmap:true,
+                trackLinks:true,
+                accurateTrackBounce:true
+              });`
             }
           </Script>
 
           <noscript>
             <div>
               <img
-                src="https://mc.yandex.ru/watch/96331813"
+                src="https://mc.yandex.ru/watch/97400803"
                 style={{ position: 'absolute', left: '-9999px' }}
                 alt=""
               />
