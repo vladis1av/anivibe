@@ -194,7 +194,7 @@ const Carousel: FC<CarouselProps> = ({
 
   useEffect(() => {
     if (carouselListRef.current) {
-      setScrollWidth(carouselListRef.current.scrollWidth - carouselListRef.current.clientWidth);
+      setScrollWidth(carouselListRef.current.scrollWidth - carouselListRef.current.offsetWidth);
 
       if (!childMaxWidthWithPx) {
         const firstElement = carouselListRef.current.firstElementChild?.firstElementChild;
