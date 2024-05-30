@@ -1,12 +1,8 @@
 User-agent: *
-
-Allow:
-
-Allow: /*.css # стили
-Allow: /*.js # скрипты
-
 Disallow: /mangas/*/chapter/*
 
 Clean-param: years&genres&seasons&voices&kinds&order&page&episode / # для всех
 
 Sitemap: https://anivibe-service-vladis1av.amvera.io/api/v1/sitemap
+
+Host: https://anivibe.su
