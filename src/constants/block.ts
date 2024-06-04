@@ -1,12 +1,20 @@
 import { BlockType } from '@interfaces/common';
 
-import { COPYRIGHT_BLOCK_ERROR, RKN_BLOCK_ERROR } from './error';
+import { COPYRIGHT_BLOCK_ERROR } from './error';
 
 // eslint-disable-next-line import/prefer-default-export
 export const BLOCK_ID_LIST: Array<BlockType> = [
+  // {
+  //   id: '2705-roses-and-champagne',
+  //   rkn: RKN_BLOCK_ERROR,
+  // },
   {
-    id: '2705-roses-and-champagne',
-    rkn: RKN_BLOCK_ERROR,
+    id: '396-koe-no-katachi',
+    copyright: COPYRIGHT_BLOCK_ERROR,
+  },
+  {
+    id: '17-vinland-saga',
+    copyright: COPYRIGHT_BLOCK_ERROR,
   },
   {
     id: '406-sidonia-no-kishi',
