@@ -9,6 +9,14 @@ export const BLOCK_ID_LIST: Array<BlockType> = [
   //   rkn: RKN_BLOCK_ERROR,
   // },
   {
+    id: '1044-shigatsu-wa-kimi-no-uso',
+    copyright: COPYRIGHT_BLOCK_ERROR,
+  },
+  {
+    id: '3401-my-husband-hides-his-beauty',
+    copyright: COPYRIGHT_BLOCK_ERROR,
+  },
+  {
     id: '396-koe-no-katachi',
     copyright: COPYRIGHT_BLOCK_ERROR,
   },
