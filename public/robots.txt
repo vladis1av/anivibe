@@ -5,4 +5,4 @@ Clean-param: years&genres&seasons&voices&kinds&order&page&episode / # для в�
 
 Sitemap: https://anivibe-service-vladis1av.amvera.io/api/v1/sitemap
 
-Host: https://anivibe.vercel.app
+Host: https://anivibe.su

@@ -45,7 +45,7 @@ const getCollectionProps = (item: MangaBase | FetchedLastAnimeUpdatedResult): Ca
     hideTitle,
     hideType,
     title: names.ru,
-    type: ERelease[type.string.toLowerCase() as EReleaseType] || '',
+    type: ERelease[type && type.string.toLowerCase() as EReleaseType] || '',
     pathTo: formatAnimePath(id, code),
   };
 };

@@ -22,9 +22,6 @@ export default class MyDocument extends Document {
           <link rel="icon" href="/favicon.ico" sizes="any" />
           <link rel="icon" href="/icon.svg" type="image/svg+xml" />
           <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-          <meta name="yandex-verification" content="c348945bfd78b269" />
-          <meta name="google-site-verification" content="lYMieH2JA-N7C-7OngdZvjJlgUfL8EonOJolad0Os74" />
-          <meta name="google-adsense-account" content="ca-pub-9863048209509930" />
           {(this.props as any).emotionStyleTags}
         </Head>
         <body>
@@ -39,19 +36,18 @@ export default class MyDocument extends Document {
                 k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
                 (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
 
-                ym(96331813, "init", {
-                  clickmap:true,
-                  trackLinks:true,
-                  accurateTrackBounce:true,
-                  webvisor:true
-               });`
+              ym(97400803, "init", {
+                clickmap:true,
+                trackLinks:true,
+                accurateTrackBounce:true
+              });`
             }
           </Script>
 
           <noscript>
             <div>
               <img
-                src="https://mc.yandex.ru/watch/96331813"
+                src="https://mc.yandex.ru/watch/97400803"
                 style={{ position: 'absolute', left: '-9999px' }}
                 alt=""
               />

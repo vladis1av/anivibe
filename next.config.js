@@ -4,7 +4,7 @@ dotenv.config();
 
 const env = {
   API: process.env.API,
-  HOST: process.env.HOST,
+  HOST: process.env.NEW_HOST,
   JPG_URL: process.env.JPG_URL,
   WEBP_URL: process.env.WEBP_URL,
   ANIME_API: process.env.ANIME_API,

@@ -184,9 +184,9 @@ const MediaInfo: FC<MediaInfoProps> = ({
         </div>
 
         <AdBanner
-          blockId="R-A-6034750-3"
+          blockId="R-A-8754174-3"
           className={classes.adBanner}
-          renderTo="yandex_rtb_R-A-6034750-3"
+          renderTo="yandex_rtb_R-A-8754174-3"
           style={{ maxHeight: 300 }}
         />
 

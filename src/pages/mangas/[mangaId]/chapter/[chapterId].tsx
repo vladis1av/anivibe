@@ -16,9 +16,14 @@ import { MangaPageChapterQuery } from '@interfaces/manga/pageQuery';
 import { QueryType } from '@interfaces/query';
 
 import {
-  ELinkPath, ENotification, ENotificationKey, EReadingMode,
+  ELinkPath,
+  ENotification,
+  ENotificationKey,
+  EReadingMode,
+  // ERegion,
 } from '@enums/enums';
 
+import { BLOCK_ID_LIST } from '@constants/block';
 import { COOKIE_MESSAGE_NOTIFICATION, READER_FROM_STORAGE } from '@constants/common';
 import { NOT_FOUND_CHAPTER_ERROR } from '@constants/error';
 
@@ -52,9 +57,11 @@ import useAppSelector from '@hooks/useAppSelector';
 import useIsAdultContent from '@hooks/useIsAdultContent';
 
 import getNextEnv from '@utils/config/getNextEnv';
+import getBlockText from '@utils/getBlockText';
 import getFullUrlFromServerSide from '@utils/getFullUrlFromServerSide';
 import changeDomainZone from '@utils/regexp/changeDomainZone';
 import getIdFromString from '@utils/regexp/getIdFromString';
+// import regionBlock from '@utils/regionBlock';
 import getMangaSeoChapterTitle from '@utils/seo/getMangaSeoChapterTitle';
 import cookieIsAvailable from '@utils/window/cookieIsAvailable';
 import onScrollTop from '@utils/window/onScrollTop';
@@ -73,12 +80,14 @@ const ChapterSelect = dynamic(
 
 type ChapterProps = {
   fullUrl: string;
+  errorText?: string;
   activeChapter: string;
   pageLimitNotExceeded: boolean;
 };
 
 const Chapter: FC<ChapterProps> = ({
   fullUrl,
+  errorText,
   activeChapter,
   pageLimitNotExceeded,
 }) => {
@@ -159,7 +168,7 @@ const Chapter: FC<ChapterProps> = ({
 
   if (error) {
     return <ContentLayout fullHeight>
-      <Error errorText={NOT_FOUND_CHAPTER_ERROR} goHome />;
+      <Error errorText={errorText || NOT_FOUND_CHAPTER_ERROR} goHome />;
     </ContentLayout>;
   }
 
@@ -246,8 +255,8 @@ const Chapter: FC<ChapterProps> = ({
 
       <div className={clsx(classes.adsWrapper, classes.adsMarginBottom)}>
         <AdBanner
-          blockId="R-A-6034750-4"
-          renderTo="yandex_rtb_R-A-6034750-4"
+          blockId="R-A-8754174-2"
+          renderTo="yandex_rtb_R-A-8754174-2"
           style={{ maxHeight: 300 }}
         />
       </div>
@@ -330,8 +339,8 @@ const Chapter: FC<ChapterProps> = ({
 
       <div className={clsx(classes.adsWrapper, classes.adsMarginTop)}>
         <AdBanner
-          blockId="R-A-6034750-5"
-          renderTo="yandex_rtb_R-A-6034750-5"
+          blockId="R-A-8754174-1"
+          renderTo="yandex_rtb_R-A-8754174-1"
         />
       </div>
     </ContentLayout>
@@ -340,14 +349,33 @@ const Chapter: FC<ChapterProps> = ({
 
 export const getServerSideProps = nextReduxWrapper
   .getServerSideProps<ChapterProps>((store) => async (ctx) => {
-  const { query, res, resolvedUrl } = ctx;
+  const {
+    query, res, resolvedUrl,
+  } = ctx;
   const { mangaId, chapterId, page = '1' } = query as MangaPageChapterQuery;
   const currentMangaId = getIdFromString(mangaId) || mangaId;
+  // const clientIp = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
+
+  const blockedItem = BLOCK_ID_LIST.find((value) => value.id === mangaId);
+
   const mangaWithPages = await getMangaChapterById(currentMangaId, chapterId);
   const fullUrl = getFullUrlFromServerSide(resolvedUrl);
   const error = !mangaWithPages || !mangaWithPages.pages;
   const currentPage = Number(page);
   let pageLimitNotExceeded = false;
+  // regionBlock(clientIp, ERegion.ru)
+  if (blockedItem?.id === mangaId) {
+    res.statusCode = 404;
+
+    return {
+      props: {
+        fullUrl,
+        activeChapter: chapterId,
+        errorText: getBlockText(blockedItem),
+        pageLimitNotExceeded,
+      },
+    };
+  }
 
   if (error) {
     res.statusCode = 404;

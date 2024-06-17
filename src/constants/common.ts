@@ -24,6 +24,7 @@ export const CATALOG_TITLE: string = 'Каталог';
 export const DEFAULT_CURRENT_YEAR: string = `${new Date().getFullYear()}`;
 export const ANIME_DESCRIPTION: string = 'На данной странице отображены аниме, отсортированные по годам';
 export const ADBLOCK_NOTIFICATION_MESSAGE: string = 'Мы заметили, что вы используете блокировщик рекламы. Отключив adblock или добавив сайт в белый список, вы помогаете поддерживать проект!';
+export const CHANGE_DOMAIN_TITLE: string = 'Происходит смена домена на anivibe.su .Используйте его, скоро он станет основным.';
 export const SKIP_OST_TITLE: string = 'Пропустить';
 export const NEXT_EPIDSODE_TITLE: string = 'Следующая серия';
 export const SECONDS_FOR_SHOW_BUTTONS: number = 20;

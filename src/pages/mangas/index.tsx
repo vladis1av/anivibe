@@ -5,7 +5,7 @@ import { EMangaReleaseKinds } from '@interfaces/manga/service';
 
 import { ECollection, EMangaOrderBy, EMangaReleaseKind } from '@enums/enums';
 
-import { API_FILTER_ITEMS_LIMIT, DEFAULT_MANGA_KINDS } from '@constants/common';
+import { API_FILTER_ITEMS_LIMIT, CHANGE_DOMAIN_TITLE, DEFAULT_MANGA_KINDS } from '@constants/common';
 import { MANGA_FILTERS_PAGE_KEYWORDS } from '@constants/seo';
 
 import {
@@ -89,7 +89,9 @@ const Mangas: FC<MangaPageProps> = ({
         tabTitle={seoTitle}
         canonical={fullUrl}
         keywords={MANGA_FILTERS_PAGE_KEYWORDS[currentPageType]}
-        description={getMangaFilterDescription(currentPageType)}
+        description={
+          `${CHANGE_DOMAIN_TITLE} ${getMangaFilterDescription(currentPageType)}`
+        }
       />
 
       <FilterPageContent
