@@ -56,4 +56,8 @@ export const BLOCK_ID_LIST: Array<BlockType> = [
     id: '1769-bakemonogatari',
     copyright: COPYRIGHT_BLOCK_ERROR,
   },
+  {
+    id: '3105-gunnm-last-order',
+    copyright: COPYRIGHT_BLOCK_ERROR,
+  },
 ];
