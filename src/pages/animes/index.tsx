@@ -13,7 +13,6 @@ import {
   ANIME_TITLE,
   ANIME_DESCRIPTION,
   API_FILTER_ITEMS_LIMIT,
-  CHANGE_DOMAIN_TITLE,
 } from '@constants/common';
 import {
   ANIME_FILTERS_PAGE_TITLE,
@@ -114,7 +113,7 @@ const Animes: FC<AnimesProps> = ({ fullUrl }) => {
         title={ANIME_FILTERS_PAGE_TITLE}
         tabTitle={ANIME_FILTERS_PAGE_TITLE}
         keywords={ANIME_FILTERS_PAGE_KEYWORDS}
-        description={`${CHANGE_DOMAIN_TITLE} ${ANIME_FILTERS_PAGE_DESCRIPTION}`}
+        description={ANIME_FILTERS_PAGE_DESCRIPTION}
       />
 
       <FilterPageContent

@@ -10,7 +10,6 @@ import { MangaGenres } from '@interfaces/manga/manga';
 
 import { ECollection } from '@enums/enums';
 
-import { CHANGE_DOMAIN_TITLE } from '@constants/common';
 import { NOT_FOUND_ANIME_ERROR } from '@constants/error';
 import { SEO_ANIME_DETAIL_PAGE_TITLE, SEO_ANIME_WATCH_ONLINE_TEXT } from '@constants/seo';
 
@@ -121,7 +120,7 @@ export default function Anime({ animeId, fullUrl }: AnimePageProps) {
           tabTitle={`${ru} - ${SEO_ANIME_DETAIL_PAGE_TITLE}`}
           title={`${ru} - ${SEO_ANIME_WATCH_ONLINE_TEXT}`}
           description={[
-            `${CHANGE_DOMAIN_TITLE} ${SEO_ANIME_WATCH_ONLINE_TEXT} ${ru}`, description,
+            `${SEO_ANIME_WATCH_ONLINE_TEXT} ${ru}`, description,
           ].join(' — ')}
           imageSource={`${ANIME_DOMEN}${medium.url}`}
           videoTags={genres}
