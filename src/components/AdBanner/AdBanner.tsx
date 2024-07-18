@@ -1,7 +1,4 @@
-import {
-  CSSProperties,
-  FC, useEffect,
-} from 'react';
+import { CSSProperties, FC, useEffect } from 'react';
 
 import { getThemeIsLight } from '@redux/slices/theme';
 
@@ -27,10 +24,8 @@ const AdBanner: FC<AdBannerProps> = ({
   const themeIsLight = useAppSelector(getThemeIsLight);
 
   useEffect(() => {
-    try {
-      window.yaContextCb = window.yaContextCb || [];
-
-      window.yaContextCb.push(() => {
+    if (typeof window !== 'undefined') {
+      const renderAd = () => {
         window.Ya.Context.AdvManager.render({
           statId,
           blockId,
@@ -43,11 +38,23 @@ const AdBanner: FC<AdBannerProps> = ({
             // Обработка ошибки со стороны сайта
           },
         });
-      });
-    } catch (error) {
-      console.error('window.yaContextCb', error);
+      };
+
+      try {
+        window.yaContextCb = window.yaContextCb || [];
+        window.yaContextCb.push(renderAd);
+
+        const intervalId = setInterval(renderAd, 30000); // Обновление каждые 30 секунд
+
+        // Очистка интервала при размонтировании компонента
+        return () => clearInterval(intervalId);
+      } catch (error) {
+        console.error('window.yaContextCb', error);
+      }
     }
-  }, []);
+    // Возвращаем undefined, если нет очистки
+    return undefined;
+  }, [statId, blockId, renderTo, darkTheme, themeIsLight]);
 
   return (<div id={renderTo} className={className} style={style} />);
 };
