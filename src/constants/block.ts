@@ -9,6 +9,10 @@ export const BLOCK_ID_LIST: Array<BlockType> = [
   //   rkn: RKN_BLOCK_ERROR,
   // },
   {
+    id: '739-byousoku-5-centimeter',
+    copyright: COPYRIGHT_BLOCK_ERROR,
+  },
+  {
     id: '1641-wotaku-ni-koi-wa-muzukashii',
     copyright: COPYRIGHT_BLOCK_ERROR,
   },
