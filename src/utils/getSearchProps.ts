@@ -10,6 +10,7 @@ import { SearchCardProps } from '@ui/SearchCard/SearchCard';
 import formatAnimePath from '@utils/formatting/formatAnimePath';
 import formatMangaPath from '@utils/formatting/formatMangaPath';
 
+import getProxedImage from './api/getProxedImage';
 import getNextEnv from './config/getNextEnv';
 import changeDomainZone from './regexp/changeDomainZone';
 
@@ -26,7 +27,7 @@ const getSearchProps = (item: MangaBase | SearchAnimeType): SearchCardProps => {
       title: russian,
       genres,
       mediaType: ERelease[kind],
-      imageUrl: changeDomainZone(image.preview, MANGA_IMAGE_POSTER_DOMAIN),
+      imageUrl: getProxedImage(changeDomainZone(image.preview, MANGA_IMAGE_POSTER_DOMAIN)),
       pathTo: formatMangaPath(id, name) || `${id}`,
     };
   }

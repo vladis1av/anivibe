@@ -11,6 +11,7 @@ import { CardItemProps } from '@ui/CardItem/CardItem';
 import formatAnimePath from '@utils/formatting/formatAnimePath';
 import formatMangaPath from '@utils/formatting/formatMangaPath';
 
+import getProxedImage from './api/getProxedImage';
 import getNextEnv from './config/getNextEnv';
 import changeDomainZone from './regexp/changeDomainZone';
 
@@ -31,7 +32,7 @@ const getCollectionProps = (item: MangaBase | FetchedLastAnimeUpdatedResult): Ca
       hideType,
       title: russian,
       type: ERelease[kind as EReleaseType] || '',
-      imageSource: changeDomainZone(image.preview, MANGA_IMAGE_POSTER_DOMAIN),
+      imageSource: getProxedImage(changeDomainZone(image.preview, MANGA_IMAGE_POSTER_DOMAIN)),
       pathTo: formatMangaPath(id, name),
     };
   }

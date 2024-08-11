@@ -11,6 +11,7 @@ import { FilteredData } from '@redux/slices/filteredData';
 
 import CardItem from '@ui/CardItem';
 
+import getProxedImage from '@utils/api/getProxedImage';
 import getNextEnv from '@utils/config/getNextEnv';
 import FormatedDate from '@utils/date/formatedDate';
 import formatAnimePath from '@utils/formatting/formatAnimePath';
@@ -64,7 +65,7 @@ const FilterCardList: FC<FilterCardListProps> = ({
           title={russian}
           className={classes.cardListItem}
           pathTo={formatMangaPath(id, name)}
-          imageSource={changeDomainZone(image.preview, MANGA_IMAGE_POSTER_DOMAIN)}
+          imageSource={getProxedImage(changeDomainZone(image.preview, MANGA_IMAGE_POSTER_DOMAIN))}
           type={ERelease[kind as EReleaseType] || ''}
         />;
       })

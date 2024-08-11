@@ -30,6 +30,7 @@ import MetaItemProp from '@components/MetaItemProp';
 
 import useCheckWebpSupport from '@hooks/useCheckWebpSupport';
 
+import getProxedImage from '@utils/api/getProxedImage';
 import getNextEnv from '@utils/config/getNextEnv';
 import changeDomainZone from '@utils/regexp/changeDomainZone';
 
@@ -83,7 +84,7 @@ const MediaInfo: FC<MediaInfoProps> = ({
     : bannerImageHightQuality);
 
   const mangaImageHeaderBanner = (isBannerNotAvailable
-    ? changeDomainZone(imagePoster, MANGA_IMAGE_POSTER_DOMAIN)
+    ? getProxedImage(changeDomainZone(imagePoster, MANGA_IMAGE_POSTER_DOMAIN))
     : bannerImageHightQuality);
 
   const isAnime = type === ECollection.anime;
@@ -118,7 +119,7 @@ const MediaInfo: FC<MediaInfoProps> = ({
           >
             <ImageWithPlaceholder
               alt={title.ru}
-              src={isAnime ? imagePoster : changeDomainZone(imagePoster, MANGA_IMAGE_POSTER_DOMAIN)}
+              src={isAnime ? imagePoster : getProxedImage(changeDomainZone(imagePoster, MANGA_IMAGE_POSTER_DOMAIN))}
               placeholderVariant={EPlaceholder.poster}
               placeholderTheme={ETheme.light}
               skeletonVariant={ESkeleton.waveAuto}
