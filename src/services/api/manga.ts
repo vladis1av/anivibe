@@ -6,12 +6,14 @@ import { MangaResponse, MangaServiceParams } from '@interfaces/manga/service';
 import generateQuery from '@utils/api/generateQuery';
 import getNextEnv from '@utils/config/getNextEnv';
 
-const { publicRuntimeConfig: { API } } = getNextEnv();
+const { publicRuntimeConfig: { MANGA_IMAGES_DOMAIN } } = getNextEnv();
+
+const API = `https://${MANGA_IMAGES_DOMAIN[1]}/manga/api`;
 
 export const getMangaById = async (id: string): Promise<MangaDetail | null> => {
   try {
     const { data } = await axios.get<MangaResponse<MangaDetail | MangaDetail[]>>(
-      encodeURI(`${API}/manga/${id}`),
+      encodeURI(`${API}/${id}`),
     );
 
     // if id === 0 returns array with manga
@@ -32,7 +34,7 @@ export const getMangaChapterById = async (
 ): Promise<MangaWithPages | null> => {
   try {
     const { data } = await axios.get<MangaResponse<MangaWithPages>>(
-      encodeURI(`${API}/manga/${mangaId}/chapter/${chapterId}`),
+      encodeURI(`${API}/${mangaId}/chapter/${chapterId}`),
     );
 
     if (data.error) {
@@ -51,7 +53,7 @@ export const getMangas = async (params: MangaServiceParams): Promise<MangaRespon
     const query = generateQuery(params);
 
     const { data } = await axios.get<MangaResponse<MangaBase[]>>(
-      encodeURI(`${API}/manga?${query}`),
+      encodeURI(`${API}/?${query}`),
     );
 
     return data;
