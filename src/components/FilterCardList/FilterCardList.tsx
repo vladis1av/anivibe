@@ -65,7 +65,7 @@ const FilterCardList: FC<FilterCardListProps> = ({
           title={russian}
           className={classes.cardListItem}
           pathTo={formatMangaPath(id, name)}
-          imageSource={getProxedImage(changeDomainZone(image.preview, MANGA_IMAGE_POSTER_DOMAIN))}
+          imageSource={getProxedImage(changeDomainZone(image.preview, MANGA_IMAGE_POSTER_DOMAIN), true)}
           type={ERelease[kind as EReleaseType] || ''}
         />;
       })

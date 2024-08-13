@@ -119,7 +119,11 @@ const MediaInfo: FC<MediaInfoProps> = ({
           >
             <ImageWithPlaceholder
               alt={title.ru}
-              src={isAnime ? imagePoster : getProxedImage(changeDomainZone(imagePoster, MANGA_IMAGE_POSTER_DOMAIN))}
+              src={
+                isAnime
+                  ? imagePoster
+                  : getProxedImage(changeDomainZone(imagePoster, MANGA_IMAGE_POSTER_DOMAIN), true)
+              }
               placeholderVariant={EPlaceholder.poster}
               placeholderTheme={ETheme.light}
               skeletonVariant={ESkeleton.waveAuto}

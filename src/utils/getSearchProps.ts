@@ -27,7 +27,7 @@ const getSearchProps = (item: MangaBase | SearchAnimeType): SearchCardProps => {
       title: russian,
       genres,
       mediaType: ERelease[kind],
-      imageUrl: getProxedImage(changeDomainZone(image.preview, MANGA_IMAGE_POSTER_DOMAIN)),
+      imageUrl: getProxedImage(changeDomainZone(image.preview, MANGA_IMAGE_POSTER_DOMAIN), true),
       pathTo: formatMangaPath(id, name) || `${id}`,
     };
   }

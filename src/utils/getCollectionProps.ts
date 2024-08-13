@@ -32,7 +32,7 @@ const getCollectionProps = (item: MangaBase | FetchedLastAnimeUpdatedResult): Ca
       hideType,
       title: russian,
       type: ERelease[kind as EReleaseType] || '',
-      imageSource: getProxedImage(changeDomainZone(image.preview, MANGA_IMAGE_POSTER_DOMAIN)),
+      imageSource: getProxedImage(changeDomainZone(image.preview, MANGA_IMAGE_POSTER_DOMAIN), true),
       pathTo: formatMangaPath(id, name),
     };
   }
