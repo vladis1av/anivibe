@@ -18,9 +18,13 @@ import { POSTER_LIGHT } from '@constants/common';
 
 import ImageWithPlaceholder from '@ui/ImageWithPlaceholder';
 
+import getNextEnv from '@utils/config/getNextEnv';
 import leftSideElementClick from '@utils/leftSideElementClick';
+import changeDomainZone from '@utils/regexp/changeDomainZone';
 
 import useReadImagesStyles from './ReadImages.styles';
+
+const { publicRuntimeConfig: { MANGA_IMAGES_DOMAIN } } = getNextEnv();
 
 type ReadImagesProps = {
   page: number;
@@ -83,7 +87,7 @@ const ReadImages: FC<ReadImagesProps> = ({
   >
     {
       list.map(({ id: imgId, img, width }, i) => {
-        const currentImage = img;
+        const currentImage = changeDomainZone(img, MANGA_IMAGES_DOMAIN[2]);
         const index = i + 1;
         const nextCacheImage = page + imagesCacheStep;
         const src = index === page || index === nextCacheImage
